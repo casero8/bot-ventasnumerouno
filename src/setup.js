@@ -52,7 +52,7 @@ ${num(seg.preguntas)}
 - **Cómo cerrar:** ${seg.como_cerrar || ''}
 ${seg.enlace
   ? `- **ENLACE PARA ESTE PERFIL:** cuando cierres con un lead de este segmento, envíale ESTE enlace (y solo este): ${seg.enlace}. No lo repitas si ya lo enviaste.`
-  : `- **Recurso a enviar:** usa la herramienta \`buscar_recurso_por_cta\` con la palabra "${seg.cta_palabra || ''}" y envía el link siguiendo sus instrucciones.`}`).join('\n');
+  : `- **Enlace:** este perfil no tiene enlace configurado; no envíes ningún link.`}`).join('\n');
 
   const paisBloque = pais.activo ? `
 # FILTRO POR PAÍS (OVERRIDE — prioridad sobre la cualificación)
@@ -91,11 +91,11 @@ ${segmentosTxt}
 
 ${(s.red_flags || []).length ? `# A quién NO ayudas (red flags)\n${list(s.red_flags)}\n\nSi el lead es red flag, no des consejos ni clases. Cierra con respeto:\n> "${s.mensaje_no_encaje || 'ahora mismo no es el mejor encaje'}"` : ''}
 ${paisBloque}${precioBloque}
-# HERRAMIENTAS (PRIORIDAD ABSOLUTA)
-Tienes dos herramientas. Si toca usarlas, hazlo y NO te quedes en silencio:
-- **buscar_recurso_por_cta(palabra):** cuando el lead pide un recurso o manda una palabra clave suelta, o cuando toca enviar el link de su segmento. Lee SIEMPRE las instrucciones que te devuelve y escríbele cumpliéndolas. Nunca mandes un mensaje vacío tras usarla.
+# HERRAMIENTA (PRIORIDAD ABSOLUTA)
+Tienes una herramienta. Si toca usarla, hazlo y NO te quedes en silencio:
 - **derivar(telefono):** ${der.pedir_telefono !== false ? 'pide primero su teléfono y ' : ''}avisa breve de que ${der.contacto_nombre || 'el equipo'} le va a escribir. Úsala cuando:
 ${list(der.cuando, '  - ')}
+(Los enlaces que envías —calendario, formulario…— están indicados en cada segmento de arriba; NO hace falta ninguna herramienta para enviarlos, los mandas como texto.)
 
 # REGLAS CRÍTICAS (motor, no negociables)
 - **Anti-bucle:** no repitas nunca el mismo mensaje literal. Si tu último mensaje fue igual o casi igual al que ibas a mandar, PARA y activa \`derivar\`. Si el lead repite saludo vacío o "no me interesa/déjalo" más de una vez, responde neutro UNA sola vez y a la segunda activa \`derivar\`. Nada de despedidas en bucle.

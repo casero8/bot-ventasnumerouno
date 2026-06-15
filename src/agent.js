@@ -2,7 +2,6 @@ import { config } from './config.js';
 import { getClient } from './openaiClient.js';
 import { getPrompt, renderPrompt } from './prompt.js';
 import { rulesBlock } from './rules.js';
-import { resourcesBlock } from './resources.js';
 import { getHistory } from './store.js';
 import { toolDefs, runTool } from './tools.js';
 
@@ -51,7 +50,7 @@ function parseParts(content) {
  * @param {string} texto         mensaje ya agregado/transcrito
  */
 export async function generarRespuesta(subscriberId, nombre, texto) {
-  const system = renderPrompt(getPrompt(), { nombre }) + resourcesBlock() + rulesBlock() + FORMATO;
+  const system = renderPrompt(getPrompt(), { nombre }) + rulesBlock() + FORMATO;
 
   const messages = [
     { role: 'system', content: system },

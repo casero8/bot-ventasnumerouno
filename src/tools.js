@@ -9,20 +9,6 @@ export const toolDefs = [
   {
     type: 'function',
     function: {
-      name: 'buscar_recurso_por_cta',
-      description: 'Busca el recurso/link que pide el usuario tomando como referencia el CTA o palabra clave que escribe (formulario, agenda, academia, infoproductor...). Devuelve instrucciones de cómo enviarlo y el link.',
-      parameters: {
-        type: 'object',
-        properties: {
-          palabra: { type: 'string', description: 'CTA o palabra clave del recurso solicitado' },
-        },
-        required: ['palabra'],
-      },
-    },
-  },
-  {
-    type: 'function',
-    function: {
       name: 'derivar',
       description: 'Llama esta herramienta cuando un lead solicite un plan personalizado, sea un closer buscando trabajo, tenga problemas de agenda, o mande mensajes idénticos repetidos. Primero obtén su número de teléfono/móvil. Comunica que el Director Comercial le va a escribir.',
       parameters: {
