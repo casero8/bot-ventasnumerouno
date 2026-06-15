@@ -8,6 +8,7 @@ import { getPrompt, savePrompt } from './prompt.js';
 import { getSetup, saveSetup, buildPrompt, generarPromptDesdeSetup } from './setup.js';
 import { extractText, docsToSetup } from './ingest.js';
 import { getRules, saveRules } from './rules.js';
+import { getDerivados, updateDerivado, deleteDerivado } from './derivados.js';
 import { generarRespuesta } from './agent.js';
 import { deliver } from './delivery.js';
 import { processMedia, isUrl } from './media.js';
@@ -138,6 +139,11 @@ app.post('/api/test', async (req, res) => {
   }
 });
 app.post('/api/test/reset', (_req, res) => { resetConversation(TEST_ID); res.json({ ok: true }); });
+
+// ── Leads derivados al equipo ──
+app.get('/api/derivados', (_req, res) => res.json(getDerivados()));
+app.post('/api/derivados/:id', (req, res) => { updateDerivado(req.params.id, req.body || {}); res.json({ ok: true }); });
+app.delete('/api/derivados/:id', (req, res) => { deleteDerivado(req.params.id); res.json({ ok: true }); });
 
 app.get('/api/stats', (_req, res) => res.json(getStats()));
 app.get('/api/conversations', (_req, res) => res.json(allConversations()));

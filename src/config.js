@@ -24,6 +24,14 @@ const base = {
   port:             parseInt(process.env.PORT || '3000', 10),
   webhookToken:     process.env.WEBHOOK_TOKEN || '',
 
+  // Aviso por email cuando se deriva un lead al equipo
+  notifyEmail:  process.env.NOTIFY_EMAIL || 'dcasero8@gmail.com',
+  smtpHost:     process.env.SMTP_HOST || '',
+  smtpPort:     parseInt(process.env.SMTP_PORT || '465', 10),
+  smtpUser:     process.env.SMTP_USER || '',
+  smtpPass:     process.env.SMTP_PASS || '',
+  smtpFrom:     process.env.SMTP_FROM || '',
+
   bufferSeconds:    parseFloat(process.env.BUFFER_SECONDS || '8'),
   secondsPerLetter: parseFloat(process.env.TYPING_SECONDS_PER_LETTER || '0.045'),
 

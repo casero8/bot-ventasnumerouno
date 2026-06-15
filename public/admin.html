@@ -60,6 +60,16 @@
   </header>
   <main>
 
+    <!-- ───────────── DERIVADOS ───────────── -->
+    <section>
+      <h2>👥 Leads derivados al equipo</h2>
+      <p class="help">Aquí van apareciendo los leads que el agente deriva (pasa al equipo). Cada vez que ocurre, se envía un aviso a tu correo. <span id="deriv-count"></span></p>
+      <div id="deriv-list"></div>
+      <div class="bar"><button class="ghost small" id="deriv-reload">Actualizar</button></div>
+    </section>
+
+    <hr>
+
     <!-- ───────────── CONFIGURACIÓN DEL NEGOCIO ───────────── -->
     <section>
       <h2>🏢 Configuración del negocio</h2>
@@ -439,7 +449,44 @@ async function loadStats(){ try{ const j=await (await fetch('/api/stats')).json(
   const d=j[new Date().toISOString().slice(0,10)]||{};
   $('#stats').textContent=`Hoy · ${d.mensajes_entrantes||0} entrantes · ${d.mensajes_salientes||0} salientes · ${d.ctas_enviados||0} CTAs`; }catch{} }
 
-loadSetup(); loadRules(); loadPrompt(); loadConfig(); loadCtas(); loadStats(); setInterval(loadStats,10000);
+/* ───── Derivados ───── */
+function fmtFecha(iso){ try{ return new Date(iso).toLocaleString('es-ES'); }catch{ return iso||''; } }
+function derivCard(d){
+  const at = d.estado==='atendido';
+  const msgs = (d.mensajes||[]).slice(-4).map(m=>`<div style="font-size:12px;color:var(--muted)"><b style="color:var(--txt)">${m.role==='user'?'Lead':'Agente'}:</b> ${(m.content||'').replace(/</g,'&lt;')}</div>`).join('');
+  return `<div class="card" style="opacity:${at?0.6:1}">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <b style="font-size:14px">${(d.name||'Sin nombre').replace(/</g,'&lt;')}</b>
+      ${d.phone?`<span style="font-size:13px;color:var(--accent)">📞 ${(d.phone||'').replace(/</g,'&lt;')}</span>`:''}
+      <span style="font-size:12px;color:var(--muted)">${fmtFecha(d.fecha)}</span>
+      <span style="margin-left:auto;font-size:11px;padding:2px 8px;border-radius:10px;background:${at?'#2a2f3a':'var(--accent)'};color:#fff">${at?'Atendido':'Nuevo'}</span>
+    </div>
+    ${d.motivo?`<div style="font-size:13px;margin-top:6px">${(d.motivo||'').replace(/</g,'&lt;')}</div>`:''}
+    ${msgs?`<div style="margin-top:8px;background:#15181f;border:1px solid var(--border);border-radius:8px;padding:8px">${msgs}</div>`:''}
+    <div class="bar" style="margin-top:10px">
+      ${at?`<button class="ghost small" data-act="nuevo" data-id="${d.id}">↩ Marcar como nuevo</button>`:`<button class="small" data-act="atendido" data-id="${d.id}">✓ Marcar atendido</button>`}
+      <button class="ghost small" data-act="del" data-id="${d.id}">Borrar</button>
+    </div>
+  </div>`;
+}
+async function loadDerivados(){
+  const list = await (await fetch('/api/derivados')).json();
+  const box = $('#deriv-list');
+  const nuevos = list.filter(d=>d.estado!=='atendido').length;
+  $('#deriv-count').textContent = list.length ? `(${nuevos} sin atender de ${list.length})` : '';
+  box.innerHTML = list.length ? list.map(derivCard).join('') : '<p class="help" style="margin:0">Aún no hay leads derivados.</p>';
+  box.querySelectorAll('button[data-act]').forEach(b=>{
+    b.onclick=async()=>{
+      const id=b.dataset.id, act=b.dataset.act;
+      if(act==='del'){ await fetch('/api/derivados/'+id,{method:'DELETE'}); }
+      else { await fetch('/api/derivados/'+id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({estado:act})}); }
+      loadDerivados();
+    };
+  });
+}
+$('#deriv-reload').onclick=loadDerivados;
+
+loadDerivados(); loadSetup(); loadRules(); loadPrompt(); loadConfig(); loadCtas(); loadStats(); setInterval(loadStats,10000); setInterval(loadDerivados,30000);
 </script>
 </body>
 </html>

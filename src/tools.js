@@ -1,7 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { bumpStat } from './store.js';
+import { bumpStat, getHistory } from './store.js';
+import { addDerivado } from './derivados.js';
+import { sendDerivationEmail } from './email.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CTAS_FILE = path.join(__dirname, '../data/ctas.json');
@@ -60,9 +62,18 @@ export function runTool(name, args, ctx = {}) {
 
   if (name === 'derivar') {
     bumpStat('derivaciones');
+    // Guardamos el lead derivado y avisamos por email (sin bloquear la respuesta)
+    const lead = addDerivado({
+      leadId: ctx.subscriberId || null,
+      name:   ctx.nombre || '',
+      phone:  args.telefono || '',
+      motivo: args.motivo || '',
+      mensajes: ctx.subscriberId ? getHistory(ctx.subscriberId).slice(-6) : [],
+    });
+    sendDerivationEmail(lead).catch(e => console.error('[email] derivar:', e.message));
     return JSON.stringify({
       ok: true,
-      instrucciones: 'Confirma al lead que el Director Comercial le va a escribir en breve. No des largas charlas.',
+      instrucciones: 'Confirma al lead que el equipo le va a escribir en breve. No des largas charlas.',
       telefono_registrado: args.telefono || null,
     });
   }
