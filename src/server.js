@@ -193,11 +193,18 @@ async function responder(id, name, joined, channel) {
   const parts = await generarRespuesta(id, name, joined);
   if (!parts.length) return;
 
-  for (const part of parts) {
+  // 1) Pausa de "lectura" antes de empezar a responder (como una persona real)
+  await sleep(readingDelay());
+
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i];
+    // 2) Tiempo de "escritura" proporcional a la longitud del mensaje
     await sleep(typingDelay(part));
     const ok = await deliver(channel, id, part);
     if (ok) bumpStat('mensajes_salientes');
     console.log(`🤖 [${name || id}] ← ${part}`);
+    // 3) Pausa natural entre un mensaje y el siguiente
+    if (i < parts.length - 1) await sleep(betweenPartsDelay());
   }
 
   // Guardamos en memoria el turno completo
@@ -207,11 +214,24 @@ async function responder(id, name, joined, channel) {
   ]);
 }
 
-// Tiempo de "tipeo" por parte: nº de letras * segundos/letra (réplica de "Creador de Tiempos")
+const rand = (min, max) => (min + Math.random() * Math.max(0, max - min)) * 1000;
+
+// Pausa de lectura antes de la primera respuesta
+function readingDelay() {
+  return rand(config.readingMinSeconds, config.readingMaxSeconds);
+}
+
+// Pausa entre mensajes consecutivos
+function betweenPartsDelay() {
+  return rand(config.partPauseMinSeconds, config.partPauseMaxSeconds);
+}
+
+// Tiempo de "tipeo" por parte: nº de letras * segundos/letra (+ algo de variación)
 function typingDelay(text) {
   const letters = (text || '').replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜçÇ]/g, '').length;
-  const secs = letters * config.secondsPerLetter;
-  return Math.min(Math.max(secs * 1000, 1000), 12000); // entre 1 s y 12 s
+  const base = letters * config.secondsPerLetter * (0.85 + Math.random() * 0.3);
+  const ms = base * 1000;
+  return Math.min(Math.max(ms, config.typingMinSeconds * 1000), config.typingMaxSeconds * 1000);
 }
 
 export function startServer() {

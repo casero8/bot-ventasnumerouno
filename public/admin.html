@@ -222,8 +222,14 @@
           <div class="field full"><label>WhatsApp por CRM — URL del endpoint de envío <span class="hint">(vacío = WhatsApp por ManyChat)</span></label><input id="whatsappOutboundUrl" placeholder="https://tu-crm.com/api/enviar-whatsapp"></div>
           <div class="field full"><label>WhatsApp por CRM — Token (Authorization Bearer)</label><input id="whatsappOutboundToken" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
           <div class="field"><label>Segundos de buffer</label><input id="bufferSeconds" type="number" step="0.5" min="0"></div>
-          <div class="field"><label>Segundos por letra</label><input id="secondsPerLetter" type="number" step="0.005" min="0"></div>
+          <div class="field"><label>Segundos por letra (tipeo)</label><input id="secondsPerLetter" type="number" step="0.005" min="0"></div>
           <div class="field"><label>Memoria (nº mensajes)</label><input id="memoryWindow" type="number" step="1" min="2"></div>
+          <div class="field"><label>Lectura mín (seg)</label><input id="readingMinSeconds" type="number" step="0.5" min="0"></div>
+          <div class="field"><label>Lectura máx (seg)</label><input id="readingMaxSeconds" type="number" step="0.5" min="0"></div>
+          <div class="field"><label>Tipeo mín por mensaje (seg)</label><input id="typingMinSeconds" type="number" step="0.5" min="0"></div>
+          <div class="field"><label>Tipeo máx por mensaje (seg)</label><input id="typingMaxSeconds" type="number" step="0.5" min="0"></div>
+          <div class="field"><label>Pausa entre mensajes mín (seg)</label><input id="partPauseMinSeconds" type="number" step="0.1" min="0"></div>
+          <div class="field"><label>Pausa entre mensajes máx (seg)</label><input id="partPauseMaxSeconds" type="number" step="0.1" min="0"></div>
           <div class="field"><label>Secreto del webhook</label><input id="webhookToken" placeholder="(vacío = sin protección)"></div>
         </div>
         <div class="bar"><button id="saveConfig">Guardar configuración</button><span class="msg" id="msgConfig">✓ Guardado</span></div>
@@ -400,7 +406,7 @@ $('#savePrompt').onclick=savePrompt; $('#reloadPrompt').onclick=loadPrompt;
 document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();savePrompt();}});
 
 /* ───── Config técnica ───── */
-const CFG=['openaiKey','model','visionModel','transcribeModel','manychatToken','manychatChannel','whatsappOutboundUrl','whatsappOutboundToken','bufferSeconds','secondsPerLetter','memoryWindow','webhookToken'];
+const CFG=['openaiKey','model','visionModel','transcribeModel','manychatToken','manychatChannel','whatsappOutboundUrl','whatsappOutboundToken','bufferSeconds','secondsPerLetter','memoryWindow','webhookToken','readingMinSeconds','readingMaxSeconds','typingMinSeconds','typingMaxSeconds','partPauseMinSeconds','partPauseMaxSeconds'];
 const SECRET=new Set(['openaiKey','manychatToken','whatsappOutboundToken']);
 async function loadConfig(){ const c=await (await fetch('/api/config')).json();
   for(const k of CFG){ const el=$('#'+k); if(!el)continue;

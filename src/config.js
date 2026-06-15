@@ -25,7 +25,15 @@ const base = {
   webhookToken:     process.env.WEBHOOK_TOKEN || '',
 
   bufferSeconds:    parseFloat(process.env.BUFFER_SECONDS || '8'),
-  secondsPerLetter: parseFloat(process.env.TYPING_SECONDS_PER_LETTER || '0.030'),
+  secondsPerLetter: parseFloat(process.env.TYPING_SECONDS_PER_LETTER || '0.045'),
+
+  // Comportamiento humano: tiempos de respuesta
+  readingMinSeconds: parseFloat(process.env.READING_MIN_SECONDS || '2'),   // "leyendo" antes de escribir
+  readingMaxSeconds: parseFloat(process.env.READING_MAX_SECONDS || '5'),
+  typingMinSeconds:  parseFloat(process.env.TYPING_MIN_SECONDS  || '1.5'), // mín. por mensaje
+  typingMaxSeconds:  parseFloat(process.env.TYPING_MAX_SECONDS  || '12'),  // máx. por mensaje
+  partPauseMinSeconds: parseFloat(process.env.PART_PAUSE_MIN_SECONDS || '0.8'), // pausa entre mensajes
+  partPauseMaxSeconds: parseFloat(process.env.PART_PAUSE_MAX_SECONDS || '2'),
 
   // Memoria de conversación: nº de mensajes que recuerda (el workflow usa 20)
   memoryWindow: 20,
@@ -45,6 +53,8 @@ export const EDITABLE = [
   'manychatToken', 'manychatChannel',
   'whatsappOutboundUrl', 'whatsappOutboundToken',
   'webhookToken', 'bufferSeconds', 'secondsPerLetter', 'memoryWindow',
+  'readingMinSeconds', 'readingMaxSeconds', 'typingMinSeconds', 'typingMaxSeconds',
+  'partPauseMinSeconds', 'partPauseMaxSeconds',
 ];
 
 // Campos que se enmascaran al mostrarlos (no se devuelven en claro)
@@ -52,7 +62,9 @@ export const SECRETS = ['openaiKey', 'manychatToken', 'whatsappOutboundToken'];
 
 // Guarda cambios: persiste en settings.json y los aplica en caliente
 export function updateConfig(patch) {
-  const numeric = new Set(['bufferSeconds', 'secondsPerLetter', 'memoryWindow']);
+  const numeric = new Set(['bufferSeconds', 'secondsPerLetter', 'memoryWindow',
+    'readingMinSeconds', 'readingMaxSeconds', 'typingMinSeconds', 'typingMaxSeconds',
+    'partPauseMinSeconds', 'partPauseMaxSeconds']);
   const clean = {};
   for (const k of EDITABLE) {
     if (patch[k] === undefined) continue;
