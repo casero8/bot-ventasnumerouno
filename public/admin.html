@@ -253,6 +253,10 @@
         <div class="field full" id="key-openai"><label>OpenAI API Key <span class="hint">(empieza por sk-…)</span></label><input id="openaiKey" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
         <div class="field full" id="key-claude"><label>Claude API Key <span class="hint">(empieza por sk-ant-…)</span></label><input id="anthropicKey" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
       </div>
+      <div style="margin-top:8px">
+        <button id="diagClaude" type="button">🔌 Probar conexión con Claude</button>
+        <span id="diagClaudeMsg" style="margin-left:10px;font-size:13px"></span>
+      </div>
 
       <!-- Gasto -->
       <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -548,6 +552,18 @@ async function loadUsage(){ try{ const u=await (await fetch('/api/usage')).json(
   $('#usageHoy').textContent=fmtUSD(u.hoy.costo_usd); $('#usageHoyTok').textContent=fmtTok(u.hoy);
   $('#usageTotal').textContent=fmtUSD(u.total.costo_usd); $('#usageTotalTok').textContent=fmtTok(u.total);
 }catch{} }
+
+/* ───── Diagnóstico de Claude ───── */
+$('#diagClaude').onclick=async()=>{
+  const m=$('#diagClaudeMsg'); m.style.color='#94a3b8'; m.textContent='Probando…';
+  $('#diagClaude').disabled=true;
+  try{
+    const r=await (await fetch('/api/diag/claude')).json();
+    if(r.ok){ m.style.color='#22c55e'; m.textContent='✅ Claude responde ('+r.model+'): "'+(r.texto||'')+'"'; }
+    else{ m.style.color='#ef4444'; m.textContent='❌ Error'+(r.status?(' '+r.status):'')+(r.tipo?(' · '+r.tipo):'')+': '+(r.error||''); }
+  }catch(e){ m.style.color='#ef4444'; m.textContent='❌ No se pudo probar: '+e.message; }
+  $('#diagClaude').disabled=false;
+};
 
 
 /* ───── Stats ───── */

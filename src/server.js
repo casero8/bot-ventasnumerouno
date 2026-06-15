@@ -10,6 +10,7 @@ import { extractText, docsToSetup } from './ingest.js';
 import { getRules, saveRules } from './rules.js';
 import { getDerivados, updateDerivado, deleteDerivado } from './derivados.js';
 import { generarRespuesta } from './agent.js';
+import { getAnthropic, isClaudeModel } from './anthropicClient.js';
 import { deliver } from './delivery.js';
 import { processMedia, isUrl } from './media.js';
 import {
@@ -147,6 +148,22 @@ app.delete('/api/derivados/:id', (req, res) => { deleteDerivado(req.params.id); 
 
 app.get('/api/stats', (_req, res) => res.json(getStats()));
 app.get('/api/usage', (_req, res) => res.json(getUsage()));
+
+// Diagnóstico: hace una llamada mínima a Claude y devuelve el error EXACTO si falla.
+app.get('/api/diag/claude', async (_req, res) => {
+  if (!config.anthropicKey) return res.json({ ok: false, error: 'No hay API key de Claude puesta en el panel.' });
+  const model = isClaudeModel(config.model) ? config.model : 'claude-haiku-4-5';
+  try {
+    const r = await getAnthropic().messages.create({
+      model, max_tokens: 16,
+      messages: [{ role: 'user', content: 'Responde solo: hola' }],
+    });
+    const texto = (r.content || []).filter(b => b.type === 'text').map(b => b.text).join(' ').trim();
+    res.json({ ok: true, model, texto });
+  } catch (e) {
+    res.json({ ok: false, model, status: e.status || null, tipo: e.error?.error?.type || e.name || '', error: e.message });
+  }
+});
 app.get('/api/conversations', (_req, res) => res.json(allConversations()));
 app.post('/api/reset/:id', (req, res) => { resetConversation(req.params.id); res.json({ ok: true }); });
 app.get('/health', (_req, res) => res.json({ ok: true }));
