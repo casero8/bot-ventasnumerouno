@@ -14,7 +14,7 @@ import { deliver } from './delivery.js';
 import { processMedia, isUrl } from './media.js';
 import {
   bufferMessage, addMessages, resetConversation,
-  allConversations, getStats, bumpStat,
+  allConversations, getStats, bumpStat, getUsage,
 } from './store.js';
 
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
@@ -146,6 +146,7 @@ app.post('/api/derivados/:id', (req, res) => { updateDerivado(req.params.id, req
 app.delete('/api/derivados/:id', (req, res) => { deleteDerivado(req.params.id); res.json({ ok: true }); });
 
 app.get('/api/stats', (_req, res) => res.json(getStats()));
+app.get('/api/usage', (_req, res) => res.json(getUsage()));
 app.get('/api/conversations', (_req, res) => res.json(allConversations()));
 app.post('/api/reset/:id', (req, res) => { resetConversation(req.params.id); res.json({ ok: true }); });
 app.get('/health', (_req, res) => res.json({ ok: true }));

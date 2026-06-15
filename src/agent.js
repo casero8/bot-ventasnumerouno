@@ -3,7 +3,7 @@ import { getClient } from './openaiClient.js';
 import { getAnthropic, isClaudeModel } from './anthropicClient.js';
 import { getPrompt, renderPrompt } from './prompt.js';
 import { rulesBlock } from './rules.js';
-import { getHistory } from './store.js';
+import { getHistory, recordUsage } from './store.js';
 import { toolDefs, toolDefsClaude, runTool } from './tools.js';
 
 // Instrucción de formato que se añade al prompt en tiempo de ejecución.
@@ -81,6 +81,7 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
       tools: toolDefs,
       tool_choice: 'auto',
     });
+    recordUsage(config.model, completion.usage?.prompt_tokens || 0, completion.usage?.completion_tokens || 0);
 
     const msg = completion.choices[0].message;
 
@@ -123,6 +124,7 @@ async function generarConClaude(system, history, userText, ctx) {
       console.error('[Claude]', e.status || '', e.message);
       throw e;
     }
+    recordUsage(config.model, resp.usage?.input_tokens || 0, resp.usage?.output_tokens || 0);
 
     if (resp.stop_reason === 'tool_use') {
       messages.push({ role: 'assistant', content: resp.content });

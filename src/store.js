@@ -82,3 +82,35 @@ export function bumpStat(field, n = 1) {
   write(STATS, all);
 }
 export function getStats() { return read(STATS, {}); }
+
+/* ───────────────── Gasto de IA (coste aproximado por tokens) ─────────────────
+   Precios por 1M de tokens (entrada/salida). Claude: oficiales. OpenAI: aprox.   */
+const PRICES = {
+  'gpt-5.1':            { in: 1.25, out: 10 },   // aprox. (consulta OpenAI)
+  'gpt-4o':             { in: 2.5,  out: 10 },    // aprox.
+  'gpt-4o-mini':        { in: 0.15, out: 0.6 },   // aprox.
+  'claude-haiku-4-5':   { in: 1,    out: 5 },
+  'claude-sonnet-4-6':  { in: 3,    out: 15 },
+  'claude-opus-4-8':    { in: 5,    out: 25 },
+};
+
+// Registra el uso de tokens y suma el coste aproximado (hoy + total acumulado).
+export function recordUsage(model, inTok = 0, outTok = 0) {
+  const p = PRICES[model] || { in: 0, out: 0 };
+  const cost = (inTok / 1e6) * p.in + (outTok / 1e6) * p.out;
+  const all = read(STATS, {});
+  for (const key of [today(), '__total__']) {
+    const d = all[key] || {};
+    d.tokens_in  = (d.tokens_in  || 0) + inTok;
+    d.tokens_out = (d.tokens_out || 0) + outTok;
+    d.costo_usd  = (d.costo_usd  || 0) + cost;
+    all[key] = d;
+  }
+  write(STATS, all);
+}
+
+export function getUsage() {
+  const all = read(STATS, {});
+  const blank = { tokens_in: 0, tokens_out: 0, costo_usd: 0 };
+  return { hoy: all[today()] || blank, total: all.__total__ || blank };
+}

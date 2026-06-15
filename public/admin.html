@@ -233,32 +233,56 @@
 
     <div class="tab" id="tab-config">
     <!-- ───────────── CONFIGURACIÓN TÉCNICA ───────────── -->
+    <!-- ───────────── IA: proveedor, modelo, clave, gasto ───────────── -->
     <section>
-      <details open>
-        <summary>⚙️ Configuración técnica (claves, modelos, tiempos)</summary>
-        <p class="help">Se guarda en <code>data/settings.json</code> y se aplica en caliente.</p>
+      <h2 style="margin:0 0 4px">🤖 Inteligencia Artificial</h2>
+      <p class="help">Elige proveedor y modelo en los desplegables. Solo tienes que pegar la clave del proveedor que uses.</p>
+      <div class="grid" style="margin-top:12px">
+        <div class="field"><label>Proveedor</label>
+          <select id="provider">
+            <option value="openai">OpenAI (GPT)</option>
+            <option value="claude">Claude · más natural</option>
+          </select>
+        </div>
+        <div class="field"><label>Modelo</label>
+          <select id="model"></select>
+        </div>
+        <div class="field full">
+          <div id="modelPrice" style="background:#0f172a;border:1px solid #1f2a44;border-radius:8px;padding:10px 12px;color:#cbd5e1;font-size:13px"></div>
+        </div>
+        <div class="field full" id="key-openai"><label>OpenAI API Key <span class="hint">(empieza por sk-…)</span></label><input id="openaiKey" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
+        <div class="field full" id="key-claude"><label>Claude API Key <span class="hint">(empieza por sk-ant-…)</span></label><input id="anthropicKey" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
+      </div>
+
+      <!-- Gasto -->
+      <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:#0f172a;border:1px solid #1f2a44;border-radius:10px;padding:12px">
+          <div style="color:#94a3b8;font-size:12px;margin-bottom:4px">Gasto de HOY</div>
+          <div style="font-size:22px;font-weight:700;color:#22c55e" id="usageHoy">$0.0000</div>
+          <div style="color:#64748b;font-size:11px" id="usageHoyTok">0 tokens</div>
+        </div>
+        <div style="background:#0f172a;border:1px solid #1f2a44;border-radius:10px;padding:12px">
+          <div style="color:#94a3b8;font-size:12px;margin-bottom:4px">Gasto TOTAL acumulado</div>
+          <div style="font-size:22px;font-weight:700;color:#e2e8f0" id="usageTotal">$0.0000</div>
+          <div style="color:#64748b;font-size:11px" id="usageTotalTok">0 tokens</div>
+        </div>
+      </div>
+      <p class="help" style="margin-top:6px">💡 Coste aproximado calculado por tokens usados. Precios de Claude oficiales; los de OpenAI son orientativos.</p>
+
+      <div class="bar"><button id="saveConfig">Guardar configuración</button><span class="msg" id="msgConfig">✓ Guardado</span></div>
+    </section>
+
+    <!-- ───────────── Ajustes avanzados (plegado) ───────────── -->
+    <section>
+      <details>
+        <summary>⚙️ Ajustes avanzados (ManyChat, tiempos, webhook)</summary>
+        <p class="help">Se guarda en <code>data/settings.json</code> y se aplica en caliente. No hace falta tocarlo normalmente.</p>
         <div class="grid" style="margin-top:12px">
-          <div class="field full"><label>OpenAI API Key <span class="hint">(para modelos gpt-…)</span></label><input id="openaiKey" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
-          <div class="field full"><label>Anthropic / Claude API Key <span class="hint">(para modelos claude-…)</span></label><input id="anthropicKey" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
-          <div class="field full"><label>Modelo del agente <span class="hint">(elige uno; claude-* usa la key de Claude)</span></label>
-            <select id="model">
-              <optgroup label="OpenAI">
-                <option value="gpt-5.1">gpt-5.1</option>
-                <option value="gpt-4o">gpt-4o</option>
-                <option value="gpt-4o-mini">gpt-4o-mini</option>
-              </optgroup>
-              <optgroup label="Claude (más natural)">
-                <option value="claude-haiku-4-5">claude-haiku-4-5 (más barato)</option>
-                <option value="claude-sonnet-4-6">claude-sonnet-4-6 (recomendado)</option>
-                <option value="claude-opus-4-8">claude-opus-4-8 (máxima calidad)</option>
-              </optgroup>
-            </select>
-          </div>
           <div class="field"><label>Canal de ManyChat</label>
             <select id="manychatChannel"><option value="instagram">instagram</option><option value="whatsapp">whatsapp</option><option value="telegram">telegram</option></select>
           </div>
-          <div class="field"><label>Modelo de visión</label><input id="visionModel" placeholder="gpt-4o-mini"></div>
-          <div class="field"><label>Modelo de transcripción</label><input id="transcribeModel" placeholder="whisper-1"></div>
+          <div class="field"><label>Modelo de visión (imágenes)</label><input id="visionModel" placeholder="gpt-4o-mini"></div>
+          <div class="field"><label>Modelo de transcripción (audios)</label><input id="transcribeModel" placeholder="whisper-1"></div>
           <div class="field full"><label>Token de ManyChat</label><input id="manychatToken" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
           <div class="field full"><label>WhatsApp por CRM — URL del endpoint de envío <span class="hint">(vacío = WhatsApp por ManyChat)</span></label><input id="whatsappOutboundUrl" placeholder="https://tu-crm.com/api/enviar-whatsapp"></div>
           <div class="field full"><label>WhatsApp por CRM — Token (Authorization Bearer)</label><input id="whatsappOutboundToken" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
@@ -273,7 +297,6 @@
           <div class="field"><label>Pausa entre mensajes máx (seg)</label><input id="partPauseMaxSeconds" type="number" step="0.1" min="0"></div>
           <div class="field"><label>Secreto del webhook</label><input id="webhookToken" placeholder="(vacío = sin protección)"></div>
         </div>
-        <div class="bar"><button id="saveConfig">Guardar configuración</button><span class="msg" id="msgConfig">✓ Guardado</span></div>
       </details>
     </section>
     </div>
@@ -461,16 +484,59 @@ document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key==='s')
 /* ───── Config técnica ───── */
 const CFG=['openaiKey','anthropicKey','model','visionModel','transcribeModel','manychatToken','manychatChannel','whatsappOutboundUrl','whatsappOutboundToken','bufferSeconds','secondsPerLetter','memoryWindow','webhookToken','readingMinSeconds','readingMaxSeconds','typingMinSeconds','typingMaxSeconds','partPauseMinSeconds','partPauseMaxSeconds'];
 const SECRET=new Set(['openaiKey','anthropicKey','manychatToken','whatsappOutboundToken']);
+
+/* Catálogo de modelos por proveedor (id + etiqueta + precio orientativo) */
+const MODELS={
+  openai:[
+    {id:'gpt-5.1',     label:'GPT-5.1 · gama alta',           price:'≈ alto (consulta OpenAI)'},
+    {id:'gpt-4o',      label:'GPT-4o · equilibrado',          price:'≈ $2,5 / $10 por 1M tokens'},
+    {id:'gpt-4o-mini', label:'GPT-4o mini · barato',          price:'≈ $0,15 / $0,6 por 1M tokens'},
+  ],
+  claude:[
+    {id:'claude-haiku-4-5',  label:'Claude Haiku 4.5 · barato',       price:'$1 / $5 por 1M tokens'},
+    {id:'claude-sonnet-4-6', label:'Claude Sonnet 4.6 · recomendado', price:'$3 / $15 por 1M tokens'},
+    {id:'claude-opus-4-8',   label:'Claude Opus 4.8 · máxima calidad',price:'$5 / $25 por 1M tokens'},
+  ],
+};
+const providerOf = m => /^claude/i.test(m||'') ? 'claude' : 'openai';
+function fillModelOptions(provider){
+  const sel=$('#model'); sel.innerHTML='';
+  (MODELS[provider]||[]).forEach(m=>{ const o=document.createElement('option'); o.value=m.id; o.textContent=m.label; sel.appendChild(o); });
+}
+function updateModelPrice(){
+  const m=(MODELS[$('#provider').value]||[]).find(x=>x.id===$('#model').value);
+  $('#modelPrice').textContent = m ? ('💲 '+m.label.split(' · ')[0]+' — '+m.price+'  (entrada / salida)') : '';
+}
+function toggleKeyFields(provider){
+  $('#key-openai').style.display = provider==='openai'?'':'none';
+  $('#key-claude').style.display = provider==='claude'?'':'none';
+}
+$('#provider').onchange=()=>{ const p=$('#provider').value; fillModelOptions(p); toggleKeyFields(p); updateModelPrice(); };
+$('#model').onchange=updateModelPrice;
+
 async function loadConfig(){ const c=await (await fetch('/api/config')).json();
-  for(const k of CFG){ const el=$('#'+k); if(!el)continue;
+  for(const k of CFG){ const el=$('#'+k); if(!el||k==='model')continue;
     if(SECRET.has(k)){ el.value=''; el.placeholder=c[k]?'Actual: '+c[k]+' — escribe para cambiar':'(sin definir)'; }
-    else el.value=c[k]??''; } }
+    else el.value=c[k]??''; }
+  // Proveedor + modelo (desplegables dependientes)
+  const prov=providerOf(c.model); $('#provider').value=prov;
+  fillModelOptions(prov); $('#model').value=c.model||(MODELS[prov][0]&&MODELS[prov][0].id);
+  toggleKeyFields(prov); updateModelPrice();
+  loadUsage(); }
 async function saveConfig(){ const body={};
   for(const k of CFG){ const el=$('#'+k); if(!el)continue; if(SECRET.has(k)&&!el.value)continue; body[k]=el.value; }
   $('#saveConfig').disabled=true;
   await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   $('#saveConfig').disabled=false; flash($('#msgConfig')); loadConfig(); }
 $('#saveConfig').onclick=saveConfig;
+
+/* ───── Gasto de IA ───── */
+function fmtUSD(n){ return '$'+(Number(n)||0).toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4}); }
+function fmtTok(d){ return ((d.tokens_in||0)+(d.tokens_out||0)).toLocaleString('es-ES')+' tokens'; }
+async function loadUsage(){ try{ const u=await (await fetch('/api/usage')).json();
+  $('#usageHoy').textContent=fmtUSD(u.hoy.costo_usd); $('#usageHoyTok').textContent=fmtTok(u.hoy);
+  $('#usageTotal').textContent=fmtUSD(u.total.costo_usd); $('#usageTotalTok').textContent=fmtTok(u.total);
+}catch{} }
 
 
 /* ───── Stats ───── */
@@ -553,7 +619,7 @@ async function loadConversaciones(){ try{ convData=await (await fetch('/api/conv
 $('#conv-reload').onclick=loadConversaciones;
 $('#conv-search').addEventListener('input',renderConvList);
 
-loadDerivados(); loadConversaciones(); loadSetup(); loadRules(); loadPrompt(); loadConfig(); loadStats(); setInterval(loadStats,10000); setInterval(loadDerivados,30000);
+loadDerivados(); loadConversaciones(); loadSetup(); loadRules(); loadPrompt(); loadConfig(); loadStats(); setInterval(loadStats,10000); setInterval(loadDerivados,30000); setInterval(loadUsage,15000);
 </script>
 </body>
 </html>
