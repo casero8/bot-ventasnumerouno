@@ -1,0 +1,11 @@
+node_modules
+.env
+.git
+Setter.workflow.json
+PROMPT_SETTER.md
+README.md
+# datos de ejecución (se crean solos / van en un volumen)
+data/conversations.json
+data/stats.json
+data/settings.json
+setup.json

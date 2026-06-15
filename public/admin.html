@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agente Instagram · Panel</title>
+<style>
+  :root { --bg:#0f1115; --panel:#1a1d24; --border:#2a2e38; --txt:#e6e8ec; --muted:#8a909c; --accent:#e1306c; --ok:#2ecc71; --blue:#4f8cff; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--txt); }
+  header { display:flex; align-items:center; gap:12px; padding:16px 24px; border-bottom:1px solid var(--border);
+           position:sticky; top:0; background:var(--bg); z-index:10; }
+  header h1 { font-size:16px; margin:0; font-weight:600; }
+  header .dot { width:10px; height:10px; border-radius:50%; background:var(--accent); }
+  header .stats { margin-left:auto; font-size:13px; color:var(--muted); }
+  main { max-width:1000px; margin:0 auto; padding:24px; }
+  section { margin-bottom:30px; }
+  h2 { font-size:15px; margin:0 0 6px; display:flex; align-items:center; gap:8px; }
+  h3 { font-size:13px; color:var(--blue); margin:22px 0 10px; text-transform:uppercase; letter-spacing:.04em; }
+  p.help { color:var(--muted); font-size:13px; line-height:1.5; margin:0 0 14px; }
+  textarea, input, select { width:100%; background:var(--panel); color:var(--txt); border:1px solid var(--border);
+    border-radius:8px; padding:10px 12px; font-size:13px; font-family:inherit; }
+  textarea { resize:vertical; line-height:1.5; }
+  textarea.big { height:58vh; font-family:ui-monospace,Menlo,monospace; }
+  .bar { display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap; }
+  button { background:var(--accent); color:#fff; border:0; border-radius:8px; padding:11px 22px; font-size:14px;
+           font-weight:600; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:default; }
+  button.ghost { background:transparent; border:1px solid var(--border); color:var(--txt); padding:9px 16px; }
+  button.small { padding:7px 12px; font-size:13px; }
+  button.go { background:var(--blue); }
+  .msg { font-size:13px; color:var(--ok); opacity:0; transition:opacity .2s; }
+  .msg.show { opacity:1; }
+  .count { margin-left:auto; color:var(--muted); font-size:12px; }
+  hr { border:0; border-top:1px solid var(--border); margin:30px 0; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px 20px; }
+  .field { display:flex; flex-direction:column; gap:5px; }
+  .field.full { grid-column:1 / -1; }
+  label { font-size:12px; color:var(--muted); }
+  label .hint { color:#5a606c; }
+  .card { background:#15181f; border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:12px; }
+  .card .cardhead { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .card .cardhead input { font-weight:600; }
+  .cta-row { display:grid; grid-template-columns:150px 1fr 1fr 34px; gap:10px; margin-bottom:10px; align-items:center; }
+  .x { background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:8px; padding:8px 0; cursor:pointer; font-weight:700; }
+  .cta-head { display:grid; grid-template-columns:150px 1fr 1fr 34px; gap:10px; font-size:11px; color:var(--muted); margin-bottom:6px; text-transform:uppercase; }
+  details > summary { cursor:pointer; font-size:15px; font-weight:600; margin-bottom:6px; }
+  .upload { border:1.5px dashed var(--border); border-radius:12px; padding:18px; margin-bottom:18px; background:#15181f; transition:border-color .15s, background .15s; }
+  .upload.drag { border-color:var(--blue); background:#172033; }
+  .upload-inner { display:flex; flex-direction:column; gap:4px; }
+  .upload-inner > span { color:var(--muted); font-size:12px; }
+  @media (max-width:720px){ .grid{grid-template-columns:1fr} .cta-row,.cta-head{grid-template-columns:1fr} .cta-head{display:none} }
+</style>
+</head>
+<body>
+  <header>
+    <span class="dot"></span>
+    <h1>Agente Instagram · Setter</h1>
+    <span class="stats" id="stats"></span>
+  </header>
+  <main>
+
+    <!-- ───────────── CONFIGURACIÓN DEL NEGOCIO ───────────── -->
+    <section>
+      <h2>🏢 Configuración del negocio</h2>
+      <p class="help">Rellena tu negocio y pulsa <b>Generar agente</b>: se crea el prompt del agente automáticamente. Cada infoproductor pone aquí su setup. (Las listas: un elemento por línea.)</p>
+
+      <div class="upload" id="dropZone">
+        <div class="upload-inner">
+          <b>📄 Sube la documentación del negocio</b>
+          <span>PDF, TXT o MD · arrastra aquí o haz clic · la IA rellena el formulario automáticamente</span>
+          <input type="file" id="docFiles" accept=".pdf,.txt,.md,.json,.csv" multiple hidden>
+          <div class="bar" style="margin-top:10px">
+            <button class="ghost small" id="pickDocs" type="button">Elegir archivos</button>
+            <button class="go small" id="fillFromDocs" type="button" disabled>⚡ Rellenar agente con los documentos</button>
+            <span class="msg" id="msgDocs">✓ Rellenado</span>
+            <span class="count" id="docNames"></span>
+          </div>
+        </div>
+      </div>
+
+      <h3>Datos del agente</h3>
+      <div class="grid">
+        <div class="field"><label>Nombre del agente</label><input data-path="agente.nombre" placeholder="Alex"></div>
+        <div class="field"><label>¿Cómo habla?</label>
+          <select data-path="agente.habla_como">
+            <option value="experto">En primera persona, como el experto</option>
+            <option value="equipo">Como miembro del equipo</option>
+          </select>
+        </div>
+        <div class="field"><label>Idioma</label><input data-path="agente.idioma" placeholder="español de España"></div>
+        <div class="field"><label>Máx. palabras por respuesta</label><input type="number" data-type="num" data-path="agente.max_palabras" placeholder="25"></div>
+        <div class="field full"><label>Tono</label><input data-path="agente.tono" placeholder="directo y coloquial…"></div>
+        <div class="field"><label>Emojis</label><input data-path="agente.emojis" placeholder="mínimos"></div>
+      </div>
+
+      <h3>Negocio</h3>
+      <div class="grid">
+        <div class="field"><label>Marca</label><input data-path="negocio.marca"></div>
+        <div class="field"><label>Experto / persona</label><input data-path="negocio.experto"></div>
+        <div class="field full"><label>¿Qué vendes? (1-2 frases)</label><textarea data-path="negocio.que_vende" rows="2"></textarea></div>
+        <div class="field full"><label>Credenciales <span class="hint">(una por línea)</span></label><textarea data-type="list" data-path="negocio.credenciales" rows="4"></textarea></div>
+      </div>
+
+      <h3>Oferta</h3>
+      <div class="grid">
+        <div class="field full"><label>Oferta en una línea</label><textarea data-path="oferta.una_linea" rows="2"></textarea></div>
+        <div class="field"><label>Nombre del mecanismo/método</label><input data-path="oferta.mecanismo"></div>
+        <div class="field"><label>Condición mínima</label><input data-path="oferta.condicion_minima"></div>
+        <div class="field full"><label>Promesa</label><textarea data-path="oferta.promesa" rows="2"></textarea></div>
+        <div class="field full"><label>Puntos clave a resaltar <span class="hint">(una por línea)</span></label><textarea data-type="list" data-path="oferta.puntos_clave" rows="3"></textarea></div>
+        <div class="field full"><label>No mencionar de entrada <span class="hint">(una por línea)</span></label><textarea data-type="list" data-path="oferta.no_mencionar_de_entrada" rows="2"></textarea></div>
+      </div>
+
+      <h3>Segmentos de público y cualificación</h3>
+      <p class="help">Cada segmento es un tipo de lead con sus criterios, sus preguntas de diagnóstico y el CTA que se le envía (la palabra debe existir en la sección 🔗 CTAs).</p>
+      <div id="segList"></div>
+      <button class="ghost small" id="addSeg">+ Añadir segmento</button>
+
+      <h3>Filtros y reglas</h3>
+      <div class="grid">
+        <div class="field full"><label>Red flags — a quién NO ayudas <span class="hint">(una por línea)</span></label><textarea data-type="list" data-path="red_flags" rows="3"></textarea></div>
+        <div class="field full"><label>Mensaje cuando no encaja</label><input data-path="mensaje_no_encaje"></div>
+        <div class="field"><label><input type="checkbox" data-type="bool" data-path="filtro_pais.activo" style="width:auto"> Filtrar por país</label></div>
+        <div class="field"><label>Países válidos <span class="hint">(separados por coma)</span></label><input data-type="csv" data-path="filtro_pais.paises_validos" placeholder="España"></div>
+        <div class="field full"><label>Mensaje de rechazo por país</label><textarea data-path="filtro_pais.mensaje_rechazo" rows="2"></textarea></div>
+        <div class="field"><label><input type="checkbox" data-type="bool" data-path="precio.dar_por_chat" style="width:auto"> Dar precio por chat</label></div>
+        <div class="field full"><label>Guion de precio <span class="hint">(una frase por línea = una part)</span></label><textarea data-type="list" data-path="precio.guion" rows="2"></textarea></div>
+      </div>
+
+      <h3>Derivación a humano</h3>
+      <div class="grid">
+        <div class="field"><label>A quién deriva</label><input data-path="derivacion.contacto_nombre" placeholder="mi equipo / Albert"></div>
+        <div class="field"><label><input type="checkbox" data-type="bool" data-path="derivacion.pedir_telefono" style="width:auto"> Pedir teléfono antes de derivar</label></div>
+        <div class="field full"><label>Cuándo derivar <span class="hint">(una por línea)</span></label><textarea data-type="list" data-path="derivacion.cuando" rows="3"></textarea></div>
+        <div class="field full"><label>Reglas extra <span class="hint">(una por línea)</span></label><textarea data-type="list" data-path="reglas_extra" rows="2"></textarea></div>
+      </div>
+
+      <div class="bar">
+        <button class="go" id="genAgent">⚡ Generar agente</button>
+        <button class="ghost" id="saveSetup">Guardar config (sin generar)</button>
+        <span class="msg" id="msgSetup">✓ Hecho</span>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ───────────── AJUSTES RÁPIDOS ───────────── -->
+    <section>
+      <h2>🛠️ Ajustes rápidos</h2>
+      <p class="help">Afina el agente sin tocar el prompt. Escribe la corrección en lenguaje normal (ej: <i>"cuando pregunten el precio, no des rangos"</i> o <i>"sé más directo en el primer mensaje"</i>). Se aplican con prioridad máxima y al instante.</p>
+      <div class="bar" style="margin-bottom:8px">
+        <input id="ruleInput" placeholder="Escribe un ajuste y pulsa Añadir…" style="flex:1">
+        <button class="small" id="addRule">Añadir</button>
+      </div>
+      <div id="ruleList"></div>
+      <div class="bar"><span class="msg" id="msgRules">✓ Guardado</span></div>
+    </section>
+
+    <hr>
+
+    <!-- ───────────── PROBAR EL AGENTE ───────────── -->
+    <section>
+      <h2>🧪 Probar el agente</h2>
+      <p class="help">Escríbele como si fueras un lead y mira cómo responde (no se envía a nadie). Úsalo para probar cada ajuste al momento.</p>
+      <div id="chatBox" style="background:#15181f;border:1px solid var(--border);border-radius:10px;padding:14px;min-height:120px;max-height:340px;overflow:auto;font-size:13px;line-height:1.5"></div>
+      <div class="bar">
+        <input id="testInput" placeholder="Hola, vi tu anuncio…" style="flex:1">
+        <button class="small" id="sendTest">Enviar</button>
+        <button class="ghost small" id="resetTest">Reiniciar chat</button>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ───────────── PROMPT ───────────── -->
+    <section>
+      <details id="promptDetails">
+        <summary>📝 Prompt del agente (avanzado)</summary>
+        <p class="help">Aquí ves y puedes ajustar a mano el prompt (lo genera la configuración de arriba, pero puedes editarlo). Guarda con Cmd/Ctrl+S.</p>
+        <textarea id="prompt" class="big" spellcheck="false"></textarea>
+        <div class="bar">
+          <button id="savePrompt">Guardar prompt</button>
+          <button class="ghost" id="reloadPrompt">Recargar</button>
+          <span class="msg" id="msgPrompt">✓ Guardado</span>
+          <span class="count" id="count"></span>
+        </div>
+      </details>
+    </section>
+
+    <hr>
+
+    <!-- ───────────── CTAs / LINKS ───────────── -->
+    <section>
+      <h2>🔗 CTAs / Links que envía el agente</h2>
+      <p class="help">La <b>palabra clave</b> conecta con los segmentos de arriba. El agente envía el <b>link</b> siguiendo las <b>instrucciones</b>.</p>
+      <div class="cta-head"><span>Palabra clave</span><span>Instrucciones</span><span>Link / recurso</span><span></span></div>
+      <div id="ctaList"></div>
+      <div class="bar">
+        <button class="ghost small" id="addCta">+ Añadir CTA</button>
+        <button id="saveCtas">Guardar CTAs</button>
+        <span class="msg" id="msgCtas">✓ Guardado</span>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ───────────── CONFIGURACIÓN TÉCNICA ───────────── -->
+    <section>
+      <details>
+        <summary>⚙️ Configuración técnica (claves, modelos, tiempos)</summary>
+        <p class="help">Se guarda en <code>data/settings.json</code> y se aplica en caliente.</p>
+        <div class="grid" style="margin-top:12px">
+          <div class="field full"><label>OpenAI API Key</label><input id="openaiKey" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
+          <div class="field"><label>Modelo del agente</label><input id="model" placeholder="gpt-5.1"></div>
+          <div class="field"><label>Canal de ManyChat</label>
+            <select id="manychatChannel"><option value="instagram">instagram</option><option value="whatsapp">whatsapp</option><option value="telegram">telegram</option></select>
+          </div>
+          <div class="field"><label>Modelo de visión</label><input id="visionModel" placeholder="gpt-4o-mini"></div>
+          <div class="field"><label>Modelo de transcripción</label><input id="transcribeModel" placeholder="whisper-1"></div>
+          <div class="field full"><label>Token de ManyChat</label><input id="manychatToken" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
+          <div class="field full"><label>WhatsApp por CRM — URL del endpoint de envío <span class="hint">(vacío = WhatsApp por ManyChat)</span></label><input id="whatsappOutboundUrl" placeholder="https://tu-crm.com/api/enviar-whatsapp"></div>
+          <div class="field full"><label>WhatsApp por CRM — Token (Authorization Bearer)</label><input id="whatsappOutboundToken" type="password" placeholder="(sin cambios)" autocomplete="off"></div>
+          <div class="field"><label>Segundos de buffer</label><input id="bufferSeconds" type="number" step="0.5" min="0"></div>
+          <div class="field"><label>Segundos por letra</label><input id="secondsPerLetter" type="number" step="0.005" min="0"></div>
+          <div class="field"><label>Memoria (nº mensajes)</label><input id="memoryWindow" type="number" step="1" min="2"></div>
+          <div class="field"><label>Secreto del webhook</label><input id="webhookToken" placeholder="(vacío = sin protección)"></div>
+        </div>
+        <div class="bar"><button id="saveConfig">Guardar configuración</button><span class="msg" id="msgConfig">✓ Guardado</span></div>
+      </details>
+    </section>
+
+  </main>
+<script>
+const $ = s => document.querySelector(s);
+const flash = el => { el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1600); };
+const byPath = (o,p)=>p.split('.').reduce((a,k)=>a&&a[k]!=null?a[k]:undefined,o);
+const setPath = (o,p,v)=>{ const ks=p.split('.'); let c=o; ks.slice(0,-1).forEach(k=>{ if(typeof c[k]!=='object'||c[k]==null)c[k]={}; c=c[k]; }); c[ks.at(-1)]=v; };
+
+/* ───── Setup del negocio ───── */
+function segCard(seg={}){
+  const d=document.createElement('div'); d.className='card';
+  d.innerHTML = `
+    <div class="cardhead"><input class="s-nombre" placeholder="Nombre del segmento (ej: Infoproductor)"><button class="x s-del">✕</button></div>
+    <div class="grid">
+      <div class="field full"><label>Detéctalo si…</label><input class="s-detectar"></div>
+      <div class="field full"><label>Criterios de encaje <span class="hint">(uno por línea)</span></label><textarea class="s-criterios" rows="3"></textarea></div>
+      <div class="field full"><label>Preguntas de diagnóstico <span class="hint">(una por línea, en orden)</span></label><textarea class="s-preguntas" rows="4"></textarea></div>
+      <div class="field"><label>Palabra clave del CTA</label><input class="s-cta" placeholder="formulario"></div>
+      <div class="field full"><label>Cómo cerrar</label><textarea class="s-cerrar" rows="2"></textarea></div>
+    </div>`;
+  d.querySelector('.s-nombre').value=seg.nombre||'';
+  d.querySelector('.s-detectar').value=seg.detectar_si||'';
+  d.querySelector('.s-criterios').value=(seg.criterios_encaje||[]).join('\n');
+  d.querySelector('.s-preguntas').value=(seg.preguntas||[]).join('\n');
+  d.querySelector('.s-cta').value=seg.cta_palabra||'';
+  d.querySelector('.s-cerrar').value=seg.como_cerrar||'';
+  d.querySelector('.s-del').onclick=()=>d.remove();
+  return d;
+}
+function renderSegments(list){ const box=$('#segList'); box.innerHTML=''; (list.length?list:[{}]).forEach(s=>box.appendChild(segCard(s))); }
+function readSegments(){
+  return [...document.querySelectorAll('#segList .card')].map(c=>({
+    nombre:c.querySelector('.s-nombre').value.trim(),
+    detectar_si:c.querySelector('.s-detectar').value.trim(),
+    criterios_encaje:c.querySelector('.s-criterios').value.split('\n').map(x=>x.trim()).filter(Boolean),
+    preguntas:c.querySelector('.s-preguntas').value.split('\n').map(x=>x.trim()).filter(Boolean),
+    cta_palabra:c.querySelector('.s-cta').value.trim(),
+    como_cerrar:c.querySelector('.s-cerrar').value.trim(),
+  })).filter(s=>s.nombre);
+}
+function readSetup(){
+  const setup={};
+  document.querySelectorAll('[data-path]').forEach(el=>{
+    const p=el.dataset.path, t=el.dataset.type; let v;
+    if(t==='list') v=el.value.split('\n').map(x=>x.trim()).filter(Boolean);
+    else if(t==='csv') v=el.value.split(',').map(x=>x.trim()).filter(Boolean);
+    else if(t==='bool') v=el.checked;
+    else if(t==='num') v=parseFloat(el.value)||0;
+    else v=el.value;
+    setPath(setup,p,v);
+  });
+  setup.segmentos=readSegments();
+  return setup;
+}
+function fillSetup(s){
+  document.querySelectorAll('[data-path]').forEach(el=>{
+    const v=byPath(s,el.dataset.path), t=el.dataset.type;
+    if(t==='list') el.value=(v||[]).join('\n');
+    else if(t==='csv') el.value=(v||[]).join(', ');
+    else if(t==='bool') el.checked=!!v;
+    else el.value=v==null?'':v;
+  });
+  renderSegments(s.segmentos||[]);
+}
+async function loadSetup(){ fillSetup(await (await fetch('/api/setup')).json()); }
+async function saveSetup(){
+  await fetch('/api/setup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(readSetup())});
+  flash($('#msgSetup'));
+}
+async function genAgent(){
+  $('#genAgent').disabled=true;
+  const r=await fetch('/api/setup/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(readSetup())});
+  const j=await r.json();
+  $('#genAgent').disabled=false;
+  $('#prompt').value=j.prompt||''; updateCount();
+  $('#promptDetails').open=true;
+  flash($('#msgSetup'));
+}
+$('#addSeg').onclick=()=>$('#segList').appendChild(segCard());
+$('#saveSetup').onclick=saveSetup;
+$('#genAgent').onclick=genAgent;
+
+/* ───── Subir documentación → rellenar con IA ───── */
+const dropZone=$('#dropZone'), docInput=$('#docFiles');
+let pickedFiles=[];
+function setPicked(files){
+  pickedFiles=[...files];
+  $('#fillFromDocs').disabled=!pickedFiles.length;
+  $('#docNames').textContent=pickedFiles.length?pickedFiles.map(f=>f.name).join(', '):'';
+}
+$('#pickDocs').onclick=()=>docInput.click();
+docInput.onchange=()=>setPicked(docInput.files);
+['dragover','dragenter'].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.classList.add('drag');}));
+['dragleave','drop'].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.classList.remove('drag');}));
+dropZone.addEventListener('drop',e=>{ if(e.dataTransfer?.files?.length) setPicked(e.dataTransfer.files); });
+$('#fillFromDocs').onclick=async()=>{
+  if(!pickedFiles.length) return;
+  const btn=$('#fillFromDocs'); const prev=btn.textContent;
+  btn.disabled=true; btn.textContent='Leyendo documentos…';
+  try{
+    const fd=new FormData(); pickedFiles.forEach(f=>fd.append('files',f));
+    const r=await fetch('/api/setup/from-docs',{method:'POST',body:fd});
+    const j=await r.json();
+    if(!r.ok){ alert('Error: '+(j.error||r.status)); return; }
+    fillSetup(j.setup||{});
+    flash($('#msgDocs'));
+  }catch(e){ alert('Error subiendo: '+e.message); }
+  finally{ btn.textContent=prev; btn.disabled=false; }
+};
+
+/* ───── Ajustes rápidos (reglas) ───── */
+let rules=[];
+function renderRules(){
+  const box=$('#ruleList'); box.innerHTML='';
+  if(!rules.length){ box.innerHTML='<p class="help" style="margin:0">Aún no hay ajustes. Añade el primero arriba.</p>'; return; }
+  rules.forEach((r,i)=>{
+    const d=document.createElement('div'); d.className='cta-row'; d.style.gridTemplateColumns='34px 1fr 34px';
+    d.innerHTML=`<input type="checkbox" ${r.active?'checked':''} style="width:auto"><input value="" class="r-text"><button class="x">✕</button>`;
+    d.querySelector('.r-text').value=r.text||'';
+    d.querySelector('input[type=checkbox]').onchange=e=>{ rules[i].active=e.target.checked; saveRules(); };
+    d.querySelector('.r-text').onchange=e=>{ rules[i].text=e.target.value; saveRules(); };
+    d.querySelector('.x').onclick=()=>{ rules.splice(i,1); saveRules(); renderRules(); };
+    box.appendChild(d);
+  });
+}
+async function loadRules(){ rules=await (await fetch('/api/rules')).json(); renderRules(); }
+async function saveRules(){
+  await fetch('/api/rules',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(rules)});
+  flash($('#msgRules'));
+}
+$('#addRule').onclick=()=>{ const v=$('#ruleInput').value.trim(); if(!v)return;
+  rules.push({id:Date.now().toString(36),text:v,active:true,createdAt:new Date().toISOString()});
+  $('#ruleInput').value=''; renderRules(); saveRules(); };
+$('#ruleInput').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#addRule').click(); });
+
+/* ───── Probar el agente ───── */
+function bubble(text,who){
+  const d=document.createElement('div'); d.style.margin='6px 0'; d.style.display='flex';
+  d.style.justifyContent= who==='user'?'flex-end':'flex-start';
+  const b=document.createElement('div');
+  b.style.cssText=`max-width:80%;padding:8px 12px;border-radius:12px;white-space:pre-wrap;background:${who==='user'?'var(--accent)':'#222730'};color:#fff`;
+  b.textContent=text; d.appendChild(b); $('#chatBox').appendChild(d); $('#chatBox').scrollTop=1e9;
+}
+async function sendTest(){
+  const t=$('#testInput').value.trim(); if(!t)return;
+  $('#testInput').value=''; bubble(t,'user');
+  $('#sendTest').disabled=true;
+  try{
+    const r=await fetch('/api/test',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:t})});
+    const j=await r.json();
+    if(!r.ok){ bubble('⚠️ '+(j.error||r.status),'bot'); }
+    else (j.parts||[]).forEach(p=>bubble(p,'bot'));
+  }catch(e){ bubble('⚠️ '+e.message,'bot'); }
+  finally{ $('#sendTest').disabled=false; $('#testInput').focus(); }
+}
+$('#sendTest').onclick=sendTest;
+$('#testInput').addEventListener('keydown',e=>{ if(e.key==='Enter') sendTest(); });
+$('#resetTest').onclick=async()=>{ await fetch('/api/test/reset',{method:'POST'}); $('#chatBox').innerHTML=''; };
+
+/* ───── Prompt ───── */
+const ta=$('#prompt'), count=$('#count');
+const updateCount=()=>count.textContent=ta.value.length.toLocaleString('es-ES')+' caracteres';
+async function loadPrompt(){ ta.value=(await (await fetch('/api/prompt')).json()).prompt||''; updateCount(); }
+async function savePrompt(){ $('#savePrompt').disabled=true;
+  await fetch('/api/prompt',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:ta.value})});
+  $('#savePrompt').disabled=false; flash($('#msgPrompt')); }
+ta.addEventListener('input',updateCount);
+$('#savePrompt').onclick=savePrompt; $('#reloadPrompt').onclick=loadPrompt;
+document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();savePrompt();}});
+
+/* ───── Config técnica ───── */
+const CFG=['openaiKey','model','visionModel','transcribeModel','manychatToken','manychatChannel','whatsappOutboundUrl','whatsappOutboundToken','bufferSeconds','secondsPerLetter','memoryWindow','webhookToken'];
+const SECRET=new Set(['openaiKey','manychatToken','whatsappOutboundToken']);
+async function loadConfig(){ const c=await (await fetch('/api/config')).json();
+  for(const k of CFG){ const el=$('#'+k); if(!el)continue;
+    if(SECRET.has(k)){ el.value=''; el.placeholder=c[k]?'Actual: '+c[k]+' — escribe para cambiar':'(sin definir)'; }
+    else el.value=c[k]??''; } }
+async function saveConfig(){ const body={};
+  for(const k of CFG){ const el=$('#'+k); if(!el)continue; if(SECRET.has(k)&&!el.value)continue; body[k]=el.value; }
+  $('#saveConfig').disabled=true;
+  await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  $('#saveConfig').disabled=false; flash($('#msgConfig')); loadConfig(); }
+$('#saveConfig').onclick=saveConfig;
+
+/* ───── CTAs ───── */
+function ctaRow(c={}){ const d=document.createElement('div'); d.className='cta-row';
+  d.innerHTML=`<input class="c-key" placeholder="formulario"><input class="c-ins" placeholder="Envía el link y dile que…"><input class="c-res" placeholder="https://…"><button class="x">✕</button>`;
+  d.querySelector('.c-key').value=c.accionable||''; d.querySelector('.c-ins').value=c.instrucciones||''; d.querySelector('.c-res').value=c.recurso||'';
+  d.querySelector('.x').onclick=()=>d.remove(); return d; }
+async function loadCtas(){ const l=await (await fetch('/api/ctas')).json(); const b=$('#ctaList'); b.innerHTML='';
+  (l.length?l:[{}]).forEach(c=>b.appendChild(ctaRow(c))); }
+async function saveCtas(){ const rows=[...document.querySelectorAll('.cta-row')].map(r=>({
+    accionable:r.querySelector('.c-key').value.trim(), instrucciones:r.querySelector('.c-ins').value.trim(), recurso:r.querySelector('.c-res').value.trim(),
+  })).filter(c=>c.accionable);
+  $('#saveCtas').disabled=true;
+  await fetch('/api/ctas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(rows)});
+  $('#saveCtas').disabled=false; flash($('#msgCtas')); }
+$('#addCta').onclick=()=>$('#ctaList').appendChild(ctaRow()); $('#saveCtas').onclick=saveCtas;
+
+/* ───── Stats ───── */
+async function loadStats(){ try{ const j=await (await fetch('/api/stats')).json();
+  const d=j[new Date().toISOString().slice(0,10)]||{};
+  $('#stats').textContent=`Hoy · ${d.mensajes_entrantes||0} entrantes · ${d.mensajes_salientes||0} salientes · ${d.ctas_enviados||0} CTAs`; }catch{} }
+
+loadSetup(); loadRules(); loadPrompt(); loadConfig(); loadCtas(); loadStats(); setInterval(loadStats,10000);
+</script>
+</body>
+</html>

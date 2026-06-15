@@ -1,0 +1,71 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { bumpStat } from './store.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const CTAS_FILE = path.join(__dirname, '../data/ctas.json');
+
+function loadCtas() {
+  try { return JSON.parse(fs.readFileSync(CTAS_FILE, 'utf-8')); }
+  catch { return []; }
+}
+
+// Definición de herramientas que el agente puede llamar (function calling).
+// Réplica de los tool-workflows "Buscar Recursos por CTA" y "Derivar".
+export const toolDefs = [
+  {
+    type: 'function',
+    function: {
+      name: 'buscar_recurso_por_cta',
+      description: 'Busca el recurso/link que pide el usuario tomando como referencia el CTA o palabra clave que escribe (formulario, agenda, academia, infoproductor...). Devuelve instrucciones de cómo enviarlo y el link.',
+      parameters: {
+        type: 'object',
+        properties: {
+          palabra: { type: 'string', description: 'CTA o palabra clave del recurso solicitado' },
+        },
+        required: ['palabra'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'derivar',
+      description: 'Llama esta herramienta cuando un lead solicite un plan personalizado, sea un closer buscando trabajo, tenga problemas de agenda, o mande mensajes idénticos repetidos. Primero obtén su número de teléfono/móvil. Comunica que el Director Comercial le va a escribir.',
+      parameters: {
+        type: 'object',
+        properties: {
+          telefono: { type: 'string', description: 'Teléfono o móvil del lead' },
+          motivo:   { type: 'string', description: 'Motivo breve de la derivación' },
+        },
+        required: ['telefono'],
+      },
+    },
+  },
+];
+
+// Ejecuta la herramienta y devuelve un string (lo que el modelo recibe como tool result).
+export function runTool(name, args, ctx = {}) {
+  if (name === 'buscar_recurso_por_cta') {
+    const q = String(args.palabra || '').toLowerCase().trim();
+    const ctas = loadCtas();
+    const hit = ctas.find(c =>
+      q.includes(String(c.accionable).toLowerCase()) ||
+      String(c.accionable).toLowerCase().includes(q));
+    if (!hit) return JSON.stringify({ encontrado: false, mensaje: 'No hay un recurso para eso. No envíes ningún link.' });
+    bumpStat('ctas_enviados');
+    return JSON.stringify({ encontrado: true, instrucciones: hit.instrucciones, recurso: hit.recurso });
+  }
+
+  if (name === 'derivar') {
+    bumpStat('derivaciones');
+    return JSON.stringify({
+      ok: true,
+      instrucciones: 'Confirma al lead que el Director Comercial le va a escribir en breve. No des largas charlas.',
+      telefono_registrado: args.telefono || null,
+    });
+  }
+
+  return JSON.stringify({ error: 'herramienta_desconocida' });
+}

@@ -1,0 +1,81 @@
+import 'dotenv/config';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const SETTINGS_FILE = path.join(__dirname, '../data/settings.json');
+
+// Valores base desde .env
+const base = {
+  openaiKey:        process.env.OPENAI_API_KEY || '',
+  model:            process.env.OPENAI_MODEL            || 'gpt-5.1',
+  visionModel:      process.env.OPENAI_VISION_MODEL     || 'gpt-4o-mini',
+  transcribeModel:  process.env.OPENAI_TRANSCRIBE_MODEL || 'whisper-1',
+
+  manychatToken:    process.env.MANYCHAT_TOKEN || '',
+  manychatChannel:  process.env.MANYCHAT_CHANNEL        || 'instagram',
+
+  // WhatsApp por CRM a medida: si pones esta URL, los mensajes de WhatsApp
+  // se envían con un POST a tu CRM en vez de por ManyChat.
+  whatsappOutboundUrl:   process.env.WHATSAPP_OUTBOUND_URL   || '',
+  whatsappOutboundToken: process.env.WHATSAPP_OUTBOUND_TOKEN || '',
+
+  port:             parseInt(process.env.PORT || '3000', 10),
+  webhookToken:     process.env.WEBHOOK_TOKEN || '',
+
+  bufferSeconds:    parseFloat(process.env.BUFFER_SECONDS || '8'),
+  secondsPerLetter: parseFloat(process.env.TYPING_SECONDS_PER_LETTER || '0.030'),
+
+  // Memoria de conversación: nº de mensajes que recuerda (el workflow usa 20)
+  memoryWindow: 20,
+};
+
+// Overlay desde data/settings.json (lo que se edita en el panel manda sobre .env)
+function readSettingsFile() {
+  try { return JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf-8')); }
+  catch { return {}; }
+}
+
+export const config = { ...base, ...readSettingsFile() };
+
+// Campos que se pueden editar desde el panel (NO el puerto, requiere reinicio)
+export const EDITABLE = [
+  'openaiKey', 'model', 'visionModel', 'transcribeModel',
+  'manychatToken', 'manychatChannel',
+  'whatsappOutboundUrl', 'whatsappOutboundToken',
+  'webhookToken', 'bufferSeconds', 'secondsPerLetter', 'memoryWindow',
+];
+
+// Campos que se enmascaran al mostrarlos (no se devuelven en claro)
+export const SECRETS = ['openaiKey', 'manychatToken', 'whatsappOutboundToken'];
+
+// Guarda cambios: persiste en settings.json y los aplica en caliente
+export function updateConfig(patch) {
+  const numeric = new Set(['bufferSeconds', 'secondsPerLetter', 'memoryWindow']);
+  const clean = {};
+  for (const k of EDITABLE) {
+    if (patch[k] === undefined) continue;
+    clean[k] = numeric.has(k) ? parseFloat(patch[k]) : String(patch[k]);
+    config[k] = clean[k]; // aplicar en caliente
+  }
+  const current = readSettingsFile();
+  const merged = { ...current, ...clean };
+  if (!fs.existsSync(path.dirname(SETTINGS_FILE))) fs.mkdirSync(path.dirname(SETTINGS_FILE), { recursive: true });
+  fs.writeFileSync(SETTINGS_FILE, JSON.stringify(merged, null, 2));
+  return getConfigSafe();
+}
+
+// Devuelve la config editable (los secretos se enmascaran)
+export function getConfigSafe() {
+  const out = {};
+  for (const k of EDITABLE) out[k] = config[k];
+  for (const k of SECRETS) if (out[k]) out[k] = mask(out[k]);
+  return out;
+}
+
+function mask(v) { return v.length > 10 ? v.slice(0, 5) + '…' + v.slice(-4) : '••••'; }
+
+if (!config.openaiKey) {
+  console.warn('⚠️  Falta OPENAI_API_KEY (puedes ponerla desde el panel en Configuración).');
+}
