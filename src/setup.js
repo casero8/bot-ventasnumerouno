@@ -50,7 +50,9 @@ ${list(seg.criterios_encaje, '  - ')}
 - **Preguntas de diagnóstico (UNA por mensaje, en este orden, saltando lo que ya te haya dicho):**
 ${num(seg.preguntas)}
 - **Cómo cerrar:** ${seg.como_cerrar || ''}
-- **CTA / recurso a enviar:** usa la herramienta \`buscar_recurso_por_cta\` con la palabra "${seg.cta_palabra || ''}" y envía el link siguiendo sus instrucciones.`).join('\n');
+${seg.enlace
+  ? `- **ENLACE PARA ESTE PERFIL:** cuando cierres con un lead de este segmento, envíale ESTE enlace (y solo este): ${seg.enlace}. No lo repitas si ya lo enviaste.`
+  : `- **Recurso a enviar:** usa la herramienta \`buscar_recurso_por_cta\` con la palabra "${seg.cta_palabra || ''}" y envía el link siguiendo sus instrucciones.`}`).join('\n');
 
   const paisBloque = pais.activo ? `
 # FILTRO POR PAÍS (OVERRIDE — prioridad sobre la cualificación)

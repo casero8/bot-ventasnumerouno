@@ -261,13 +261,15 @@ function segCard(seg={}){
       <div class="field full"><label>Detéctalo si…</label><input class="s-detectar"></div>
       <div class="field full"><label>Criterios de encaje <span class="hint">(uno por línea)</span></label><textarea class="s-criterios" rows="3"></textarea></div>
       <div class="field full"><label>Preguntas de diagnóstico <span class="hint">(una por línea, en orden)</span></label><textarea class="s-preguntas" rows="4"></textarea></div>
-      <div class="field"><label>Palabra clave del CTA</label><input class="s-cta" placeholder="formulario"></div>
-      <div class="field full"><label>Cómo cerrar</label><textarea class="s-cerrar" rows="2"></textarea></div>
+      <div class="field full"><label>📎 Enlace a enviar a este perfil <span class="hint">(calendario, formulario… el que toque para este tipo de lead)</span></label><input class="s-enlace" placeholder="https://cal.com/tu-link  ó  https://tu-formulario"></div>
+      <div class="field"><label>Etiqueta del enlace <span class="hint">(opcional)</span></label><input class="s-cta" placeholder="calendario / formulario"></div>
+      <div class="field full"><label>Cómo cerrar <span class="hint">(cuándo enviar el enlace)</span></label><textarea class="s-cerrar" rows="2"></textarea></div>
     </div>`;
   d.querySelector('.s-nombre').value=seg.nombre||'';
   d.querySelector('.s-detectar').value=seg.detectar_si||'';
   d.querySelector('.s-criterios').value=(seg.criterios_encaje||[]).join('\n');
   d.querySelector('.s-preguntas').value=(seg.preguntas||[]).join('\n');
+  d.querySelector('.s-enlace').value=seg.enlace||'';
   d.querySelector('.s-cta').value=seg.cta_palabra||'';
   d.querySelector('.s-cerrar').value=seg.como_cerrar||'';
   d.querySelector('.s-del').onclick=()=>d.remove();
@@ -280,6 +282,7 @@ function readSegments(){
     detectar_si:c.querySelector('.s-detectar').value.trim(),
     criterios_encaje:c.querySelector('.s-criterios').value.split('\n').map(x=>x.trim()).filter(Boolean),
     preguntas:c.querySelector('.s-preguntas').value.split('\n').map(x=>x.trim()).filter(Boolean),
+    enlace:c.querySelector('.s-enlace').value.trim(),
     cta_palabra:c.querySelector('.s-cta').value.trim(),
     como_cerrar:c.querySelector('.s-cerrar').value.trim(),
   })).filter(s=>s.nombre);

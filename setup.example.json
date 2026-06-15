@@ -56,7 +56,8 @@
         "¿Qué te frena más para escalar: los leads no cualifican, no convierten, o el sistema no es predecible?"
       ],
       "cta_palabra": "formulario",
-      "como_cerrar": "Primero pregunta si le gustaría una llamada con el equipo para analizar su caso. Solo si dice que sí, explícale que antes hay una auditoría (no se trabaja con todo el mundo) y pásale el formulario."
+      "como_cerrar": "Primero pregunta si le gustaría una llamada con el equipo para analizar su caso. Solo si dice que sí, explícale que antes hay una auditoría (no se trabaja con todo el mundo) y pásale el formulario.",
+      "enlace": "https://PON-AQUI-TU-LINK-DEL-FORMULARIO"
     },
     {
       "nombre": "Academia",
@@ -73,7 +74,8 @@
         "¿Quieres empezar a formarte ahora o lo ves para más adelante?"
       ],
       "cta_palabra": "agenda",
-      "como_cerrar": "Valida que encaja y propón agendar una llamada rápida de admisión para ver su situación a fondo. Pásale el link de agenda."
+      "como_cerrar": "Valida que encaja y propón agendar una llamada rápida de admisión para ver su situación a fondo. Pásale el link de agenda.",
+      "enlace": "https://PON-AQUI-TU-LINK-DE-CALENDARIO"
     }
   ],
   "red_flags": [
@@ -84,7 +86,9 @@
   "mensaje_no_encaje": "ahora mismo no es el mejor encaje, pero estate atento al perfil porque subiré contenido gratuito que te ayudará",
   "filtro_pais": {
     "activo": true,
-    "paises_validos": ["España"],
+    "paises_validos": [
+      "España"
+    ],
     "mensaje_rechazo": "Muchas gracias, ahora mismo estoy trabajando con gente en España porque los proyectos que tengo en cartera son con ese tipo de perfil"
   },
   "precio": {
