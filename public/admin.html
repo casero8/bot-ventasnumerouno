@@ -50,6 +50,13 @@
   .upload-inner { display:flex; flex-direction:column; gap:4px; }
   .upload-inner > span { color:var(--muted); font-size:12px; }
   @media (max-width:720px){ .grid{grid-template-columns:1fr} .cta-row,.cta-head{grid-template-columns:1fr} .cta-head{display:none} }
+  /* Pestañas */
+  .tabbar { display:flex; gap:4px; padding:0 24px; border-bottom:1px solid var(--border); position:sticky; top:57px; background:var(--bg); z-index:9; overflow-x:auto; }
+  .tabbar button { background:transparent; border:0; border-bottom:2px solid transparent; color:var(--muted); padding:13px 16px; font-size:14px; font-weight:600; cursor:pointer; white-space:nowrap; border-radius:0; }
+  .tabbar button:hover { color:var(--txt); }
+  .tabbar button.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .tab { display:none; }
+  .tab.active { display:block; }
 </style>
 </head>
 <body>
@@ -58,8 +65,17 @@
     <h1>Agente Instagram · Setter</h1>
     <span class="stats" id="stats"></span>
   </header>
+  <nav class="tabbar">
+    <button data-tab="derivados" class="active">👥 Derivados</button>
+    <button data-tab="conversaciones">💬 Conversaciones</button>
+    <button data-tab="negocio">🏢 Negocio</button>
+    <button data-tab="ajustes">🛠️ Ajustes</button>
+    <button data-tab="prompt">📝 Prompt</button>
+    <button data-tab="config">⚙️ Config</button>
+  </nav>
   <main>
 
+    <div class="tab active" id="tab-derivados">
     <!-- ───────────── DERIVADOS ───────────── -->
     <section>
       <h2>👥 Leads derivados al equipo</h2>
@@ -67,9 +83,9 @@
       <div id="deriv-list"></div>
       <div class="bar"><button class="ghost small" id="deriv-reload">Actualizar</button></div>
     </section>
+    </div>
 
-    <hr>
-
+    <div class="tab" id="tab-conversaciones">
     <!-- ───────────── CONVERSACIONES ───────────── -->
     <section>
       <h2>💬 Conversaciones por contacto</h2>
@@ -85,9 +101,9 @@
         </div>
       </div>
     </section>
+    </div>
 
-    <hr>
-
+    <div class="tab" id="tab-negocio">
     <!-- ───────────── CONFIGURACIÓN DEL NEGOCIO ───────────── -->
     <section>
       <h2>🏢 Configuración del negocio</h2>
@@ -170,9 +186,9 @@
         <span class="msg" id="msgSetup">✓ Hecho</span>
       </div>
     </section>
+    </div>
 
-    <hr>
-
+    <div class="tab" id="tab-ajustes">
     <!-- ───────────── AJUSTES RÁPIDOS ───────────── -->
     <section>
       <h2>🛠️ Ajustes rápidos</h2>
@@ -185,8 +201,6 @@
       <div class="bar"><span class="msg" id="msgRules">✓ Guardado</span></div>
     </section>
 
-    <hr>
-
     <!-- ───────────── PROBAR EL AGENTE ───────────── -->
     <section>
       <h2>🧪 Probar el agente</h2>
@@ -198,12 +212,12 @@
         <button class="ghost small" id="resetTest">Reiniciar chat</button>
       </div>
     </section>
+    </div>
 
-    <hr>
-
+    <div class="tab" id="tab-prompt">
     <!-- ───────────── PROMPT ───────────── -->
     <section>
-      <details id="promptDetails">
+      <details id="promptDetails" open>
         <summary>📝 Prompt del agente (avanzado)</summary>
         <p class="help">Aquí ves y puedes ajustar a mano el prompt (lo genera la configuración de arriba, pero puedes editarlo). Guarda con Cmd/Ctrl+S.</p>
         <textarea id="prompt" class="big" spellcheck="false"></textarea>
@@ -215,12 +229,12 @@
         </div>
       </details>
     </section>
+    </div>
 
-    <hr>
-
+    <div class="tab" id="tab-config">
     <!-- ───────────── CONFIGURACIÓN TÉCNICA ───────────── -->
     <section>
-      <details>
+      <details open>
         <summary>⚙️ Configuración técnica (claves, modelos, tiempos)</summary>
         <p class="help">Se guarda en <code>data/settings.json</code> y se aplica en caliente.</p>
         <div class="grid" style="margin-top:12px">
@@ -248,10 +262,19 @@
         <div class="bar"><button id="saveConfig">Guardar configuración</button><span class="msg" id="msgConfig">✓ Guardado</span></div>
       </details>
     </section>
+    </div>
 
   </main>
 <script>
 const $ = s => document.querySelector(s);
+/* ───── Pestañas ───── */
+document.querySelectorAll('.tabbar button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tabbar button').forEach(x=>x.classList.toggle('active', x===b));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.id==='tab-'+b.dataset.tab));
+    window.scrollTo(0,0);
+  };
+});
 const flash = el => { el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1600); };
 const byPath = (o,p)=>p.split('.').reduce((a,k)=>a&&a[k]!=null?a[k]:undefined,o);
 const setPath = (o,p,v)=>{ const ks=p.split('.'); let c=o; ks.slice(0,-1).forEach(k=>{ if(typeof c[k]!=='object'||c[k]==null)c[k]={}; c=c[k]; }); c[ks.at(-1)]=v; };
