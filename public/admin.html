@@ -498,6 +498,7 @@ const MODELS={
     {id:'claude-opus-4-8',   label:'Claude Opus 4.8 · máxima calidad',price:'$5 / $25 por 1M tokens'},
   ],
 };
+let cfgState={};
 const providerOf = m => /^claude/i.test(m||'') ? 'claude' : 'openai';
 function fillModelOptions(provider){
   const sel=$('#model'); sel.innerHTML='';
@@ -514,7 +515,7 @@ function toggleKeyFields(provider){
 $('#provider').onchange=()=>{ const p=$('#provider').value; fillModelOptions(p); toggleKeyFields(p); updateModelPrice(); };
 $('#model').onchange=updateModelPrice;
 
-async function loadConfig(){ const c=await (await fetch('/api/config')).json();
+async function loadConfig(){ const c=await (await fetch('/api/config')).json(); cfgState=c;
   for(const k of CFG){ const el=$('#'+k); if(!el||k==='model')continue;
     if(SECRET.has(k)){ el.value=''; el.placeholder=c[k]?'Actual: '+c[k]+' — escribe para cambiar':'(sin definir)'; }
     else el.value=c[k]??''; }
@@ -523,7 +524,17 @@ async function loadConfig(){ const c=await (await fetch('/api/config')).json();
   fillModelOptions(prov); $('#model').value=c.model||(MODELS[prov][0]&&MODELS[prov][0].id);
   toggleKeyFields(prov); updateModelPrice();
   loadUsage(); }
-async function saveConfig(){ const body={};
+async function saveConfig(){
+  // Aviso: si eliges un proveedor pero no hay su API key (ni puesta ni escrita ahora)
+  const prov=providerOf($('#model').value);
+  const keyField=prov==='claude'?'anthropicKey':'openaiKey';
+  const hayKey=$('#'+keyField).value.trim() || cfgState[keyField];
+  if(!hayKey){
+    const nombre=prov==='claude'?'Claude':'OpenAI';
+    const extra=prov==='claude'?'\\n\\nMientras tanto el bot seguirá respondiendo con OpenAI de respaldo.':'';
+    if(!confirm('⚠️ Has elegido '+nombre+' pero no hay API key de '+nombre+' puesta.\\nEl bot no usará '+nombre+' hasta que pegues la clave en el campo de arriba.'+extra+'\\n\\n¿Guardar igualmente?')) return;
+  }
+  const body={};
   for(const k of CFG){ const el=$('#'+k); if(!el)continue; if(SECRET.has(k)&&!el.value)continue; body[k]=el.value; }
   $('#saveConfig').disabled=true;
   await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});

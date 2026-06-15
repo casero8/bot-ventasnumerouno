@@ -62,11 +62,20 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
   const userText = String(texto || '').trim() || 'Hola';
 
   // ── Claude (Anthropic) ──
-  if (isClaudeModel(config.model)) {
+  // Solo usamos Claude si hay key de Claude. Si eligen un modelo claude-* pero
+  // no han pegado la key, NO dejamos morir el bot: respaldo automático a OpenAI.
+  let usarClaude = isClaudeModel(config.model);
+  if (usarClaude && !config.anthropicKey) {
+    console.warn('[Agente] Modelo Claude sin ANTHROPIC_API_KEY → respaldo automático a OpenAI (gpt-4o-mini). Pega la key de Claude en el panel para usarlo.');
+    usarClaude = false;
+  }
+  if (usarClaude) {
     return generarConClaude(system, history, userText, { subscriberId, nombre });
   }
 
   // ── OpenAI ──
+  // Si el modelo configurado es de Claude (respaldo), usamos un modelo OpenAI válido.
+  const openaiModel = isClaudeModel(config.model) ? 'gpt-4o-mini' : config.model;
   const messages = [
     { role: 'system', content: system },
     ...history,
@@ -76,12 +85,12 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
   // Bucle de herramientas (máx. 5 iteraciones)
   for (let i = 0; i < 5; i++) {
     const completion = await chatWithRetry({
-      model: config.model,
+      model: openaiModel,
       messages,
       tools: toolDefs,
       tool_choice: 'auto',
     });
-    recordUsage(config.model, completion.usage?.prompt_tokens || 0, completion.usage?.completion_tokens || 0);
+    recordUsage(openaiModel, completion.usage?.prompt_tokens || 0, completion.usage?.completion_tokens || 0);
 
     const msg = completion.choices[0].message;
 
