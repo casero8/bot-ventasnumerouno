@@ -70,6 +70,24 @@
 
     <hr>
 
+    <!-- ───────────── CONVERSACIONES ───────────── -->
+    <section>
+      <h2>💬 Conversaciones por contacto</h2>
+      <p class="help">Todo lo que ha hablado cada contacto, guardado por su ID. Haz clic en uno para ver el historial. <span id="conv-count"></span></p>
+      <div style="display:grid;grid-template-columns:300px 1fr;gap:14px;align-items:start;">
+        <div>
+          <input id="conv-search" placeholder="Buscar por nombre o ID…" style="width:100%;margin-bottom:8px;">
+          <div id="conv-list" style="max-height:360px;overflow:auto;"></div>
+          <button class="ghost small" id="conv-reload" style="margin-top:8px;">Actualizar</button>
+        </div>
+        <div id="conv-detail" style="background:#15181f;border:1px solid var(--border);border-radius:10px;padding:14px;min-height:200px;max-height:420px;overflow:auto;font-size:13px;">
+          <span style="color:var(--muted)">Selecciona un contacto a la izquierda.</span>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
     <!-- ───────────── CONFIGURACIÓN DEL NEGOCIO ───────────── -->
     <section>
       <h2>🏢 Configuración del negocio</h2>
@@ -460,7 +478,45 @@ async function loadDerivados(){
 }
 $('#deriv-reload').onclick=loadDerivados;
 
-loadDerivados(); loadSetup(); loadRules(); loadPrompt(); loadConfig(); loadStats(); setInterval(loadStats,10000); setInterval(loadDerivados,30000);
+/* ───── Conversaciones por contacto ───── */
+let convData={};
+function convFecha(iso){ try{return new Date(iso).toLocaleString('es-ES');}catch{return iso||'';} }
+function renderConvList(){
+  const q=($('#conv-search').value||'').toLowerCase().trim();
+  const box=$('#conv-list'); box.innerHTML='';
+  const items=Object.entries(convData)
+    .filter(([id,c])=>!id.startsWith('panel_test_'))
+    .filter(([id,c])=>!q||id.toLowerCase().includes(q)||String(c.name||'').toLowerCase().includes(q))
+    .sort((a,b)=>String(b[1].updatedAt||'').localeCompare(String(a[1].updatedAt||'')));
+  $('#conv-count').textContent=items.length?`(${items.length})`:'';
+  if(!items.length){ box.innerHTML='<p class="help" style="margin:0">Sin conversaciones.</p>'; return; }
+  items.forEach(([id,c])=>{
+    const d=document.createElement('div'); d.className='card'; d.style.cssText='padding:10px;margin-bottom:6px;cursor:pointer;';
+    d.innerHTML=`<div style="font-weight:600;font-size:13px;">${(c.name||'Sin nombre').replace(/</g,'&lt;')}</div>
+      <div style="font-size:11px;color:var(--muted)">ID ${id} · ${(c.messages||[]).length} msj · ${convFecha(c.updatedAt)}</div>`;
+    d.onclick=()=>renderConvDetail(id);
+    box.appendChild(d);
+  });
+}
+function renderConvDetail(id){
+  const c=convData[id]; const box=$('#conv-detail');
+  if(!c){ box.innerHTML='<span style="color:var(--muted)">No encontrado.</span>'; return; }
+  const msgs=(c.messages||[]).map(m=>{
+    const who=m.role==='user'?'Lead':'Agente';
+    const col=m.role==='user'?'var(--accent)':'#2a2f3a';
+    return `<div style="margin:5px 0;display:flex;justify-content:${m.role==='user'?'flex-end':'flex-start'}"><div style="max-width:80%;padding:7px 11px;border-radius:11px;white-space:pre-wrap;background:${col};color:#fff">${String(m.content||'').replace(/</g,'&lt;')}</div></div>`;
+  }).join('');
+  box.innerHTML=`<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <b>${(c.name||'Sin nombre').replace(/</g,'&lt;')}</b><span style="font-size:11px;color:var(--muted)">ID ${id}</span>
+      <button class="ghost small" style="margin-left:auto" onclick="resetConv('${id}')">Reiniciar</button>
+    </div>${msgs||'<span style="color:var(--muted)">Sin mensajes.</span>'}`;
+}
+window.resetConv=async(id)=>{ await fetch('/api/reset/'+encodeURIComponent(id),{method:'POST'}); await loadConversaciones(); renderConvDetail(id); };
+async function loadConversaciones(){ try{ convData=await (await fetch('/api/conversations')).json(); }catch{ convData={}; } renderConvList(); }
+$('#conv-reload').onclick=loadConversaciones;
+$('#conv-search').addEventListener('input',renderConvList);
+
+loadDerivados(); loadConversaciones(); loadSetup(); loadRules(); loadPrompt(); loadConfig(); loadStats(); setInterval(loadStats,10000); setInterval(loadDerivados,30000);
 </script>
 </body>
 </html>
