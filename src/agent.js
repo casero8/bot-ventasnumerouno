@@ -70,7 +70,13 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
     usarClaude = false;
   }
   if (usarClaude) {
-    return generarConClaude(system, history, userText, { subscriberId, nombre });
+    try {
+      return await generarConClaude(system, history, userText, { subscriberId, nombre });
+    } catch (e) {
+      // Si Claude falla, NO dejamos mudo al bot: respaldo a OpenAI si hay key.
+      console.error('[Claude] falló →', e.status || '', e.message, config.openaiKey ? '· respaldo a OpenAI' : '· sin OpenAI de respaldo');
+      if (!config.openaiKey) throw e;
+    }
   }
 
   // ── OpenAI ──
@@ -124,8 +130,10 @@ async function generarConClaude(system, history, userText, ctx) {
     try {
       resp = await client.messages.create({
         model: config.model,
-        max_tokens: 1024,
-        system,
+        max_tokens: 600,
+        // Caché de prompt: el system (prompt + reglas + formato) es idéntico en cada
+        // mensaje de la conversación → se cachea y a partir del 2º cuesta ~10%.
+        system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
         messages,
         tools: toolDefsClaude,
       });
@@ -133,7 +141,12 @@ async function generarConClaude(system, history, userText, ctx) {
       console.error('[Claude]', e.status || '', e.message);
       throw e;
     }
-    recordUsage(config.model, resp.usage?.input_tokens || 0, resp.usage?.output_tokens || 0);
+    // Coste real con caché: lecturas de caché cuestan 0,1x y la escritura 1,25x.
+    const u = resp.usage || {};
+    const inputEfectivo = (u.input_tokens || 0)
+      + (u.cache_creation_input_tokens || 0) * 1.25
+      + (u.cache_read_input_tokens || 0) * 0.10;
+    recordUsage(config.model, Math.round(inputEfectivo), u.output_tokens || 0);
 
     if (resp.stop_reason === 'tool_use') {
       messages.push({ role: 'assistant', content: resp.content });
