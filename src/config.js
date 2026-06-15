@@ -9,6 +9,7 @@ const SETTINGS_FILE = path.join(__dirname, '../data/settings.json');
 // Valores base desde .env
 const base = {
   openaiKey:        process.env.OPENAI_API_KEY || '',
+  anthropicKey:     process.env.ANTHROPIC_API_KEY || '',  // para usar modelos Claude
   model:            process.env.OPENAI_MODEL            || 'gpt-5.1',
   visionModel:      process.env.OPENAI_VISION_MODEL     || 'gpt-4o-mini',
   transcribeModel:  process.env.OPENAI_TRANSCRIBE_MODEL || 'whisper-1',
@@ -57,7 +58,7 @@ export const config = { ...base, ...readSettingsFile() };
 
 // Campos que se pueden editar desde el panel (NO el puerto, requiere reinicio)
 export const EDITABLE = [
-  'openaiKey', 'model', 'visionModel', 'transcribeModel',
+  'openaiKey', 'anthropicKey', 'model', 'visionModel', 'transcribeModel',
   'manychatToken', 'manychatChannel',
   'whatsappOutboundUrl', 'whatsappOutboundToken',
   'webhookToken', 'bufferSeconds', 'secondsPerLetter', 'memoryWindow',
@@ -66,7 +67,7 @@ export const EDITABLE = [
 ];
 
 // Campos que se enmascaran al mostrarlos (no se devuelven en claro)
-export const SECRETS = ['openaiKey', 'manychatToken', 'whatsappOutboundToken'];
+export const SECRETS = ['openaiKey', 'anthropicKey', 'manychatToken', 'whatsappOutboundToken'];
 
 // Guarda cambios: persiste en settings.json y los aplica en caliente
 export function updateConfig(patch) {

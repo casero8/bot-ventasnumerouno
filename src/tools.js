@@ -23,6 +23,13 @@ export const toolDefs = [
   },
 ];
 
+// Mismas herramientas en formato Anthropic (Claude usa input_schema en vez de parameters).
+export const toolDefsClaude = toolDefs.map(t => ({
+  name: t.function.name,
+  description: t.function.description,
+  input_schema: t.function.parameters,
+}));
+
 // Ejecuta la herramienta y devuelve un string (lo que el modelo recibe como tool result).
 export function runTool(name, args, ctx = {}) {
   if (name === 'buscar_recurso_por_cta') {

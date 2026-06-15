@@ -1,9 +1,10 @@
 import { config } from './config.js';
 import { getClient } from './openaiClient.js';
+import { getAnthropic, isClaudeModel } from './anthropicClient.js';
 import { getPrompt, renderPrompt } from './prompt.js';
 import { rulesBlock } from './rules.js';
 import { getHistory } from './store.js';
-import { toolDefs, runTool } from './tools.js';
+import { toolDefs, toolDefsClaude, runTool } from './tools.js';
 
 // Instrucción de formato que se añade al prompt en tiempo de ejecución.
 // Equivale al "Structured Output Parser" del workflow (response.part_1 ... part_10).
@@ -58,10 +59,18 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
     m && (m.role === 'user' || m.role === 'assistant') &&
     typeof m.content === 'string' && m.content.trim().length);
 
+  const userText = String(texto || '').trim() || 'Hola';
+
+  // ── Claude (Anthropic) ──
+  if (isClaudeModel(config.model)) {
+    return generarConClaude(system, history, userText, { subscriberId, nombre });
+  }
+
+  // ── OpenAI ──
   const messages = [
     { role: 'system', content: system },
     ...history,
-    { role: 'user', content: String(texto || '').trim() || 'Hola' },
+    { role: 'user', content: userText },
   ];
 
   // Bucle de herramientas (máx. 5 iteraciones)
@@ -89,6 +98,48 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
     return parseParts(msg.content || '');
   }
 
+  return [];
+}
+
+// Genera la respuesta con Claude (Anthropic Messages API).
+async function generarConClaude(system, history, userText, ctx) {
+  const client = getAnthropic();
+  const messages = [
+    ...history.map(m => ({ role: m.role, content: m.content })),
+    { role: 'user', content: userText },
+  ];
+
+  for (let i = 0; i < 5; i++) {
+    let resp;
+    try {
+      resp = await client.messages.create({
+        model: config.model,
+        max_tokens: 1024,
+        system,
+        messages,
+        tools: toolDefsClaude,
+      });
+    } catch (e) {
+      console.error('[Claude]', e.status || '', e.message);
+      throw e;
+    }
+
+    if (resp.stop_reason === 'tool_use') {
+      messages.push({ role: 'assistant', content: resp.content });
+      const results = [];
+      for (const block of resp.content) {
+        if (block.type === 'tool_use') {
+          const out = runTool(block.name, block.input || {}, ctx);
+          results.push({ type: 'tool_result', tool_use_id: block.id, content: out });
+        }
+      }
+      messages.push({ role: 'user', content: results });
+      continue;
+    }
+
+    const text = (resp.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
+    return parseParts(text);
+  }
   return [];
 }
 
