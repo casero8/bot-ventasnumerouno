@@ -202,18 +202,7 @@ async function handleIncoming(id, name, rawText, channel) {
   });
 }
 
-// Serializa las respuestas por usuario: nunca dos a la vez para el mismo lead
-// (evita respuestas solapadas que corromperían el historial).
-const userLocks = new Map();
 async function responder(id, name, joined, channel) {
-  const prev = userLocks.get(id) || Promise.resolve();
-  const run = prev.catch(() => {}).then(() => responderInner(id, name, joined, channel));
-  userLocks.set(id, run);
-  try { await run; }
-  finally { if (userLocks.get(id) === run) userLocks.delete(id); }
-}
-
-async function responderInner(id, name, joined, channel) {
   console.log(`💬 [${channel}·${name || id}] → ${joined}`);
   let parts;
   try {
