@@ -210,9 +210,15 @@ async function responder(id, name, joined, channel) {
     parts = await generarRespuesta(id, name, joined);
   } catch (e) {
     console.error(`[agente] Error generando respuesta para ${id}:`, e.status || '', e.message);
+    parts = [];
+  }
+  // Nunca dejamos al lead colgado: si no hay respuesta, mandamos un mensaje de cortesía
+  // (así la conversación no se "queda parada" aunque falle el modelo).
+  if (!parts.length) {
+    console.warn(`[agente] Sin respuesta (0 partes) para ${id} → envío mensaje de cortesía`);
+    await deliver(channel, id, 'Perdona, se me cruzaron los cables un segundo 😅 ¿me lo repites?');
     return;
   }
-  if (!parts.length) { console.warn(`[agente] Sin respuesta (0 partes) para ${id}`); return; }
 
   // 1) Pausa de "lectura" antes de empezar a responder (como una persona real)
   await sleep(readingDelay());
