@@ -176,6 +176,14 @@ app.post('/webhook/manychat', (req, res) => {
 async function handleIncoming(id, name, rawText, channel) {
   bumpStat('mensajes_entrantes');
 
+  // Comando para reiniciar la conversación (escribiendo "/reset" por el chat)
+  if (String(rawText).trim().toLowerCase() === '/reset') {
+    resetConversation(id);
+    await deliver(channel, id, '🔄 Conversación reiniciada. Empezamos de cero.');
+    console.log(`♻️  Conversación reiniciada para ${id}`);
+    return;
+  }
+
   // Si llega media (audio/imagen como URL), la convertimos a texto primero
   let text = rawText;
   if (isUrl(rawText)) {
