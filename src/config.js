@@ -33,6 +33,10 @@ const base = {
   smtpPass:     process.env.SMTP_PASS || '',
   smtpFrom:     process.env.SMTP_FROM || '',
 
+  // Ritmo de respuesta (preset): instantaneo | rapido | natural | lento | manual.
+  // Si NO es 'manual', manda sobre los tiempos de abajo (buffer, lectura, tipeo…).
+  ritmo:            process.env.RITMO || 'natural',
+
   bufferSeconds:    parseFloat(process.env.BUFFER_SECONDS || '8'),
   secondsPerLetter: parseFloat(process.env.TYPING_SECONDS_PER_LETTER || '0.045'),
 
@@ -61,7 +65,7 @@ export const EDITABLE = [
   'openaiKey', 'anthropicKey', 'model', 'visionModel', 'transcribeModel',
   'manychatToken', 'manychatChannel',
   'whatsappOutboundUrl', 'whatsappOutboundToken',
-  'webhookToken', 'bufferSeconds', 'secondsPerLetter', 'memoryWindow',
+  'webhookToken', 'ritmo', 'bufferSeconds', 'secondsPerLetter', 'memoryWindow',
   'readingMinSeconds', 'readingMaxSeconds', 'typingMinSeconds', 'typingMaxSeconds',
   'partPauseMinSeconds', 'partPauseMaxSeconds',
 ];

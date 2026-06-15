@@ -247,6 +247,15 @@
         <div class="field"><label>Modelo</label>
           <select id="model"></select>
         </div>
+        <div class="field"><label>Ritmo de respuesta <span class="hint">(cómo de rápido contesta)</span></label>
+          <select id="ritmo">
+            <option value="instantaneo">⚡ Instantáneo (sin esperas)</option>
+            <option value="rapido">🙂 Rápido</option>
+            <option value="natural">👤 Natural (recomendado)</option>
+            <option value="lento">🐢 Lento (muy humano)</option>
+            <option value="manual">⚙️ Manual (uso los tiempos de abajo)</option>
+          </select>
+        </div>
         <div class="field full">
           <div id="modelPrice" style="background:#0f172a;border:1px solid #1f2a44;border-radius:8px;padding:10px 12px;color:#cbd5e1;font-size:13px"></div>
         </div>
@@ -280,7 +289,7 @@
     <section>
       <details>
         <summary>⚙️ Ajustes avanzados (ManyChat, tiempos, webhook)</summary>
-        <p class="help">Se guarda en <code>data/settings.json</code> y se aplica en caliente. No hace falta tocarlo normalmente.</p>
+        <p class="help">Se guarda en <code>data/settings.json</code> y se aplica en caliente. No hace falta tocarlo normalmente. <b>Los tiempos de abajo solo se usan si pones el Ritmo en «Manual».</b></p>
         <div class="grid" style="margin-top:12px">
           <div class="field"><label>Canal de ManyChat</label>
             <select id="manychatChannel"><option value="instagram">instagram</option><option value="whatsapp">whatsapp</option><option value="telegram">telegram</option></select>
@@ -486,7 +495,7 @@ $('#savePrompt').onclick=savePrompt; $('#reloadPrompt').onclick=loadPrompt;
 document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();savePrompt();}});
 
 /* ───── Config técnica ───── */
-const CFG=['openaiKey','anthropicKey','model','visionModel','transcribeModel','manychatToken','manychatChannel','whatsappOutboundUrl','whatsappOutboundToken','bufferSeconds','secondsPerLetter','memoryWindow','webhookToken','readingMinSeconds','readingMaxSeconds','typingMinSeconds','typingMaxSeconds','partPauseMinSeconds','partPauseMaxSeconds'];
+const CFG=['openaiKey','anthropicKey','model','ritmo','visionModel','transcribeModel','manychatToken','manychatChannel','whatsappOutboundUrl','whatsappOutboundToken','bufferSeconds','secondsPerLetter','memoryWindow','webhookToken','readingMinSeconds','readingMaxSeconds','typingMinSeconds','typingMaxSeconds','partPauseMinSeconds','partPauseMaxSeconds'];
 const SECRET=new Set(['openaiKey','anthropicKey','manychatToken','whatsappOutboundToken']);
 
 /* Catálogo de modelos por proveedor (id + etiqueta + precio orientativo) */

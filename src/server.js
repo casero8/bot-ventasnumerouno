@@ -211,7 +211,7 @@ async function handleIncoming(id, name, rawText, channel) {
   if (!text.trim()) return;
 
   // Buffer: agrupamos mensajes seguidos antes de responder una sola vez
-  bufferMessage(id, text, config.bufferSeconds * 1000, (joined) => runResponder(id, name, joined, channel));
+  bufferMessage(id, text, T().buffer * 1000, (joined) => runResponder(id, name, joined, channel));
 }
 
 // Envíos en curso: los rastreamos para terminarlos antes de apagar (evita cortes en reinicios).
@@ -266,22 +266,45 @@ async function responder(id, name, joined, channel) {
 
 const rand = (min, max) => (min + Math.random() * Math.max(0, max - min)) * 1000;
 
+// Presets de ritmo. Cada uno define: buffer, lectura, tipeo (por letra y topes) y pausa.
+const RITMOS = {
+  instantaneo: { buffer: 0.5, readMin: 0,   readMax: 0,   perLetter: 0,     typeMin: 0,   typeMax: 0,  pauseMin: 0.2, pauseMax: 0.4 },
+  rapido:      { buffer: 2,   readMin: 0.4, readMax: 1.2, perLetter: 0.02,  typeMin: 0.4, typeMax: 3,  pauseMin: 0.3, pauseMax: 0.7 },
+  natural:     { buffer: 3,   readMin: 0.8, readMax: 2.2, perLetter: 0.03,  typeMin: 0.7, typeMax: 5,  pauseMin: 0.5, pauseMax: 1.1 },
+  lento:       { buffer: 6,   readMin: 2,   readMax: 5,   perLetter: 0.045, typeMin: 1.5, typeMax: 10, pauseMin: 0.8, pauseMax: 2 },
+};
+
+// Tiempos efectivos: si hay preset (ritmo != 'manual') manda; si no, los campos manuales.
+function T() {
+  const r = config.ritmo && config.ritmo !== 'manual' ? RITMOS[config.ritmo] : null;
+  if (r) return r;
+  return {
+    buffer: config.bufferSeconds,
+    readMin: config.readingMinSeconds, readMax: config.readingMaxSeconds,
+    perLetter: config.secondsPerLetter, typeMin: config.typingMinSeconds, typeMax: config.typingMaxSeconds,
+    pauseMin: config.partPauseMinSeconds, pauseMax: config.partPauseMaxSeconds,
+  };
+}
+
 // Pausa de lectura antes de la primera respuesta
 function readingDelay() {
-  return rand(config.readingMinSeconds, config.readingMaxSeconds);
+  const t = T();
+  return rand(t.readMin, t.readMax);
 }
 
 // Pausa entre mensajes consecutivos
 function betweenPartsDelay() {
-  return rand(config.partPauseMinSeconds, config.partPauseMaxSeconds);
+  const t = T();
+  return rand(t.pauseMin, t.pauseMax);
 }
 
 // Tiempo de "tipeo" por parte: nº de letras * segundos/letra (+ algo de variación)
 function typingDelay(text) {
+  const t = T();
   const letters = (text || '').replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜçÇ]/g, '').length;
-  const base = letters * config.secondsPerLetter * (0.85 + Math.random() * 0.3);
+  const base = letters * t.perLetter * (0.85 + Math.random() * 0.3);
   const ms = base * 1000;
-  return Math.min(Math.max(ms, config.typingMinSeconds * 1000), config.typingMaxSeconds * 1000);
+  return Math.min(Math.max(ms, t.typeMin * 1000), t.typeMax * 1000);
 }
 
 export function startServer() {
