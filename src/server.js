@@ -15,7 +15,7 @@ import { deliver } from './delivery.js';
 import { processMedia, isUrl } from './media.js';
 import {
   bufferMessage, addMessages, resetConversation,
-  allConversations, getStats, bumpStat, getUsage,
+  allConversations, getStats, bumpStat, getUsage, flushAllBuffers,
 } from './store.js';
 
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
@@ -211,13 +211,19 @@ async function handleIncoming(id, name, rawText, channel) {
   if (!text.trim()) return;
 
   // Buffer: agrupamos mensajes seguidos antes de responder una sola vez
-  bufferMessage(id, text, config.bufferSeconds * 1000, async (joined) => {
-    try {
-      await responder(id, name, joined, channel);
-    } catch (e) {
-      console.error('[responder]', e);
-    }
-  });
+  bufferMessage(id, text, config.bufferSeconds * 1000, (joined) => runResponder(id, name, joined, channel));
+}
+
+// Envíos en curso: los rastreamos para terminarlos antes de apagar (evita cortes en reinicios).
+const inflight = new Set();
+function runResponder(id, name, joined, channel) {
+  const p = (async () => {
+    try { await responder(id, name, joined, channel); }
+    catch (e) { console.error('[responder]', e); }
+  })();
+  inflight.add(p);
+  p.finally(() => inflight.delete(p));
+  return p;
 }
 
 async function responder(id, name, joined, channel) {
@@ -279,9 +285,27 @@ function typingDelay(text) {
 }
 
 export function startServer() {
-  app.listen(config.port, () => {
+  const server = app.listen(config.port, () => {
     console.log(`\n✅ Agente Instagram activo en http://localhost:${config.port}`);
     console.log(`   • Webhook ManyChat:  POST http://localhost:${config.port}/webhook/manychat`);
     console.log(`   • Editar el prompt:  http://localhost:${config.port}/\n`);
   });
+
+  // Apagado con gracia: al recibir SIGTERM (reinicio/deploy de EasyPanel) NO cortamos
+  // de golpe — vaciamos buffers y terminamos los envíos en curso antes de salir.
+  let cerrando = false;
+  const shutdown = async (sig) => {
+    if (cerrando) return; cerrando = true;
+    console.log(`\n🛑 ${sig} recibido — apagando con gracia (${inflight.size} en curso). Terminando envíos…`);
+    server.close();
+    try { flushAllBuffers(); } catch {}
+    await Promise.race([
+      Promise.allSettled([...inflight]),
+      new Promise(r => setTimeout(r, 9000)),   // como mucho 9s (dentro del margen de Docker)
+    ]);
+    console.log('✅ Apagado limpio.');
+    process.exit(0);
+  };
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT',  () => shutdown('SIGINT'));
 }

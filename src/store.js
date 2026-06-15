@@ -60,6 +60,7 @@ export function bufferMessage(id, text, waitMs, onFlush, maxWaitMs = 20000) {
   let b = buffers.get(id);
   if (!b) { b = { parts: [], timer: null, first: Date.now() }; buffers.set(id, b); }
   if (text && text.trim()) b.parts.push(text.trim());
+  b.onFlush = onFlush;                       // guardado para poder vaciar al cerrar
   if (b.timer) clearTimeout(b.timer);
   // Tope: aunque el lead siga escribiendo, respondemos como muy tarde a los maxWaitMs.
   const wait = Math.min(waitMs, Math.max(0, maxWaitMs - (Date.now() - b.first)));
@@ -68,6 +69,19 @@ export function bufferMessage(id, text, waitMs, onFlush, maxWaitMs = 20000) {
     buffers.delete(id);
     onFlush(joined);
   }, wait);
+}
+
+// Vacía YA todos los buffers pendientes (al apagar el servidor con gracia).
+// Devuelve las promesas de los onFlush para poder esperarlas.
+export function flushAllBuffers() {
+  const pend = [];
+  for (const [id, b] of [...buffers]) {
+    if (b.timer) clearTimeout(b.timer);
+    buffers.delete(id);
+    const joined = b.parts.join(' ').trim();
+    if (joined && b.onFlush) { try { pend.push(b.onFlush(joined)); } catch {} }
+  }
+  return pend;
 }
 
 /* ───────────────── Estadísticas diarias (equivale a agent_daily_stats) ───────────────── */
