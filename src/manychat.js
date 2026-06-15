@@ -19,21 +19,26 @@ export async function sendText(subscriberId, text, channel = config.manychatChan
     },
   };
 
-  const res = await fetch(API, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${config.manychatToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-
-  if (!res.ok) {
-    const t = await res.text().catch(() => '');
-    console.error(`[ManyChat] Error ${res.status} enviando a ${subscriberId}: ${t}`);
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${config.manychatToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) {
+      const t = await res.text().catch(() => '');
+      console.error(`[ManyChat] Error ${res.status} enviando a ${subscriberId}: ${t}`);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.error(`[ManyChat] Fallo enviando a ${subscriberId}: ${e.message}`);
     return false;
   }
-  return true;
 }
 
 // Obtiene info del suscriptor (réplica de "Obtengo Info de Lead").
