@@ -52,15 +52,21 @@ function parseParts(content) {
 export async function generarRespuesta(subscriberId, nombre, texto) {
   const system = renderPrompt(getPrompt(), { nombre }) + rulesBlock() + FORMATO;
 
+  // Saneamos el historial: solo mensajes válidos (evita que una entrada corrupta
+  // rompa TODAS las llamadas siguientes y el bot deje de contestar).
+  const history = getHistory(subscriberId).filter(m =>
+    m && (m.role === 'user' || m.role === 'assistant') &&
+    typeof m.content === 'string' && m.content.trim().length);
+
   const messages = [
     { role: 'system', content: system },
-    ...getHistory(subscriberId),
-    { role: 'user', content: texto },
+    ...history,
+    { role: 'user', content: String(texto || '').trim() || 'Hola' },
   ];
 
   // Bucle de herramientas (máx. 5 iteraciones)
   for (let i = 0; i < 5; i++) {
-    const completion = await getClient().chat.completions.create({
+    const completion = await chatWithRetry({
       model: config.model,
       messages,
       tools: toolDefs,
@@ -84,4 +90,25 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
   }
 
   return [];
+}
+
+// Llama a OpenAI con reintentos ante errores transitorios (429, 5xx, red).
+async function chatWithRetry(params, tries = 3) {
+  let lastErr;
+  for (let i = 0; i < tries; i++) {
+    try {
+      return await getClient().chat.completions.create(params);
+    } catch (e) {
+      lastErr = e;
+      const status = e?.status;
+      // No reintentar errores de cliente no transitorios (400, 401, 403, 404...)
+      if (status && status >= 400 && status < 500 && status !== 429) {
+        console.error('[OpenAI]', status, e.message);
+        break;
+      }
+      console.warn(`[OpenAI] reintento ${i + 1}/${tries} (${status || e.message})`);
+      await new Promise(r => setTimeout(r, 800 * (i + 1)));
+    }
+  }
+  throw lastErr;
 }

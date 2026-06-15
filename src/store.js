@@ -28,7 +28,8 @@ export function addMessages(id, name, newMsgs) {
   const all = read(CONV, {});
   const conv = all[id] || { name, messages: [] };
   if (name) conv.name = name;
-  conv.messages.push(...newMsgs);
+  // Nunca guardamos mensajes vacíos/ inválidos (rompen las llamadas futuras a OpenAI)
+  conv.messages.push(...newMsgs.filter(m => m && (m.role === 'user' || m.role === 'assistant') && String(m.content || '').trim()));
   // Ventana de memoria: conservamos los últimos N mensajes
   if (conv.messages.length > config.memoryWindow) {
     conv.messages = conv.messages.slice(-config.memoryWindow);
@@ -55,16 +56,18 @@ export function allConversations() {
    Agrupa varios mensajes seguidos del mismo lead antes de responder una sola vez.        */
 const buffers = new Map(); // id -> { parts:[], timer, resolve }
 
-export function bufferMessage(id, text, waitMs, onFlush) {
+export function bufferMessage(id, text, waitMs, onFlush, maxWaitMs = 20000) {
   let b = buffers.get(id);
-  if (!b) { b = { parts: [], timer: null }; buffers.set(id, b); }
+  if (!b) { b = { parts: [], timer: null, first: Date.now() }; buffers.set(id, b); }
   if (text && text.trim()) b.parts.push(text.trim());
   if (b.timer) clearTimeout(b.timer);
+  // Tope: aunque el lead siga escribiendo, respondemos como muy tarde a los maxWaitMs.
+  const wait = Math.min(waitMs, Math.max(0, maxWaitMs - (Date.now() - b.first)));
   b.timer = setTimeout(() => {
     const joined = b.parts.join(' ').trim();
     buffers.delete(id);
     onFlush(joined);
-  }, waitMs);
+  }, wait);
 }
 
 /* ───────────────── Estadísticas diarias (equivale a agent_daily_stats) ───────────────── */
