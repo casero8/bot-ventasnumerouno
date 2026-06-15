@@ -200,15 +200,14 @@
 
     <hr>
 
-    <!-- ───────────── CTAs / LINKS ───────────── -->
+    <!-- ───────────── RECURSOS / ENLACES ───────────── -->
     <section>
-      <h2>🔗 CTAs / Links que envía el agente</h2>
-      <p class="help">La <b>palabra clave</b> conecta con los segmentos de arriba. El agente envía el <b>link</b> siguiendo las <b>instrucciones</b>.</p>
-      <div class="cta-head"><span>Palabra clave</span><span>Instrucciones</span><span>Link / recurso</span><span></span></div>
+      <h2>📅 Recursos y enlaces que envía el agente</h2>
+      <p class="help">Configura aquí el <b>calendario</b>, el <b>formulario</b>, la <b>academia</b>… Cada recurso tiene un <b>cuándo enviarlo</b> y un <b>link</b>. El agente lo manda en ese momento. (Las <b>palabras clave</b> conectan con los segmentos de arriba.)</p>
       <div id="ctaList"></div>
       <div class="bar">
-        <button class="ghost small" id="addCta">+ Añadir CTA</button>
-        <button id="saveCtas">Guardar CTAs</button>
+        <button class="ghost small" id="addCta">+ Añadir recurso</button>
+        <button id="saveCtas">Guardar recursos</button>
         <span class="msg" id="msgCtas">✓ Guardado</span>
       </div>
     </section>
@@ -429,16 +428,27 @@ async function saveConfig(){ const body={};
   $('#saveConfig').disabled=false; flash($('#msgConfig')); loadConfig(); }
 $('#saveConfig').onclick=saveConfig;
 
-/* ───── CTAs ───── */
-function ctaRow(c={}){ const d=document.createElement('div'); d.className='cta-row';
-  d.innerHTML=`<input class="c-key" placeholder="formulario"><input class="c-ins" placeholder="Envía el link y dile que…"><input class="c-res" placeholder="https://…"><button class="x">✕</button>`;
-  d.querySelector('.c-key').value=c.accionable||''; d.querySelector('.c-ins').value=c.instrucciones||''; d.querySelector('.c-res').value=c.recurso||'';
-  d.querySelector('.x').onclick=()=>d.remove(); return d; }
+/* ───── Recursos / enlaces ───── */
+function ctaRow(c={}){ const d=document.createElement('div'); d.className='card'; d.style.cssText='padding:14px;margin-bottom:10px;';
+  d.innerHTML=`
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;"><input class="c-nom" placeholder="Nombre (ej: Calendario / Agenda)" style="font-weight:600;flex:1;"><button class="x c-del">✕</button></div>
+    <div class="grid">
+      <div class="field"><label>Palabras clave <span class="hint">(separadas por coma)</span></label><input class="c-key" placeholder="agenda, agendar, cita, llamada"></div>
+      <div class="field"><label>Link / recurso</label><input class="c-res" placeholder="https://cal.com/tu-link"></div>
+      <div class="field full"><label>¿Cuándo enviarlo?</label><input class="c-when" placeholder="el lead acepta la llamada de admisión"></div>
+      <div class="field full"><label>Mensaje al enviarlo</label><input class="c-ins" placeholder="Pásale el link para que elija hueco"></div>
+    </div>`;
+  d.querySelector('.c-nom').value=c.nombre||''; d.querySelector('.c-key').value=c.accionable||'';
+  d.querySelector('.c-res').value=c.recurso||''; d.querySelector('.c-when').value=c.cuando||'';
+  d.querySelector('.c-ins').value=c.mensaje||c.instrucciones||'';
+  d.querySelector('.c-del').onclick=()=>d.remove(); return d; }
 async function loadCtas(){ const l=await (await fetch('/api/ctas')).json(); const b=$('#ctaList'); b.innerHTML='';
   (l.length?l:[{}]).forEach(c=>b.appendChild(ctaRow(c))); }
-async function saveCtas(){ const rows=[...document.querySelectorAll('.cta-row')].map(r=>({
-    accionable:r.querySelector('.c-key').value.trim(), instrucciones:r.querySelector('.c-ins').value.trim(), recurso:r.querySelector('.c-res').value.trim(),
-  })).filter(c=>c.accionable);
+async function saveCtas(){ const rows=[...document.querySelectorAll('#ctaList .card')].map(r=>({
+    nombre:r.querySelector('.c-nom').value.trim(), accionable:r.querySelector('.c-key').value.trim(),
+    cuando:r.querySelector('.c-when').value.trim(), mensaje:r.querySelector('.c-ins').value.trim(),
+    recurso:r.querySelector('.c-res').value.trim(),
+  })).filter(c=>c.nombre||c.accionable);
   $('#saveCtas').disabled=true;
   await fetch('/api/ctas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(rows)});
   $('#saveCtas').disabled=false; flash($('#msgCtas')); }

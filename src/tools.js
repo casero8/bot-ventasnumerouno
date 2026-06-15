@@ -1,17 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { bumpStat, getHistory } from './store.js';
 import { addDerivado } from './derivados.js';
 import { sendDerivationEmail } from './email.js';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CTAS_FILE = path.join(__dirname, '../data/ctas.json');
-
-function loadCtas() {
-  try { return JSON.parse(fs.readFileSync(CTAS_FILE, 'utf-8')); }
-  catch { return []; }
-}
+import { findResource } from './resources.js';
 
 // Definición de herramientas que el agente puede llamar (function calling).
 // Réplica de los tool-workflows "Buscar Recursos por CTA" y "Derivar".
@@ -50,14 +40,16 @@ export const toolDefs = [
 // Ejecuta la herramienta y devuelve un string (lo que el modelo recibe como tool result).
 export function runTool(name, args, ctx = {}) {
   if (name === 'buscar_recurso_por_cta') {
-    const q = String(args.palabra || '').toLowerCase().trim();
-    const ctas = loadCtas();
-    const hit = ctas.find(c =>
-      q.includes(String(c.accionable).toLowerCase()) ||
-      String(c.accionable).toLowerCase().includes(q));
+    const hit = findResource(args.palabra);
     if (!hit) return JSON.stringify({ encontrado: false, mensaje: 'No hay un recurso para eso. No envíes ningún link.' });
     bumpStat('ctas_enviados');
-    return JSON.stringify({ encontrado: true, instrucciones: hit.instrucciones, recurso: hit.recurso });
+    return JSON.stringify({
+      encontrado: true,
+      nombre: hit.nombre || '',
+      cuando: hit.cuando || '',
+      instrucciones: hit.mensaje || hit.instrucciones || '',
+      recurso: hit.recurso || '',
+    });
   }
 
   if (name === 'derivar') {
