@@ -236,7 +236,7 @@
     <!-- ───────────── APRENDIZAJE ───────────── -->
     <section>
       <h2 style="margin:0 0 4px">📈 Aprendizaje</h2>
-      <p class="help">El sistema marca como <b>agenda</b> las conversaciones en las que enviaste el enlace de agenda/formulario. La IA compara las que agendan con las que no, y te propone mejoras que tú apruebas.</p>
+      <p class="help">El sistema marca como <b>agenda</b> las conversaciones en las que se envió el enlace de agenda/formulario. La IA compara las que agendan con las que no y propone mejoras que tú apruebas. Se genera <b>solo cada semana</b> y queda aquí; también puedes lanzarlo a mano cuando quieras.</p>
 
       <div style="margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
         <div style="background:#0f172a;border:1px solid #1f2a44;border-radius:10px;padding:12px">
@@ -369,33 +369,42 @@ document.querySelectorAll('.tabbar button').forEach(b=>{
 });
 
 /* ───── Aprendizaje ───── */
-async function loadInsights(){ try{ const r=await (await fetch('/api/insights/resumen')).json();
-  $('#insTotal').textContent=r.total||0; $('#insAgenda').textContent=r.agenda||0; $('#insTasa').textContent=(r.tasa||0)+'%';
-}catch{} }
+async function loadInsights(){
+  try{ const r=await (await fetch('/api/insights/resumen')).json();
+    $('#insTotal').textContent=r.total||0; $('#insAgenda').textContent=r.agenda||0; $('#insTasa').textContent=(r.tasa||0)+'%';
+  }catch{}
+  try{ const u=await (await fetch('/api/insights/ultimo')).json();
+    if(u && u.informe) renderInforme(u); }catch{}
+}
 function addRuleFromText(text){
   rules.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),text,active:true,createdAt:new Date().toISOString()});
   saveRules(); renderRules();
 }
+function renderInforme(r){
+  const fecha = r.fecha ? new Date(r.fecha).toLocaleString('es-ES') : '';
+  $('#insInforme').textContent=(fecha?('🗓️ Último análisis: '+fecha+'\n\n'):'')+(r.informe||'Sin informe.');
+  $('#insInforme').style.display='block';
+  $('#insSugs').innerHTML='';
+  if(r.sugerencias && r.sugerencias.length){
+    const head=document.createElement('p'); head.className='help'; head.style.margin='10px 0 6px';
+    head.textContent='Mejoras propuestas (añádelas a Ajustes si te convencen):';
+    $('#insSugs').appendChild(head);
+    r.sugerencias.forEach(s=>{
+      const row=document.createElement('div'); row.style.cssText='display:flex;gap:8px;align-items:center;margin:6px 0;background:#0f172a;border:1px solid #1f2a44;border-radius:8px;padding:8px 10px';
+      const txt=document.createElement('div'); txt.style.cssText='flex:1;color:#e2e8f0;font-size:13px'; txt.textContent=s;
+      const add=document.createElement('button'); add.className='small'; add.textContent='➕ Añadir';
+      add.onclick=()=>{ addRuleFromText(s); add.textContent='✓ Añadido'; add.disabled=true; };
+      row.appendChild(txt); row.appendChild(add); $('#insSugs').appendChild(row);
+    });
+  }
+}
 $('#analizar').onclick=async()=>{
   const btn=$('#analizar'), m=$('#msgInsights');
   btn.disabled=true; m.style.color='#94a3b8'; m.textContent='Analizando… (unos segundos)';
-  $('#insInforme').style.display='none'; $('#insSugs').innerHTML='';
   try{
     const r=await (await fetch('/api/insights',{method:'POST'})).json();
     if(r.error){ m.style.color='#ef4444'; m.textContent='❌ '+r.error; btn.disabled=false; return; }
-    $('#insInforme').textContent=r.informe||'Sin informe.'; $('#insInforme').style.display='block';
-    if(r.sugerencias && r.sugerencias.length){
-      const head=document.createElement('p'); head.className='help'; head.style.margin='10px 0 6px';
-      head.textContent='Mejoras propuestas (añádelas a Ajustes si te convencen):';
-      $('#insSugs').appendChild(head);
-      r.sugerencias.forEach(s=>{
-        const row=document.createElement('div'); row.style.cssText='display:flex;gap:8px;align-items:center;margin:6px 0;background:#0f172a;border:1px solid #1f2a44;border-radius:8px;padding:8px 10px';
-        const txt=document.createElement('div'); txt.style.cssText='flex:1;color:#e2e8f0;font-size:13px'; txt.textContent=s;
-        const add=document.createElement('button'); add.className='small'; add.textContent='➕ Añadir';
-        add.onclick=()=>{ addRuleFromText(s); add.textContent='✓ Añadido'; add.disabled=true; };
-        row.appendChild(txt); row.appendChild(add); $('#insSugs').appendChild(row);
-      });
-    }
+    renderInforme(r);
     m.style.color='#22c55e'; m.textContent='✓ análisis listo';
   }catch(e){ m.style.color='#ef4444'; m.textContent='❌ '+e.message; }
   btn.disabled=false;

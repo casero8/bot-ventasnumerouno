@@ -19,7 +19,6 @@ import {
   followupCandidates, recordFollowup, outcomesSummary,
   getInsightsMeta, setInsightsMeta,
 } from './store.js';
-import { sendInsightsEmail } from './email.js';
 
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR  = path.join(__dirname, '../public');
@@ -154,9 +153,15 @@ app.get('/api/usage', (_req, res) => res.json(getUsage()));
 
 // ── Aprendizaje: resumen de resultados + análisis con IA ──
 app.get('/api/insights/resumen', (_req, res) => res.json(outcomesSummary()));
+app.get('/api/insights/ultimo', (_req, res) => res.json(getInsightsMeta().lastReport || null));
 app.post('/api/insights', async (_req, res) => {
-  try { res.json(await analizarConversaciones()); }
-  catch (e) { console.error('[insights]', e.message); res.status(500).json({ error: e.message }); }
+  try {
+    const resumen = outcomesSummary();
+    const r = await analizarConversaciones();
+    const saved = { ...r, resumen, fecha: new Date().toISOString() };
+    setInsightsMeta({ lastAt: saved.fecha, lastReport: saved }); // queda guardado en la app
+    res.json(saved);
+  } catch (e) { console.error('[insights]', e.message); res.status(500).json({ error: e.message }); }
 });
 
 // Diagnóstico: hace una llamada mínima a Claude y devuelve el error EXACTO si falla.
@@ -398,16 +403,16 @@ export function startServer() {
   setInterval(() => { if (!cerrando) tickWeeklyInsights().catch(e => console.error('[insights semanal]', e.message)); }, 6 * 60 * 60 * 1000);
 }
 
-// Genera y envía el informe semanal de aprendizaje cuando ha pasado una semana.
+// Genera el informe semanal de aprendizaje y lo guarda EN LA APP (se ve en el panel).
 async function tickWeeklyInsights() {
   const meta = getInsightsMeta();
-  // Primera vez: no enviamos de golpe, dejamos el contador en marcha desde ahora.
+  // Primera vez: dejamos el contador en marcha desde ahora (no generamos de golpe).
   if (!meta.lastAt) { setInsightsMeta({ lastAt: new Date().toISOString() }); return; }
   if (Date.now() - Date.parse(meta.lastAt) < 7 * 24 * 60 * 60 * 1000) return;
 
   const resumen = outcomesSummary();
   const r = await analizarConversaciones();
-  await sendInsightsEmail({ ...r, resumen });
-  setInsightsMeta({ lastAt: new Date().toISOString() });
-  console.log('📧 Informe semanal de aprendizaje enviado');
+  const fecha = new Date().toISOString();
+  setInsightsMeta({ lastAt: fecha, lastReport: { ...r, resumen, fecha } });
+  console.log('📈 Informe semanal de aprendizaje generado (visible en el panel)');
 }
