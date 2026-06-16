@@ -22,7 +22,7 @@ Responde ÚNICAMENTE con un objeto JSON válido, sin texto antes ni después, co
   }
 }
 Cada "part_N" es un mensaje independiente que llegará por separado al lead (simula escribir como una persona real).
-Usa solo las parts que necesites y deja el resto como cadena vacía "". No escribas variables ni placeholders.`;
+Usa solo las parts que necesites y deja el resto como cadena vacía "". Usa COMO MUCHO 2 parts (máximo 2 mensajes seguidos); condensa, no sueltes 3 o más. No escribas variables ni placeholders.`;
 
 // Divide la respuesta del modelo en partes (array de strings no vacíos).
 function parseParts(content) {
