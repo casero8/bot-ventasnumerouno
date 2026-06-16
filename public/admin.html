@@ -71,6 +71,7 @@
     <button data-tab="negocio">🏢 Negocio</button>
     <button data-tab="ajustes">🛠️ Ajustes</button>
     <button data-tab="prompt">📝 Prompt</button>
+    <button data-tab="reportes">📊 Reportes</button>
     <button data-tab="aprendizaje">📈 Aprendizaje</button>
     <button data-tab="config">⚙️ Config</button>
   </nav>
@@ -232,6 +233,32 @@
     </section>
     </div>
 
+    <div class="tab" id="tab-reportes">
+    <!-- ───────────── REPORTES ───────────── -->
+    <section>
+      <h2 style="margin:0 0 4px">📊 Reportes</h2>
+      <p class="help">Métricas del agente. <span id="repFecha"></span></p>
+
+      <div style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px" id="repCards"></div>
+
+      <h3 style="margin:20px 0 8px;font-size:15px">Últimos 14 días</h3>
+      <div style="overflow-x:auto">
+        <table id="repTabla" style="width:100%;border-collapse:collapse;font-size:13px">
+          <thead><tr style="color:#94a3b8;text-align:left">
+            <th style="padding:6px 10px">Día</th>
+            <th style="padding:6px 10px">Entrantes</th>
+            <th style="padding:6px 10px">Salientes</th>
+            <th style="padding:6px 10px">Derivados</th>
+            <th style="padding:6px 10px">Seguim.</th>
+            <th style="padding:6px 10px">Gasto</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="bar" style="margin-top:12px"><button class="ghost" id="repRefrescar">↻ Refrescar</button></div>
+    </section>
+    </div>
+
     <div class="tab" id="tab-aprendizaje">
     <!-- ───────────── APRENDIZAJE ───────────── -->
     <section>
@@ -364,9 +391,39 @@ document.querySelectorAll('.tabbar button').forEach(b=>{
     document.querySelectorAll('.tabbar button').forEach(x=>x.classList.toggle('active', x===b));
     document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.id==='tab-'+b.dataset.tab));
     if(b.dataset.tab==='aprendizaje') loadInsights();
+    if(b.dataset.tab==='reportes') loadReportes();
     window.scrollTo(0,0);
   };
 });
+
+/* ───── Reportes ───── */
+function repCard(label,val,color){ return `<div style="background:#0f172a;border:1px solid #1f2a44;border-radius:10px;padding:12px"><div style="color:#94a3b8;font-size:12px">${label}</div><div style="font-size:22px;font-weight:700;color:${color||'#e2e8f0'}">${val}</div></div>`; }
+const usd = n => '$'+(Number(n)||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+async function loadReportes(){
+  try{
+    const r=await (await fetch('/api/reportes')).json();
+    $('#repCards').innerHTML =
+      repCard('Conversaciones', r.agenda.total||0)
+    + repCard('Agendas', r.agenda.agenda||0, '#22c55e')
+    + repCard('% que agenda', (r.agenda.tasa||0)+'%', '#38bdf8')
+    + repCard('Derivados', r.derivados||0, '#f59e0b')
+    + repCard('Mensajes (total)', (r.total.mensajes_salientes||0).toLocaleString('es-ES'))
+    + repCard('Gasto total', usd(r.gasto.total?.costo_usd), '#e2e8f0');
+    const tb=$('#repTabla tbody'); tb.innerHTML='';
+    [...r.dias].reverse().forEach(d=>{
+      const tr=document.createElement('tr'); tr.style.borderTop='1px solid #1f2a44';
+      tr.innerHTML=`<td style="padding:6px 10px">${d.dia}</td>`
+        +`<td style="padding:6px 10px">${d.mensajes_entrantes||0}</td>`
+        +`<td style="padding:6px 10px">${d.mensajes_salientes||0}</td>`
+        +`<td style="padding:6px 10px">${d.derivaciones||0}</td>`
+        +`<td style="padding:6px 10px">${d.seguimientos||0}</td>`
+        +`<td style="padding:6px 10px">${usd(d.costo_usd)}</td>`;
+      tb.appendChild(tr);
+    });
+    if(!r.dias.length) tb.innerHTML='<tr><td colspan="6" style="padding:10px;color:var(--muted)">Aún no hay datos.</td></tr>';
+  }catch(e){ $('#repCards').innerHTML='<p class="help">No se pudieron cargar los reportes.</p>'; }
+}
+$('#repRefrescar').onclick=loadReportes;
 
 /* ───── Aprendizaje ───── */
 async function loadInsights(){

@@ -151,6 +151,20 @@ app.delete('/api/derivados/:id', (req, res) => { deleteDerivado(req.params.id); 
 app.get('/api/stats', (_req, res) => res.json(getStats()));
 app.get('/api/usage', (_req, res) => res.json(getUsage()));
 
+// ── Reportes: métricas agregadas para el panel ──
+app.get('/api/reportes', (_req, res) => {
+  const stats = getStats();
+  const dias = Object.keys(stats).filter(k => k !== '__total__').sort().slice(-14);
+  const serie = dias.map(d => ({ dia: d, ...stats[d] }));
+  res.json({
+    agenda:    outcomesSummary(),
+    derivados: getDerivados().length,
+    gasto:     getUsage(),
+    total:     stats.__total__ || {},
+    dias:      serie,
+  });
+});
+
 // ── Aprendizaje: resumen de resultados + análisis con IA ──
 app.get('/api/insights/resumen', (_req, res) => res.json(outcomesSummary()));
 app.get('/api/insights/ultimo', (_req, res) => res.json(getInsightsMeta().lastReport || null));
