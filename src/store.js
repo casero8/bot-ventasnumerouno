@@ -24,19 +24,67 @@ export function getHistory(id) {
   return all[id]?.messages || [];
 }
 
-export function addMessages(id, name, newMsgs) {
+export function addMessages(id, name, newMsgs, channel) {
   const all = read(CONV, {});
   const conv = all[id] || { name, messages: [] };
   if (name) conv.name = name;
+  if (channel) conv.channel = channel;
   // Nunca guardamos mensajes vacíos/ inválidos (rompen las llamadas futuras a OpenAI)
-  conv.messages.push(...newMsgs.filter(m => m && (m.role === 'user' || m.role === 'assistant') && String(m.content || '').trim()));
+  const valid = newMsgs.filter(m => m && (m.role === 'user' || m.role === 'assistant') && String(m.content || '').trim());
+  conv.messages.push(...valid);
   // Ventana de memoria: conservamos los últimos N mensajes
   if (conv.messages.length > config.memoryWindow) {
     conv.messages = conv.messages.slice(-config.memoryWindow);
   }
   conv.updatedAt = new Date().toISOString();
+  // Seguimiento: si el lead ha escrito en este turno, reseteamos el contador de seguimientos
+  if (valid.some(m => m.role === 'user')) {
+    conv.lastLeadAt = conv.updatedAt;
+    conv.followupsSent = 0;
+  }
+  const last = conv.messages[conv.messages.length - 1];
+  conv.lastRole = last ? last.role : conv.lastRole;
   all[id] = conv;
   write(CONV, all);
+}
+
+// Registra un mensaje de seguimiento (lo envía el bot, sin que el lead haya escrito).
+export function recordFollowup(id, text) {
+  const all = read(CONV, {});
+  const conv = all[id];
+  if (!conv) return;
+  conv.messages.push({ role: 'assistant', content: text });
+  if (conv.messages.length > config.memoryWindow) conv.messages = conv.messages.slice(-config.memoryWindow);
+  conv.followupsSent = (conv.followupsSent || 0) + 1;
+  conv.lastFollowupAt = new Date().toISOString();
+  conv.updatedAt = conv.lastFollowupAt;
+  conv.lastRole = 'assistant';
+  all[id] = conv;
+  write(CONV, all);
+}
+
+// Devuelve los leads "en visto" a los que toca mandar seguimiento ahora.
+// delaysMin: array de minutos desde el último msg del lead (ej. [180, 1200]).
+export function followupCandidates(nowMs, delaysMin) {
+  const all = read(CONV, {});
+  const out = [];
+  const WINDOW_MS = 24 * 60 * 60 * 1000; // ventana de 24h de Instagram
+  for (const [id, conv] of Object.entries(all)) {
+    if (!conv || conv.lastRole !== 'assistant') continue;        // el bot debe haber hablado el último
+    const sent = conv.followupsSent || 0;
+    if (sent >= delaysMin.length) continue;                       // ya mandados todos los seguimientos
+    if (!conv.lastLeadAt) continue;
+    const leadMs = Date.parse(conv.lastLeadAt);
+    if (isNaN(leadMs)) continue;
+    if (nowMs - leadMs >= WINDOW_MS) continue;                    // fuera de la ventana de 24h
+    const dueMs = leadMs + delaysMin[sent] * 60 * 1000;
+    if (nowMs < dueMs) continue;                                  // aún no toca
+    // No reenganchar a leads cerrados por país (no-España)
+    const lastTxt = String(conv.messages[conv.messages.length - 1]?.content || '');
+    if (/trabajando con gente en Espa/i.test(lastTxt)) continue;
+    out.push({ id, name: conv.name || '', channel: conv.channel || 'instagram', sent });
+  }
+  return out;
 }
 
 export function resetConversation(id) {

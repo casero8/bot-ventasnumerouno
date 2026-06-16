@@ -302,6 +302,10 @@
           <div class="field"><label>Segundos de buffer</label><input id="bufferSeconds" type="number" step="0.5" min="0"></div>
           <div class="field"><label>Segundos por letra (tipeo)</label><input id="secondsPerLetter" type="number" step="0.005" min="0"></div>
           <div class="field"><label>Memoria (nº mensajes)</label><input id="memoryWindow" type="number" step="1" min="2"></div>
+          <div class="field"><label>Seguimiento a leads en visto</label>
+            <select id="followupEnabled"><option value="true">Activado</option><option value="false">Desactivado</option></select>
+          </div>
+          <div class="field"><label>Seguimientos: minutos tras dejar en visto <span class="hint">(coma; ej. 180,1200 = 3h y 20h)</span></label><input id="followupDelaysMin" placeholder="180,1200"></div>
           <div class="field"><label>Lectura mín (seg)</label><input id="readingMinSeconds" type="number" step="0.5" min="0"></div>
           <div class="field"><label>Lectura máx (seg)</label><input id="readingMaxSeconds" type="number" step="0.5" min="0"></div>
           <div class="field"><label>Tipeo mín por mensaje (seg)</label><input id="typingMinSeconds" type="number" step="0.5" min="0"></div>
@@ -495,7 +499,7 @@ $('#savePrompt').onclick=savePrompt; $('#reloadPrompt').onclick=loadPrompt;
 document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();savePrompt();}});
 
 /* ───── Config técnica ───── */
-const CFG=['openaiKey','anthropicKey','model','ritmo','visionModel','transcribeModel','manychatToken','manychatChannel','whatsappOutboundUrl','whatsappOutboundToken','bufferSeconds','secondsPerLetter','memoryWindow','webhookToken','readingMinSeconds','readingMaxSeconds','typingMinSeconds','typingMaxSeconds','partPauseMinSeconds','partPauseMaxSeconds'];
+const CFG=['openaiKey','anthropicKey','model','ritmo','visionModel','transcribeModel','manychatToken','manychatChannel','whatsappOutboundUrl','whatsappOutboundToken','bufferSeconds','secondsPerLetter','memoryWindow','followupEnabled','followupDelaysMin','webhookToken','readingMinSeconds','readingMaxSeconds','typingMinSeconds','typingMaxSeconds','partPauseMinSeconds','partPauseMaxSeconds'];
 const SECRET=new Set(['openaiKey','anthropicKey','manychatToken','whatsappOutboundToken']);
 
 /* Catálogo de modelos por proveedor (id + etiqueta + precio orientativo) */

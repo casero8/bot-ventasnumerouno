@@ -50,6 +50,10 @@ const base = {
 
   // Memoria de conversación: nº de mensajes que recuerda (el workflow usa 20)
   memoryWindow: 20,
+
+  // Seguimiento a leads que dejan "en visto" (no contestan al último mensaje del bot)
+  followupEnabled:   process.env.FOLLOWUP_ENABLED !== 'false',     // true por defecto
+  followupDelaysMin: process.env.FOLLOWUP_DELAYS_MIN || '180,1200', // minutos desde el último msg del lead (3h, 20h)
 };
 
 // Overlay desde data/settings.json (lo que se edita en el panel manda sobre .env)
@@ -66,6 +70,7 @@ export const EDITABLE = [
   'manychatToken', 'manychatChannel',
   'whatsappOutboundUrl', 'whatsappOutboundToken',
   'webhookToken', 'ritmo', 'bufferSeconds', 'secondsPerLetter', 'memoryWindow',
+  'followupEnabled', 'followupDelaysMin',
   'readingMinSeconds', 'readingMaxSeconds', 'typingMinSeconds', 'typingMaxSeconds',
   'partPauseMinSeconds', 'partPauseMaxSeconds',
 ];

@@ -9,13 +9,14 @@ import { getSetup, saveSetup, buildPrompt, generarPromptDesdeSetup } from './set
 import { extractText, docsToSetup } from './ingest.js';
 import { getRules, saveRules } from './rules.js';
 import { getDerivados, updateDerivado, deleteDerivado } from './derivados.js';
-import { generarRespuesta } from './agent.js';
+import { generarRespuesta, generarSeguimiento } from './agent.js';
 import { getAnthropic, isClaudeModel } from './anthropicClient.js';
 import { deliver } from './delivery.js';
 import { processMedia, isUrl } from './media.js';
 import {
   bufferMessage, addMessages, resetConversation,
   allConversations, getStats, bumpStat, getUsage, flushAllBuffers,
+  followupCandidates, recordFollowup,
 } from './store.js';
 
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
@@ -261,7 +262,44 @@ async function responder(id, name, joined, channel) {
   addMessages(id, name, [
     { role: 'user', content: joined },
     { role: 'assistant', content: parts.join('\n') },
-  ]);
+  ], channel);
+}
+
+// ─────────── Seguimiento a leads "en visto" ───────────
+function followupDelays() {
+  const v = config.followupDelaysMin;
+  const arr = (Array.isArray(v) ? v : String(v || '').split(','))
+    .map(x => parseInt(String(x).trim(), 10)).filter(n => n > 0);
+  return arr.length ? arr : [180, 1200];
+}
+
+async function tickFollowups() {
+  if (String(config.followupEnabled) === 'false') return;
+  let cands;
+  try { cands = followupCandidates(Date.now(), followupDelays()); }
+  catch (e) { console.error('[seguimiento]', e.message); return; }
+  if (!cands.length) return;
+
+  const derivados = new Set(getDerivados().map(d => String(d.leadId)));
+  for (const c of cands) {
+    if (c.id === TEST_ID) continue;            // no tocar el banco de pruebas
+    if (derivados.has(String(c.id))) continue; // no molestar a leads ya derivados
+    try {
+      const parts = await generarSeguimiento(c.id, c.name);
+      if (!parts.length) continue;
+      // Espera de "tipeo" ligera y envío
+      for (let i = 0; i < parts.length; i++) {
+        await sleep(typingDelay(parts[i]));
+        const ok = await deliver(c.channel, c.id, parts[i]);
+        if (ok) bumpStat('mensajes_salientes');
+      }
+      recordFollowup(c.id, parts.join('\n'));
+      bumpStat('seguimientos');
+      console.log(`🔁 Seguimiento #${c.sent + 1} → ${c.name || c.id}: ${parts.join(' ')}`);
+    } catch (e) {
+      console.error('[seguimiento]', c.id, e.status || '', e.message);
+    }
+  }
 }
 
 const rand = (min, max) => (min + Math.random() * Math.max(0, max - min)) * 1000;
@@ -331,4 +369,13 @@ export function startServer() {
   };
   process.on('SIGTERM', () => shutdown('SIGTERM'));
   process.on('SIGINT',  () => shutdown('SIGINT'));
+
+  // Vigilante de seguimientos: revisa cada 5 min los leads "en visto" (sin solaparse).
+  let running = false;
+  setInterval(async () => {
+    if (running || cerrando) return;
+    running = true;
+    try { await tickFollowups(); } catch (e) { console.error('[seguimiento tick]', e.message); }
+    running = false;
+  }, 5 * 60 * 1000);
 }

@@ -117,6 +117,41 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
   return [];
 }
 
+/**
+ * Genera un mensaje de SEGUIMIENTO para un lead que dejó "en visto".
+ * Usa el historial + una instrucción para escribir un toque natural y corto.
+ */
+export async function generarSeguimiento(subscriberId, nombre) {
+  const sys = renderPrompt(getPrompt(), { nombre }) + rulesBlock() +
+    `\n\n# TAREA AHORA: SEGUIMIENTO (el lead te dejó en visto)\n` +
+    `El lead no ha contestado a tu último mensaje. Escríbele UN mensaje corto, natural y cercano para retomar la conversación, sin agobiar, sin sonar a plantilla y SIN reenviar links. Engancha con una pregunta ligera sobre lo último que hablasteis. No repitas literalmente lo que ya dijiste.` +
+    FORMATO;
+
+  const history = getHistory(subscriberId).filter(m =>
+    m && (m.role === 'user' || m.role === 'assistant') &&
+    typeof m.content === 'string' && m.content.trim().length);
+
+  const trigger = '(El lead sigue sin responder. Mándale ahora un seguimiento breve y natural para retomar.)';
+
+  // Claude si hay key; si falla, respaldo a OpenAI
+  if (isClaudeModel(config.model) && config.anthropicKey) {
+    try { return await generarConClaude(sys, history, trigger, { subscriberId, nombre }); }
+    catch (e) { console.error('[seguimiento][Claude]', e.status || '', e.message); if (!config.openaiKey) return []; }
+  }
+
+  // OpenAI
+  const model = isClaudeModel(config.model) ? 'gpt-4o-mini' : config.model;
+  const messages = [{ role: 'system', content: sys }, ...history, { role: 'user', content: trigger }];
+  try {
+    const completion = await chatWithRetry({ model, messages });
+    recordUsage(model, completion.usage?.prompt_tokens || 0, completion.usage?.completion_tokens || 0);
+    return parseParts(completion.choices[0].message.content || '');
+  } catch (e) {
+    console.error('[seguimiento][OpenAI]', e.status || '', e.message);
+    return [];
+  }
+}
+
 // Genera la respuesta con Claude (Anthropic Messages API).
 async function generarConClaude(system, history, userText, ctx) {
   const client = getAnthropic();
