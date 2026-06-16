@@ -56,3 +56,31 @@ export async function sendDerivationEmail(lead) {
   console.log(`[email] Aviso de derivado enviado a ${config.notifyEmail}`);
   return true;
 }
+
+// Envía el informe semanal de aprendizaje a NOTIFY_EMAIL.
+export async function sendInsightsEmail({ informe = '', sugerencias = [], resumen = {} } = {}) {
+  const t = getTransport();
+  if (!t) { console.warn('[email] SMTP no configurado — no se envió el informe semanal.'); return false; }
+
+  const sugHtml = (sugerencias || []).length
+    ? `<h3 style="margin:18px 0 6px;font-size:14px">Mejoras propuestas</h3><ul style="font-size:14px;padding-left:18px">${sugerencias.map(s => `<li style="margin:4px 0">${esc(s)}</li>`).join('')}</ul>`
+    : '';
+
+  const html = `
+    <div style="font-family:sans-serif;max-width:600px">
+      <h2 style="margin:0 0 8px">📈 Informe semanal del agente</h2>
+      <p style="color:#555;margin:0 0 12px">${esc(resumen.total ?? 0)} conversaciones · ${esc(resumen.agenda ?? 0)} llegaron a agenda · ${esc(resumen.tasa ?? 0)}% de agenda.</p>
+      <div style="font-size:14px;background:#f6f6f8;padding:12px;border-radius:8px;white-space:pre-wrap">${esc(informe)}</div>
+      ${sugHtml}
+      <p style="color:#888;font-size:12px;margin-top:16px">Para aplicar mejoras, entra en el panel → 📈 Aprendizaje y pulsa "Añadir" en las que te convenzan.</p>
+    </div>`;
+
+  await t.sendMail({
+    from: config.smtpFrom || `Agente Instagram <${config.smtpUser}>`,
+    to: config.notifyEmail,
+    subject: `📈 Informe semanal del agente (${resumen.agenda ?? 0} agendas / ${resumen.total ?? 0} convs)`,
+    html,
+  });
+  console.log(`[email] Informe semanal enviado a ${config.notifyEmail}`);
+  return true;
+}

@@ -17,7 +17,9 @@ import {
   bufferMessage, addMessages, resetConversation,
   allConversations, getStats, bumpStat, getUsage, flushAllBuffers,
   followupCandidates, recordFollowup, outcomesSummary,
+  getInsightsMeta, setInsightsMeta,
 } from './store.js';
+import { sendInsightsEmail } from './email.js';
 
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR  = path.join(__dirname, '../public');
@@ -390,4 +392,22 @@ export function startServer() {
     try { await tickFollowups(); } catch (e) { console.error('[seguimiento tick]', e.message); }
     running = false;
   }, 5 * 60 * 1000);
+
+  // Informe semanal de aprendizaje por email: revisa cada 6h si toca (persistente).
+  setTimeout(() => tickWeeklyInsights().catch(e => console.error('[insights semanal]', e.message)), 30 * 1000);
+  setInterval(() => { if (!cerrando) tickWeeklyInsights().catch(e => console.error('[insights semanal]', e.message)); }, 6 * 60 * 60 * 1000);
+}
+
+// Genera y envía el informe semanal de aprendizaje cuando ha pasado una semana.
+async function tickWeeklyInsights() {
+  const meta = getInsightsMeta();
+  // Primera vez: no enviamos de golpe, dejamos el contador en marcha desde ahora.
+  if (!meta.lastAt) { setInsightsMeta({ lastAt: new Date().toISOString() }); return; }
+  if (Date.now() - Date.parse(meta.lastAt) < 7 * 24 * 60 * 60 * 1000) return;
+
+  const resumen = outcomesSummary();
+  const r = await analizarConversaciones();
+  await sendInsightsEmail({ ...r, resumen });
+  setInsightsMeta({ lastAt: new Date().toISOString() });
+  console.log('📧 Informe semanal de aprendizaje enviado');
 }

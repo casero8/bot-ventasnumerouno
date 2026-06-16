@@ -53,6 +53,11 @@ export function addMessages(id, name, newMsgs, channel) {
   write(CONV, all);
 }
 
+// Metadatos del informe de aprendizaje (cuándo se envió el último).
+const INS = 'insights.json';
+export function getInsightsMeta() { return read(INS, {}); }
+export function setInsightsMeta(m) { write(INS, { ...read(INS, {}), ...m }); }
+
 // Resumen de resultados para el módulo de aprendizaje.
 export function outcomesSummary() {
   const all = read(CONV, {});
