@@ -266,17 +266,22 @@ async function responder(id, name, joined, channel) {
 }
 
 // ─────────── Seguimiento a leads "en visto" ───────────
+// Planes: minutos (desde el último msg del lead) para cada toque. 'off' = desactivado.
+const FOLLOWUP_PLANS = {
+  off:        [],
+  suave:      [240],            // 1 toque (~4h)
+  normal:     [180, 1200],      // 2 toques (3h y 20h)
+  insistente: [60, 360, 1320],  // 3 toques (1h, 6h, 22h)
+};
 function followupDelays() {
-  const v = config.followupDelaysMin;
-  const arr = (Array.isArray(v) ? v : String(v || '').split(','))
-    .map(x => parseInt(String(x).trim(), 10)).filter(n => n > 0);
-  return arr.length ? arr : [180, 1200];
+  return FOLLOWUP_PLANS[config.followupPlan] || FOLLOWUP_PLANS.normal;
 }
 
 async function tickFollowups() {
-  if (String(config.followupEnabled) === 'false') return;
+  const delays = followupDelays();
+  if (!delays.length) return; // plan 'off'
   let cands;
-  try { cands = followupCandidates(Date.now(), followupDelays()); }
+  try { cands = followupCandidates(Date.now(), delays); }
   catch (e) { console.error('[seguimiento]', e.message); return; }
   if (!cands.length) return;
 
