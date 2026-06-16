@@ -3,7 +3,7 @@ import { getClient } from './openaiClient.js';
 import { getAnthropic, isClaudeModel } from './anthropicClient.js';
 import { getPrompt, renderPrompt } from './prompt.js';
 import { rulesBlock } from './rules.js';
-import { getHistory, recordUsage } from './store.js';
+import { getHistory, recordUsage, allConversations } from './store.js';
 import { toolDefs, toolDefsClaude, runTool } from './tools.js';
 
 // Instrucción de formato que se añade al prompt en tiempo de ejecución.
@@ -149,6 +149,72 @@ export async function generarSeguimiento(subscriberId, nombre) {
   } catch (e) {
     console.error('[seguimiento][OpenAI]', e.status || '', e.message);
     return [];
+  }
+}
+
+/**
+ * Analiza las conversaciones (comparando las que AGENDARON vs las que no) y
+ * devuelve un informe + sugerencias accionables para mejorar el agente.
+ * @returns {Promise<{informe:string, sugerencias:string[]}>}
+ */
+export async function analizarConversaciones() {
+  const all = allConversations();
+  const convos = Object.entries(all)
+    .filter(([id, c]) => id !== '__test__' && Array.isArray(c.messages) && c.messages.length >= 2);
+
+  if (convos.length < 3) {
+    return { informe: 'Aún hay muy pocas conversaciones para analizar. Vuelve cuando tengas más actividad (mínimo 3).', sugerencias: [] };
+  }
+
+  const agendadas   = convos.filter(([, c]) => c.outcome === 'agenda');
+  const noAgendadas = convos.filter(([, c]) => c.outcome !== 'agenda');
+
+  const fmt = ([, c]) => {
+    const msgs = (c.messages || []).slice(-12)
+      .map(m => (m.role === 'user' ? 'LEAD' : 'DAVID') + ': ' + String(m.content || '').replace(/\s+/g, ' ').slice(0, 200))
+      .join('\n');
+    return `--- Conversación (${c.outcome === 'agenda' ? 'AGENDÓ' : 'NO agendó'}) ---\n${msgs}`;
+  };
+  const muestraA = agendadas.slice(-12).map(fmt).join('\n\n');
+  const muestraN = noAgendadas.slice(-12).map(fmt).join('\n\n');
+
+  const sys = `Eres un analista experto en ventas y closing por chat. Analizas conversaciones de un setter (David) que cualifica leads en Instagram y los lleva a agendar una llamada o rellenar un formulario.
+Compara las conversaciones que ACABARON EN AGENDA con las que NO, y detecta patrones accionables y reales (no genéricos).
+Responde ÚNICAMENTE con un JSON válido, sin texto antes ni después, con esta forma:
+{
+  "informe": "español, claro y breve, en viñetas con guiones: qué está funcionando en las que agendan, dónde y por qué se caen las que no, objeciones que se repiten, y qué camino conviene reforzar",
+  "sugerencias": ["mejora concreta, corta y lista para pegar como instrucción al bot", "otra", "..."]
+}
+Las sugerencias: frases cortas, accionables, máximo 6.`;
+
+  const user = `CONVERSACIONES QUE AGENDARON (${agendadas.length}):\n${muestraA || '(ninguna todavía)'}\n\n========\n\nCONVERSACIONES QUE NO AGENDARON (${noAgendadas.length}):\n${muestraN || '(ninguna)'}\n\nAnaliza y responde con el JSON.`;
+
+  let raw = '';
+  if (isClaudeModel(config.model) && config.anthropicKey) {
+    try {
+      const resp = await getAnthropic().messages.create({
+        model: config.model, max_tokens: 1500,
+        system: sys, messages: [{ role: 'user', content: user }],
+      });
+      recordUsage(config.model, resp.usage?.input_tokens || 0, resp.usage?.output_tokens || 0);
+      raw = (resp.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
+    } catch (e) { console.error('[insights][Claude]', e.status || '', e.message); }
+  }
+  if (!raw) {
+    const model = isClaudeModel(config.model) ? 'gpt-4o-mini' : config.model;
+    const completion = await chatWithRetry({ model, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] });
+    recordUsage(model, completion.usage?.prompt_tokens || 0, completion.usage?.completion_tokens || 0);
+    raw = completion.choices[0].message.content || '';
+  }
+
+  try {
+    const j = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
+    return {
+      informe: String(j.informe || '').trim() || 'Sin informe.',
+      sugerencias: Array.isArray(j.sugerencias) ? j.sugerencias.map(String).map(s => s.trim()).filter(Boolean).slice(0, 6) : [],
+    };
+  } catch {
+    return { informe: raw.trim() || 'No se pudo generar el análisis.', sugerencias: [] };
   }
 }
 

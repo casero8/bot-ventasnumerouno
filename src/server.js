@@ -9,14 +9,14 @@ import { getSetup, saveSetup, buildPrompt, generarPromptDesdeSetup } from './set
 import { extractText, docsToSetup } from './ingest.js';
 import { getRules, saveRules } from './rules.js';
 import { getDerivados, updateDerivado, deleteDerivado } from './derivados.js';
-import { generarRespuesta, generarSeguimiento } from './agent.js';
+import { generarRespuesta, generarSeguimiento, analizarConversaciones } from './agent.js';
 import { getAnthropic, isClaudeModel } from './anthropicClient.js';
 import { deliver } from './delivery.js';
 import { processMedia, isUrl } from './media.js';
 import {
   bufferMessage, addMessages, resetConversation,
   allConversations, getStats, bumpStat, getUsage, flushAllBuffers,
-  followupCandidates, recordFollowup,
+  followupCandidates, recordFollowup, outcomesSummary,
 } from './store.js';
 
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
@@ -149,6 +149,13 @@ app.delete('/api/derivados/:id', (req, res) => { deleteDerivado(req.params.id); 
 
 app.get('/api/stats', (_req, res) => res.json(getStats()));
 app.get('/api/usage', (_req, res) => res.json(getUsage()));
+
+// ── Aprendizaje: resumen de resultados + análisis con IA ──
+app.get('/api/insights/resumen', (_req, res) => res.json(outcomesSummary()));
+app.post('/api/insights', async (_req, res) => {
+  try { res.json(await analizarConversaciones()); }
+  catch (e) { console.error('[insights]', e.message); res.status(500).json({ error: e.message }); }
+});
 
 // Diagnóstico: hace una llamada mínima a Claude y devuelve el error EXACTO si falla.
 app.get('/api/diag/claude', async (_req, res) => {

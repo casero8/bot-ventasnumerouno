@@ -44,8 +44,25 @@ export function addMessages(id, name, newMsgs, channel) {
   }
   const last = conv.messages[conv.messages.length - 1];
   conv.lastRole = last ? last.role : conv.lastRole;
+  // Resultado: si el bot envió un enlace (agenda/formulario), marcamos la conversación como "agenda".
+  if (valid.some(m => m.role === 'assistant' && /https?:\/\//i.test(m.content || ''))) {
+    conv.outcome = 'agenda';
+    conv.agendaAt = conv.updatedAt;
+  }
   all[id] = conv;
   write(CONV, all);
+}
+
+// Resumen de resultados para el módulo de aprendizaje.
+export function outcomesSummary() {
+  const all = read(CONV, {});
+  let total = 0, agenda = 0;
+  for (const [id, c] of Object.entries(all)) {
+    if (id === '__test__' || !Array.isArray(c.messages) || !c.messages.length) continue;
+    total++;
+    if (c.outcome === 'agenda') agenda++;
+  }
+  return { total, agenda, sinAgenda: total - agenda, tasa: total ? Math.round((agenda / total) * 100) : 0 };
 }
 
 // Registra un mensaje de seguimiento (lo envía el bot, sin que el lead haya escrito).
