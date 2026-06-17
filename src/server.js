@@ -244,16 +244,25 @@ async function handleIncoming(id, name, rawText, channel) {
 }
 
 // Serialización por usuario: mientras el bot responde a un lead, los mensajes que
-// lleguen NO generan otra respuesta en paralelo (evita respuestas duplicadas);
-// se re-encolan y se responden juntos cuando el bot termina.
+// lleguen NO generan otra respuesta en paralelo (evita duplicados). Se acumulan en
+// una cola y se responden JUNTOS en cuanto el bot termina. A prueba de atascos.
 const busy = new Set();
+const pendiente = new Map(); // id -> texto acumulado esperando a que el bot termine
 function procesarTurno(id, name, joined, channel) {
   if (busy.has(id)) {
-    bufferMessage(id, joined, T().buffer * 1000, (j) => procesarTurno(id, name, j, channel));
+    const prev = pendiente.get(id);
+    pendiente.set(id, prev ? (prev + ' ' + joined) : joined);
     return;
   }
   busy.add(id);
-  runResponder(id, name, joined, channel).finally(() => busy.delete(id));
+  // Seguro: pase lo que pase, este usuario se libera como muy tarde en 90s.
+  const safety = setTimeout(() => busy.delete(id), 90000);
+  runResponder(id, name, joined, channel).finally(() => {
+    clearTimeout(safety);
+    busy.delete(id);
+    const next = pendiente.get(id);
+    if (next) { pendiente.delete(id); procesarTurno(id, name, next, channel); }
+  });
 }
 
 // Envíos en curso: los rastreamos para terminarlos antes de apagar (evita cortes en reinicios).
