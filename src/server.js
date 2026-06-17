@@ -240,7 +240,20 @@ async function handleIncoming(id, name, rawText, channel) {
   if (!text.trim()) return;
 
   // Buffer: agrupamos mensajes seguidos antes de responder una sola vez
-  bufferMessage(id, text, T().buffer * 1000, (joined) => runResponder(id, name, joined, channel));
+  bufferMessage(id, text, T().buffer * 1000, (joined) => procesarTurno(id, name, joined, channel));
+}
+
+// Serialización por usuario: mientras el bot responde a un lead, los mensajes que
+// lleguen NO generan otra respuesta en paralelo (evita respuestas duplicadas);
+// se re-encolan y se responden juntos cuando el bot termina.
+const busy = new Set();
+function procesarTurno(id, name, joined, channel) {
+  if (busy.has(id)) {
+    bufferMessage(id, joined, T().buffer * 1000, (j) => procesarTurno(id, name, j, channel));
+    return;
+  }
+  busy.add(id);
+  runResponder(id, name, joined, channel).finally(() => busy.delete(id));
 }
 
 // Envíos en curso: los rastreamos para terminarlos antes de apagar (evita cortes en reinicios).
