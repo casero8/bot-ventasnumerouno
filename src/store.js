@@ -118,6 +118,11 @@ export function followupCandidates(nowMs, delaysMin) {
     const lastTxt = String(conv.messages[conv.messages.length - 1]?.content || '');
     if (/trabajando con gente en Espa/i.test(lastTxt)) continue;
     if (/(un saludo|hasta luego|hasta pronto|nos vemos|espero que (te )?(vaya|sea|salga)|cualquier cosa me dices|estamos en contacto|mucha suerte|un abrazo|que vaya bien)/i.test(lastTxt)) continue;
+    // Si lo último que dijo el LEAD fue un simple "gracias/ok/vale", no le seguimos
+    // (el bot ya respondió "te sirvió?"; otro mensaje sería pesado).
+    const lastLead = [...conv.messages].reverse().find(m => m.role === 'user');
+    const lt = String(lastLead?.content || '').trim().toLowerCase();
+    if (lt && lt.length <= 30 && /^(muchas |mil )?(gracias|grcias|ok+|okay|vale|genial|perfecto|de acuerdo|estupendo|de nada|guay)[\s!.,👍🙏🙌😊🙂😀💪]*$/i.test(lt)) continue;
     out.push({ id, name: conv.name || '', channel: conv.channel || 'instagram', sent });
   }
   return out;

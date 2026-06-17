@@ -44,6 +44,23 @@ function parseParts(content) {
   return clean ? [clean] : [];
 }
 
+// Garantiza alternancia user/assistant (Claude la EXIGE): fusiona mensajes
+// consecutivos del mismo rol y quita los "assistant" del principio.
+// Evita que 2 seguimientos seguidos dejen la conversación bloqueada (error 400).
+function alternar(list) {
+  const out = [];
+  for (const m of list) {
+    if (!m || !String(m.content || '').trim()) continue;
+    if (out.length && out[out.length - 1].role === m.role) {
+      out[out.length - 1].content += '\n' + m.content;
+    } else {
+      out.push({ role: m.role, content: m.content });
+    }
+  }
+  while (out.length && out[0].role === 'assistant') out.shift();
+  return out;
+}
+
 /**
  * Procesa un mensaje entrante y devuelve un array de partes a enviar.
  * @param {string} subscriberId  id del suscriptor en ManyChat (clave de memoria)
@@ -60,6 +77,8 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
     typeof m.content === 'string' && m.content.trim().length);
 
   const userText = String(texto || '').trim() || 'Hola';
+  // Conversación con alternancia garantizada (historial + mensaje nuevo del lead)
+  const convo = alternar([...history, { role: 'user', content: userText }]);
 
   // ── Claude (Anthropic) ──
   // Solo usamos Claude si hay key de Claude. Si eligen un modelo claude-* pero
@@ -71,7 +90,7 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
   }
   if (usarClaude) {
     try {
-      return await generarConClaude(system, history, userText, { subscriberId, nombre });
+      return await generarConClaude(system, convo, { subscriberId, nombre });
     } catch (e) {
       // Si Claude falla, NO dejamos mudo al bot: respaldo a OpenAI si hay key.
       console.error('[Claude] falló →', e.status || '', e.message, config.openaiKey ? '· respaldo a OpenAI' : '· sin OpenAI de respaldo');
@@ -84,8 +103,7 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
   const openaiModel = isClaudeModel(config.model) ? 'gpt-4o-mini' : config.model;
   const messages = [
     { role: 'system', content: system },
-    ...history,
-    { role: 'user', content: userText },
+    ...convo,
   ];
 
   // Bucle de herramientas (máx. 5 iteraciones)
@@ -136,6 +154,7 @@ Responde SOLO con la palabra TERMINADA o SOLO con el JSON. Ante la duda, prefier
     typeof m.content === 'string' && m.content.trim().length);
 
   const trigger = '(El lead sigue sin responder. ¿Toca seguimiento o ya terminó? Responde TERMINADA o el JSON.)';
+  const convo = alternar([...history, { role: 'user', content: trigger }]);
 
   let raw = '';
   // Claude si hay key; si falla, respaldo a OpenAI
@@ -143,7 +162,7 @@ Responde SOLO con la palabra TERMINADA o SOLO con el JSON. Ante la duda, prefier
     try {
       const resp = await getAnthropic().messages.create({
         model: config.model, max_tokens: 300, system: sys,
-        messages: [...history.map(m => ({ role: m.role, content: m.content })), { role: 'user', content: trigger }],
+        messages: convo,
       });
       recordUsage(config.model, resp.usage?.input_tokens || 0, resp.usage?.output_tokens || 0);
       raw = (resp.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
@@ -152,7 +171,7 @@ Responde SOLO con la palabra TERMINADA o SOLO con el JSON. Ante la duda, prefier
   if (!raw) {
     const model = isClaudeModel(config.model) ? 'gpt-4o-mini' : config.model;
     try {
-      const completion = await chatWithRetry({ model, messages: [{ role: 'system', content: sys }, ...history, { role: 'user', content: trigger }] });
+      const completion = await chatWithRetry({ model, messages: [{ role: 'system', content: sys }, ...convo] });
       recordUsage(model, completion.usage?.prompt_tokens || 0, completion.usage?.completion_tokens || 0);
       raw = completion.choices[0].message.content || '';
     } catch (e) { console.error('[seguimiento][OpenAI]', e.status || '', e.message); return { terminada: false, parts: [] }; }
@@ -230,12 +249,10 @@ Las sugerencias: frases cortas, accionables, máximo 6.`;
 }
 
 // Genera la respuesta con Claude (Anthropic Messages API).
-async function generarConClaude(system, history, userText, ctx) {
+// `convo` ya viene alternado (user/assistant) desde generarRespuesta.
+async function generarConClaude(system, convo, ctx) {
   const client = getAnthropic();
-  const messages = [
-    ...history.map(m => ({ role: m.role, content: m.content })),
-    { role: 'user', content: userText },
-  ];
+  const messages = [...convo];
 
   for (let i = 0; i < 5; i++) {
     let resp;
