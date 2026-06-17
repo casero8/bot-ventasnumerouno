@@ -53,6 +53,9 @@ const base = {
 
   // Seguimiento a leads que dejan "en visto": off | suave | normal | insistente
   followupPlan: process.env.FOLLOWUP_PLAN || 'normal',
+
+  // Nivel de emojis del agente: ninguno | pocos | medio | bastantes | muchos
+  emojiNivel: process.env.EMOJI_NIVEL || 'pocos',
 };
 
 // Overlay desde data/settings.json (lo que se edita en el panel manda sobre .env)
@@ -68,7 +71,7 @@ export const EDITABLE = [
   'openaiKey', 'anthropicKey', 'model', 'visionModel', 'transcribeModel',
   'manychatToken', 'manychatChannel',
   'whatsappOutboundUrl', 'whatsappOutboundToken',
-  'webhookToken', 'ritmo', 'followupPlan', 'bufferSeconds', 'secondsPerLetter', 'memoryWindow',
+  'webhookToken', 'ritmo', 'followupPlan', 'emojiNivel', 'bufferSeconds', 'secondsPerLetter', 'memoryWindow',
   'readingMinSeconds', 'readingMaxSeconds', 'typingMinSeconds', 'typingMaxSeconds',
   'partPauseMinSeconds', 'partPauseMaxSeconds',
 ];

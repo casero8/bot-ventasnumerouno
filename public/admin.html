@@ -324,6 +324,15 @@
             <option value="insistente">🔥 Insistente · 3 recordatorios (1h, 6h, 22h)</option>
           </select>
         </div>
+        <div class="field"><label>Nivel de emojis <span class="hint">(cuántos usa el bot)</span></label>
+          <select id="emojiNivel">
+            <option value="ninguno">🚫 Ninguno (cero emojis)</option>
+            <option value="pocos">🙂 Pocos (sobrio, recomendado)</option>
+            <option value="medio">😉 Medio</option>
+            <option value="bastantes">😀 Bastantes</option>
+            <option value="muchos">🤩 Muchos</option>
+          </select>
+        </div>
         <div class="field full">
           <div id="modelPrice" style="background:#0f172a;border:1px solid #1f2a44;border-radius:8px;padding:10px 12px;color:#cbd5e1;font-size:13px"></div>
         </div>
@@ -636,7 +645,7 @@ $('#savePrompt').onclick=savePrompt; $('#reloadPrompt').onclick=loadPrompt;
 document.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();savePrompt();}});
 
 /* ───── Config técnica ───── */
-const CFG=['openaiKey','anthropicKey','model','ritmo','followupPlan','visionModel','transcribeModel','manychatToken','manychatChannel','whatsappOutboundUrl','whatsappOutboundToken','bufferSeconds','secondsPerLetter','memoryWindow','webhookToken','readingMinSeconds','readingMaxSeconds','typingMinSeconds','typingMaxSeconds','partPauseMinSeconds','partPauseMaxSeconds'];
+const CFG=['openaiKey','anthropicKey','model','ritmo','followupPlan','emojiNivel','visionModel','transcribeModel','manychatToken','manychatChannel','whatsappOutboundUrl','whatsappOutboundToken','bufferSeconds','secondsPerLetter','memoryWindow','webhookToken','readingMinSeconds','readingMaxSeconds','typingMinSeconds','typingMaxSeconds','partPauseMinSeconds','partPauseMaxSeconds'];
 const SECRET=new Set(['openaiKey','anthropicKey','manychatToken','whatsappOutboundToken']);
 
 /* Catálogo de modelos por proveedor (id + etiqueta + precio orientativo) */

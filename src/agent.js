@@ -24,6 +24,19 @@ Responde ÚNICAMENTE con un objeto JSON válido, sin texto antes ni después, co
 Cada "part_N" es un mensaje independiente que llegará por separado al lead (simula escribir como una persona real).
 Usa solo las parts que necesites y deja el resto como cadena vacía "". Usa COMO MUCHO 2 parts (máximo 2 mensajes seguidos); condensa, no sueltes 3 o más. No escribas variables ni placeholders.`;
 
+// Nivel de emojis (se inyecta en el prompt y MANDA sobre lo que diga el prompt).
+const EMOJI_NIVELES = {
+  ninguno:   'No uses NUNCA emojis. Cero emojis en tus mensajes.',
+  pocos:     'Emojis casi nunca: la mayoría de mensajes SIN emoji; alguno muy de vez en cuando solo si aporta.',
+  medio:     'Emojis con moderación: alguno ocasional cuando encaje, pero no en todos los mensajes.',
+  bastantes: 'Usa emojis con bastante frecuencia: aproximadamente un emoji en la mayoría de mensajes, sin pasarte.',
+  muchos:    'Usa muchos emojis y expresivos: casi todos los mensajes con uno o dos emojis, tono muy desenfadado.',
+};
+function emojiBlock() {
+  const txt = EMOJI_NIVELES[config.emojiNivel] || EMOJI_NIVELES.pocos;
+  return `\n\n# USO DE EMOJIS (manda sobre cualquier otra indicación de emojis del prompt)\n${txt}`;
+}
+
 // Divide la respuesta del modelo en partes (array de strings no vacíos).
 function parseParts(content) {
   // 1. Intentar JSON { response: { part_1.. } }
@@ -68,7 +81,7 @@ function alternar(list) {
  * @param {string} texto         mensaje ya agregado/transcrito
  */
 export async function generarRespuesta(subscriberId, nombre, texto) {
-  const system = renderPrompt(getPrompt(), { nombre }) + rulesBlock() + FORMATO;
+  const system = renderPrompt(getPrompt(), { nombre }) + rulesBlock() + emojiBlock() + FORMATO;
 
   // Saneamos el historial: solo mensajes válidos (evita que una entrada corrupta
   // rompa TODAS las llamadas siguientes y el bot deje de contestar).
@@ -147,7 +160,7 @@ export async function generarSeguimiento(subscriberId, nombre) {
 El lead no ha contestado a tu último mensaje. Decide con sentido común:
 1) Si la conversación YA HA TERMINADO y no debe continuar —despedida, un "gracias" final, dijo que no le interesa o que lo verá más adelante, ya se le envió el enlace/agenda, ya cerró, o no hay nada natural que retomar— responde ÚNICAMENTE con esta palabra, sin nada más: TERMINADA
 2) Si de verdad tiene sentido retomar (se quedó a medias cualificando) → responde ÚNICAMENTE con un JSON { "response": { "part_1": "mensaje corto, natural y cercano", "part_2": "" } }, sin reenviar links, sin agobiar, enganchando con una pregunta ligera sobre lo último que hablasteis.
-Responde SOLO con la palabra TERMINADA o SOLO con el JSON. Ante la duda, prefiere TERMINADA (no molestar).`;
+Responde SOLO con la palabra TERMINADA o SOLO con el JSON. Ante la duda, prefiere TERMINADA (no molestar).` + emojiBlock();
 
   const history = getHistory(subscriberId).filter(m =>
     m && (m.role === 'user' || m.role === 'assistant') &&
