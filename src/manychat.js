@@ -19,26 +19,33 @@ export async function sendText(subscriberId, text, channel = config.manychatChan
     },
   };
 
-  try {
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${config.manychatToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-      signal: AbortSignal.timeout(15000),
-    });
-    if (!res.ok) {
+  // Reintentos ante fallos transitorios (timeout, red, 5xx) para no perder el mensaje.
+  for (let intento = 1; intento <= 3; intento++) {
+    try {
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${config.manychatToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(15000),
+      });
+      if (res.ok) return true;
       const t = await res.text().catch(() => '');
-      console.error(`[ManyChat] Error ${res.status} enviando a ${subscriberId}: ${t}`);
-      return false;
+      // 4xx (subscriber inválido, fuera de ventana 24h, token…) → no se arregla reintentando
+      if (res.status >= 400 && res.status < 500) {
+        console.error(`[ManyChat] Error ${res.status} enviando a ${subscriberId}: ${t}`);
+        return false;
+      }
+      console.warn(`[ManyChat] ${res.status} (intento ${intento}/3) a ${subscriberId}: ${t}`);
+    } catch (e) {
+      console.warn(`[ManyChat] fallo de red (intento ${intento}/3) a ${subscriberId}: ${e.message}`);
     }
-    return true;
-  } catch (e) {
-    console.error(`[ManyChat] Fallo enviando a ${subscriberId}: ${e.message}`);
-    return false;
+    await new Promise(r => setTimeout(r, 700 * intento));
   }
+  console.error(`[ManyChat] No se pudo enviar a ${subscriberId} tras 3 intentos.`);
+  return false;
 }
 
 // Obtiene info del suscriptor (réplica de "Obtengo Info de Lead").
