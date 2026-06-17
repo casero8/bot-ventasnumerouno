@@ -56,6 +56,9 @@ const base = {
 
   // Nivel de emojis del agente: ninguno | pocos | medio | bastantes | muchos
   emojiNivel: process.env.EMOJI_NIVEL || 'pocos',
+
+  // Longitud de los mensajes: cortos | medios | largos
+  longitudMensajes: process.env.LONGITUD_MENSAJES || 'cortos',
 };
 
 // Overlay desde data/settings.json (lo que se edita en el panel manda sobre .env)
@@ -71,7 +74,7 @@ export const EDITABLE = [
   'openaiKey', 'anthropicKey', 'model', 'visionModel', 'transcribeModel',
   'manychatToken', 'manychatChannel',
   'whatsappOutboundUrl', 'whatsappOutboundToken',
-  'webhookToken', 'ritmo', 'followupPlan', 'emojiNivel', 'bufferSeconds', 'secondsPerLetter', 'memoryWindow',
+  'webhookToken', 'ritmo', 'followupPlan', 'emojiNivel', 'longitudMensajes', 'bufferSeconds', 'secondsPerLetter', 'memoryWindow',
   'readingMinSeconds', 'readingMaxSeconds', 'typingMinSeconds', 'typingMaxSeconds',
   'partPauseMinSeconds', 'partPauseMaxSeconds',
 ];
