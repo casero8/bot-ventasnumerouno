@@ -105,6 +105,7 @@ export function followupCandidates(nowMs, delaysMin) {
   const WINDOW_MS = 24 * 60 * 60 * 1000; // ventana de 24h de Instagram
   for (const [id, conv] of Object.entries(all)) {
     if (!conv || conv.lastRole !== 'assistant') continue;        // el bot debe haber hablado el último
+    if (conv.outcome === 'agenda') continue;                      // ya agendó (link enviado): conversación terminada, NO se le vuelve a hablar
     if (conv.cerrada) continue;                                   // conversación ya cerrada
     const sent = conv.followupsSent || 0;
     if (sent >= delaysMin.length) continue;                       // ya mandados todos los seguimientos
