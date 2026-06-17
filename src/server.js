@@ -16,7 +16,7 @@ import { processMedia, isUrl } from './media.js';
 import {
   bufferMessage, addMessages, resetConversation,
   allConversations, getStats, bumpStat, getUsage, flushAllBuffers,
-  followupCandidates, recordFollowup, outcomesSummary,
+  followupCandidates, recordFollowup, outcomesSummary, marcarCerrada,
   getInsightsMeta, setInsightsMeta,
 } from './store.js';
 
@@ -318,7 +318,13 @@ async function tickFollowups() {
     if (c.id === TEST_ID) continue;            // no tocar el banco de pruebas
     if (derivados.has(String(c.id))) continue; // no molestar a leads ya derivados
     try {
-      const parts = await generarSeguimiento(c.id, c.name);
+      const r = await generarSeguimiento(c.id, c.name);
+      if (r.terminada) {                       // la IA detecta que la conversación ya acabó
+        marcarCerrada(c.id);
+        console.log(`🔕 Conversación cerrada (no se sigue): ${c.name || c.id}`);
+        continue;
+      }
+      const parts = r.parts || [];
       if (!parts.length) continue;
       // Espera de "tipeo" ligera y envío
       for (let i = 0; i < parts.length; i++) {

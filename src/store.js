@@ -37,10 +37,11 @@ export function addMessages(id, name, newMsgs, channel) {
     conv.messages = conv.messages.slice(-config.memoryWindow);
   }
   conv.updatedAt = new Date().toISOString();
-  // Seguimiento: si el lead ha escrito en este turno, reseteamos el contador de seguimientos
+  // Seguimiento: si el lead ha escrito en este turno, reseteamos el contador y REABRIMOS
   if (valid.some(m => m.role === 'user')) {
     conv.lastLeadAt = conv.updatedAt;
     conv.followupsSent = 0;
+    conv.cerrada = false;            // si el lead vuelve a escribir, la conversación se reabre
   }
   const last = conv.messages[conv.messages.length - 1];
   conv.lastRole = last ? last.role : conv.lastRole;
@@ -57,6 +58,17 @@ export function addMessages(id, name, newMsgs, channel) {
 const INS = 'insights.json';
 export function getInsightsMeta() { return read(INS, {}); }
 export function setInsightsMeta(m) { write(INS, { ...read(INS, {}), ...m }); }
+
+// Marca una conversación como cerrada (no se le mandan más seguimientos).
+export function marcarCerrada(id) {
+  const all = read(CONV, {});
+  const c = all[id];
+  if (!c) return;
+  c.cerrada = true;
+  c.updatedAt = new Date().toISOString();
+  all[id] = c;
+  write(CONV, all);
+}
 
 // Resumen de resultados para el módulo de aprendizaje.
 export function outcomesSummary() {
@@ -93,6 +105,7 @@ export function followupCandidates(nowMs, delaysMin) {
   const WINDOW_MS = 24 * 60 * 60 * 1000; // ventana de 24h de Instagram
   for (const [id, conv] of Object.entries(all)) {
     if (!conv || conv.lastRole !== 'assistant') continue;        // el bot debe haber hablado el último
+    if (conv.cerrada) continue;                                   // conversación ya cerrada
     const sent = conv.followupsSent || 0;
     if (sent >= delaysMin.length) continue;                       // ya mandados todos los seguimientos
     if (!conv.lastLeadAt) continue;
@@ -101,9 +114,10 @@ export function followupCandidates(nowMs, delaysMin) {
     if (nowMs - leadMs >= WINDOW_MS) continue;                    // fuera de la ventana de 24h
     const dueMs = leadMs + delaysMin[sent] * 60 * 1000;
     if (nowMs < dueMs) continue;                                  // aún no toca
-    // No reenganchar a leads cerrados por país (no-España)
+    // No reenganchar conversaciones ya cerradas: país (no-España) o despedidas claras
     const lastTxt = String(conv.messages[conv.messages.length - 1]?.content || '');
     if (/trabajando con gente en Espa/i.test(lastTxt)) continue;
+    if (/(un saludo|hasta luego|hasta pronto|nos vemos|espero que (te )?(vaya|sea|salga)|cualquier cosa me dices|estamos en contacto|mucha suerte|un abrazo|que vaya bien)/i.test(lastTxt)) continue;
     out.push({ id, name: conv.name || '', channel: conv.channel || 'instagram', sent });
   }
   return out;

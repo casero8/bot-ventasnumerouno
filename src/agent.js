@@ -123,33 +123,44 @@ export async function generarRespuesta(subscriberId, nombre, texto) {
  */
 export async function generarSeguimiento(subscriberId, nombre) {
   const sys = renderPrompt(getPrompt(), { nombre }) + rulesBlock() +
-    `\n\n# TAREA AHORA: SEGUIMIENTO (el lead te dejó en visto)\n` +
-    `El lead no ha contestado a tu último mensaje. Escríbele UN mensaje corto, natural y cercano para retomar la conversación, sin agobiar, sin sonar a plantilla y SIN reenviar links. Engancha con una pregunta ligera sobre lo último que hablasteis. No repitas literalmente lo que ya dijiste.` +
-    FORMATO;
+`
+
+# TAREA AHORA: ¿SEGUIMIENTO O YA TERMINÓ?
+El lead no ha contestado a tu último mensaje. Decide con sentido común:
+1) Si la conversación YA HA TERMINADO y no debe continuar —despedida, un "gracias" final, dijo que no le interesa o que lo verá más adelante, ya se le envió el enlace/agenda, ya cerró, o no hay nada natural que retomar— responde ÚNICAMENTE con esta palabra, sin nada más: TERMINADA
+2) Si de verdad tiene sentido retomar (se quedó a medias cualificando) → responde ÚNICAMENTE con un JSON { "response": { "part_1": "mensaje corto, natural y cercano", "part_2": "" } }, sin reenviar links, sin agobiar, enganchando con una pregunta ligera sobre lo último que hablasteis.
+Responde SOLO con la palabra TERMINADA o SOLO con el JSON. Ante la duda, prefiere TERMINADA (no molestar).`;
 
   const history = getHistory(subscriberId).filter(m =>
     m && (m.role === 'user' || m.role === 'assistant') &&
     typeof m.content === 'string' && m.content.trim().length);
 
-  const trigger = '(El lead sigue sin responder. Mándale ahora un seguimiento breve y natural para retomar.)';
+  const trigger = '(El lead sigue sin responder. ¿Toca seguimiento o ya terminó? Responde TERMINADA o el JSON.)';
 
+  let raw = '';
   // Claude si hay key; si falla, respaldo a OpenAI
   if (isClaudeModel(config.model) && config.anthropicKey) {
-    try { return await generarConClaude(sys, history, trigger, { subscriberId, nombre }); }
-    catch (e) { console.error('[seguimiento][Claude]', e.status || '', e.message); if (!config.openaiKey) return []; }
+    try {
+      const resp = await getAnthropic().messages.create({
+        model: config.model, max_tokens: 300, system: sys,
+        messages: [...history.map(m => ({ role: m.role, content: m.content })), { role: 'user', content: trigger }],
+      });
+      recordUsage(config.model, resp.usage?.input_tokens || 0, resp.usage?.output_tokens || 0);
+      raw = (resp.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
+    } catch (e) { console.error('[seguimiento][Claude]', e.status || '', e.message); if (!config.openaiKey) return { terminada: false, parts: [] }; }
+  }
+  if (!raw) {
+    const model = isClaudeModel(config.model) ? 'gpt-4o-mini' : config.model;
+    try {
+      const completion = await chatWithRetry({ model, messages: [{ role: 'system', content: sys }, ...history, { role: 'user', content: trigger }] });
+      recordUsage(model, completion.usage?.prompt_tokens || 0, completion.usage?.completion_tokens || 0);
+      raw = completion.choices[0].message.content || '';
+    } catch (e) { console.error('[seguimiento][OpenAI]', e.status || '', e.message); return { terminada: false, parts: [] }; }
   }
 
-  // OpenAI
-  const model = isClaudeModel(config.model) ? 'gpt-4o-mini' : config.model;
-  const messages = [{ role: 'system', content: sys }, ...history, { role: 'user', content: trigger }];
-  try {
-    const completion = await chatWithRetry({ model, messages });
-    recordUsage(model, completion.usage?.prompt_tokens || 0, completion.usage?.completion_tokens || 0);
-    return parseParts(completion.choices[0].message.content || '');
-  } catch (e) {
-    console.error('[seguimiento][OpenAI]', e.status || '', e.message);
-    return [];
-  }
+  // Si dice TERMINADA (y no es un JSON) → conversación cerrada, no se sigue.
+  if (/\bTERMINADA\b/i.test(raw) && !raw.includes('{')) return { terminada: true, parts: [] };
+  return { terminada: false, parts: parseParts(raw) };
 }
 
 /**
