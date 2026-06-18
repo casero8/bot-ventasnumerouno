@@ -284,13 +284,13 @@ async function responder(id, name, joined, channel) {
     parts = await generarRespuesta(id, name, joined);
   } catch (e) {
     console.error(`[agente] Error generando respuesta para ${id}:`, e.status || '', e.message);
-    parts = [];
+    // Solo ante un ERROR real mandamos cortesía, para no dejar al lead colgado.
+    await deliver(channel, id, 'Perdona, se me cruzaron los cables un segundo 😅 ¿me lo repites?').catch(() => {});
+    return;
   }
-  // Nunca dejamos al lead colgado: si no hay respuesta, mandamos un mensaje de cortesía
-  // (así la conversación no se "queda parada" aunque falle el modelo).
+  // Respuesta vacía = el modelo decidió no responder (cierre, "ok", "gracias"…) → silencio.
   if (!parts.length) {
-    console.warn(`[agente] Sin respuesta (0 partes) para ${id} → envío mensaje de cortesía`);
-    await deliver(channel, id, 'Perdona, se me cruzaron los cables un segundo 😅 ¿me lo repites?');
+    console.warn(`[agente] Respuesta vacía para ${id} → no se envía nada`);
     return;
   }
 

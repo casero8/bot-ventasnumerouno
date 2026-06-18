@@ -50,22 +50,32 @@ function longitudBlock() {
 
 // Divide la respuesta del modelo en partes (array de strings no vacíos).
 function parseParts(content) {
+  const raw = String(content || '');
   // 1. Intentar JSON { response: { part_1.. } }
   try {
-    const jsonStr = content.slice(content.indexOf('{'), content.lastIndexOf('}') + 1);
+    const jsonStr = raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1);
     const obj = JSON.parse(jsonStr);
     const r = obj.response || obj;
-    const parts = [];
-    for (let i = 1; i <= 10; i++) {
-      const v = r['part_' + i];
-      if (typeof v === 'string' && v.trim()) parts.push(v.trim());
+    if (r && typeof r === 'object') {
+      const parts = [];
+      for (let i = 1; i <= 10; i++) {
+        const v = r['part_' + i];
+        if (typeof v === 'string' && v.trim()) parts.push(v.trim());
+      }
+      // Si era una respuesta estructurada (tiene 'response' o claves part_N),
+      // devolvemos SOLO sus partes (aunque salga []). NUNCA el JSON crudo.
+      if ('response' in obj || Object.keys(r).some(k => /^part_\d+$/.test(k))) {
+        return parts;
+      }
+      if (parts.length) return parts;
     }
-    if (parts.length) return parts;
   } catch { /* cae al fallback */ }
 
-  // 2. Fallback: usar el texto plano como una sola parte
-  const clean = content.trim();
-  return clean ? [clean] : [];
+  // 2. Fallback: texto plano como una parte. Pero NUNCA enviar algo que parezca JSON/código.
+  const clean = raw.trim();
+  if (!clean) return [];
+  if (/^```/.test(clean) || /"response"\s*:/.test(clean) || /"part_\d+"\s*:/.test(clean) || (clean.startsWith('{') && clean.endsWith('}'))) return [];
+  return [clean];
 }
 
 // Garantiza alternancia user/assistant (Claude la EXIGE): fusiona mensajes
