@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Profesión Online Halal</title>
+<style>
+  /* ===================== RESET / BASE ===================== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root{
+    --netflix-red:#E50914;
+    --bg:#141414;
+    --text:#fff;
+    --muted:#b3b3b3;
+  }
+  html,body{background:var(--bg);color:var(--text);
+    font-family:'Helvetica Neue',Helvetica,Arial,'Segoe UI',Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-thumb{background:#333;border-radius:6px;}
+  ::-webkit-scrollbar-track{background:#141414;}
+
+  /* ===================== NAVBAR ===================== */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 4%;
+    background:linear-gradient(180deg,rgba(0,0,0,.85) 10%,rgba(0,0,0,0) 100%);
+    transition:background-color .4s ease;
+  }
+  header.scrolled{background:#141414;}
+  .nav-left{display:flex;align-items:center;gap:40px;}
+  .logo{
+    color:var(--netflix-red);font-weight:800;letter-spacing:-1px;
+    font-size:28px;line-height:1;white-space:nowrap;
+    text-transform:uppercase;
+  }
+  .logo span{font-size:13px;font-weight:700;letter-spacing:2px;color:#fff;
+    display:block;margin-top:2px;opacity:.85;text-transform:uppercase;}
+  nav ul{display:flex;gap:20px;list-style:none;}
+  nav ul li{font-size:14px;color:#e5e5e5;cursor:pointer;transition:color .3s;}
+  nav ul li:hover{color:#b3b3b3;}
+  .nav-right{display:flex;align-items:center;gap:22px;}
+  .avatar{width:32px;height:32px;border-radius:4px;
+    background:linear-gradient(135deg,#e50914,#b20710);}
+  .icon-btn{color:#fff;cursor:pointer;display:flex;}
+
+  /* ===================== HERO / BILLBOARD ===================== */
+  .hero{
+    position:relative;height:88vh;min-height:560px;width:100%;
+    display:flex;align-items:center;
+    background:
+      radial-gradient(120% 90% at 75% 20%,rgba(229,9,20,.28),transparent 60%),
+      linear-gradient(135deg,#1c1c1c 0%,#0a0a0a 55%,#000 100%);
+  }
+  .hero::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 60%,rgba(20,20,20,.6) 85%,#141414 100%),
+               linear-gradient(90deg,rgba(0,0,0,.75) 0%,rgba(0,0,0,.25) 45%,transparent 70%);}
+  .hero-content{position:relative;z-index:3;padding:0 4%;max-width:640px;}
+  .hero-badge{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .hero-badge .n{color:var(--netflix-red);font-weight:800;font-size:26px;
+    letter-spacing:2px;}
+  .hero-badge .t{font-size:14px;letter-spacing:4px;color:#dcdcdc;font-weight:600;}
+  .hero h1{font-size:clamp(34px,5.5vw,72px);font-weight:800;line-height:1.02;
+    margin-bottom:18px;text-shadow:2px 2px 12px rgba(0,0,0,.6);}
+  .hero-meta{display:flex;align-items:center;gap:14px;margin-bottom:16px;
+    font-size:15px;color:#e5e5e5;}
+  .tag-hd{border:1px solid #7a7a7a;border-radius:3px;padding:0 6px;font-size:12px;
+    color:#c9c9c9;}
+  .match{color:#46d369;font-weight:700;}
+  .hero p{font-size:clamp(15px,1.4vw,19px);color:#e5e5e5;line-height:1.4;
+    margin-bottom:26px;max-width:560px;text-shadow:1px 1px 6px rgba(0,0,0,.5);}
+  .hero-buttons{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:10px;border:none;cursor:pointer;
+    font-size:18px;font-weight:700;padding:11px 26px;border-radius:5px;
+    transition:opacity .2s,background-color .2s;}
+  .btn svg{width:24px;height:24px;}
+  .btn-play{background:#fff;color:#000;}
+  .btn-play:hover{background:rgba(255,255,255,.75);}
+  .btn-info{background:rgba(109,109,110,.7);color:#fff;}
+  .btn-info:hover{background:rgba(109,109,110,.5);}
+
+  /* ===================== ROW / EPISODES ===================== */
+  .section{position:relative;z-index:5;margin-top:-70px;padding:0 4% 60px;}
+  .row-title{font-size:clamp(20px,1.8vw,26px);font-weight:700;margin:34px 0 6px;}
+  .row-sub{color:var(--muted);font-size:14px;margin-bottom:18px;}
+
+  .episodes{display:flex;flex-direction:column;}
+  .ep{
+    display:flex;align-items:center;gap:20px;padding:20px 12px;
+    border-top:1px solid #2a2a2a;cursor:pointer;transition:background-color .25s;
+  }
+  .ep:hover{background:#232323;border-radius:8px;}
+  .ep-num{font-size:26px;color:var(--muted);width:34px;text-align:center;flex:none;font-weight:500;}
+  .ep-thumb{
+    position:relative;width:180px;height:102px;flex:none;border-radius:6px;
+    overflow:hidden;background:#000;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .ep-thumb img{width:100%;height:100%;object-fit:cover;}
+  .ep-thumb .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+    font-size:44px;font-weight:800;color:rgba(255,255,255,.85);}
+  .ep-thumb .play-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(0,0,0,.35);opacity:0;transition:opacity .25s;}
+  .ep:hover .ep-thumb .play-ov{opacity:1;}
+  .ep-thumb .play-ov svg{width:40px;height:40px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.6));}
+  .ep-info{flex:1;min-width:0;}
+  .ep-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;}
+  .ep-title{font-size:17px;font-weight:600;}
+  .ep-dur{font-size:14px;color:var(--muted);flex:none;}
+  .ep-desc{font-size:14px;color:var(--muted);line-height:1.4;}
+
+  /* ===================== MODAL PLAYER ===================== */
+  .modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+    background:rgba(0,0,0,.85);padding:20px;}
+  .modal.open{display:flex;}
+  .modal-box{width:min(960px,100%);background:#181818;border-radius:10px;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.7);position:relative;animation:pop .3s ease;}
+  @keyframes pop{from{transform:scale(.94);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .modal-video{position:relative;width:100%;aspect-ratio:16/9;background:#000;}
+  .modal-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .modal-body{padding:22px 26px 28px;}
+  .modal-body h2{font-size:24px;font-weight:800;margin-bottom:8px;}
+  .modal-body .m-meta{display:flex;gap:12px;align-items:center;color:var(--muted);font-size:14px;margin-bottom:14px;}
+  .modal-body p{color:#d2d2d2;font-size:15px;line-height:1.5;}
+  .modal-close{position:absolute;top:14px;right:14px;z-index:5;width:36px;height:36px;border-radius:50%;
+    background:#181818;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.6);}
+  .modal-close:hover{background:#333;}
+
+  /* ===================== CTA STRIP ===================== */
+  .cta{margin:10px 4% 70px;background:linear-gradient(120deg,#1f1f1f,#111);
+    border:1px solid #2a2a2a;border-radius:12px;padding:34px;text-align:center;}
+  .cta h3{font-size:clamp(20px,2vw,28px);font-weight:800;margin-bottom:10px;}
+  .cta p{color:var(--muted);max-width:620px;margin:0 auto 22px;line-height:1.5;}
+  .cta .btn-play{font-size:16px;}
+
+  /* ===================== FOOTER ===================== */
+  footer{padding:40px 4% 60px;color:#808080;font-size:13px;max-width:900px;}
+  footer .fnav{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 30px;margin-bottom:22px;}
+  footer .fnav a{color:#808080;}footer .fnav a:hover{text-decoration:underline;}
+  footer .copy{font-size:12px;}
+
+  /* ===================== RESPONSIVE ===================== */
+  @media(max-width:740px){
+    nav ul{display:none;}
+    .logo{font-size:22px;}
+    .ep-thumb{width:120px;height:68px;}
+    .ep-num{display:none;}
+    .ep-dur{display:none;}
+    footer .fnav{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<header id="nav">
+  <div class="nav-left">
+    <div class="logo">HALAL<span>Profesión Online</span></div>
+    <nav>
+      <ul>
+        <li>Inicio</li>
+        <li>La Serie</li>
+        <li>Clases</li>
+        <li>Mi lista</li>
+      </ul>
+    </nav>
+  </div>
+  <div class="nav-right">
+    <div class="icon-btn" aria-label="Buscar">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+    </div>
+    <div class="icon-btn" aria-label="Notificaciones">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6v-5a7 7 0 0 0-5-6.7V4a2 2 0 1 0-4 0v.3A7 7 0 0 0 5 11v5l-2 2v1h18v-1l-2-2z"/></svg>
+    </div>
+    <div class="avatar"></div>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="n">S</span>
+      <span class="t">SERIE ORIGINAL · EVENTO</span>
+    </div>
+    <h1>La Profesión<br>Online Halal</h1>
+    <div class="hero-meta">
+      <span class="match">98% para ti</span>
+      <span>2026</span>
+      <span class="tag-hd">HD</span>
+      <span>4 clases</span>
+    </div>
+    <p>Si eres musulmán y quieres aprender una forma <b>halal</b> de generar ingresos desde casa vendiendo servicios online, esta serie te enseña el camino paso a paso. 100% gratuito.</p>
+    <div class="hero-buttons">
+      <button class="btn btn-play" onclick="openEp(0)">
+        <svg viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg> Reproducir
+      </button>
+      <button class="btn btn-info" onclick="document.getElementById('episodios').scrollIntoView({behavior:'smooth'})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg> Más información
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EPISODES ===================== -->
+<section class="section" id="episodios">
+  <h2 class="row-title">Episodios</h2>
+  <div class="row-sub">Temporada 1: La Profesión Online Halal · 4 clases</div>
+  <div class="episodes" id="ep-list"></div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<div class="cta">
+  <h3>🎁 ¿Quieres tu acceso gratuito?</h3>
+  <p>Durante el evento realizaremos varios sorteos y regalos exclusivos para los asistentes. Comenta la palabra <b>“ENTRADA”</b> y te enviaremos toda la información por mensaje privado.</p>
+  <button class="btn btn-play" onclick="openEp(0)">
+    <svg viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg> Empezar la Clase 1
+  </button>
+</div>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="fnav">
+    <a>Preguntas frecuentes</a>
+    <a>Centro de ayuda</a>
+    <a>Condiciones de uso</a>
+    <a>Privacidad</a>
+    <a>Contacto</a>
+    <a>La Serie</a>
+    <a>Clases</a>
+    <a>Aviso legal</a>
+  </div>
+  <div class="copy">La Profesión Online Halal · Serie educativa. Nos vemos dentro, in sha Allah. 🤲</div>
+</footer>
+
+<!-- ===================== MODAL ===================== -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeEp()" aria-label="Cerrar">✕</button>
+    <div class="modal-video"><iframe id="player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="modal-body">
+      <h2 id="m-title"></h2>
+      <div class="m-meta"><span id="m-num"></span><span id="m-dur"></span></div>
+      <p id="m-desc"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   ⬇️ EDITA AQUÍ TUS 4 CLASES
+   Pega el ID del vídeo de YouTube en "youtubeId".
+   El ID es lo que va después de "v=" o "youtu.be/".
+   Ejemplo: youtu.be/dQw4w9WgXcQ  ->  youtubeId: "dQw4w9WgXcQ"
+   Puedes dejarlo vacío ("") hasta que grabes y subas cada clase.
+   (Opcional) "thumb": pon la URL de una imagen de portada.
+   ============================================================ */
+const CLASES = [
+  {
+    titulo: "El cambio de mentalidad",
+    duracion: "Clase 1",
+    descripcion: "Descubre por qué la mayoría nunca consigue independencia económica y cuál es la forma correcta de empezar.",
+    youtubeId: "",
+    thumb: ""
+  },
+  {
+    titulo: "La habilidad que siempre tendrá demanda",
+    duracion: "Clase 2",
+    descripcion: "Aprende qué servicio puedes ofrecer sin experiencia previa y por qué las empresas ya están pagando por ello.",
+    youtubeId: "",
+    thumb: ""
+  },
+  {
+    titulo: "Cómo conseguir clientes",
+    duracion: "Clase 3",
+    descripcion: "El sistema que utilizamos para encontrar clientes de forma halal, incluso empezando desde cero.",
+    youtubeId: "",
+    thumb: ""
+  },
+  {
+    titulo: "Acompañamiento y dudas",
+    duracion: "Clase 4",
+    descripcion: "Resolveremos las dudas más importantes y te mostraremos cómo construir una profesión online con acompañamiento.",
+    youtubeId: "",
+    thumb: ""
+  }
+];
+
+/* Colores de portada de cada clase (fallback si no hay imagen) */
+const GRADS = [
+  "linear-gradient(135deg,#e50914,#7a0409)",
+  "linear-gradient(135deg,#1f4e8c,#0b2545)",
+  "linear-gradient(135deg,#0f7a5a,#053d2c)",
+  "linear-gradient(135deg,#7a3fb0,#331452)"
+];
+
+/* ---------- Render episodios ---------- */
+const list = document.getElementById('ep-list');
+CLASES.forEach((c,i)=>{
+  const el = document.createElement('div');
+  el.className = 'ep';
+  el.onclick = ()=>openEp(i);
+  const thumbInner = c.thumb
+    ? `<img src="${c.thumb}" alt="">`
+    : `<div class="ph" style="background:${GRADS[i%GRADS.length]}">${i+1}</div>`;
+  el.innerHTML = `
+    <div class="ep-num">${i+1}</div>
+    <div class="ep-thumb">
+      ${thumbInner}
+      <div class="play-ov"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
+    </div>
+    <div class="ep-info">
+      <div class="ep-head">
+        <div class="ep-title">${i+1}. ${c.titulo}</div>
+        <div class="ep-dur">${c.duracion}</div>
+      </div>
+      <div class="ep-desc">${c.descripcion}</div>
+    </div>`;
+  list.appendChild(el);
+});
+
+/* ---------- Modal player ---------- */
+const modal = document.getElementById('modal');
+const player = document.getElementById('player');
+function openEp(i){
+  const c = CLASES[i];
+  document.getElementById('m-title').textContent = `${i+1}. ${c.titulo}`;
+  document.getElementById('m-num').textContent = c.duracion;
+  document.getElementById('m-dur').textContent = "Temporada 1";
+  document.getElementById('m-desc').textContent = c.descripcion;
+  if(c.youtubeId){
+    player.src = `https://www.youtube.com/embed/${c.youtubeId}?autoplay=1&rel=0&modestbranding=1`;
+    player.style.display = 'block';
+  }else{
+    player.removeAttribute('src');
+    player.style.display = 'none';
+    document.querySelector('.modal-video').innerHTML =
+      `<iframe id="player" style="display:none"></iframe>
+       <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;color:#b3b3b3">
+         <svg width="54" height="54" viewBox="0 0 24 24" fill="#e50914"><path d="M8 5v14l11-7z"/></svg>
+         <div style="font-size:17px;color:#fff;font-weight:600">Clase ${i+1} próximamente</div>
+         <div style="font-size:14px">Aún no has añadido el enlace de YouTube de esta clase.</div>
+       </div>`;
+  }
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeEp(){
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  const p = document.getElementById('player');
+  if(p) p.removeAttribute('src');
+  // restaurar iframe limpio para la próxima apertura
+  document.querySelector('.modal-video').innerHTML =
+    '<iframe id="player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+}
+modal.addEventListener('click', e=>{ if(e.target===modal) closeEp(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeEp(); });
+
+/* ---------- Navbar scroll ---------- */
+window.addEventListener('scroll', ()=>{
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY>60);
+});
+</script>
+</body>
+</html>

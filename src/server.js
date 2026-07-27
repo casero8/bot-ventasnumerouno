@@ -52,6 +52,7 @@ app.use((req, res, next) => {
 /* ───────────────── Panel para editar el prompt ───────────────── */
 app.use(express.static(PUBLIC_DIR));
 app.get('/', (_req, res) => res.sendFile(path.join(PUBLIC_DIR, 'admin.html')));
+app.get('/serie', (_req, res) => res.sendFile(path.join(PUBLIC_DIR, 'serie.html')));
 app.get('/api/prompt', (_req, res) => res.json({ prompt: getPrompt() }));
 app.post('/api/prompt', (req, res) => {
   if (typeof req.body.prompt !== 'string') return res.status(400).json({ error: 'prompt requerido' });
