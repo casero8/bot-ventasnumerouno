@@ -110,7 +110,12 @@
   .ep-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;}
   .ep-title{font-size:17px;font-weight:600;}
   .ep-dur{font-size:14px;color:var(--muted);flex:none;}
-  .ep-desc{font-size:14px;color:var(--muted);line-height:1.4;}
+  .ep-desc{font-size:14px;color:var(--muted);line-height:1.4;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .ep-desc.expanded{display:block;overflow:visible;}
+  .ver-mas{background:none;border:none;padding:0;margin-top:6px;cursor:pointer;
+    color:#fff;font-weight:600;font-size:13px;font-family:inherit;}
+  .ver-mas:hover{color:var(--netflix-red);}
 
   /* ===================== MODAL PLAYER ===================== */
   .modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
@@ -261,30 +266,30 @@
    ============================================================ */
 const CLASES = [
   {
-    titulo: "Por qué el 90% fracasa en los negocios online",
+    titulo: "Por qué el 90% fracasa en internet (y no es tu culpa)",
     duracion: "Clase 1",
-    descripcion: "Descubre por qué la mayoría fracasa con los negocios online y los cursos, y cómo desarrollar la mentalidad y los principios correctos para empezar bien desde el primer día.",
+    descripcion: "Nadie te lo ha contado, pero hay un motivo real por el que casi todo el mundo fracasa online y sigue atrapado en su nómina de siempre. Cuando entiendas lo que te enseño en esta clase no vas a poder verlo de otra forma… y vas a querer empezar hoy mismo. Aviso: esto te va a incomodar antes de motivarte.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "Closer de ventas: la profesión mejor pagada del mundo digital",
+    titulo: "La profesión de la que nadie habla y paga +3.000€ sin vender nada tuyo",
     duracion: "Clase 2",
-    descripcion: "No vendes nada tuyo ni ofreces servicios: colaboras con negocios digitales que ya venden y te ocupas de la última parte del embudo. Hablas con personas que ya quieren el producto y solo necesitan dar el paso de decidir. Te explico en qué consiste y por qué se paga tan bien.",
+    descripcion: "No creas productos, no montas una web y no persigues a nadie. Solo hablas con personas que YA quieren comprar y les ayudas a dar el último paso. Se llama closer de ventas y es el secreto mejor guardado del mundo digital: estás al final del embudo, donde está el dinero. Espera a ver lo que se cobra por una sola llamada.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "Técnicas de venta y la estructura que lo cambia todo",
+    titulo: "De teleoperador a +7.000€/mes: la estructura exacta que uso",
     duracion: "Clase 3",
-    descripcion: "La estructura exacta y las técnicas que uso en cada llamada para cerrar. Te cuento cómo pasé de ser teleoperador a generar +7.000€ todos los meses aplicando este mismo sistema paso a paso.",
+    descripcion: "Te voy a enseñar, casi palabra por palabra, la estructura que convierte una simple conversación en un “sí”. La misma que me sacó de un call center y hoy me hace facturar en un mes más que antes en medio año. Presta atención al momento exacto en el que la persona decide comprar: ahí está todo.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "De años en solitario a menos de 2 meses",
+    titulo: "El atajo que nadie quiere que sepas para vivir de esto en 2 meses",
     duracion: "Clase 4",
-    descripcion: "Todo esto está muy bien, pero hacerlo por tu cuenta —solo con clases y vídeos de YouTube— puede costarte años. Cuando perteneces a una comunidad, un entrenamiento y oportunidades reales dentro de una agencia, ese tiempo se reduce a menos de 2 meses. Te enseño casos reales de gente que ya lo ha conseguido.",
+    descripcion: "Puedes intentarlo solo con vídeos de YouTube y tardar años… o descubrir cómo gente completamente normal ya está viviendo de esto en menos de 60 días dentro de una comunidad y una agencia real. Te enseño casos que parecen mentira (pero no lo son) y lo que tienen todos en común. El que lo ve, lo quiere.",
     youtubeId: "",
     thumb: ""
   }
@@ -318,10 +323,19 @@ CLASES.forEach((c,i)=>{
         <div class="ep-title">${i+1}. ${c.titulo}</div>
         <div class="ep-dur">${c.duracion}</div>
       </div>
-      <div class="ep-desc">${c.descripcion}</div>
+      <div class="ep-desc" id="desc-${i}">${c.descripcion}</div>
+      <button class="ver-mas" onclick="toggleDesc(event,${i})">Ver más</button>
     </div>`;
   list.appendChild(el);
 });
+
+/* ---------- Ver más / Ver menos ---------- */
+function toggleDesc(e,i){
+  e.stopPropagation();
+  const d = document.getElementById('desc-'+i);
+  const exp = d.classList.toggle('expanded');
+  e.currentTarget.textContent = exp ? 'Ver menos' : 'Ver más';
+}
 
 /* ---------- Modal player ---------- */
 const modal = document.getElementById('modal');
