@@ -129,6 +129,10 @@
   .badge-pronto{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;
     text-transform:uppercase;color:#c8a35a;border:1px solid rgba(200,163,90,.5);
     border-radius:4px;padding:1px 8px;}
+  .cover-locked{background:linear-gradient(135deg,#1a1a1a,#050505);align-items:stretch;}
+  .cover-q{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:52px;font-weight:800;color:rgba(255,255,255,.08);z-index:1;}
+  .locked-desc{color:#6b6b6b;font-style:italic;}
   .ep-info{flex:1;min-width:0;}
   .ep-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;}
   .ep-title{font-size:17px;font-weight:600;}
@@ -345,6 +349,30 @@ CLASES.forEach((c,i)=>{
   el.className = 'ep' + (bloqueada ? ' locked' : '');
   el.onclick = ()=>openEp(i);
   const cov = COVERS[i%COVERS.length];
+
+  if(bloqueada){
+    // Máximo misterio: sin título, sin descripción, sin pistas
+    el.innerHTML = `
+      <div class="ep-num">${i+1}</div>
+      <div class="ep-thumb">
+        <div class="cover cover-locked">
+          <span class="cover-tag">Clase ${i+1} · de 4</span>
+          <span class="cover-q">?</span>
+          <span class="cover-brand">Ventas N1</span>
+        </div>
+        <div class="lock-ov"><svg viewBox="0 0 24 24" fill="#fff"><path d="M17 8V7a5 5 0 0 0-10 0v1H5v14h14V8h-2zM9 7a3 3 0 0 1 6 0v1H9V7zm3 11a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></div>
+      </div>
+      <div class="ep-info">
+        <div class="ep-head">
+          <div class="ep-title">Clase ${i+1}</div>
+          <div class="ep-dur"><span class="badge-pronto">Próximamente</span></div>
+        </div>
+        <div class="ep-desc locked-desc">🔒 Contenido bloqueado. Esta clase se desvelará muy pronto.</div>
+      </div>`;
+    list.appendChild(el);
+    return;
+  }
+
   const thumbInner = c.thumb
     ? `<img src="${c.thumb}" alt="">`
     : `<div class="cover" style="background:${cov.bg}">
@@ -352,22 +380,16 @@ CLASES.forEach((c,i)=>{
          <span class="cover-kw">${cov.kw}</span>
          <span class="cover-brand">Ventas N1</span>
        </div>`;
-  const overlay = bloqueada
-    ? `<div class="lock-ov"><svg viewBox="0 0 24 24" fill="#fff"><path d="M17 8V7a5 5 0 0 0-10 0v1H5v14h14V8h-2zM9 7a3 3 0 0 1 6 0v1H9V7zm3 11a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></div>`
-    : `<div class="play-ov"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>`;
-  const meta = bloqueada
-    ? `<span class="badge-pronto">Próximamente</span>`
-    : `${c.duracion}`;
   el.innerHTML = `
     <div class="ep-num">${i+1}</div>
     <div class="ep-thumb">
       ${thumbInner}
-      ${overlay}
+      <div class="play-ov"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
     </div>
     <div class="ep-info">
       <div class="ep-head">
         <div class="ep-title">${i+1}. ${c.titulo}</div>
-        <div class="ep-dur">${meta}</div>
+        <div class="ep-dur">${c.duracion}</div>
       </div>
       <div class="ep-desc" id="desc-${i}">${c.descripcion}</div>
       <button class="ver-mas" onclick="toggleDesc(event,${i})">Ver más</button>
@@ -390,10 +412,10 @@ function openEp(i){
   const c = CLASES[i];
   // Modo goteo: clase bloqueada -> aviso de próximamente, no reproduce
   if(i >= CLASES_DISPONIBLES){
-    document.getElementById('m-title').textContent = `${i+1}. ${c.titulo}`;
-    document.getElementById('m-num').textContent = c.duracion;
+    document.getElementById('m-title').textContent = `Clase ${i+1}`;
+    document.getElementById('m-num').textContent = `Clase ${i+1} · de 4`;
     document.getElementById('m-dur').textContent = "Próximamente";
-    document.getElementById('m-desc').textContent = "Esta clase todavía no está disponible. Se desbloqueará muy pronto — mantente atento, la vamos publicando una a una.";
+    document.getElementById('m-desc').textContent = "Contenido bloqueado. Esta clase todavía no se ha desvelado — la vamos publicando una a una. Mantente atento.";
     player.removeAttribute('src');
     document.querySelector('.modal-video').innerHTML =
       `<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px;color:#b3b3b3">
