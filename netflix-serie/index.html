@@ -100,8 +100,20 @@
     display:flex;align-items:center;justify-content:center;
   }
   .ep-thumb img{width:100%;height:100%;object-fit:cover;}
-  .ep-thumb .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
-    font-size:44px;font-weight:800;color:rgba(255,255,255,.85);}
+  /* Portada elegante autocontenida (cuando no hay imagen) */
+  .cover{width:100%;height:100%;position:relative;display:flex;flex-direction:column;
+    justify-content:space-between;padding:11px 13px;overflow:hidden;}
+  .cover::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(120% 120% at 88% 12%,rgba(200,163,90,.20),transparent 55%);}
+  .cover::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.55) 100%);}
+  .cover > *{position:relative;z-index:2;}
+  .cover-tag{font-size:8.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700;
+    color:#c8a35a;}
+  .cover-kw{font-size:17px;font-weight:800;line-height:1.08;letter-spacing:-.3px;color:#fff;
+    text-shadow:0 2px 8px rgba(0,0,0,.55);max-width:150px;}
+  .cover-brand{font-size:8px;letter-spacing:3px;text-transform:uppercase;
+    color:rgba(255,255,255,.55);font-weight:600;}
   .ep-thumb .play-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
     background:rgba(0,0,0,.35);opacity:0;transition:opacity .25s;}
   .ep:hover .ep-thumb .play-ov{opacity:1;}
@@ -266,41 +278,41 @@
    ============================================================ */
 const CLASES = [
   {
-    titulo: "Por qué el 90% fracasa en internet (y no es tu culpa)",
+    titulo: "Por qué casi nadie lo consigue (y qué hacen distinto los que sí)",
     duracion: "Clase 1",
-    descripcion: "Nadie te lo ha contado, pero hay un motivo real por el que casi todo el mundo fracasa online y sigue atrapado en su nómina de siempre. Cuando entiendas lo que te enseño en esta clase no vas a poder verlo de otra forma… y vas a querer empezar hoy mismo. Aviso: esto te va a incomodar antes de motivarte.",
+    descripcion: "Existe una razón silenciosa por la que la mayoría lo intenta en internet y termina volviendo a su rutina de siempre. En esta primera clase te muestro ese punto de partida que casi nadie llega a entender, y por qué marca la diferencia entre quedarse igual o empezar de verdad.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "La profesión de la que nadie habla y paga +3.000€ sin vender nada tuyo",
+    titulo: "La profesión mejor pagada del mundo digital (y la más discreta)",
     duracion: "Clase 2",
-    descripcion: "No creas productos, no montas una web y no persigues a nadie. Solo hablas con personas que YA quieren comprar y les ayudas a dar el último paso. Se llama closer de ventas y es el secreto mejor guardado del mundo digital: estás al final del embudo, donde está el dinero. Espera a ver lo que se cobra por una sola llamada.",
+    descripcion: "No creas productos ni persigues a nadie. Tu trabajo es acompañar a personas que ya están interesadas hasta su decisión final. Se llama closer de ventas: vive en la parte del embudo donde de verdad se genera el dinero, y muy pocos saben todavía que existe.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "De teleoperador a +7.000€/mes: la estructura exacta que uso",
+    titulo: "De teleoperador a +7.000€ al mes: la estructura que lo cambió todo",
     duracion: "Clase 3",
-    descripcion: "Te voy a enseñar, casi palabra por palabra, la estructura que convierte una simple conversación en un “sí”. La misma que me sacó de un call center y hoy me hace facturar en un mes más que antes en medio año. Presta atención al momento exacto en el que la persona decide comprar: ahí está todo.",
+    descripcion: "Te comparto la estructura que convierte una conversación en una decisión de compra: la misma que me llevó de un call center a facturar cada mes lo que antes ganaba en medio año. Sencilla, elegante y repetible, paso a paso.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "El atajo que nadie quiere que sepas para vivir de esto en 2 meses",
+    titulo: "Solo tardarás años. Acompañado, semanas.",
     duracion: "Clase 4",
-    descripcion: "Puedes intentarlo solo con vídeos de YouTube y tardar años… o descubrir cómo gente completamente normal ya está viviendo de esto en menos de 60 días dentro de una comunidad y una agencia real. Te enseño casos que parecen mentira (pero no lo son) y lo que tienen todos en común. El que lo ve, lo quiere.",
+    descripcion: "Aprender esto por tu cuenta, con vídeos sueltos, puede llevarte años. Dentro de una comunidad con entrenamiento real y oportunidades dentro de una agencia, el camino se acorta a semanas. Te enseño a quién le ha funcionado y qué tienen todos en común.",
     youtubeId: "",
     thumb: ""
   }
 ];
 
-/* Colores de portada de cada clase (fallback si no hay imagen) */
-const GRADS = [
-  "linear-gradient(135deg,#e50914,#7a0409)",
-  "linear-gradient(135deg,#1f4e8c,#0b2545)",
-  "linear-gradient(135deg,#0f7a5a,#053d2c)",
-  "linear-gradient(135deg,#7a3fb0,#331452)"
+/* Portadas elegantes de cada clase (fallback si no pones imagen en "thumb") */
+const COVERS = [
+  { kw:"Mentalidad",   bg:"linear-gradient(135deg,#232733,#0b0d12)" },
+  { kw:"La profesión", bg:"linear-gradient(135deg,#2b1c22,#120a0d)" },
+  { kw:"La estructura",bg:"linear-gradient(135deg,#17251f,#080f0c)" },
+  { kw:"La comunidad", bg:"linear-gradient(135deg,#1f1b2c,#0b0910)" }
 ];
 
 /* ---------- Render episodios ---------- */
@@ -309,9 +321,14 @@ CLASES.forEach((c,i)=>{
   const el = document.createElement('div');
   el.className = 'ep';
   el.onclick = ()=>openEp(i);
+  const cov = COVERS[i%COVERS.length];
   const thumbInner = c.thumb
     ? `<img src="${c.thumb}" alt="">`
-    : `<div class="ph" style="background:${GRADS[i%GRADS.length]}">${i+1}</div>`;
+    : `<div class="cover" style="background:${cov.bg}">
+         <span class="cover-tag">Clase ${i+1} · de 4</span>
+         <span class="cover-kw">${cov.kw}</span>
+         <span class="cover-brand">Ventas N1</span>
+       </div>`;
   el.innerHTML = `
     <div class="ep-num">${i+1}</div>
     <div class="ep-thumb">
