@@ -282,6 +282,8 @@
   </div>
 </div>
 
+<!-- Estado del goteo (archivo aparte, fácil de editar). Si no carga, usa el valor por defecto. -->
+<script src="estado.js"></script>
 <script>
 /* ============================================================
    ⬇️ EDITA AQUÍ TUS 4 CLASES
@@ -323,15 +325,15 @@ const CLASES = [
 ];
 
 /* ============================================================
-   ⬇️ MODO GOTEO — Controla cuántas clases están desbloqueadas.
-   Cambia solo este número cuando quieras liberar la siguiente:
-     1 = solo la Clase 1 disponible
-     2 = Clases 1 y 2 disponibles
-     3 = Clases 1, 2 y 3 disponibles
-     4 = las 4 clases disponibles
-   Las clases bloqueadas se ven con candado y no se pueden abrir.
+   ⬇️ MODO GOTEO
+   El número de clases desbloqueadas se controla desde el archivo
+   "estado.js" (una sola línea). Así puedes liberar la siguiente
+   clase editando ESE archivo en tu hosting, sin tocar este HTML.
+   Si estado.js no existe, por defecto solo se ve la Clase 1.
    ============================================================ */
-const CLASES_DISPONIBLES = 1;
+const CLASES_DISPONIBLES = (typeof window.CLASES_DISPONIBLES === 'number')
+  ? window.CLASES_DISPONIBLES
+  : 1;
 
 /* Portadas elegantes de cada clase (fallback si no pones imagen en "thumb") */
 const COVERS = [
