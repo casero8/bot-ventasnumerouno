@@ -215,12 +215,11 @@
 
 <!-- ===================== CTA ===================== -->
 <div class="cta">
-  <h3>📞 ¿Listo para dar el paso?</h3>
-  <p>Cuando termines las 4 clases, el siguiente paso es sencillo: agenda una llamada gratuita y vemos si esto encaja contigo y cómo empezar con acompañamiento real.</p>
-  <a class="btn btn-play" id="cta-agenda" href="#">
-    <svg viewBox="0 0 24 24" fill="#000" style="width:22px;height:22px"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.24 1z"/></svg>
-    Agendar mi llamada gratuita
-  </a>
+  <h3>🎬 Empieza ahora por la Clase 1</h3>
+  <p>Cuatro clases para entender de verdad la profesión más demandada del sector digital. Dale al play y empieza cuando quieras.</p>
+  <button class="btn btn-play" onclick="openEp(0)">
+    <svg viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg> Ver la Clase 1
+  </button>
 </div>
 
 <!-- ===================== FOOTER ===================== -->
@@ -262,37 +261,34 @@
    ============================================================ */
 const CLASES = [
   {
-    titulo: "Por qué la mayoría fracasa (y cómo evitarlo)",
+    titulo: "Por qué el 90% fracasa en los negocios online",
     duracion: "Clase 1",
-    descripcion: "Descubre por qué la mayoría fracasa en los negocios online y en los cursos, y cómo desarrollar la mentalidad y los principios correctos para construir un negocio online con éxito.",
+    descripcion: "Descubre por qué la mayoría fracasa con los negocios online y los cursos, y cómo desarrollar la mentalidad y los principios correctos para empezar bien desde el primer día.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "La profesión más demandada del sector digital",
+    titulo: "Closer de ventas: la profesión mejor pagada del mundo digital",
     duracion: "Clase 2",
-    descripcion: "Te enseño qué servicio puedes ofrecer sin experiencia previa, por qué las empresas ya están pagando por ello y cuánto se factura hoy dominando esta habilidad.",
+    descripcion: "No vendes nada tuyo ni ofreces servicios: colaboras con negocios digitales que ya venden y te ocupas de la última parte del embudo. Hablas con personas que ya quieren el producto y solo necesitan dar el paso de decidir. Te explico en qué consiste y por qué se paga tan bien.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "Técnicas de venta y estructura ganadora",
+    titulo: "Técnicas de venta y la estructura que lo cambia todo",
     duracion: "Clase 3",
-    descripcion: "Las técnicas de venta y la estructura exacta que convierte una simple conversación en un cliente. El guion paso a paso que usan los que de verdad cierran ventas.",
+    descripcion: "La estructura exacta y las técnicas que uso en cada llamada para cerrar. Te cuento cómo pasé de ser teleoperador a generar +7.000€ todos los meses aplicando este mismo sistema paso a paso.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "El círculo de ganadores",
+    titulo: "De años en solitario a menos de 2 meses",
     duracion: "Clase 4",
-    descripcion: "Entra en el círculo donde estamos todos los que ya vivimos de esto, hombres y mujeres. Te muestro cómo dar el paso con acompañamiento real. El siguiente paso: agenda tu llamada gratuita.",
+    descripcion: "Todo esto está muy bien, pero hacerlo por tu cuenta —solo con clases y vídeos de YouTube— puede costarte años. Cuando perteneces a una comunidad, un entrenamiento y oportunidades reales dentro de una agencia, ese tiempo se reduce a menos de 2 meses. Te enseño casos reales de gente que ya lo ha conseguido.",
     youtubeId: "",
     thumb: ""
   }
 ];
-
-/* ⬇️ TU ENLACE PARA AGENDAR LA LLAMADA (Calendly, TidyCal, WhatsApp…) */
-const AGENDA_URL = "";
 
 /* Colores de portada de cada clase (fallback si no hay imagen) */
 const GRADS = [
@@ -364,21 +360,6 @@ function closeEp(){
 }
 modal.addEventListener('click', e=>{ if(e.target===modal) closeEp(); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeEp(); });
-
-/* ---------- Botón agendar llamada ---------- */
-(function(){
-  const b = document.getElementById('cta-agenda');
-  if(!b) return;
-  if(AGENDA_URL){
-    b.href = AGENDA_URL; b.target = '_blank'; b.rel = 'noopener';
-  }else{
-    b.href = '#';
-    b.addEventListener('click', e=>{
-      e.preventDefault();
-      alert('Añade tu enlace de agenda en la variable AGENDA_URL (arriba en el script): tu Calendly, TidyCal o WhatsApp.');
-    });
-  }
-})();
 
 /* ---------- Navbar scroll ---------- */
 window.addEventListener('scroll', ()=>{
