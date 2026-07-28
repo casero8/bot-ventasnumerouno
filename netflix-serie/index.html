@@ -215,11 +215,12 @@
 
 <!-- ===================== CTA ===================== -->
 <div class="cta">
-  <h3>🎁 ¿Quieres tu acceso gratuito?</h3>
-  <p>Durante el evento realizaremos varios sorteos y regalos exclusivos para los asistentes. Comenta la palabra <b>“ENTRADA”</b> y te enviaremos toda la información por mensaje privado.</p>
-  <button class="btn btn-play" onclick="openEp(0)">
-    <svg viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg> Empezar la Clase 1
-  </button>
+  <h3>📞 ¿Listo para dar el paso?</h3>
+  <p>Cuando termines las 4 clases, el siguiente paso es sencillo: agenda una llamada gratuita y vemos si esto encaja contigo y cómo empezar con acompañamiento real.</p>
+  <a class="btn btn-play" id="cta-agenda" href="#">
+    <svg viewBox="0 0 24 24" fill="#000" style="width:22px;height:22px"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.24 1z"/></svg>
+    Agendar mi llamada gratuita
+  </a>
 </div>
 
 <!-- ===================== FOOTER ===================== -->
@@ -261,34 +262,37 @@
    ============================================================ */
 const CLASES = [
   {
-    titulo: "El cambio de mentalidad",
+    titulo: "Por qué la mayoría fracasa (y cómo evitarlo)",
     duracion: "Clase 1",
-    descripcion: "Descubre por qué la mayoría nunca consigue independencia económica y cuál es la forma correcta de empezar.",
+    descripcion: "Descubre por qué la mayoría fracasa en los negocios online y en los cursos, y cómo desarrollar la mentalidad y los principios correctos para construir un negocio online con éxito.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "La habilidad que siempre tendrá demanda",
+    titulo: "La profesión más demandada del sector digital",
     duracion: "Clase 2",
-    descripcion: "Aprende qué servicio puedes ofrecer sin experiencia previa y por qué las empresas ya están pagando por ello.",
+    descripcion: "Te enseño qué servicio puedes ofrecer sin experiencia previa, por qué las empresas ya están pagando por ello y cuánto se factura hoy dominando esta habilidad.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "Cómo conseguir clientes",
+    titulo: "Técnicas de venta y estructura ganadora",
     duracion: "Clase 3",
-    descripcion: "El sistema que utilizamos para encontrar clientes, incluso empezando desde cero.",
+    descripcion: "Las técnicas de venta y la estructura exacta que convierte una simple conversación en un cliente. El guion paso a paso que usan los que de verdad cierran ventas.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "Acompañamiento y dudas",
+    titulo: "El círculo de ganadores",
     duracion: "Clase 4",
-    descripcion: "Resolveremos las dudas más importantes y te mostraremos cómo construir una profesión online con acompañamiento.",
+    descripcion: "Entra en el círculo donde estamos todos los que ya vivimos de esto, hombres y mujeres. Te muestro cómo dar el paso con acompañamiento real. El siguiente paso: agenda tu llamada gratuita.",
     youtubeId: "",
     thumb: ""
   }
 ];
+
+/* ⬇️ TU ENLACE PARA AGENDAR LA LLAMADA (Calendly, TidyCal, WhatsApp…) */
+const AGENDA_URL = "";
 
 /* Colores de portada de cada clase (fallback si no hay imagen) */
 const GRADS = [
@@ -360,6 +364,21 @@ function closeEp(){
 }
 modal.addEventListener('click', e=>{ if(e.target===modal) closeEp(); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeEp(); });
+
+/* ---------- Botón agendar llamada ---------- */
+(function(){
+  const b = document.getElementById('cta-agenda');
+  if(!b) return;
+  if(AGENDA_URL){
+    b.href = AGENDA_URL; b.target = '_blank'; b.rel = 'noopener';
+  }else{
+    b.href = '#';
+    b.addEventListener('click', e=>{
+      e.preventDefault();
+      alert('Añade tu enlace de agenda en la variable AGENDA_URL (arriba en el script): tu Calendly, TidyCal o WhatsApp.');
+    });
+  }
+})();
 
 /* ---------- Navbar scroll ---------- */
 window.addEventListener('scroll', ()=>{
