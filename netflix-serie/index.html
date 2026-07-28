@@ -118,6 +118,17 @@
     background:rgba(0,0,0,.35);opacity:0;transition:opacity .25s;}
   .ep:hover .ep-thumb .play-ov{opacity:1;}
   .ep-thumb .play-ov svg{width:40px;height:40px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.6));}
+  /* Estado bloqueado (modo goteo) */
+  .ep.locked{cursor:default;}
+  .ep.locked:hover{background:transparent;}
+  .ep.locked .ep-thumb{opacity:.55;filter:grayscale(.35);}
+  .ep.locked .ep-title,.ep.locked .ep-num{color:#6b6b6b;}
+  .lock-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(0,0,0,.5);z-index:3;}
+  .lock-ov svg{width:30px;height:30px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7));}
+  .badge-pronto{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;
+    text-transform:uppercase;color:#c8a35a;border:1px solid rgba(200,163,90,.5);
+    border-radius:4px;padding:1px 8px;}
   .ep-info{flex:1;min-width:0;}
   .ep-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;}
   .ep-title{font-size:17px;font-weight:600;}
@@ -278,34 +289,45 @@
    ============================================================ */
 const CLASES = [
   {
-    titulo: "Por qué casi nadie lo consigue (y qué hacen distinto los que sí)",
+    titulo: "El cambio de mentalidad que lo empieza todo",
     duracion: "Clase 1",
-    descripcion: "Existe una razón silenciosa por la que la mayoría lo intenta en internet y termina volviendo a su rutina de siempre. En esta primera clase te muestro ese punto de partida que casi nadie llega a entender, y por qué marca la diferencia entre quedarse igual o empezar de verdad.",
+    descripcion: "Antes que las técnicas y antes que el dinero, hay algo que nadie te enseña: cómo piensa de verdad la gente que lo consigue. Te cuento el momento exacto en el que a mí me cambió el chip y por qué, sin esto, da igual la profesión que elijas. Cuando la termines vas a querer ver la Clase 2 sin esperar.",
     youtubeId: "",
     thumb: ""
   },
   {
-    titulo: "La profesión mejor pagada del mundo digital (y la más discreta)",
+    titulo: "La habilidad por la que las empresas pagan +3.000€ al mes",
     duracion: "Clase 2",
-    descripcion: "No creas productos ni persigues a nadie. Tu trabajo es acompañar a personas que ya están interesadas hasta su decisión final. Se llama closer de ventas: vive en la parte del embudo donde de verdad se genera el dinero, y muy pocos saben todavía que existe.",
+    descripcion: "Se llama closer de ventas y consiste en algo que quizá ya haces sin darte cuenta: hablar con personas que ya están interesadas y ayudarlas a decidir. No creas nada, no persigues a nadie, no inviertes. Estás en la parte final del proceso, justo donde se genera el dinero. En la Clase 3 te enseño exactamente cómo se hace.",
     youtubeId: "",
     thumb: ""
   },
   {
     titulo: "De teleoperador a +7.000€ al mes: la estructura que lo cambió todo",
     duracion: "Clase 3",
-    descripcion: "Te comparto la estructura que convierte una conversación en una decisión de compra: la misma que me llevó de un call center a facturar cada mes lo que antes ganaba en medio año. Sencilla, elegante y repetible, paso a paso.",
+    descripcion: "Te comparto, paso a paso, la estructura que convierte una simple conversación en una decisión de compra: la misma que me sacó de un call center. Cuando veas lo sencillo que es el sistema, la única pregunta que te quedará es cómo empezar tú… y justo de eso va la Clase 4.",
     youtubeId: "",
     thumb: ""
   },
   {
     titulo: "Solo tardarás años. Acompañado, semanas.",
     duracion: "Clase 4",
-    descripcion: "Aprender esto por tu cuenta, con vídeos sueltos, puede llevarte años. Dentro de una comunidad con entrenamiento real y oportunidades dentro de una agencia, el camino se acorta a semanas. Te enseño a quién le ha funcionado y qué tienen todos en común.",
+    descripcion: "Aprender esto por tu cuenta puede llevarte años. Dentro de una comunidad con entrenamiento real y oportunidades dentro de una agencia, el camino se acorta a semanas. Te enseño a quién le ha funcionado, qué tienen todos en común y cuál es el siguiente paso para que el próximo caso de éxito seas tú.",
     youtubeId: "",
     thumb: ""
   }
 ];
+
+/* ============================================================
+   ⬇️ MODO GOTEO — Controla cuántas clases están desbloqueadas.
+   Cambia solo este número cuando quieras liberar la siguiente:
+     1 = solo la Clase 1 disponible
+     2 = Clases 1 y 2 disponibles
+     3 = Clases 1, 2 y 3 disponibles
+     4 = las 4 clases disponibles
+   Las clases bloqueadas se ven con candado y no se pueden abrir.
+   ============================================================ */
+const CLASES_DISPONIBLES = 1;
 
 /* Portadas elegantes de cada clase (fallback si no pones imagen en "thumb") */
 const COVERS = [
@@ -318,8 +340,9 @@ const COVERS = [
 /* ---------- Render episodios ---------- */
 const list = document.getElementById('ep-list');
 CLASES.forEach((c,i)=>{
+  const bloqueada = i >= CLASES_DISPONIBLES;
   const el = document.createElement('div');
-  el.className = 'ep';
+  el.className = 'ep' + (bloqueada ? ' locked' : '');
   el.onclick = ()=>openEp(i);
   const cov = COVERS[i%COVERS.length];
   const thumbInner = c.thumb
@@ -329,16 +352,22 @@ CLASES.forEach((c,i)=>{
          <span class="cover-kw">${cov.kw}</span>
          <span class="cover-brand">Ventas N1</span>
        </div>`;
+  const overlay = bloqueada
+    ? `<div class="lock-ov"><svg viewBox="0 0 24 24" fill="#fff"><path d="M17 8V7a5 5 0 0 0-10 0v1H5v14h14V8h-2zM9 7a3 3 0 0 1 6 0v1H9V7zm3 11a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></div>`
+    : `<div class="play-ov"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>`;
+  const meta = bloqueada
+    ? `<span class="badge-pronto">Próximamente</span>`
+    : `${c.duracion}`;
   el.innerHTML = `
     <div class="ep-num">${i+1}</div>
     <div class="ep-thumb">
       ${thumbInner}
-      <div class="play-ov"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
+      ${overlay}
     </div>
     <div class="ep-info">
       <div class="ep-head">
         <div class="ep-title">${i+1}. ${c.titulo}</div>
-        <div class="ep-dur">${c.duracion}</div>
+        <div class="ep-dur">${meta}</div>
       </div>
       <div class="ep-desc" id="desc-${i}">${c.descripcion}</div>
       <button class="ver-mas" onclick="toggleDesc(event,${i})">Ver más</button>
@@ -359,19 +388,35 @@ const modal = document.getElementById('modal');
 const player = document.getElementById('player');
 function openEp(i){
   const c = CLASES[i];
+  // Modo goteo: clase bloqueada -> aviso de próximamente, no reproduce
+  if(i >= CLASES_DISPONIBLES){
+    document.getElementById('m-title').textContent = `${i+1}. ${c.titulo}`;
+    document.getElementById('m-num').textContent = c.duracion;
+    document.getElementById('m-dur').textContent = "Próximamente";
+    document.getElementById('m-desc').textContent = "Esta clase todavía no está disponible. Se desbloqueará muy pronto — mantente atento, la vamos publicando una a una.";
+    player.removeAttribute('src');
+    document.querySelector('.modal-video').innerHTML =
+      `<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px;color:#b3b3b3">
+         <svg width="52" height="52" viewBox="0 0 24 24" fill="#c8a35a"><path d="M17 8V7a5 5 0 0 0-10 0v1H5v14h14V8h-2zM9 7a3 3 0 0 1 6 0v1H9V7zm3 11a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+         <div style="font-size:18px;color:#fff;font-weight:700">Clase ${i+1} · Muy pronto</div>
+         <div style="font-size:14px;max-width:420px">Vamos liberando la serie clase por clase. Esta se desbloquea en breve.</div>
+       </div>`;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    return;
+  }
   document.getElementById('m-title').textContent = `${i+1}. ${c.titulo}`;
   document.getElementById('m-num').textContent = c.duracion;
   document.getElementById('m-dur').textContent = "Temporada 1";
   document.getElementById('m-desc').textContent = c.descripcion;
   if(c.youtubeId){
-    player.src = `https://www.youtube.com/embed/${c.youtubeId}?autoplay=1&rel=0&modestbranding=1`;
-    player.style.display = 'block';
-  }else{
-    player.removeAttribute('src');
-    player.style.display = 'none';
     document.querySelector('.modal-video').innerHTML =
-      `<iframe id="player" style="display:none"></iframe>
-       <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;color:#b3b3b3">
+      `<iframe id="player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    document.getElementById('player').src =
+      `https://www.youtube.com/embed/${c.youtubeId}?autoplay=1&rel=0&modestbranding=1`;
+  }else{
+    document.querySelector('.modal-video').innerHTML =
+      `<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;color:#b3b3b3">
          <svg width="54" height="54" viewBox="0 0 24 24" fill="#e50914"><path d="M8 5v14l11-7z"/></svg>
          <div style="font-size:17px;color:#fff;font-weight:600">Clase ${i+1} próximamente</div>
          <div style="font-size:14px">Aún no has añadido el enlace de YouTube de esta clase.</div>
