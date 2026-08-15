@@ -1,99 +1,207 @@
 /* ============================================================
-   EG · DISEÑO DEL BLOG
-   YA APLICADO EL 15/08/2026, y NO donde estaba previsto.
-   Vive en: Elementor → Ajustes del sitio → CSS personalizado
-   (clave custom_css del kit 7148). Ahí es donde hay que editarlo o quitarlo.
+   EG · DISEÑO DEL BLOG  ·  v2 (15/08/2026)
+
+   YA APLICADO. Vive en: Elementor → Ajustes del sitio → CSS personalizado
+   (clave custom_css del kit 7148). Ahí se edita y ahí se quita.
 
    NO va en Herramientas → Head & Footer Code, aunque el CSS de las fichas
-   esté ahí: ese formulario devuelve 403 del WAF al guardar y no admite
-   cambios. Tampoco se puede escribir esa opción por la API. Detalle
-   completo en la sección 7 bis del README.
+   esté ahí: ese formulario devuelve 403 del WAF y no admite cambios.
+   Detalle en la sección 7 bis del README.
 
-   Si se edita, hay que lanzar después un DELETE a
-   /wp-json/elementor/v1/cache para que Elementor regenere su CSS; LiteSpeed
-   reconstruye el combinado solo.
+   Después de editarlo, lanzar DELETE /wp-json/elementor/v1/cache para que
+   Elementor regenere; LiteSpeed reconstruye el combinado solo.
 
-   SELECTORES VERIFICADOS CONTRA EL DOM REAL (15/08/2026).
-   Ya no queda ningún selector a ciegas. Lo comprobado:
+   ------------------------------------------------------------
+   ESTRUCTURA REAL DEL TEMA (verificada contra el DOM, no supuesta):
 
-     · El post usa  body.single-post  y dentro:
-         article.entry-wrapper > .entry-header > h1.entry-title
-                                > .entry-post-meta > .entry-post-meta__inner
-                                > .entry-post-feature.post-thumbnail
-                                > .entry-content
-                                > .entry-footer > .entry-post-tags > .tagcloud
-     · CUIDADO: .post-title NO es el H1. Es el título de los posts
-       RELACIONADOS (.related-post-item .post-title.post-title-2-rows).
-       La versión anterior de este archivo lo tocaba y los dejaba
-       gigantes y centrados. Eliminado.
-     · NO EXISTEN en esta web: .post-content, .entry-meta, .entry-excerpt,
-       .entry-summary, .blog-wrapper, .tags-links, .post-tags, .entry-tags,
-       .post-categories-tags. Todas esas reglas eran letra muerta.
-     · El listado /blog/ NO es un archivo de WordPress: es una PÁGINA
-       (body.page.page-id-3230) que pinta las entradas con el widget de
-       Elementor. Por eso .blog y .archive no aplican nunca. Las clases
-       reales son .elementor-post__card / __title / __text / __meta-data.
+     body.single-post
+       article.entry-wrapper
+         .entry-header
+            h1.entry-title
+            .entry-post-meta > .entry-post-meta__inner
+                 .post-author  (lleva <span>Por</span>)
+                 .post-date    (lleva <span>en</span>)
+            .entry-post-feature.post-thumbnail > m-image > img
+         .entry-content              ← el cuerpo del artículo
+         .entry-footer > .entry-post-tags
+       .related-posts > .related-title + swiper de .related-post-item
 
-   Después de guardar: LiteSpeed Cache → Purgar todo.
+     El listado /blog/ es una PÁGINA (body.page-id-3230) que pinta las
+     entradas con el widget de Elementor: .elementor-post__card / __title /
+     __excerpt / __meta-data / __read-more.
+
+   CUIDADO: .post-title NO es el H1. Es el título de los relacionados.
+   NO EXISTEN: .post-content, .entry-meta, .entry-excerpt, .blog-wrapper,
+   .tags-links, .post-tags, .entry-tags.
+
+   ------------------------------------------------------------
+   ORDEN DE CASCADA: este CSS carga en el combinado (head). El CSS de las
+   fichas (eg-pdp-css, 61 KB) va inline en el pie, o sea DESPUÉS. Por eso
+   los retoques a componentes .eg-* que ya existen llevan !important.
+   Los componentes ya definidos globalmente y que los posts usan tal cual:
+   .eg-desc .eg-lead .eg-specbar .eg-table .eg-hl .eg-note .eg-faq .eg-a
+   .eg-cards .eg-card .eg-ico .eg-vs .eg-enlazado
+   Nuevos y exclusivos del blog: .eg-toc .eg-gamas .eg-cita .eg-clave
    ============================================================ */
 
-/* ---------- 1. VARIABLES ---------- */
+
+/* ---------- 1. PALETA ----------
+   Alineada con la de las fichas (--eg-blue:#1E73BE) para que el blog y la
+   tienda no parezcan dos webs distintas.                              */
 
 :root {
-  --eg-tinta: #1a1d21;        /* texto principal */
-  --eg-tinta-suave: #5b6670;  /* metadatos, pies */
-  --eg-linea: #e3e7ea;
-  --eg-fondo-suave: #f6f8f9;
-  --eg-azul: #0b6bcb;
-  --eg-azul-oscuro: #084e96;
-  --eg-radio: 10px;
+  --eg-b-tinta:      #14181d;   /* texto principal, casi negro */
+  --eg-b-suave:      #5c6873;   /* metadatos y pies */
+  --eg-b-linea:      #e4e8ec;
+  --eg-b-linea-f:    #f0f3f5;   /* separadores flojos */
+  --eg-b-fondo:      #f7f9fa;
+  --eg-b-azul:       #1E73BE;   /* el azul de la casa */
+  --eg-b-azul-osc:   #14538a;
+  --eg-b-azul-flojo: #eaf2fa;
+  --eg-b-radio:      12px;
+  --eg-b-radio-s:    8px;
+  --eg-b-sombra:     0 1px 2px rgba(16,24,32,.04), 0 8px 24px rgba(16,24,32,.06);
+  --eg-b-medida:     68ch;      /* medida de línea del cuerpo */
 }
 
-/* ---------- 2. LEGIBILIDAD DEL ARTÍCULO ----------
-   El problema real del blog actual: la línea de texto es demasiado
-   ancha y demasiado pequeña. Con 100+ caracteres por línea el ojo
-   pierde el renglón al volver, y por eso "no hay quien lo lea".
-   Lo que arregla eso es medida de línea, tamaño e interlineado.     */
+
+/* ---------- 2. CABECERA DEL ARTÍCULO ----------
+   Portada editorial: titular grande, metadatos discretos y foto ancha.  */
+
+.single-post .entry-header {
+  max-width: 780px;
+  margin: 0 auto 2.2em;
+  text-align: center;
+}
+
+.single-post .entry-header .entry-title {
+  font-size: clamp(2.05rem, 1.35rem + 2.4vw, 3.15rem);
+  line-height: 1.12;
+  font-weight: 800;
+  letter-spacing: -.018em;
+  color: var(--eg-b-tinta);
+  text-wrap: balance;              /* reparte las líneas del titular */
+  max-width: 19ch;
+  margin: 0 auto .55em;
+}
+
+/* Metadatos: una sola línea sobria, con punto de separación */
+.single-post .entry-post-meta {
+  margin: 0 0 2.1em;
+  padding-bottom: 1.6em;
+  border-bottom: 1px solid var(--eg-b-linea);
+}
+
+.single-post .entry-post-meta__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .55em;
+  font-size: .875rem;
+  color: var(--eg-b-suave);
+  letter-spacing: .01em;
+}
+
+.single-post .entry-post-meta__inner > div + div::before {
+  content: "·";
+  margin-right: .55em;
+  color: var(--eg-b-linea);
+}
+
+/* "Por" y "en" en gris claro; el nombre del autor, en azul y con peso */
+.single-post .entry-post-meta__inner span {
+  color: #93a0ab;
+  font-weight: 400;
+}
+
+.single-post .post-author a {
+  color: var(--eg-b-azul);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.single-post .post-author a:hover { text-decoration: underline; }
+
+/* Imagen destacada: ancha, redondeada y sin el hueco muerto de antes */
+.single-post .entry-post-feature.post-thumbnail {
+  max-width: 980px;
+  margin: 0 auto 2.6em;
+  border-radius: var(--eg-b-radio);
+  overflow: hidden;
+  box-shadow: var(--eg-b-sombra);
+  line-height: 0;
+}
+
+.single-post .entry-post-feature.post-thumbnail img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* ---------- 3. CUERPO: LEGIBILIDAD ----------
+   El problema real del blog no era el color, era la medida de línea.
+   Con 100+ caracteres por renglón el ojo se pierde al volver a la
+   izquierda. 68 caracteres es la corrección que más se nota.          */
 
 .single-post .entry-content,
 .single-post .eg-desc {
-  max-width: 72ch;                   /* ~68-72 caracteres por línea */
+  max-width: var(--eg-b-medida);
   margin-left: auto;
   margin-right: auto;
-  font-size: 1.125rem;               /* 18px */
+  font-size: 1.1875rem;            /* 19px */
   line-height: 1.75;
-  color: var(--eg-tinta);
-  letter-spacing: .002em;
+  color: var(--eg-b-tinta);
+  letter-spacing: .001em;
+  text-rendering: optimizeLegibility;
 }
 
-.single-post .entry-content p {
-  margin: 0 0 1.4em;
-}
+.single-post .entry-content p { margin: 0 0 1.45em; }
 
-/* Entradilla: el primer párrafo entra más grande. Da jerarquía
-   y engancha, que es medio segundo ganado en el rebote. */
+/* Entradilla: primer párrafo (o .eg-lead) más grande. Da jerarquía y
+   engancha, que es medio segundo ganado en el rebote. */
 .single-post .entry-content > p:first-of-type,
 .single-post .eg-desc > .eg-lead {
-  font-size: 1.3rem;
-  line-height: 1.55;
-  color: #2b3138;
-  margin-bottom: 1.6em;
+  font-size: 1.32rem !important;
+  line-height: 1.58 !important;
+  color: #2a323b !important;
+  margin-bottom: 1.5em !important;
+  font-weight: 400 !important;
 }
 
-/* ---------- 3. JERARQUÍA DE TÍTULOS ----------
-   Un H2 tiene que verse como un H2 desde el otro lado de la
-   habitación. Espacio arriba mucho mayor que abajo: así el título
-   queda pegado a SU texto y separado del anterior.               */
+/* Las negritas dentro de la entradilla son el gancho: que se vean */
+.single-post .eg-desc > .eg-lead strong { color: var(--eg-b-tinta) !important; }
+
+
+/* ---------- 4. JERARQUÍA DE TÍTULOS ----------
+   Un H2 tiene que verse como un H2 desde el otro lado de la habitación.
+   Mucho más espacio arriba que abajo: así cada título queda pegado a SU
+   texto y separado del bloque anterior.                                */
 
 .single-post .entry-content h2,
 .single-post .eg-desc h2 {
-  font-size: 1.85rem;
-  line-height: 1.25;
-  font-weight: 700;
-  margin: 2.6em 0 .7em;
-  padding-top: 1.2em;
-  border-top: 1px solid var(--eg-linea);
-  color: var(--eg-tinta);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 1.95rem);
+  line-height: 1.24;
+  font-weight: 800;
+  letter-spacing: -.012em;
+  color: var(--eg-b-tinta);
+  text-wrap: balance;
+  margin: 2.5em 0 .65em;
+  padding-top: 1.4em;
+  border-top: 1px solid var(--eg-b-linea-f);
+  position: relative;
+}
+
+/* Marca de color sobre el título: da ritmo visual al recorrer el artículo */
+.single-post .entry-content h2::before,
+.single-post .eg-desc h2::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: 0;
+  width: 46px; height: 3px;
+  background: var(--eg-b-azul);
+  border-radius: 3px;
 }
 
 .single-post .entry-content h2:first-child,
@@ -102,274 +210,409 @@
   padding-top: 0;
   margin-top: 0;
 }
+.single-post .entry-content h2:first-child::before,
+.single-post .eg-desc h2:first-child::before { display: none; }
 
 .single-post .entry-content h3,
 .single-post .eg-desc h3 {
-  font-size: 1.3rem;
-  line-height: 1.3;
+  font-size: 1.28rem;
+  line-height: 1.32;
   font-weight: 700;
-  margin: 2em 0 .5em;
+  letter-spacing: -.006em;
+  margin: 2.1em 0 .5em;
+  color: var(--eg-b-tinta);
 }
 
-/* ---------- 4. LISTAS ---------- */
+
+/* ---------- 5. LISTAS ---------- */
 
 .single-post .entry-content ul,
 .single-post .entry-content ol {
   margin: 0 0 1.5em;
-  padding-left: 1.3em;
+  padding-left: 1.35em;
 }
 
 .single-post .entry-content li {
-  margin-bottom: .6em;
-  padding-left: .2em;
+  margin-bottom: .55em;
+  padding-left: .25em;
 }
 
-/* ---------- 5. ENLACES: QUE SE VEAN ----------
-   En el blog actual los enlaces internos no se distinguen del texto.
-   Un enlace que no parece enlace no se pulsa, y todo el enlazado
-   interno que estamos montando no sirve de nada.                  */
+.single-post .entry-content ul > li::marker { color: var(--eg-b-azul); }
+.single-post .entry-content ol > li::marker { color: var(--eg-b-azul); font-weight: 700; }
 
-.single-post .entry-content a:not(.button):not(.eg-fbt-btn),
+
+/* ---------- 6. ENLACES: QUE PAREZCAN ENLACES ----------
+   En el blog anterior no se distinguían del texto. Un enlace que no
+   parece enlace no se pulsa, y todo el enlazado interno depende de esto. */
+
+.single-post .entry-content a:not(.button):not(.eg-fbt-btn):not(.eg-gamas a),
 .single-post .eg-desc a:not(.button):not(.eg-fbt-btn) {
-  color: var(--eg-azul);
+  color: var(--eg-b-azul);
+  font-weight: 500;
   text-decoration: underline;
-  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(30,115,190,.38);
+  text-decoration-thickness: 1.5px;
   text-underline-offset: .18em;
-  transition: color .15s;
+  transition: color .15s, text-decoration-color .15s;
 }
 
-.single-post .entry-content a:hover {
-  color: var(--eg-azul-oscuro);
-  text-decoration-thickness: 2px;
+.single-post .entry-content a:not(.button):hover {
+  color: var(--eg-b-azul-osc);
+  text-decoration-color: currentColor;
 }
 
-/* ---------- 6. IMÁGENES ---------- */
+
+/* ---------- 7. IMÁGENES Y CITAS ---------- */
 
 .single-post .entry-content img {
   max-width: 100%;
   height: auto;
-  border-radius: var(--eg-radio);
-  margin: 1.8em 0;
+  border-radius: var(--eg-b-radio-s);
+  margin: 1.9em 0;
 }
 
 .single-post .entry-content figcaption {
-  font-size: .9rem;
-  color: var(--eg-tinta-suave);
+  font-size: .88rem;
+  color: var(--eg-b-suave);
   text-align: center;
-  margin-top: .6em;
+  margin-top: -1.1em;
+  margin-bottom: 2em;
 }
 
-/* ---------- 7. CABECERA DEL ARTÍCULO ----------
-   Solo .entry-title y .entry-post-meta, que son los reales.
-   NO tocar .post-title: son los posts relacionados.              */
-
-.single-post .entry-header .entry-title {
-  font-size: clamp(2rem, 4.5vw, 2.9rem);
-  line-height: 1.15;
-  font-weight: 800;
-  max-width: 20ch;                   /* titulares en 2-3 líneas, no en 1 larga */
-  margin: 0 auto .6em;
-  text-align: center;
-}
-
-/* Metadatos: fecha y autor. Discretos pero presentes.
-   La fecha visible ayuda al usuario y es señal de frescura. */
-.single-post .entry-post-meta {
-  text-align: center;
-  font-size: .92rem;
-  color: var(--eg-tinta-suave);
-  margin-bottom: 2.5em;
-}
-
-.single-post .entry-post-meta__inner {
-  justify-content: center;
-}
-
-/* ---------- 8. FUERA ETIQUETAS ----------
-   Las etiquetas no aportan nada al lector y sus archivos generan
-   páginas duplicadas y sin valor que se comen presupuesto de rastreo.
-   Esto las oculta. Además hay que BORRARLAS en WordPress y poner
-   los archivos de etiqueta en noindex (ver README).
-
-   El contenedor real es .entry-post-tags (dentro lleva .tags-label
-   y .tagcloud). Ocultar el contenedor se lleva las dos cosas.      */
-
-.single-post .entry-post-tags,
-.widget_tag_cloud {
-  display: none !important;
-}
-
-/* ---------- 9. LISTADO DEL BLOG ----------
-   /blog/ es una PÁGINA con el widget de entradas de Elementor,
-   no un archivo de WordPress. Clases reales verificadas:
-   .elementor-post__card / __thumbnail / __text / __title /
-   __meta-data / __read-more                                       */
-
-.page-id-3230 .elementor-posts-container {
-  max-width: 1180px;
-  margin: 0 auto;
-}
-
-.page-id-3230 .elementor-post__card {
-  background: #fff;
-  border: 1px solid var(--eg-linea);
-  border-radius: var(--eg-radio);
-  overflow: hidden;
-  box-shadow: none;
-  transition: box-shadow .18s, transform .18s;
-}
-
-.page-id-3230 .elementor-post__card:hover {
-  box-shadow: 0 8px 24px rgba(16, 24, 32, .09);
-  transform: translateY(-2px);
-}
-
-.page-id-3230 .elementor-post__title,
-.page-id-3230 .elementor-post__title a {
+.single-post .entry-content blockquote,
+.single-post .eg-desc .eg-cita {
+  margin: 2.2em 0;
+  padding: .2em 0 .2em 1.4em;
+  border-left: 3px solid var(--eg-b-azul);
   font-size: 1.22rem;
-  line-height: 1.3;
-  font-weight: 700;
-  text-align: left;
-  color: var(--eg-tinta);
-  text-decoration: none;
-  margin: 0 0 .5em;
+  line-height: 1.55;
+  color: #2a323b;
 }
 
-.page-id-3230 .elementor-post__title a:hover {
-  color: var(--eg-azul);
+.single-post .entry-content blockquote p:last-child { margin-bottom: 0; }
+
+
+/* ---------- 8. RETOQUES A LOS COMPONENTES eg-* EN CONTEXTO DE BLOG ----
+   Estos componentes ya están definidos globalmente para las fichas.
+   Aquí solo se ajusta lo que cambia al leerlos como artículo. Llevan
+   !important porque el CSS de fichas carga después (ver cabecera).     */
+
+/* Tablas: en móvil se desbordaban. Ahora ruedan dentro de su caja. */
+.single-post .eg-desc .eg-table,
+.single-post .entry-content table {
+  display: block !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: var(--eg-b-radio-s);
 }
 
-.page-id-3230 .elementor-post__excerpt p,
-.page-id-3230 .elementor-post__excerpt {
-  font-size: .97rem;
-  line-height: 1.6;
-  color: var(--eg-tinta-suave);
+.single-post .eg-desc .eg-table tbody { min-width: 460px; }
+
+/* Caja de dato clave: la conclusión que quieres que se lleve el lector */
+.single-post .eg-desc .eg-hl {
+  background: var(--eg-b-azul-flojo) !important;
+  border-left: 4px solid var(--eg-b-azul) !important;
+  border-radius: var(--eg-b-radio-s) !important;
+  padding: 1.15em 1.3em !important;
+  margin: 2.1em 0 !important;
 }
 
-/* En el listado, la fecha sí: es lo que dice si el blog está vivo.
-   El autor fuera: repetir "EcoGadget" 12 veces no aporta nada. */
-.page-id-3230 .elementor-post__meta-data {
-  font-size: .85rem;
-  color: var(--eg-tinta-suave);
-  text-align: left;
-  margin: 0 0 .6em;
+/* Nota / estimación: discreta pero visible, que se lea como advertencia */
+.single-post .eg-desc .eg-note,
+.single-post .eg-desc p.eg-note {
+  font-size: .93rem !important;
+  line-height: 1.6 !important;
+  color: var(--eg-b-suave) !important;
+  background: var(--eg-b-fondo) !important;
+  border: 1px solid var(--eg-b-linea) !important;
+  border-radius: var(--eg-b-radio-s) !important;
+  padding: .95em 1.15em !important;
+  margin: 1.8em 0 !important;
 }
 
-.page-id-3230 .elementor-post-avatar,
-.page-id-3230 .elementor-post-author {
-  display: none !important;
+/* Barra de especificaciones */
+.single-post .eg-desc .eg-specbar {
+  border-radius: var(--eg-b-radio) !important;
+  margin: 1.9em 0 2.2em !important;
 }
 
-/* ---------- 10. MÓVIL ----------
-   El 65 % del tráfico es móvil (dato de Search Console, no suposición).
-   Esta parte es la que más se va a ver.                            */
-
-@media (max-width: 767px) {
-  .single-post .entry-content,
-  .single-post .eg-desc {
-    font-size: 1.06rem;              /* 17px: cómodo sin obligar a zoom */
-    line-height: 1.7;
-    padding: 0 4px;
-  }
-
-  .single-post .entry-content > p:first-of-type,
-  .single-post .eg-desc > .eg-lead {
-    font-size: 1.16rem;
-  }
-
-  .single-post .entry-content h2,
-  .single-post .eg-desc h2 {
-    font-size: 1.45rem;
-    margin-top: 2em;
-    padding-top: 1em;
-  }
-
-  .single-post .entry-content h3 {
-    font-size: 1.18rem;
-  }
-
-  .single-post .entry-header .entry-title {
-    font-size: 1.75rem;
-    max-width: none;
-    text-align: left;
-  }
-
-  .single-post .entry-post-meta,
-  .single-post .entry-post-meta__inner {
-    text-align: left;
-    justify-content: flex-start;
-  }
+/* FAQ: que se note que se puede abrir */
+.single-post .eg-desc .eg-faq {
+  border-radius: var(--eg-b-radio-s) !important;
+  margin-bottom: .6em !important;
 }
 
-/* ---------- 11. ÍNDICE DE CONTENIDOS (opcional) ----------
-   Si añades un índice al principio del post, envuélvelo en
-   <nav class="eg-toc"> con una <ul> de enlaces a los id de los H2.
-   Ayuda al lector en artículos largos y Google lo usa a veces para
-   los enlaces de salto dentro del resultado de búsqueda.          */
+.single-post .eg-desc .eg-faq summary { cursor: pointer; }
+
+
+/* ---------- 9. ÍNDICE DE CONTENIDOS ----------
+   Va al principio de los artículos largos. Ayuda al lector y Google lo
+   usa a veces para los enlaces de salto del resultado de búsqueda.     */
 
 .eg-toc {
-  background: var(--eg-fondo-suave);
-  border: 1px solid var(--eg-linea);
-  border-radius: var(--eg-radio);
-  padding: 1.1em 1.4em;
-  margin: 0 0 2.4em;
+  background: var(--eg-b-fondo);
+  border: 1px solid var(--eg-b-linea);
+  border-radius: var(--eg-b-radio);
+  padding: 1.2em 1.5em;
+  margin: 0 0 2.6em;
 }
 
 .eg-toc strong {
   display: block;
-  font-size: .82rem;
-  letter-spacing: .07em;
+  font-size: .74rem;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--eg-tinta-suave);
-  margin-bottom: .6em;
+  color: var(--eg-b-suave);
+  margin-bottom: .7em;
 }
 
-.eg-toc ul {
-  margin: 0;
-  padding-left: 1.1em;
+.eg-toc ul { margin: 0; padding-left: 1.1em; }
+.eg-toc li { margin-bottom: .35em; line-height: 1.5; }
+
+.eg-toc a {
+  color: var(--eg-b-tinta);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.eg-toc a:hover {
+  color: var(--eg-b-azul);
+  border-bottom-color: currentColor;
 }
 
-.eg-toc li {
-  margin-bottom: .3em;
-}
 
-/* ---------- 12. BLOQUE DE GAMAS AL FINAL DEL POST ----------
-   Enlazado interno reutilizable. HTML en el README.               */
+/* ---------- 10. BLOQUE DE GAMAS (final de post) ----------
+   Enlazado interno reutilizable hacia las cuatro categorías.           */
 
 .eg-gamas {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 14px;
-  margin: 3em 0 1em;
-  padding-top: 2em;
-  border-top: 2px solid var(--eg-linea);
+  margin: 3.2em 0 1em;
+  padding-top: 2.2em;
+  border-top: 2px solid var(--eg-b-linea);
 }
 
 .eg-gamas a {
   display: block;
-  padding: 1.1em 1.2em;
-  background: var(--eg-fondo-suave);
-  border: 1px solid var(--eg-linea);
-  border-radius: var(--eg-radio);
+  padding: 1.15em 1.25em;
+  background: var(--eg-b-fondo);
+  border: 1px solid var(--eg-b-linea);
+  border-radius: var(--eg-b-radio);
   text-decoration: none !important;
-  color: var(--eg-tinta) !important;
-  transition: border-color .15s, background .15s;
+  color: var(--eg-b-tinta) !important;
+  transition: border-color .15s, background .15s, transform .15s;
 }
 
 .eg-gamas a:hover {
   background: #fff;
-  border-color: var(--eg-azul);
+  border-color: var(--eg-b-azul);
+  transform: translateY(-2px);
 }
 
 .eg-gamas b {
   display: block;
-  font-size: 1.05rem;
+  font-size: 1.04rem;
   margin-bottom: .25em;
-  color: var(--eg-azul);
+  color: var(--eg-b-azul);
 }
 
 .eg-gamas span {
   font-size: .9rem;
   line-height: 1.45;
-  color: var(--eg-tinta-suave);
+  color: var(--eg-b-suave);
+}
+
+
+/* ---------- 11. RELACIONADOS Y PIE DEL ARTÍCULO ---------- */
+
+/* Las etiquetas fuera: no aportan al lector y sus archivos se comen
+   presupuesto de rastreo. Además están borradas en WordPress. */
+.single-post .entry-post-tags,
+.widget_tag_cloud {
+  display: none !important;
+}
+
+.single-post .related-posts {
+  margin-top: 3.4em;
+  padding-top: 2.4em;
+  border-top: 1px solid var(--eg-b-linea);
+}
+
+.single-post .related-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  margin-bottom: 1.2em;
+  color: var(--eg-b-tinta);
+}
+
+/* El título de los relacionados es .post-title. Discreto, NO como el H1. */
+.single-post .related-post-item .post-title {
+  font-size: 1.02rem;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.single-post .related-post-item .post-title a { color: var(--eg-b-tinta); }
+.single-post .related-post-item .post-title a:hover { color: var(--eg-b-azul); }
+
+
+/* ---------- 12. LISTADO DEL BLOG ----------
+   /blog/ es una PÁGINA (body.page-id-3230) con el widget de entradas de
+   Elementor, no un archivo de WordPress. Por eso .blog y .archive no
+   aplican nunca aquí.                                                  */
+
+.page-id-3230 .elementor-posts-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-id-3230 .elementor-post__card {
+  background: #fff;
+  border: 1px solid var(--eg-b-linea);
+  border-radius: var(--eg-b-radio);
+  overflow: hidden;
+  box-shadow: none;
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+}
+
+.page-id-3230 .elementor-post__card:hover {
+  box-shadow: var(--eg-b-sombra);
+  transform: translateY(-3px);
+  border-color: #d6dde3;
+}
+
+/* Imagen con proporción constante: la rejilla deja de bailar */
+.page-id-3230 .elementor-post__thumbnail {
+  aspect-ratio: 16 / 10;
+  height: auto !important;
+  padding-bottom: 0 !important;
+}
+
+.page-id-3230 .elementor-post__thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.page-id-3230 .elementor-post__text { padding: 1.15em 1.3em 1.4em; }
+
+.page-id-3230 .elementor-post__title,
+.page-id-3230 .elementor-post__title a {
+  font-size: 1.14rem;
+  line-height: 1.34;
+  font-weight: 700;
+  letter-spacing: -.008em;
+  text-align: left;
+  color: var(--eg-b-tinta);
+  text-decoration: none;
+  margin: 0 0 .45em;
+}
+
+.page-id-3230 .elementor-post__title a:hover { color: var(--eg-b-azul); }
+
+.page-id-3230 .elementor-post__excerpt,
+.page-id-3230 .elementor-post__excerpt p {
+  font-size: .955rem;
+  line-height: 1.6;
+  color: var(--eg-b-suave);
+  margin-bottom: .9em;
+}
+
+/* La fecha sí: dice si el blog está vivo. El autor no: repetir
+   "EcoGadget" doce veces en la misma rejilla no aporta nada. */
+.page-id-3230 .elementor-post__meta-data {
+  font-size: .8rem;
+  letter-spacing: .03em;
+  color: #8b97a2;
+  text-align: left;
+  margin: 0 0 .55em;
+  border: 0;
+  padding: 0;
+}
+
+.page-id-3230 .elementor-post-avatar,
+.page-id-3230 .elementor-post-author { display: none !important; }
+
+.page-id-3230 .elementor-post__read-more {
+  font-weight: 600;
+  font-size: .92rem;
+  color: var(--eg-b-azul);
+  text-decoration: none;
+}
+.page-id-3230 .elementor-post__read-more:hover { text-decoration: underline; }
+
+
+/* ---------- 13. MÓVIL ----------
+   65 % del tráfico (dato de Search Console, no suposición). Esta es la
+   parte que más se va a ver.                                           */
+
+@media (max-width: 767px) {
+
+  .single-post .entry-content,
+  .single-post .eg-desc {
+    font-size: 1.075rem;           /* ~17px: cómodo sin obligar a hacer zoom */
+    line-height: 1.7;
+  }
+
+  .single-post .entry-header {
+    text-align: left;
+    margin-bottom: 1.6em;
+  }
+
+  .single-post .entry-header .entry-title {
+    font-size: 1.8rem;
+    max-width: none;
+    text-align: left;
+    letter-spacing: -.014em;
+  }
+
+  .single-post .entry-post-meta { padding-bottom: 1.2em; margin-bottom: 1.6em; }
+  .single-post .entry-post-meta__inner { justify-content: flex-start; }
+
+  .single-post .entry-content > p:first-of-type,
+  .single-post .eg-desc > .eg-lead {
+    font-size: 1.16rem !important;
+  }
+
+  .single-post .entry-content h2,
+  .single-post .eg-desc h2 {
+    font-size: 1.42rem;
+    margin-top: 2.1em;
+    padding-top: 1.15em;
+  }
+
+  .single-post .entry-content h3,
+  .single-post .eg-desc h3 { font-size: 1.16rem; }
+
+  .single-post .entry-post-feature.post-thumbnail {
+    border-radius: var(--eg-b-radio-s);
+    margin-bottom: 1.8em;
+  }
+
+  .eg-toc { padding: 1em 1.2em; margin-bottom: 2em; }
+  .eg-gamas { grid-template-columns: 1fr; gap: 10px; }
+
+  .single-post .entry-content blockquote,
+  .single-post .eg-desc .eg-cita { font-size: 1.12rem; padding-left: 1.1em; }
+}
+
+
+/* ---------- 14. IMPRESIÓN Y ACCESIBILIDAD ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .page-id-3230 .elementor-post__card,
+  .eg-gamas a { transition: none; }
+  .page-id-3230 .elementor-post__card:hover,
+  .eg-gamas a:hover { transform: none; }
+}
+
+.single-post .entry-content a:focus-visible,
+.eg-gamas a:focus-visible,
+.eg-toc a:focus-visible {
+  outline: 2px solid var(--eg-b-azul);
+  outline-offset: 2px;
+  border-radius: 2px;
 }

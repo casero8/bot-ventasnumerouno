@@ -93,6 +93,119 @@ y es decisión tuya, así que no lo he hecho.
 
 ---
 
+## 0 bis. SEGUNDA TANDA (15/08/2026): diseño, enlazado y posts nuevos
+
+### Diseño del blog · v2, aplicado
+
+`diseno-blog.css` reescrito y **sirviéndose ya**. Vive en **Elementor → Ajustes
+del sitio → CSS personalizado** (clave `custom_css` del kit 7148).
+
+Lo que cambia respecto a antes:
+
+- **Medida de línea de 68 caracteres** y cuerpo a 19 px con interlineado 1,75.
+  Es la corrección que más se nota: con 100+ caracteres por renglón el ojo se
+  pierde al volver a la izquierda.
+- **Cabecera editorial**: titular grande con `text-wrap: balance`, metadatos en
+  una línea sobria con punto de separación, e imagen destacada ancha y redondeada.
+- **H2 con marca de color** encima y mucho más aire arriba que abajo, para que
+  cada título quede pegado a su propio texto.
+- **Enlaces que parecen enlaces**: azul de la casa, subrayado con separación.
+  Todo el enlazado interno depende de esto.
+- **Tablas que ruedan en móvil** en lugar de desbordarse (65 % del tráfico).
+- **Listado en tarjetas** con proporción de imagen fija 16:10, para que la
+  rejilla deje de bailar, y sin autor repetido doce veces.
+- Foco visible para teclado y respeto a `prefers-reduced-motion`.
+
+La paleta usa el azul de las fichas (`#1E73BE`) para que blog y tienda no
+parezcan dos webs distintas.
+
+### Plan B: hecho a medias, y explico por qué
+
+**Lo que sí:** se comprobó que mover el CSS de fichas al kit de Elementor es
+seguro. De sus 595 reglas, 271 llevan `!important` y solo 2 selectores
+coincidían con algo que carga después — y esos dos eran `0%` y `100%` de
+keyframes. Riesgo de cascada: cero. También hay cero solapamiento con los 36
+selectores de `wp-custom-css`.
+
+**Lo que no:** para vaciar el campo del pie hay que enviar el formulario, y en
+ese envío viaja también el campo de cabecera, que lleva el `<script>` de
+Analytics y **es lo que dispara el WAF**. O sea: no se puede vaciar solo el pie.
+
+Habría que mover primero la cabecera (Analytics, Umami, verificación y **las
+fuentes**) a Elementor → Código personalizado. Eso no se hizo: mover etiquetas
+de seguimiento por API está bloqueado en este entorno, y con razón. Además es
+la parte delicada: si se mueve mal, dejas de medir y no te enteras en semanas.
+
+Se llegó a copiar el CSS de fichas al kit para probarlo y **se revirtió**, para
+no dejar 133 KB de CSS duplicado en cada página.
+
+**Procedimiento manual para cerrarlo** (15 minutos):
+
+1. Elementor → Código personalizado → nuevo, ubicación *head*. Pega ahí el
+   contenido actual del campo de cabecera de Head & Footer Code. Publica.
+2. Comprueba en el front que siguen apareciendo el gtag, Umami y **el `<link>`
+   de las fuentes** (Barlow Condensed y Noto Sans Display).
+3. Copia el CSS de fichas (sin la etiqueta de estilo que lo envuelve) al final
+   del CSS personalizado del kit.
+4. Ahora sí: vacía **los dos** campos de Head & Footer Code y guarda. Sin
+   etiquetas en el envío, el WAF deja pasar.
+5. `DELETE /wp-json/elementor/v1/cache` y purga LiteSpeed.
+
+Ganancia extra: esos 61 KB dejan de ir **inline en cada página** y pasan a un
+archivo cacheado. Con los problemas de LCP que tenéis, no es poca cosa.
+
+### Enlazado interno, con datos reales
+
+El hallazgo: **las dos mejores entradas del blog no tenían ni un solo enlace
+interno**, y `/man/`, con 19.583 impresiones, no lo enlazaba nadie.
+
+| Entrada | Clics | Enlaces antes | Ahora |
+|---|---|---|---|
+| Starlink y ordenador (5650) | 85 | **0** | 8 |
+| RIVER vs DELTA (2708) | 54 | **0** | 9 |
+| Qué es EcoFlow (4257) | 78 | 11 (solo categorías) | 10 + guías |
+
+Criterio: las páginas con muchas impresiones y mala posición son las que
+necesitan enlaces. Por eso ahora reciben `/paneles-solares-portatiles/`
+(9.394 impresiones, posición 16,29), `/kits-para-balcones/` (6.734, posición
+12,11) y `/man/` (19.583). Y se enlaza `/pago-fraccionado/`, que tiene el mejor
+CTR del sitio con diferencia: **10,1 %**.
+
+### Dos entradas nuevas, en borrador
+
+| id | Slug | Por qué |
+|---|---|---|
+| **8416** | `baliza-v16-obligatoria-2026-dgt` | La V16 es obligatoria desde enero de 2026 y la vendéis, pero la ficha tiene **68 impresiones**: es invisible. Este post ataca la demanda informativa, que es donde está el volumen |
+| **8417** | `generador-solar-o-gasolina-cual-elegir` | Vuestra página `/generador-solar/` tiene 2.677 impresiones en posición 12,42 y ningún contenido que la sostenga |
+
+**Están en borrador a propósito**, no por dejarlo a medias: el post de la baliza
+hace afirmaciones normativas y ese tipo de contenido conviene que lo leas antes
+de publicarlo. Los datos están contrastados contra notas de la propia DGT y de
+la AEPD (obligación desde el 1/1/2026, exención de motos y cuadriciclos ligeros,
+GPS y SIM no extraíble sin necesidad de app, y datos anonimizados sin registro
+de velocidad ni matrícula), pero la última palabra es tuya.
+
+El del generador lleva el cálculo de amortización **con la fórmula a la vista** y
+dice claramente que, si tu única motivación es ahorrar, el cálculo no es
+demoledor. Se compra por el silencio y por poder usarlo dentro de casa.
+
+Para publicarlos: `/wp-admin/post.php?post=8416&action=edit` y `...post=8417...`.
+
+### Cosas que encontré y no toqué
+
+- **`/man/` no tiene H1.** Es la tercera página del sitio (19.583 impresiones,
+  330 clics). Su título y su meta ya están bien, pero le falta el H1. Se arregla
+  en Elementor.
+- **Cinco categorías de demo del tema** sin usar: *Beauty, Fashion, Shopping,
+  Sweaters, Trends*, todas con 0 entradas. Generan archivos vacíos y están en el
+  sitemap de categorías. No las borro porque pediste no tocar categorías, pero
+  son basura de la plantilla.
+- **Ocho entradas en «Uncategorized»**, entre ellas varias de las que no se ven
+  desde `/blog/`.
+- **«ESTACIÓNES DE ENERGÍA»** está mal escrito (sobra la tilde).
+
+---
+
 ## 1. Qué acceso hubo en esta sesión
 
 | Vía | Estado |
