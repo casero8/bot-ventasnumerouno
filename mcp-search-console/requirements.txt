@@ -1,0 +1,5 @@
+mcp>=2.0.0
+google-auth>=2.35.0
+google-api-python-client>=2.150.0
+uvicorn>=0.34.0
+starlette>=0.46.0
