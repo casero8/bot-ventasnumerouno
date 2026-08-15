@@ -1,0 +1,347 @@
+/* ============================================================
+   EG · DISEÑO DEL BLOG
+   Va en: Herramientas → Head & Footer Code → Código del pie de página
+   DENTRO del bloque existente <style id="eg-pdp-css">, al final.
+   NO crees un <style> nuevo: el WAF bloquea guardar etiquetas nuevas
+   con contenido en ese campo y romperías el guardado entero.
+
+   ANTES DE PEGAR: los selectores marcados con  /* ?  */ /* hay que
+   confirmarlos contra el DOM real del tema Minimog. Los he escrito
+   con los nombres estándar de WordPress más los habituales de Minimog,
+   pero no he podido abrir la web para verificarlos (dominio bloqueado
+   por la política de red de esta sesión).
+
+   Después de guardar: LiteSpeed Cache → Purgar todo.
+   ============================================================ */
+
+/* ---------- 1. VARIABLES ---------- */
+
+:root {
+  --eg-tinta: #1a1d21;        /* texto principal */
+  --eg-tinta-suave: #5b6670;  /* metadatos, pies */
+  --eg-linea: #e3e7ea;
+  --eg-fondo-suave: #f6f8f9;
+  --eg-azul: #0b6bcb;
+  --eg-azul-oscuro: #084e96;
+  --eg-radio: 10px;
+}
+
+/* ---------- 2. LEGIBILIDAD DEL ARTÍCULO ----------
+   El problema real del blog actual: la línea de texto es demasiado
+   ancha y demasiado pequeña. Con 100+ caracteres por línea el ojo
+   pierde el renglón al volver, y por eso "no hay quien lo lea".
+   Lo que arregla eso es medida de línea, tamaño e interlineado.     */
+
+.single-post .entry-content,
+.single-post .post-content,          /* ? Minimog */
+.single-post .eg-desc {
+  max-width: 72ch;                   /* ~68-72 caracteres por línea */
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.125rem;               /* 18px */
+  line-height: 1.75;
+  color: var(--eg-tinta);
+  letter-spacing: .002em;
+}
+
+.single-post .entry-content p {
+  margin: 0 0 1.4em;
+}
+
+/* Entradilla: el primer párrafo entra más grande. Da jerarquía
+   y engancha, que es medio segundo ganado en el rebote. */
+.single-post .entry-content > p:first-of-type,
+.single-post .eg-desc > .eg-lead {
+  font-size: 1.3rem;
+  line-height: 1.55;
+  color: #2b3138;
+  margin-bottom: 1.6em;
+}
+
+/* ---------- 3. JERARQUÍA DE TÍTULOS ----------
+   Un H2 tiene que verse como un H2 desde el otro lado de la
+   habitación. Espacio arriba mucho mayor que abajo: así el título
+   queda pegado a SU texto y separado del anterior.               */
+
+.single-post .entry-content h2,
+.single-post .eg-desc h2 {
+  font-size: 1.85rem;
+  line-height: 1.25;
+  font-weight: 700;
+  margin: 2.6em 0 .7em;
+  padding-top: 1.2em;
+  border-top: 1px solid var(--eg-linea);
+  color: var(--eg-tinta);
+}
+
+.single-post .entry-content h2:first-child {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.single-post .entry-content h3,
+.single-post .eg-desc h3 {
+  font-size: 1.3rem;
+  line-height: 1.3;
+  font-weight: 700;
+  margin: 2em 0 .5em;
+}
+
+/* ---------- 4. LISTAS ---------- */
+
+.single-post .entry-content ul,
+.single-post .entry-content ol {
+  margin: 0 0 1.5em;
+  padding-left: 1.3em;
+}
+
+.single-post .entry-content li {
+  margin-bottom: .6em;
+  padding-left: .2em;
+}
+
+/* ---------- 5. ENLACES: QUE SE VEAN ----------
+   En el blog actual los enlaces internos no se distinguen del texto.
+   Un enlace que no parece enlace no se pulsa, y todo el enlazado
+   interno que estamos montando no sirve de nada.                  */
+
+.single-post .entry-content a:not(.button):not(.eg-fbt-btn),
+.single-post .eg-desc a:not(.button):not(.eg-fbt-btn) {
+  color: var(--eg-azul);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  transition: color .15s;
+}
+
+.single-post .entry-content a:hover {
+  color: var(--eg-azul-oscuro);
+  text-decoration-thickness: 2px;
+}
+
+/* ---------- 6. IMÁGENES ---------- */
+
+.single-post .entry-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--eg-radio);
+  margin: 1.8em 0;
+}
+
+.single-post .entry-content figcaption {
+  font-size: .9rem;
+  color: var(--eg-tinta-suave);
+  text-align: center;
+  margin-top: .6em;
+}
+
+/* ---------- 7. CABECERA DEL ARTÍCULO ---------- */
+
+.single-post .entry-title,
+.single-post .post-title {           /* ? Minimog */
+  font-size: clamp(2rem, 4.5vw, 2.9rem);
+  line-height: 1.15;
+  font-weight: 800;
+  max-width: 20ch;                   /* titulares en 2-3 líneas, no en 1 larga */
+  margin: 0 auto .6em;
+  text-align: center;
+}
+
+/* Metadatos: fecha y autor. Discretos pero presentes.
+   La fecha visible ayuda al usuario y es señal de frescura. */
+.single-post .entry-meta,
+.single-post .post-meta {            /* ? Minimog */
+  text-align: center;
+  font-size: .92rem;
+  color: var(--eg-tinta-suave);
+  margin-bottom: 2.5em;
+}
+
+/* ---------- 8. FUERA ETIQUETAS ----------
+   Las etiquetas no aportan nada al lector y sus archivos generan
+   páginas duplicadas y sin valor que se comen presupuesto de rastreo.
+   Esto las oculta. Además hay que BORRARLAS en WordPress y poner
+   los archivos de etiqueta en noindex (ver README).               */
+
+.tags-links,
+.post-tags,                          /* ? Minimog */
+.entry-tags,
+.tagcloud,
+.widget_tag_cloud,
+.single-post .post-categories-tags,  /* ? Minimog */
+.entry-footer .tags-links {
+  display: none !important;
+}
+
+/* ---------- 9. LISTADO DEL BLOG ----------
+   Rejilla de tarjetas: imagen, título, entradilla y fecha.
+   Sin etiquetas, sin "Leer más" repetido, sin autor en el listado. */
+
+.blog .site-main,
+.archive .site-main,
+.blog .blog-wrapper {                /* ? Minimog */
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.blog .post,
+.archive .post {
+  background: #fff;
+  border: 1px solid var(--eg-linea);
+  border-radius: var(--eg-radio);
+  overflow: hidden;
+  transition: box-shadow .18s, transform .18s;
+}
+
+.blog .post:hover,
+.archive .post:hover {
+  box-shadow: 0 8px 24px rgba(16, 24, 32, .09);
+  transform: translateY(-2px);
+}
+
+.blog .post .entry-title,
+.archive .post .entry-title {
+  font-size: 1.22rem;
+  line-height: 1.3;
+  font-weight: 700;
+  text-align: left;
+  max-width: none;
+  margin: 0 0 .5em;
+}
+
+.blog .post .entry-title a {
+  color: var(--eg-tinta);
+  text-decoration: none;
+}
+
+.blog .post .entry-title a:hover {
+  color: var(--eg-azul);
+}
+
+.blog .post .entry-summary,
+.blog .post .entry-excerpt {
+  font-size: .97rem;
+  line-height: 1.6;
+  color: var(--eg-tinta-suave);
+}
+
+/* En el listado, la fecha sí: es lo que dice si el blog está vivo. */
+.blog .post .entry-meta {
+  font-size: .85rem;
+  color: var(--eg-tinta-suave);
+  text-align: left;
+  margin: 0 0 .6em;
+}
+
+/* ---------- 10. MÓVIL ----------
+   El 65 % del tráfico es móvil (dato de Search Console, no suposición).
+   Esta parte es la que más se va a ver.                            */
+
+@media (max-width: 767px) {
+  .single-post .entry-content,
+  .single-post .eg-desc {
+    font-size: 1.06rem;              /* 17px: cómodo sin obligar a zoom */
+    line-height: 1.7;
+    padding: 0 4px;
+  }
+
+  .single-post .entry-content > p:first-of-type,
+  .single-post .eg-desc > .eg-lead {
+    font-size: 1.16rem;
+  }
+
+  .single-post .entry-content h2,
+  .single-post .eg-desc h2 {
+    font-size: 1.45rem;
+    margin-top: 2em;
+    padding-top: 1em;
+  }
+
+  .single-post .entry-content h3 {
+    font-size: 1.18rem;
+  }
+
+  .single-post .entry-title {
+    font-size: 1.75rem;
+    max-width: none;
+    text-align: left;
+  }
+
+  .single-post .entry-meta {
+    text-align: left;
+  }
+}
+
+/* ---------- 11. ÍNDICE DE CONTENIDOS (opcional) ----------
+   Si añades un índice al principio del post, envuélvelo en
+   <nav class="eg-toc"> con una <ul> de enlaces a los id de los H2.
+   Ayuda al lector en artículos largos y Google lo usa a veces para
+   los enlaces de salto dentro del resultado de búsqueda.          */
+
+.eg-toc {
+  background: var(--eg-fondo-suave);
+  border: 1px solid var(--eg-linea);
+  border-radius: var(--eg-radio);
+  padding: 1.1em 1.4em;
+  margin: 0 0 2.4em;
+}
+
+.eg-toc strong {
+  display: block;
+  font-size: .82rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--eg-tinta-suave);
+  margin-bottom: .6em;
+}
+
+.eg-toc ul {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.eg-toc li {
+  margin-bottom: .3em;
+}
+
+/* ---------- 12. BLOQUE DE GAMAS AL FINAL DEL POST ----------
+   Enlazado interno reutilizable. HTML en el README.               */
+
+.eg-gamas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin: 3em 0 1em;
+  padding-top: 2em;
+  border-top: 2px solid var(--eg-linea);
+}
+
+.eg-gamas a {
+  display: block;
+  padding: 1.1em 1.2em;
+  background: var(--eg-fondo-suave);
+  border: 1px solid var(--eg-linea);
+  border-radius: var(--eg-radio);
+  text-decoration: none !important;
+  color: var(--eg-tinta) !important;
+  transition: border-color .15s, background .15s;
+}
+
+.eg-gamas a:hover {
+  background: #fff;
+  border-color: var(--eg-azul);
+}
+
+.eg-gamas b {
+  display: block;
+  font-size: 1.05rem;
+  margin-bottom: .25em;
+  color: var(--eg-azul);
+}
+
+.eg-gamas span {
+  font-size: .9rem;
+  line-height: 1.45;
+  color: var(--eg-tinta-suave);
+}
