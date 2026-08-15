@@ -9,6 +9,69 @@ exportación de Search Console de 16 meses.
 
 ---
 
+## 0. APLICADO EN LA WEB EL 15/08/2026
+
+Con la contraseña de aplicación se pudo trabajar contra la API REST. Esto ya
+está **hecho y verificado en el front**, no es una propuesta:
+
+| Qué | Antes | Ahora |
+|---|---|---|
+| **Título y meta del PowerStream** | 98 car. de plantilla, **sin meta** | 52 car. + meta de 145 |
+| **Slug de `/nueva-entrada-blog/`** | `nueva-entrada-blog` | `placas-solares-piso-ciudad` con **301 verificado** |
+| Título y meta de esa entrada | 104 car., sin meta | 51 + 138 |
+| **Autor de las 22 entradas** | ECOFLOW ESPAÑA | **EcoGadget**, con biografía |
+| Slug del autor | `info-ecosassgmail-com` *(publicaba el correo)* | `ecogadget` |
+| **Etiquetas** | 76 | **0**, y `post_tag-sitemap.xml` da 404 |
+| Títulos y metas de entrada | 3 de 22 en rango | **13 de 22** |
+
+Los 9 títulos y metas escritos: DELTA 2 (4441), RIVER vs DELTA (2708), Power
+Kits (2679), camperización (2672), cuántas placas (5976), panel portátil
+(4652), RIVER (4155), inversor casa aislada (5938) y subvenciones (7719).
+
+### Detalles que conviene saber
+
+**El 301 de la entrada 9 ya existía.** Lo creó Redirection al cambiar el slug
+(regla id 7). Comprobado: `/nueva-entrada-blog/` responde 301 hacia la URL nueva.
+
+**El autor se cambió renombrando al usuario 1**, no reasignando entradas. Es
+mejor: una sola operación, sin romper nada y sin tocar el histórico. De paso se
+cambió su slug, porque `/author/info-ecosassgmail-com/` estaba publicando una
+dirección de correo en la URL.
+
+**La biografía habla de tienda física pero no dice de qué ciudad**, porque no
+me consta. Conviene añadirla en Usuarios → Perfil: da señal local.
+
+**Las etiquetas se borraron con copia previa**, en `etiquetas-borradas-backup.md`,
+con qué entrada tenía cada una por si hay que recuperar alguna.
+
+**Falta el paso 3 de las etiquetas:** Yoast → Ajustes → Taxonomías → Etiquetas →
+«Mostrar en resultados de búsqueda»: **No**. Ahora mismo el sitemap ya no las
+lista porque no queda ninguna, pero si alguien crea una etiqueta nueva volverá a
+aparecer. Ese ajuste no se puede tocar por API: son dos clics a mano.
+
+### Lo que NO se tocó, y por qué
+
+**Las 9 entradas que siguen sin meta.** Se comprobó en Search Console y todas
+tienen **0 clics**, con entre 0 y 60 impresiones en 16 meses. Escribirles el
+título no daría nada porque no las ve nadie. Son de 2023-2024 y de 400-700
+palabras: lo que piden es fusionarse o desaparecer, no una meta nueva.
+
+**Canibalización entre los dos posts de RIVER.** Hay dos artículos casi gemelos:
+
+| URL | Palabras | Clics | Impr. | Pos. |
+|---|---|---|---|---|
+| `ecoflow-river-la-estacion-de-energia-portatil-ideal` | 2.706 | 10 | 846 | **9,10** |
+| `ecoflow-river-energia-portatil-y-sostenible-para-tus-aventuras` | 2.683 | 0 | 20 | **44,1** |
+
+No son copia literal (0 % de frases idénticas, 33 % de vocabulario común): son
+dos redacciones distintas del mismo artículo. Misma intención, misma extensión,
+mismo arranque. Compiten entre ellas y por eso una está en la posición 44.
+
+Lo correcto es **301 del segundo al primero**, pero eso es tirar 2.683 palabras
+y es decisión tuya, así que no lo he hecho.
+
+---
+
 ## 1. Qué acceso hubo en esta sesión
 
 | Vía | Estado |
