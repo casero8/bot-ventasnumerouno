@@ -1,0 +1,79 @@
+/* ============================================================
+   EG · ARREGLOS DE FICHA DE PRODUCTO
+   Se publica junto con diseno-blog.css en el CSS personalizado
+   del kit de Elementor (kit 7148). Tras editar, lanzar
+   DELETE /wp-json/elementor/v1/cache
+
+   OJO CON LA CASCADA: el CSS de fichas (eg-pdp-css, 61 KB) va
+   inline en el pie, o sea DESPUÉS de este archivo. Por eso las
+   reglas de aquí necesitan MÁS especificidad, no solo !important:
+   se prefija con body para ganarle a `.single-product .summary .stock`.
+   ============================================================ */
+
+
+/* ---------- 1. AVISO DE "PEDIDO PENDIENTE" (backorder) ----------
+
+   El problema: el CSS de fichas define `.single-product .summary .stock`
+   en ROJO (#FFF3F3 con borde #DF0000), que es el estilo de la alerta de
+   últimas unidades. Luego hay un override en gris para `.out-of-stock`,
+   pero NO hay ninguno para `.available-on-backorder`. Resultado: el
+   producto en pedido pendiente hereda el rojo de alerta y parece un
+   error, cuando en realidad SÍ se puede comprar.
+
+   Encima, la regla base pone `display:inline-flex; align-items:center`
+   sin `gap`, así que el icono del tema queda pegado al texto.
+
+   Se resuelve con ámbar informativo, el mismo de la caja de aviso que
+   ya hay justo debajo (.msg-custom-stock.msg-reserva usa #fef3c7 /
+   #fcd34d / #92400e), para que las dos piezas se lean como una sola.   */
+
+body.single-product .summary .stock.available-on-backorder {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 9px !important;                 /* el icono ya no va pegado al texto */
+  width: auto !important;
+  align-self: flex-start !important;
+  background: #FEF3C7 !important;
+  border: 1px solid #FCD34D !important;
+  border-left: 4px solid #F59E0B !important;
+  border-radius: 8px !important;
+  color: #92400E !important;
+  padding: 10px 16px !important;
+  margin: 0 0 14px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+}
+
+/* Que nada de dentro se salga del tono ni se ponga a parpadear.
+   El pulso de "últimas unidades" aquí no pinta nada: no es urgencia,
+   es un plazo. Y parpadeos agresivos incumplen WCAG 2.3.1. */
+body.single-product .summary .stock.available-on-backorder * {
+  animation: none !important;
+  color: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+body.single-product .summary .stock.available-on-backorder i,
+body.single-product .summary .stock.available-on-backorder svg,
+body.single-product .summary .stock.available-on-backorder [class*="icon"] {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  position: static !important;
+  color: #B45309 !important;
+}
+
+/* La barra de stock bajo no aplica cuando no hay inventario gestionado */
+body.single-product .summary .stock.available-on-backorder .low-stock-bar,
+body.single-product .summary .stock.available-on-backorder [class*="bar"] {
+  display: none !important;
+}
+
+/* En móvil (65 % del tráfico) que ocupe el ancho y respire */
+@media (max-width: 767px) {
+  body.single-product .summary .stock.available-on-backorder {
+    width: 100% !important;
+    padding: 10px 14px !important;
+  }
+}
