@@ -1,8 +1,8 @@
 /* ============================================================
    EG · DISEÑO DEL BLOG
    Va en: Herramientas → Head & Footer Code → Código del pie de página
-   DENTRO del bloque existente <style id="eg-pdp-css">, al final.
-   NO crees un <style> nuevo: el WAF bloquea guardar etiquetas nuevas
+   DENTRO del bloque existente con id "eg-pdp-css", al final.
+   NO crees una etiqueta de estilo nueva: el WAF bloquea guardar etiquetas
    con contenido en ese campo y romperías el guardado entero.
 
    SELECTORES VERIFICADOS CONTRA EL DOM REAL (15/08/2026).

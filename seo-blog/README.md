@@ -271,6 +271,60 @@ Después de guardar: **LiteSpeed Cache → Purgar todo.**
 
 ---
 
+## 7 bis. AVISO GORDO: el formulario de Head & Footer Code no se puede guardar
+
+Descubierto el 15/08/2026 entrando en el admin. **Esto te afecta también si lo
+haces a mano**, así que léelo antes de intentar pegar el CSS.
+
+**El CSS de las fichas vive en:** Herramientas → Head & Footer Code, campo
+*Código del pie de página* (`auhfc_settings_sitewide[footer]`). Son 61.317
+caracteres, todo un único bloque de estilos con el id `eg-pdp-css`.
+
+Ojo, que la ruta de la skill estaba incompleta: la URL real es
+`/wp-admin/tools.php?page=head-footer-code` **con guiones**. Con guiones bajos
+(`head_footer_code`) da 403 de WordPress y parece un problema de permisos, pero
+es que esa página no existe.
+
+**El problema:** al guardar ese formulario, el servidor devuelve **403 Forbidden**
+(el del servidor, tipo Apache, no el de WordPress). Y no es por lo que se añada:
+se probó a reenviar **el contenido actual sin tocar una coma** y también da 403.
+
+Comprobado con sondas contra `admin-ajax.php` (sin escribir nada):
+
+| Contenido enviado | Respuesta |
+|---|---|
+| Texto inocuo | 400 *(pasa el WAF)* |
+| **El CSS nuevo del blog entero** | **400** *(pasa el WAF)* |
+| Una etiqueta de script suelta | 400 *(pasa el WAF)* |
+| **El campo «cabecera» actual** (lleva el gtag de Google) | **403 — bloqueado** |
+| **El campo «pie» actual** (el CSS de fichas) | **403 — bloqueado** |
+
+O sea: **el CSS nuevo no es el problema, lo es el contenido que ya está
+guardado.** Alguna regla del WAF del hosting cambió después de la última vez que
+se guardó, y desde entonces ese formulario quedó de solo lectura. Cualquiera que
+pulse «Guardar cambios» ahí se va a comer un 403 y va a perder lo que escriba.
+
+**Qué hacer, por orden de preferencia:**
+
+1. **Meter el CSS del blog en otro sitio.** No hace falta que esté en el mismo
+   bloque: es CSS independiente y no colisiona con nada (comprobado, los 419
+   selectores actuales son todos `.single-product`; los 45 nuevos son
+   `.single-post` y `.page-id-3230`). Sitios buenos, los dos ya instalados:
+   - **Apariencia → Personalizar → CSS adicional.** Es el sitio natural para
+     esto y no pasa por el formulario roto.
+   - **WPCode** (Insert Headers and Footers), que está activo y con los tres
+     campos vacíos.
+   - **Opciones de Tema → `custom_css`**, que ahora tiene 53 caracteres.
+     Guarda por AJAX de Redux, que es otra ruta.
+2. **Pedir al hosting que revise la regla del WAF**, porque mientras siga así no
+   se puede tocar ni el gtag de Google ni el CSS de las fichas. Eso es un
+   problema serio a medio plazo, más que el diseño del blog.
+
+Mientras tanto el CSS de las fichas **sigue funcionando**: está guardado y se
+sirve. Lo que no se puede es modificarlo.
+
+---
+
 ## 8. Etiquetas: fuera
 
 Hay entradas con **59 etiquetas** colgando. Sus archivos generan páginas casi
