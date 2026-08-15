@@ -23,6 +23,7 @@ está **hecho y verificado en el front**, no es una propuesta:
 | Slug del autor | `info-ecosassgmail-com` *(publicaba el correo)* | `ecogadget` |
 | **Etiquetas** | 76 | **0**, y `post_tag-sitemap.xml` da 404 |
 | Títulos y metas de entrada | 3 de 22 en rango | **13 de 22** |
+| **CSS del blog** | sin aplicar | ✅ **aplicado y sirviéndose** |
 
 Los 9 títulos y metas escritos: DELTA 2 (4441), RIVER vs DELTA (2708), Power
 Kits (2679), camperización (2672), cuántas placas (5976), panel portátil
@@ -43,6 +44,26 @@ me consta. Conviene añadirla en Usuarios → Perfil: da señal local.
 
 **Las etiquetas se borraron con copia previa**, en `etiquetas-borradas-backup.md`,
 con qué entrada tenía cada una por si hay que recuperar alguna.
+
+**El CSS del blog se aplicó esquivando el formulario roto.** Como Head & Footer
+Code devuelve 403 (sección 7 bis) y esa opción no se puede escribir por API, se
+metió en el **CSS personalizado del kit de Elementor** (`custom_css` dentro de
+`_elementor_page_settings` del kit 7148), que sí es escribible por REST y se
+sirve en todo el sitio. Los ajustes que ya tenía el kit se conservaron intactos.
+
+Para que se publicara hicieron falta dos pasos más, y conviene apuntarlos porque
+sin ellos parece que no funciona:
+
+1. `DELETE /wp-json/elementor/v1/cache` — obliga a Elementor a regenerar su CSS.
+2. Eso cambia el hash del CSS combinado de LiteSpeed, que se reconstruye solo.
+
+Comprobado en las dos plantillas: en una entrada
+(`.single-post .entry-content{max-width:72ch…}`) y en el listado
+(`.page-id-3230 .elementor-post__card{…}`). Las reglas llegan enteras tras
+minificar.
+
+> Si algún día hay que **quitar** este CSS, no está en Head & Footer Code:
+> está en Elementor → Ajustes del sitio → CSS personalizado.
 
 **Falta el paso 3 de las etiquetas:** Yoast → Ajustes → Taxonomías → Etiquetas →
 «Mostrar en resultados de búsqueda»: **No**. Ahora mismo el sitemap ya no las

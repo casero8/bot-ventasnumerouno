@@ -1,9 +1,17 @@
 /* ============================================================
    EG · DISEÑO DEL BLOG
-   Va en: Herramientas → Head & Footer Code → Código del pie de página
-   DENTRO del bloque existente con id "eg-pdp-css", al final.
-   NO crees una etiqueta de estilo nueva: el WAF bloquea guardar etiquetas
-   con contenido en ese campo y romperías el guardado entero.
+   YA APLICADO EL 15/08/2026, y NO donde estaba previsto.
+   Vive en: Elementor → Ajustes del sitio → CSS personalizado
+   (clave custom_css del kit 7148). Ahí es donde hay que editarlo o quitarlo.
+
+   NO va en Herramientas → Head & Footer Code, aunque el CSS de las fichas
+   esté ahí: ese formulario devuelve 403 del WAF al guardar y no admite
+   cambios. Tampoco se puede escribir esa opción por la API. Detalle
+   completo en la sección 7 bis del README.
+
+   Si se edita, hay que lanzar después un DELETE a
+   /wp-json/elementor/v1/cache para que Elementor regenere su CSS; LiteSpeed
+   reconstruye el combinado solo.
 
    SELECTORES VERIFICADOS CONTRA EL DOM REAL (15/08/2026).
    Ya no queda ningún selector a ciegas. Lo comprobado:
