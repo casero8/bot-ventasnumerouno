@@ -63,13 +63,19 @@ def limpiar(h):
     h = re.sub(r'<span>\s*(.*?)\s*</span>', r'\1', h, flags=re.S)
     if h != antes: notas.append('spans vacíos desenvueltos')
 
-    # etiquetas vacías
+    # Etiquetas vacías. OJO: solo las que NO llevan atributos.
+    #
+    # La primera versión de esto borraba cualquier etiqueta vacía y se cargó
+    # <div class="eg-fbt-aviso"></div> en la DELTA Max Ultra y la STREAM Ultra X.
+    # Ese div está vacío en el HTML A PROPÓSITO: lo rellena el JavaScript del
+    # bloque "Comprado conjuntamente". Una etiqueta vacía CON clase o CON id casi
+    # siempre es un punto de anclaje para JS, no basura. No se tocan.
     tot = 0
     for _ in range(4):
-        h2 = re.sub(r'<(p|span|div|strong|em)[^>]*>(\s|&nbsp;|<br\s*/?>)*</\1>', '', h)
+        h2 = re.sub(r'<(p|span|div|strong|em)>(\s|&nbsp;|<br\s*/?>)*</\1>', '', h)
         if h2 == h: break
         tot += 1; h = h2
-    if tot: notas.append('etiquetas vacías')
+    if tot: notas.append('etiquetas vacías sin atributos')
 
     # cadenas de <br>
     n = len(re.findall(r'(?:<br\s*/?>\s*){3,}', h))

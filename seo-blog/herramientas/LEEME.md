@@ -29,6 +29,59 @@ marcadores.
   después en las 158: cero diferencias, salvo las seis citas
   `:contentReference` del kit de ducha, que sí eran texto visible y sobraban.
 
+## ⚠️ Dos fallos que costaron romper el bloque "Comprado conjuntamente"
+
+Pasaron el 15/08/2026 en la DELTA Max Ultra y la STREAM Ultra X. Están
+corregidos, pero quedan escritos porque son fáciles de repetir.
+
+### 1. No borres etiquetas vacías que lleven clase o id
+
+La primera versión del limpiador quitaba cualquier etiqueta vacía y se llevó
+por delante `<div class="eg-fbt-aviso"></div>`. **Ese div está vacío a
+propósito**: lo rellena el JavaScript del bloque de comprado conjuntamente.
+
+Regla: una etiqueta vacía **con clase o con id** casi siempre es un punto de
+anclaje para JavaScript, no basura. Ahora solo se borran las que no llevan
+ningún atributo.
+
+### 2. NO uses la API de WooCommerce para guardar descripciones con HTML
+
+Esto es lo que de verdad rompió el diseño. `POST /wp-json/wc/v3/products/batch`
+pasa la descripción por **KSES** y **elimina las etiquetas `<input>`**, que no
+están en su lista de permitidas.
+
+El bloque de comprado conjuntamente se monta así:
+
+```html
+<li><label>
+  <input type="checkbox" checked data-precio="649" data-id="2592">
+  <span class="eg-fbt-nom">Panel Solar Portátil EcoFlow de 400 W</span>
+  <span class="eg-fbt-pre">649,00 €</span>
+</label></li>
+```
+
+Sin el `<input>`, el `<label>` pierde su ancla, los dos `<span>` se apilan y el
+precio se monta encima del nombre. Es exactamente el destrozo que se vio: los
+nombres partidos letra a letra y los precios solapados.
+
+**Usa `POST /wp-json/wp/v2/product/<id>` con el campo `content`.** Esa ruta
+respeta el HTML tal cual para un usuario con permiso de `unfiltered_html`.
+Comprobado: los tres `<input>` sobreviven.
+
+La API de WooCommerce sí vale para meta (`meta_data`, títulos y metas de
+Yoast), que es texto plano. Solo falla con HTML enriquecido.
+
+### Cómo comprobar que no has roto nada
+
+Compara el recuento de etiquetas críticas antes y después, no solo la longitud:
+
+```python
+TAGS = ['<input','type="checkbox"','<button','<label','<table','<img','<form','<select']
+# si alguna baja respecto a la copia de seguridad, algo se ha perdido
+```
+
+---
+
 ## Cómo volver a pasarlo
 
 ```bash
