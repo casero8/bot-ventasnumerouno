@@ -1,0 +1,164 @@
+<!--
+POST 2 · URL ACTUAL: /ecoflow-para-starlink-y-ordenador-que-estacion-de-energia-elegir/
+SLUG: se mantiene. Es largo pero descriptivo y ya está indexado.
+
+ESTADO REAL (verificado en la web el 15/08/2026):
+El título SEO YA ESTÁ ARREGLADO en la web. Renderiza a 53 caracteres:
+  "EcoFlow para Starlink: qué estación de energía elegir"
+y la meta ya está puesta (137 car.). El problema de los 131 caracteres que
+describía la versión anterior de este README YA NO EXISTE. No hay que tocar
+ni el título ni la meta: lo que hay que cambiar es el CONTENIDO.
+
+SEARCH CONSOLE (16 meses): 85 clics · 6.323 impresiones · CTR 1,34 % · pos 5,75
+Es el post del blog con más clics. En posición 5,75 el CTR esperable ronda
+el 5-6 %, así que el margen está en el contenido y en el snippet, no en el título.
+
+CORRECCIÓN IMPORTANTE DE DATOS (por eso se reescribe este post):
+La versión anterior daba 45-75 W para el Starlink Standard. ES INCORRECTO.
+Hojas de especificaciones oficiales de SpaceX (descargadas y verificadas):
+  · starlink.com/public-files/specification_sheet_standard.pdf → "Average: 75 - 100 W"
+  · starlink.com/public-files/specification_sheet_mini.pdf     → "Average: 25-40W"
+Ese dato sostenía todo el artículo: la tabla de autonomía, la recomendación
+de modelo y la conclusión sobre el panel solar. Todo recalculado.
+
+CAMBIO DE PRODUCTOS ENLAZADOS (stock verificado por la Store API el 15/08/2026):
+Estaban AGOTADOS y se han sustituido: DELTA 2, DELTA 2 Max, DELTA Pro,
+DELTA Pro 3, RIVER 2 Pro, RIVER 3 Plus.
+Ahora solo se enlazan productos comprables hoy: RIVER 3 (259 €),
+DELTA 3 Classic (599 €), DELTA 3 Plus (849 €), DELTA Max Ultra (2.199 €),
+panel de 400 W (649 €) y panel rígido de 175 W (149 €).
+
+OJO, FICHA CON DATOS CONTRADICTORIOS — RIVER 3 Max Plus (549 €, en stock):
+la descripción larga dice 768 Wh y hasta 1.600 W; la descripción corta dice
+"ampliable hasta 858 Wh", 600 W nominales y X-Boost 1.200 W. No se puede
+saber cuál es la buena, así que ese modelo NO entra en la tabla de autonomía
+(solo se menciona sin cifras). Hay que arreglar la ficha y luego meterlo.
+-->
+
+<div class="eg-desc">
+
+<p class="eg-lead"><strong>Un Starlink Standard consume entre 75 y 100 W de forma continua; el Starlink Mini, entre 25 y 40 W.</strong> Son las cifras oficiales de SpaceX, y están bastante por encima de lo que se suele leer por ahí. Traducido: mantener un Standard las 24 horas pide alrededor de 2 kWh al día, y el Mini unos 0,8 kWh. Si además trabajas con el ordenador, súmale unos 60 W. Con esos números, la respuesta honesta es que para un día entero de Standard hace falta gama DELTA, no una RIVER.</p>
+
+<div class="eg-specbar">
+<div><strong>75–100 W</strong><span>Starlink Standard</span></div>
+<div><strong>25–40 W</strong><span>Starlink Mini</span></div>
+<div><strong>~2 kWh</strong><span>Un día de Standard</span></div>
+<div><strong>60 W</strong><span>Portátil de trabajo</span></div>
+</div>
+
+<h2>Por qué Starlink se come más batería de lo que la gente calcula</h2>
+
+<p>El primer error es mirar el pico y no la media. La antena arranca pidiendo bastante más de lo que consume después, y en invierno el sistema antihielo se activa y dispara el consumo durante ratos. Pero lo que decide la autonomía no es el pico: es el consumo medio a lo largo de las horas.</p>
+
+<p>El segundo error, y el más caro, es partir de un número equivocado. Circula mucho la cifra de 50-60 W para el Starlink Standard. La hoja de especificaciones de SpaceX dice <b>75-100 W de media</b>, y sobre 24 horas esa diferencia son casi 700 Wh: una estación entera de gama baja. Si dimensionas con 60 W, te quedas corto todos los días.</p>
+
+<p>El tercero es olvidarse de que el Starlink no está solo. Casi nadie enciende la antena para mirarla: hay un router, un portátil, a veces una pantalla y un móvil cargando. En una jornada de trabajo real ese conjunto se va a los 150 W largos.</p>
+
+<h2>Cuánto aguanta cada estación con Starlink conectado</h2>
+
+<p>De la capacidad nominal se pierde alrededor del 15&nbsp;% al convertir a corriente alterna, así que la capacidad útil ronda el 85&nbsp;%. Con esa corrección, y tomando 85 W como consumo medio del Standard (el punto medio del rango oficial), esto es lo que dura cada modelo <b>que puedes comprar hoy</b>:</p>
+
+<table class="eg-table"><tbody>
+<tr><th>Modelo</th><th>Capacidad</th><th>Precio</th><th>Solo Starlink Standard</th><th>Starlink + portátil</th></tr>
+<tr><td><a href="/producto/estacion-de-energia-portatil-ecoflow-river-3/">RIVER 3</a></td><td>245 Wh</td><td>259 €</td><td>Unas 2 horas y media</td><td>Hora y media</td></tr>
+<tr><td><a href="/producto/ecoflow-delta-3-classic-1024wh/">DELTA 3 Classic</a></td><td>1.024 Wh</td><td>599 €</td><td>Unas 10 horas</td><td>Unas 6 horas</td></tr>
+<tr><td><a href="/producto/estacion-energia-portatil-ecoflow-delta-3-plus/">DELTA 3 Plus</a></td><td>1.024 Wh</td><td>849 €</td><td>Unas 10 horas</td><td>Unas 6 horas</td></tr>
+<tr><td><a href="/producto/ecoflow-delta-max-ultra/">DELTA Max Ultra</a></td><td>3.072 Wh</td><td>2.199 €</td><td>Más de 30 horas</td><td>Unas 18 horas</td></tr>
+</tbody></table>
+
+<p class="eg-note">Estimaciones nuestras, no medidas de laboratorio. Fórmula a la vista: <b>horas = capacidad nominal × 0,85 ÷ consumo</b>, con 85 W para la antena Standard y 145 W para antena más portátil. El 0,85 es el rendimiento típico del inversor. En invierno, con el antihielo activo, cuenta con un 20-30&nbsp;% menos. Consumos de la antena tomados de las hojas de especificaciones oficiales de SpaceX.</p>
+
+<div class="eg-hl"><p><strong>La regla rápida:</strong> con la gama disponible hoy, la <a href="/producto/ecoflow-delta-3-classic-1024wh/">DELTA 3 Classic</a> de 1.024 Wh es el punto de entrada sensato: te da una jornada de trabajo completa con antena y ordenador, y por la noche recargas. Si necesitas la antena encendida las 24 horas sin recargar, el único modelo que llega es la <a href="/producto/ecoflow-delta-max-ultra/">DELTA Max Ultra</a> de 3.072 Wh.</p></div>
+
+<h2>Lo que no te va a funcionar</h2>
+
+<p>Seamos claros con esto, porque es donde se pierde el dinero: <b>ninguna estación portátil que vendemos mantiene un Starlink Standard más un ordenador durante 24 horas seguidas sin recargar.</b> Ni siquiera la DELTA Max Ultra: 3.072 Wh útiles a 145 W dan unas 18 horas. Para conexión permanente de verdad no se compra una estación más grande, se monta un sistema con paneles que reponga durante el día lo que gastas por la noche.</p>
+
+<p>Tampoco funciona una RIVER con el Standard en invierno. Cuando el antihielo entra, el consumo sube y se vacía en una tarde. Si tu uso es invernal y en zona fría, empieza directamente en la serie DELTA. La RIVER 3 está en la tabla para que veas la escala, no porque la recomendemos para este uso: con el Mini sí tiene sentido, con el Standard no.</p>
+
+<p>Y no esperes que el modo SAI resuelva un corte largo. La conmutación protege el equipo ante microcortes, pero la autonomía la sigue marcando la capacidad de la batería, no el modo.</p>
+
+<h2>Tres escenarios y qué comprar en cada uno</h2>
+
+<div class="eg-cards">
+<div class="eg-card"><div class="eg-ico">&#128663;</div><h4>Escapada de fin de semana</h4><p>Starlink Mini y un portátil, dos días. El Mini son 25-40 W, así que aquí sí basta poco: una <a href="/producto/estacion-de-energia-portatil-ecoflow-river-3/">RIVER 3</a> da unas 6 horas y media de Mini, y con recarga desde el mechero del coche encadenas los dos días sin apuros.</p></div>
+<div class="eg-card"><div class="eg-ico">&#128736;</div><h4>Teletrabajo en el campo</h4><p>Standard, portátil y pantalla, ocho horas al día de forma estable. <a href="/producto/ecoflow-delta-3-classic-1024wh/">DELTA 3 Classic</a> más <a href="/producto/panel-solar-portatil-ecoflow-de-400w/">panel de 400 W</a>: cubres la jornada y el panel repone durante el día.</p></div>
+<div class="eg-card"><div class="eg-ico">&#9728;</div><h4>Vivir fuera de red</h4><p>Conexión permanente todo el año. Aquí ya no hablamos de una estación sino de un sistema: <a href="/producto/ecoflow-delta-max-ultra/">DELTA Max Ultra</a> con <a href="/producto/panel-solar-rigido-ecoflow-de-100w-2-unidades/">paneles rígidos</a> en el techo, o directamente un <a href="/product-category/power-kits/">Power Kit</a>.</p></div>
+</div>
+
+<h2>El detalle que casi nadie mira: el paso por corriente continua</h2>
+
+<p>Starlink se alimenta a 230 V, así que la estación tiene que encender el inversor y mantenerlo encendido toda la noche. Ese inversor consume por sí mismo aunque el aparato conectado pida poco, y en equipos pequeños esa pérdida se nota mucho.</p>
+
+<p>Traducido a decisiones de compra: en una RIVER pequeña, alimentar Starlink 24 horas es ineficiente porque el propio inversor se lleva una parte importante. En una DELTA la proporción es despreciable. Es una de las razones por las que subir de gama rinde más de lo que sugiere la diferencia de capacidad.</p>
+
+<h2>Con panel solar la ecuación cambia (pero no tanto como se dice)</h2>
+
+<p>Una antena Standard a 85 W consume unos 2 kWh al día. Un <a href="/producto/panel-solar-portatil-ecoflow-de-400w/">panel portátil de 400 W</a> produce, en un día claro en España y contando pérdidas reales de orientación, en torno a 1,6-2 kWh.</p>
+
+<p>Es decir: <b>un solo panel de 400 W se queda justo</b>. En verano, bien orientado y sin nubes, empata con el consumo de la antena y poco más. En invierno no llega ni de lejos, y encima el antihielo sube el gasto. Si la conexión tiene que ser permanente, cuenta con dos paneles de 400 W, o con <a href="/producto/panel-solar-rigido-ecoflow-de-100w-2-unidades/">rígidos montados en el techo</a> sumando 600-800 W. Con eso la conexión deja de tener fecha de caducidad.</p>
+
+<p>Esto es justo lo contrario de lo que suele contarse, y es la consecuencia directa de partir del consumo real y no del que circula por los foros.</p>
+
+<div itemscope itemtype="https://schema.org/FAQPage">
+
+<h2>Preguntas frecuentes</h2>
+
+<details class="eg-faq" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+<summary itemprop="name">¿Cuánto consume Starlink al día?</summary>
+<div class="eg-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">
+<p>Según las especificaciones oficiales de SpaceX, el Starlink Standard consume de media entre 75 y 100 W, lo que en 24 horas son entre 1,8 y 2,4 kWh. El Starlink Mini consume entre 25 y 40 W, unos 0,6-1 kWh diarios. En invierno, con el sistema antihielo, súmale entre un 20 y un 30&nbsp;%.</p>
+</div></div>
+</details>
+
+<details class="eg-faq" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+<summary itemprop="name">¿Qué EcoFlow necesito para tener Starlink 24 horas?</summary>
+<div class="eg-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">
+<p>Para el Standard solo, la <a href="/producto/ecoflow-delta-max-ultra/">DELTA Max Ultra</a> de 3.072 Wh es la única que cubre el día completo, con unas 30 horas de margen. Si además usas el ordenador, ninguna estación portátil llega a 24 horas por sí sola: hay que añadir paneles solares para reponer durante el día. Para el Mini, una <a href="/producto/ecoflow-delta-3-classic-1024wh/">DELTA 3 Classic</a> de 1.024 Wh pasa el día holgada.</p>
+</div></div>
+</details>
+
+<details class="eg-faq" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+<summary itemprop="name">¿Un panel solar de 400 W basta para Starlink?</summary>
+<div class="eg-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">
+<p>Justo, y solo en verano. Un panel de 400 W produce en España en torno a 1,6-2 kWh en un día claro, y el Standard consume unos 2 kWh diarios. Empatas, sin margen para el ordenador. Para una conexión permanente cuenta con dos paneles de 400 W o con rígidos sumando 600-800 W. Con el Starlink Mini, en cambio, un solo panel de 400 W sobra.</p>
+</div></div>
+</details>
+
+<details class="eg-faq" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+<summary itemprop="name">¿Puedo conectar Starlink directamente a 12 V y ahorrar el inversor?</summary>
+<div class="eg-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">
+<p>Existen adaptadores de terceros para alimentar el Mini en continua, pero no son accesorios oficiales de Starlink ni de EcoFlow y pueden invalidar la garantía de la antena. Nosotros no los recomendamos ni los vendemos: la ganancia de eficiencia no compensa el riesgo.</p>
+</div></div>
+</details>
+
+<details class="eg-faq" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+<summary itemprop="name">¿Puedo trabajar con el ordenador conectado a la vez?</summary>
+<div class="eg-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">
+<p>Sí, de potencia van sobradas: la suma de antena y portátil ronda los 145-160 W y cualquier modelo de la gama la entrega sin despeinarse. Lo que cambia es la autonomía, que se reduce casi a la mitad. Con una DELTA 3 Classic pasas de unas 10 horas de antena sola a unas 6 con antena y ordenador.</p>
+</div></div>
+</details>
+
+<details class="eg-faq" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+<summary itemprop="name">¿Se puede dejar cargando toda la noche sin riesgo?</summary>
+<div class="eg-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"><div itemprop="text">
+<p>Sí. El sistema de gestión de batería corta la carga al llegar al máximo y vigila tensión y temperatura de forma continua. Además puedes limitar la carga máxima desde la aplicación para alargar la vida de las celdas si el equipo va a estar siempre enchufado.</p>
+</div></div>
+</details>
+
+</div>
+
+<h2>Qué llevarte de aquí</h2>
+
+<p>Calcula por consumo medio y por horas, no por picos, y parte del dato oficial: 75-100 W el Standard, 25-40 W el Mini. Para Starlink Standard más trabajo, el punto de equilibrio está en la <a href="/producto/ecoflow-delta-3-classic-1024wh/">DELTA 3 Classic</a>; para el Mini, con eso te sobra. Y si el uso va a ser continuado, el <a href="/paneles-solares-portatiles/">panel solar</a> no es un extra: es lo que convierte la batería en una instalación.</p>
+
+<p>Puedes ver todas las opciones en la <a href="/product-category/serie-delta/">serie DELTA</a> o escribirnos con tu caso concreto. Somos distribuidor oficial en España con tienda física y servicio técnico propio.</p>
+
+<div class="eg-gamas">
+  <a href="/product-category/river-3/"><b>Serie RIVER</b><span>245–768 Wh. Camping, portátiles y apagones cortos.</span></a>
+  <a href="/product-category/serie-delta/"><b>Serie DELTA</b><span>1–3 kWh. Casa, camper y electrodomésticos.</span></a>
+  <a href="/product-category/stream-series/"><b>Serie STREAM</b><span>Autoconsumo enchufable para bajar la factura.</span></a>
+  <a href="/paneles-solares-portatiles/"><b>Paneles solares</b><span>Portátiles y rígidos para no depender del enchufe.</span></a>
+</div>
+
+</div>
