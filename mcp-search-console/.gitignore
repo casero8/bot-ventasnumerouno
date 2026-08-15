@@ -1,6 +1,0 @@
-# Nunca subir credenciales de Google
-*.json
-venv/
-__pycache__/
-*.pyc
-.env
