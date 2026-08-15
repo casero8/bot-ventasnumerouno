@@ -105,8 +105,11 @@ REST en lugar de contra los formularios del panel.
 > contraseñas conviene no pasarlas por chat. Una contraseña de aplicación es
 > mejor idea: se revoca en un clic y no da acceso al panel.
 
-Por eso **no se ha publicado nada todavía**. Todo lo que sigue está verificado
-contra la web real y listo para aplicar.
+Ninguna de las dos impidió el trabajo al final: con la **contraseña de
+aplicación** se pudo ir por la API REST, que esquiva los dos problemas. Lo
+aplicado está en la sección **0**. Lo que sigue sin hacer es lo que **solo**
+se puede tocar por formulario: el CSS del blog (por el 403 del WAF) y el ajuste
+de noindex de etiquetas en Yoast.
 
 ---
 
@@ -125,15 +128,18 @@ Para Google eso son páginas huérfanas, sin enlaces internos entrantes.
 Se hace en Elementor: editar la página, el widget de entradas, y o subir el
 límite o activar la paginación.
 
-### Estado real de las 22 (verificado el 15/08/2026)
+### Estado de las 22, antes y después de esta sesión
 
-| Situación | Cuántas |
-|---|---|
-| Autor **«ECOFLOW ESPAÑA»** (debería ser EcoGadget) | **22 de 22** |
-| **Sin meta description** | **15 de 22** |
-| Título fuera del rango 50-60 car. | 19 de 22 |
-| Con 59 etiquetas colgando | 5 |
-| No alcanzables desde `/blog/` | 10 |
+| Situación | Antes | Ahora |
+|---|---|---|
+| Autor «ECOFLOW ESPAÑA» | 22 de 22 | ✅ **0** (todas firman EcoGadget) |
+| Sin meta description | 15 de 22 | ✅ **9 de 22** |
+| Título fuera del rango 50-60 car. | 19 de 22 | ✅ **9 de 22** |
+| Entradas con etiquetas | 6 (hasta 22 cada una) | ✅ **0** |
+| **No alcanzables desde `/blog/`** | 10 | ⚠️ **10 — sigue igual** |
+
+Las 9 que siguen sin título ni meta propios son las que tienen **0 clics** en 16
+meses (ver sección 0). No se tocaron a propósito.
 
 Los títulos actuales van de 97 a **167 caracteres**. Casi todos son el patrón de
 relleno de Yoast: cuando el Título SEO se deja vacío, Yoast añade
