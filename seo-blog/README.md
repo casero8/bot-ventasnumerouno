@@ -13,27 +13,37 @@ exportación de Search Console de 16 meses.
 
 | Vía | Estado |
 |---|---|
-| Lectura de la web (front, sitemaps, Store API de WooCommerce) | ✅ funciona |
-| Hojas de especificaciones oficiales de SpaceX / EcoFlow | ✅ funciona |
+| Lectura de la web (front, sitemaps, Store API de WooCommerce) | ✅ |
+| Hojas de especificaciones oficiales de SpaceX | ✅ |
 | Search Console | ✅ vía CSV aportado por David (16 meses) |
-| **wp-admin** | ❌ **la contraseña no entra** |
+| **wp-admin** | ✅ **dentro, como David, administrador** |
+| Guardar en Herramientas → Head & Footer Code | ❌ **403 del WAF** (ver 7 bis) |
 | Navegador automatizado (Playwright) | ❌ no puede usar el proxy del entorno |
+| Escritura automatizada en formularios del panel | ❌ bloqueada por el entorno |
 
-Sobre wp-admin: WordPress reconoce el usuario `casero.moratalaz@gmail.com` pero
-rechaza la contraseña (`Error: la contraseña que has introducido … no es correcta`).
-Se hizo **un solo intento** y se paró, para no disparar el bloqueo por intentos
-del plugin de seguridad. Hace falta la contraseña correcta, o mejor una
-**contraseña de aplicación** (Usuarios → Perfil → Contraseñas de aplicación),
-que permite trabajar por API sin exponer la del administrador.
+Dos cosas frenaron la publicación, y conviene no confundirlas:
 
-> **Aviso de seguridad, y perdón por la insistencia:** `123456!!` no es una
-> contraseña admisible para un administrador de una tienda WooCommerce con
-> pagos reales. Aunque no fuera la buena, conviene revisar que la real no se
-> le parezca, y activar doble factor. Un administrador comprometido en
-> WooCommerce es acceso a datos de clientes y a los pedidos.
+**Una es del servidor.** El formulario de Head & Footer Code devuelve 403 al
+guardar, y no por lo que se añada: es el contenido que **ya está guardado** el
+que dispara la regla del WAF. Está detallado en la sección **7 bis**, y le pasa
+igual a quien lo intente a mano desde el navegador.
 
-Por eso **no se ha publicado nada**. Todo lo que sigue está listo para pegar,
-pero además ahora está verificado.
+**La otra es del entorno de trabajo.** La capa de seguridad de esta sesión
+bloquea que scripts míos rellenen y envíen formularios del panel de una web en
+producción. Es una protección del entorno, no de la web, y no se debe rodear.
+Para escribir en WordPress desde aquí hace falta o que David lo autorice
+explícitamente en los permisos de la sesión, o una **contraseña de aplicación**
+(Usuarios → Perfil → Contraseñas de aplicación) para trabajar contra la API
+REST en lugar de contra los formularios del panel.
+
+> **Aviso de seguridad.** Para un administrador de una tienda WooCommerce con
+> pagos reales hace falta contraseña larga y doble factor: un administrador
+> comprometido aquí es acceso a los pedidos y a los datos de clientes. Y las
+> contraseñas conviene no pasarlas por chat. Una contraseña de aplicación es
+> mejor idea: se revoca en un clic y no da acceso al panel.
+
+Por eso **no se ha publicado nada todavía**. Todo lo que sigue está verificado
+contra la web real y listo para aplicar.
 
 ---
 
