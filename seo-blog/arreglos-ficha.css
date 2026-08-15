@@ -97,3 +97,130 @@ body.single-product .summary .stock.available-on-backorder [class*="bar"] {
     padding: 10px 14px !important;
   }
 }
+
+
+/* ---------- 2. AVISO DE STOCK CUANDO SÍ HAY ----------
+
+   Mismo fallo que el de pedido pendiente: el CSS de fichas pinta
+   `.single-product .summary .stock` en ROJO para todos los estados, así que
+   "En stock" salía con pinta de alerta. Rojo dice "problema"; un producto
+   disponible tiene que decir lo contrario.
+
+   Ahora WooCommerce muestra además las unidades reales ("7 disponibles"),
+   porque se cambió woocommerce_stock_format de 'low_amount' a mostrar
+   siempre. Solo 4 de las 74 fichas con stock gestionan inventario; el resto
+   sigue diciendo "En stock" sin número, que es lo correcto: no se inventa.  */
+
+body.single-product .summary .stock.in-stock {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  width: auto !important;
+  align-self: flex-start !important;
+  background: #ECFDF3 !important;
+  border: 1px solid #ABEFC6 !important;
+  border-left: 4px solid #17B26A !important;
+  border-radius: 8px !important;
+  color: #067647 !important;
+  padding: 12px 18px !important;
+  margin: 0 0 14px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+}
+
+body.single-product .summary .stock.in-stock::before {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  flex: 0 0 auto !important;
+  color: #17B26A !important;
+  font-size: 17px !important;
+  line-height: 1 !important;
+}
+
+body.single-product .summary .stock.in-stock * {
+  animation: none !important;
+  color: inherit !important;
+}
+
+/* Quedan 3 unidades o menos: ámbar. La clase la pone el filtro de PHP a
+   partir del stock REAL, nunca por decoración. Sin parpadeos: incumplen
+   WCAG 2.3.1 y son un riesgo para epilepsia fotosensible.                 */
+
+body.single-product .summary .stock.in-stock.eg-stock-bajo {
+  background: #FFFAEB !important;
+  border-color: #FEDF89 !important;
+  border-left-color: #F79009 !important;
+  color: #B54708 !important;
+}
+
+body.single-product .summary .stock.in-stock.eg-stock-bajo::before {
+  color: #F79009 !important;
+}
+
+
+/* ---------- 3. JERARQUÍA DE LA ZONA DE COMPRA ----------
+
+   El problema, mirando cómo lo resuelven Amazon o MediaMarkt: en una ficha
+   solo puede haber UNA acción dominante. Amazon deja "Añadir a la cesta" en
+   amarillo sólido y todo lo demás en enlaces de texto; MediaMarkt pone su
+   rojo en la cesta y el resto en botones de contorno.
+
+   Aquí pasaba lo contrario: el botón de WhatsApp era verde saturado a todo
+   lo ancho, 48 px de alto y negrita, dentro de una caja con titular propio.
+   Pesaba más que "Añadir al carrito", que es la acción que da dinero.
+
+   No se quita, porque WhatsApp convierte bien en esta tienda. Se baja de
+   rango: pasa a botón de contorno, que sigue viéndose perfectamente pero ya
+   no compite. Al pasar el ratón se rellena.                                */
+
+body.single-product .summary form.cart .single_add_to_cart_button {
+  min-height: 56px !important;
+  font-size: 16.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: .01em !important;
+  border-radius: 10px !important;
+  box-shadow: 0 1px 2px rgba(16,24,40,.05), 0 6px 16px rgba(30,115,190,.18) !important;
+  transition: transform .12s ease, box-shadow .18s ease !important;
+}
+
+body.single-product .summary form.cart .single_add_to_cart_button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px rgba(16,24,40,.06), 0 10px 22px rgba(30,115,190,.24) !important;
+}
+
+/* WhatsApp: de acción principal a secundaria */
+body.single-product .summary .eg-pie-wa,
+body.single-product .eg-pie-ayuda .eg-pie-wa {
+  background: #fff !important;
+  color: #12833F !important;
+  border: 1.5px solid #25D366 !important;
+  font-weight: 600 !important;
+  font-size: 14.5px !important;
+  height: 44px !important;
+  box-shadow: none !important;
+  transition: background .15s ease, color .15s ease !important;
+}
+
+body.single-product .summary .eg-pie-wa:hover,
+body.single-product .eg-pie-ayuda .eg-pie-wa:hover {
+  background: #25D366 !important;
+  color: #fff !important;
+}
+
+/* El titular de la caja de ayuda, un punto más bajo: acompaña, no grita */
+body.single-product .eg-pie-ayuda-txt b {
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+}
+
+body.single-product .eg-pie-ayuda-txt span {
+  font-size: 13px !important;
+}
+
+@media (max-width: 767px) {
+  body.single-product .summary .stock.in-stock { width: 100% !important; }
+  body.single-product .summary form.cart .single_add_to_cart_button { min-height: 54px !important; }
+}

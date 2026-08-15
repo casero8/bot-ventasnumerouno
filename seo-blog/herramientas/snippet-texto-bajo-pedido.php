@@ -43,5 +43,43 @@ function eg_traduce_bajo_pedido( $traducido, $original, $dominio ) {
 		return EG_TEXTO_BACKORDER;
 	}
 
+
 	return $traducido;
+}
+
+/**
+ * Marca el stock realmente bajo para poder pintarlo distinto.
+ *
+ * El tema usa la clase que devuelve WooCommerce (in-stock, out-of-stock,
+ * available-on-backorder), asi que anadiendo una aqui se puede estilar sin
+ * tocar plantillas. Solo se marca si el producto gestiona inventario y quedan
+ * 3 unidades o menos: es escasez real, tomada del stock, no un adorno.
+ */
+add_filter( 'woocommerce_get_availability', 'eg_marca_stock_bajo', 999, 2 );
+
+function eg_marca_stock_bajo( $disponibilidad, $producto ) {
+
+	if ( ! is_array( $disponibilidad ) || ! is_object( $producto ) ) {
+		return $disponibilidad;
+	}
+
+	if ( ! method_exists( $producto, 'managing_stock' ) || ! $producto->managing_stock() ) {
+		return $disponibilidad;
+	}
+
+	$quedan = $producto->get_stock_quantity();
+
+	if ( is_numeric( $quedan ) && $quedan > 0 && $quedan <= 3 ) {
+		$disponibilidad['class'] = trim( $disponibilidad['class'] . ' eg-stock-bajo' );
+
+		// El tema reescribe el texto con su propia cadena mal traducida
+		// ("Solo 1 elemento de la izquierda en stock"). Se corrige aqui, en
+		// prioridad tardia, para pisarla despues de que la ponga.
+		$disponibilidad['availability'] = sprintf(
+			_n( 'Queda %s unidad', 'Quedan solo %s unidades', $quedan, 'woocommerce' ),
+			$quedan
+		);
+	}
+
+	return $disponibilidad;
 }
