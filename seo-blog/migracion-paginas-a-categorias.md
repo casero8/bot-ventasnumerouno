@@ -70,6 +70,38 @@ hiciera falta volver atrás.
 
 ---
 
+## Por dónde se llega a una categoría
+
+Esto es lo que más se olvida: una categoría puede estar perfecta y no
+recibir una visita porque no la enlaza nadie. Estado de DELTA 3:
+
+| Desde | ¿Enlaza? |
+|---|---|
+| Menú CATEGORÍAS | Sí, colgando de «Estaciones de energía DELTA» |
+| Menú principal (cabecera) | **No.** Sigue apuntando a `/serie-delta-ecoflow/` |
+| Página `/serie-delta-ecoflow/` | Sí |
+| Ficha DELTA 3 Plus | Sí |
+| Migas y filtro lateral | Sí |
+| Sitemap | Sí |
+
+**La navegación del sitio sigue construida sobre páginas.** El menú
+principal tiene seis entradas y solo una apunta a una categoría («Casa y
+balcón»); las otras cinco van a páginas:
+
+| Entrada del menú | Apunta a | Debería apuntar a |
+|---|---|---|
+| Estaciones DELTA | `/serie-delta-ecoflow/` | categoría `serie-delta` |
+| Baterías RIVER | `/serie-river/` | categoría `serie-river` |
+| Casa y balcón | categoría `stream-series` | ya está bien |
+| Powerbanks | `/serie-rapid/` | categoría `serie-rapid` |
+| Placas solares | `/placas-solares-ecoflow/` | categoría `paneles-solares` |
+
+Cada entrada del menú solo se cambia **cuando su categoría esté terminada**,
+no antes: repuntar el menú a una categoría vacía de contenido sería peor que
+dejarlo como está.
+
+---
+
 ## Pendiente, por gama
 
 | Página | Impresiones | Categoría que la sustituirá |
