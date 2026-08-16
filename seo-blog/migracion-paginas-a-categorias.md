@@ -102,6 +102,67 @@ dejarlo como está.
 
 ---
 
+## ¿Y si la página trae visitas?
+
+Es la duda razonable, y los datos de 16 meses la despejan:
+
+| Página | Clics | Impresiones | Posición |
+|---|---:|---:|---:|
+| `/paneles-solares-portatiles/` | 28 | 9.394 | 16,3 |
+| `/accesorios/` | 19 | 1.148 | 14,8 |
+| `/placas-solares-ecoflow/` | 8 | 1.614 | 9,5 |
+| `/serie-river/` | 4 | 763 | 10,7 |
+| `/serie-delta-ecoflow/` | 4 | 278 | 7,2 |
+| `/generadores/` | 2 | 313 | 10,0 |
+| `/serie-rapid/` | 1 | 218 | 15,3 |
+| `/baterias-extras/` | 1 | 25 | 17,3 |
+| `/stream-series/` | **0** | 222 | 7,5 |
+| **Total** | **67** | **13.975** | |
+
+**67 clics en 16 meses entre las nueve: cuatro al mes.** No traen visitas,
+traen impresiones: Google las enseña y casi nadie las pincha, porque en
+posición 15 y con un título flojo no se gana el clic.
+
+Tres cosas que conviene tener claras:
+
+1. **No se borra nada, se redirige.** Un 301 traslada las señales de
+   posicionamiento a la categoría. Borrar sin redirigir sí perdería lo poco
+   que hay.
+2. **El contenido tampoco se pierde: se muda.** Lo que dice la página pasa a
+   ser la descripción de la categoría, como se hizo con DELTA 3.
+3. **El riesgo no es lo que dejan de traer, es lo que cuestan.** Hoy página y
+   categoría compiten por la misma consulta: en «accesorios» son 1.148
+   impresiones contra 1.135, partidas por la mitad. Al unirlas, las señales
+   se concentran en una sola URL.
+
+### Dos páginas que NO se tocan
+
+| Página | Clics | Por qué se queda |
+|---|---:|---|
+| `/man/` | **330** | La segunda del sitio tras la portada. No duplica ninguna categoría |
+| `/kits-para-balcones/` | **82** | Es una página de caso de uso, no una gama |
+
+La regla: se migra la página que **duplica una categoría**. La que aporta algo
+que una categoría no puede dar —manuales, un kit por caso de uso, una guía—
+se queda.
+
+---
+
+## Serie DELTA · hecho el 16/08/2026
+
+| Qué | Estado |
+|---|---|
+| Categoría `serie-delta` con contenido, comparativa y FAQ | Hecho |
+| Subcategoría redundante «Estaciones de energía DELTA» | Borrada |
+| Menú principal → «Estaciones DELTA» | Ahora apunta a la categoría |
+| Menú CATEGORÍAS → «Estaciones de energía DELTA» | Ahora apunta a la categoría |
+| 301 de la página `/serie-delta-ecoflow/` | **Pendiente de decisión** |
+
+La página sigue publicada a propósito: repuntar el menú no le hace daño y
+permite ver la categoría funcionando antes de retirar nada.
+
+---
+
 ## Pendiente, por gama
 
 | Página | Impresiones | Categoría que la sustituirá |
