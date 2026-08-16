@@ -35,7 +35,7 @@ function eg_redirigir_urls_muertas() {
 	$destinos = array(
 
 		// Paginas y categorias que cambiaron de ruta.
-		'/serie-delta-ecoflow/serie-delta-3/'                    => '/product-category/delta-3/',
+		'/serie-delta-ecoflow/serie-delta-3/'                    => '/product-category/serie-delta/delta-3/',
 		'/generadores-solares/'                                  => '/generador-solar/',
 		'/product-category/hogar/'                               => '/kits-para-el-hogar/',
 		'/1381-2/'                                               => '/politicas-de-privacidad/',
@@ -121,4 +121,52 @@ function eg_noindex_listas_de_deseos( $robots ) {
 	}
 
 	return $robots;
+}
+
+/**
+ * Cada categoria, en una sola URL.
+ *
+ * WooCommerce responde 200 tanto en la ruta plana como en la anidada:
+ * /product-category/delta-3/ y /product-category/serie-delta/delta-3/ son
+ * la misma pagina. La canonica apunta a la anidada, asi que la plana es un
+ * duplicado que se rastrea para nada, justo lo que estamos quitando del
+ * informe de indexacion.
+ *
+ * Se manda con un 301 a la que devuelve get_term_link(), que es la que
+ * usan los enlaces del propio sitio. Se conservan la paginacion y los
+ * parametros, y no se toca nada si la URL ya es la correcta.
+ */
+add_action( 'template_redirect', 'eg_categoria_una_sola_url', 1 );
+
+function eg_categoria_una_sola_url() {
+
+	if ( ! is_product_category() || is_paged() ) {
+		return;
+	}
+
+	$termino = get_queried_object();
+
+	if ( ! $termino || empty( $termino->term_id ) ) {
+		return;
+	}
+
+	$buena = get_term_link( $termino );
+
+	if ( is_wp_error( $buena ) ) {
+		return;
+	}
+
+	$ruta_buena  = trailingslashit( wp_parse_url( $buena, PHP_URL_PATH ) );
+	$ruta_actual = trailingslashit( strtok( $_SERVER['REQUEST_URI'], '?' ) );
+
+	if ( $ruta_buena === $ruta_actual ) {
+		return;
+	}
+
+	// La consulta se conserva: filtros y orden siguen funcionando.
+	$consulta = wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY );
+	$destino  = $buena . ( $consulta ? '?' . $consulta : '' );
+
+	wp_safe_redirect( $destino, 301 );
+	exit;
 }
