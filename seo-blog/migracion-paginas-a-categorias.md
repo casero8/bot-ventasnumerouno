@@ -293,3 +293,55 @@ También hay unos 40 `setTimeout` repartidos por los bloques. La mayoría son
 reintentos de 600 a 2.800 ms para esperar a que el tema pinte algo. Se
 podrían sustituir por un único observador compartido, pero eso es reescribir
 código ajeno y conviene hacerlo con calma y de uno en uno.
+
+---
+
+## SEO de las subcategorías (16/08/2026)
+
+De las **56 categorías con productos, solo tres** tenían título y meta
+propios: las demás heredaban el genérico del tema («DELTA 3 Max Plus |
+EcoFlow oficial España»). Escritos 18, uno a uno, con la demanda real
+detrás:
+
+| Categoría | Impresiones de su consulta |
+|---|---:|
+| DELTA 3 Max Plus | 1.231 |
+| RIVER 2 Max | 786 |
+| DELTA 3 Max | 602 |
+| RIVER 3 | 596 |
+| Batería adicional DELTA 3 | 376 |
+
+Más paneles solares, accesorios, RAPID y STREAM.
+
+**Escritos dos veces.** En la primera pasada se me fueron los acentos
+—«Bateria», «portatil», «Estacion»—, que es exactamente lo que ve el
+comprador en Google. Es el mismo fallo que ya había cometido con la meta de
+DELTA 3: al escribir los textos dentro de un snippet PHP hay que
+comprobarlos después en la página, no darlos por buenos.
+
+De paso se reescribieron en clave de compra: el beneficio delante y la
+especificación detrás. «Duplica tu autonomía sin comprar otra estación»
+antes que «baterías adicionales compatibles».
+
+---
+
+## De dónde viene el peso de la página
+
+Medido sobre una categoría, sin contar imágenes: **3,12 MB**.
+
+| Recurso | Peso | % |
+|---|---:|---:|
+| CSS combinado del tema y Elementor | 1.528 KB | 49 % |
+| JavaScript del tema | 732 KB | 23 % |
+| Google Analytics | 500 KB | 16 % |
+| HTML de la página | 351 KB | 11 % |
+| jQuery | 88 KB | 3 % |
+
+Los dos bloques de `custom_js` eliminados suman **1,8 KB**, y el CSS de
+categorías que inyectamos, 22 KB: entre todo, el **0,7 %** del peso.
+
+Conclusión honesta: seguir recortando ahí no se va a notar. Lo que mueve la
+aguja es el **CSS combinado de 1,5 MB** —ahí es donde LiteSpeed tiene que
+generar CSS crítico y eliminar el no usado— y revisar por qué el script de
+analítica pesa medio mega. Eso es configuración de LiteSpeed y del hosting,
+no código del sitio.
