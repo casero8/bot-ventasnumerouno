@@ -776,7 +776,29 @@ function eg_filtro_categorias_acotado( $instancia, $widget, $args ) {
 
 	$ancestros = array_reverse( get_ancestors( $actual->term_id, 'product_cat' ) );
 
-	echo $args['before_widget'];
+	// El envoltorio del tema marca el widget como filtro suyo
+	// (minimog-wp-widget-filter) y su JavaScript recorre todos los que
+	// llevan esa clase buscando un <input class="widget-instance"> con los
+	// datos del widget. El nuestro es HTML estatico y no lo tiene, asi que
+	// el script fallaba ahi y se llevaba por delante el widget de precios:
+	// se pintaba y desaparecia medio segundo despues.
+	//
+	// Se le quitan esas clases para que su JavaScript lo ignore. El aspecto
+	// no cambia: de eso se encarga nuestro CSS.
+	$envoltorio = str_replace(
+		array(
+			'minimog-wp-widget-product-categories-layered-nav',
+			'minimog-wp-widget-filter',
+			'm-widget-collapsible',
+		),
+		'',
+		$args['before_widget']
+	);
+
+	// Tambien el id, por si el script busca por identificador.
+	$envoltorio = preg_replace( '/id="minimog-wp-widget[^"]*"/', 'id="eg-refina-widget"', $envoltorio );
+
+	echo $envoltorio;
 	echo $args['before_title'] . esc_html( $titulo ) . $args['after_title'];
 
 	echo '<ul class="eg-refina">';

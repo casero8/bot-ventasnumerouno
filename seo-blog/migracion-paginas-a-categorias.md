@@ -221,3 +221,28 @@ ingenuo da falsos positivos. Hay que anclar la comprobación al dominio.
 `/paneles-solares-portatiles/` es la que más cuidado pide: con 9.394
 impresiones es la segunda página del sitio, así que la categoría tiene que
 estar terminada y con contenido **antes** de tocar la redirección.
+
+---
+
+## Código heredado que sigue vivo
+
+En `minimog_options → custom_js` hay unos 30 bloques de JavaScript de
+sesiones anteriores. Uno se ha eliminado; queda uno señalado:
+
+| Bloque | Qué hace | Estado |
+|---|---|---|
+| `quitar()` | Borraba el widget de filtro de precios del DOM | **Eliminado** el 16/08/2026 |
+| `marcar()` | Añade `rel="nofollow"` a los enlaces de filtro | Vivo, revisable |
+
+El primero venía de cuando intentábamos frenar las URLs de filtro por
+JavaScript. Desde que el `robots.txt` bloquea `filter_product_cat` y
+`filtering` ya no hacía falta, y lo único que provocaba era que el filtro de
+precios se pintara y desapareciera medio segundo después.
+
+El segundo hace lo mismo por otra vía y tampoco es necesario ya. Además
+monta un `MutationObserver` sobre todo el `body` que, en cada cambio del
+DOM, recorre **todos** los enlaces de la página. Es el candidato más claro a
+quitar si se busca velocidad, pero se deja hasta que David lo confirme.
+
+Copia íntegra del `custom_js` anterior guardada en la opción
+`eg_copia_custom_js` (39.451 caracteres).

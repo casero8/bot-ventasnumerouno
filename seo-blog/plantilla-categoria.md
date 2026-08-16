@@ -168,6 +168,21 @@ enlaces en `display: block`, y eso aplastaba el contador contra el nombre en
 el filtro acotado. La corrección tiene que ir **después**, y fuera de la
 consulta de medios, o solo se arregla en un tamaño de pantalla.
 
+## Dónde vive el JavaScript propio del sitio
+
+No todo está en Code Snippets. El tema Minimog guarda un campo
+**`custom_js` dentro de la opción `minimog_options`** con casi 39 KB de
+JavaScript acumulado: unos 30 bloques que tocan el precio, las pestañas de
+la ficha, el pie, el menú móvil y el «comprado conjuntamente».
+
+Cuando algo se comporte de forma rara y no aparezca en ningún snippet,
+**hay que mirar ahí**. Para localizar quién manipula un elemento, lo más
+rápido es interceptar `removeChild` y `remove` con un `addInitScript` y
+volcar la traza: eso da el nombre de la función culpable en un intento.
+
+Antes de tocar `custom_js` hay que guardar copia íntegra —son ajustes del
+tema— y borrar después `minimog_options-transients`, que es su caché.
+
 ## Cosas del sitio que hay que saber
 
 **El tema no imprime `term_description()`.** El texto guardado solo acababa
