@@ -75,6 +75,34 @@ como lo montan las tiendas grandes.
 
 ---
 
+## La cabecera de la categoría
+
+El tema deja **100 px de margen** entre la cabecera del sitio y el contenido
+(`.page-content { margin-top: 100px }`). En una categoría eso es media
+pantalla en blanco antes de ver nada. Se baja a 28 px.
+
+El `<h1>` viene en **34 px con peso 400**, exactamente los mismos que el
+rótulo «Filtros» de la barra lateral: los dos compiten y ninguno parece el
+título de la página. El H1 pasa a peso 600 con interletraje ajustado, y
+«Filtros» a rótulo de interfaz: 12,5 px, mayúsculas, gris y con una línea
+debajo.
+
+**No hay migas de pan.** El tema solo las pone en el schema, y la plantilla
+trae `--breadcrumb-height` a 0. Las imprime el snippet como hermano del
+`<h1>` y se suben con `order: -1`, porque el gancho de WooCommerce corre
+después de que el tema pinte el título.
+
+El contador de productos usa `$wp_query->found_posts`, no `$termino->count`:
+el segundo solo cuenta lo asignado directamente y en DELTA 3 daba 6 en vez
+de 23.
+
+## Lo que se puede comprar, primero
+
+Por defecto la rejilla ordena por menú y en DELTA 3 llenaba la primera fila
+entera de «AGOTADO». Un filtro sobre `posts_clauses` sube los productos con
+stock, respetando el orden dentro de cada grupo y sin tocar nada si el
+visitante elige un orden concreto en el desplegable.
+
 ## Cosas del sitio que hay que saber
 
 **El tema no imprime `term_description()`.** El texto guardado solo acababa
@@ -123,3 +151,7 @@ con ello, pero conviene saberlo al comprobar el HTML.
 - [ ] No hay `<br />` sueltos dentro de las tarjetas
 - [ ] Las fotos de las tarjetas son del producto suelto, no de un pack
 - [ ] Se ve bien a 390 px de ancho
+- [ ] Los primeros productos de la rejilla son los que tienen stock
+- [ ] La barra lateral sigue en una sola columna (ojo: ponerle `max-height`
+      a las listas de filtro las parte en dos columnas superpuestas, porque
+      el tema las maqueta con columnas)

@@ -41,6 +41,59 @@ function eg_permitir_html_en_categorias() {
 }
 
 
+/**
+ * Migas de pan y numero de productos, encima del titulo.
+ *
+ * El tema no imprime migas en las categorias: solo estan en el schema, y el
+ * ajuste de la plantilla trae --breadcrumb-height en 0. Sin ellas, quien
+ * llega desde el buscador no sabe donde esta ni como subir un nivel, que es
+ * justo lo que resuelven las tiendas grandes con la linea de arriba.
+ *
+ * Se imprime como hermano del <h1> y se coloca encima con order en CSS,
+ * porque el gancho de WooCommerce corre despues de que el tema pinte el
+ * titulo y no hay forma limpia de adelantarlo.
+ */
+add_action( 'woocommerce_before_shop_loop', 'eg_categoria_cabecera', 3 );
+
+function eg_categoria_cabecera() {
+
+	if ( ! is_product_category() ) {
+		return;
+	}
+
+	$termino = get_queried_object();
+	$ruta    = array();
+
+	foreach ( array_reverse( get_ancestors( $termino->term_id, 'product_cat' ) ) as $id ) {
+		$padre = get_term( $id, 'product_cat' );
+
+		if ( $padre && ! is_wp_error( $padre ) ) {
+			$ruta[] = '<a href="' . esc_url( get_term_link( $padre ) ) . '">' . esc_html( $padre->name ) . '</a>';
+		}
+	}
+
+	// El count del termino solo cuenta lo asignado directamente: en DELTA 3
+	// daba 6 en vez de 23. El total real lo tiene la consulta principal, que
+	// si incluye los productos de las subcategorias.
+	$total = isset( $GLOBALS['wp_query']->found_posts ) ? (int) $GLOBALS['wp_query']->found_posts : (int) $termino->count;
+
+	echo '<nav class="eg-ruta" aria-label="Migas de pan"><span class="eg-ruta-links">';
+	echo '<a href="' . esc_url( home_url( '/' ) ) . '">Inicio</a>';
+
+	foreach ( $ruta as $enlace ) {
+		echo '<i>&rsaquo;</i>' . $enlace;
+	}
+
+	echo '<i>&rsaquo;</i><b>' . esc_html( $termino->name ) . '</b>';
+	echo '</span>';
+
+	if ( $total > 0 ) {
+		echo '<span class="eg-ruta-total">' . $total . ' ' . ( 1 === $total ? 'producto' : 'productos' ) . '</span>';
+	}
+
+	echo '</nav>';
+}
+
 add_action( 'woocommerce_before_shop_loop', 'eg_categoria_texto_arriba', 5 );
 
 function eg_categoria_texto_arriba() {
@@ -133,6 +186,69 @@ body .eg-cat {
 }
 body .eg-cat-arriba { margin: 0 0 30px; }
 body .eg-cat-abajo { margin: 52px 0 0; padding-top: 38px; border-top: 1px solid var(--eg-borde); }
+
+/* ====================== CABECERA DE LA CATEGORIA ======================
+   Ajustes sobre el tema. Van sin el prefijo .eg-cat porque tocan elementos
+   que pinta la plantilla, y solo se cargan en paginas de categoria.
+   ===================================================================== */
+
+/* El tema deja 100 px de margen entre la cabecera del sitio y el contenido.
+   En una categoria eso es media pantalla en blanco antes de ver un producto. */
+body.tax-product_cat .page-content { margin-top: 28px !important; }
+
+/* Migas de pan: se imprimen despues del <h1> y se suben con order. */
+body.tax-product_cat .shop-archive-block { display: flex; flex-direction: column; }
+body.tax-product_cat .shop-archive-block > .eg-ruta { order: -1; }
+
+body .eg-ruta {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px; margin: 0 0 9px;
+  font-size: 13px; line-height: 1.5; color: #7a8595;
+}
+body .eg-ruta-links { color: #7a8595; }
+body .eg-ruta a { color: #7a8595 !important; text-decoration: none !important; }
+body .eg-ruta a:hover { color: #185fa5 !important; text-decoration: underline !important; }
+body .eg-ruta i { font-style: normal; margin: 0 7px; color: #b9c2ce; }
+body .eg-ruta b { color: #16202c; font-weight: 600; }
+body .eg-ruta-total {
+  font-size: 12.5px; color: #5f6b7c; background: #f2f5f9;
+  border-radius: 999px; padding: 4px 12px; white-space: nowrap;
+}
+
+/* El titulo: el tema lo deja en 34 px con peso 400, igual que el rotulo
+   "Filtros" de la barra lateral, y los dos compiten. */
+body.tax-product_cat h1.page-title {
+  font-size: 34px !important; font-weight: 600 !important;
+  letter-spacing: -.02em !important; color: #0d1520 !important;
+  line-height: 1.15 !important; margin: 0 0 18px !important;
+}
+
+/* La barra lateral de filtros: rotulo de interfaz, no titulo de pagina. */
+body.tax-product_cat .sidebar-top-heading {
+  font-size: 12.5px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: .09em !important;
+  color: #5f6b7c !important; margin: 0 0 14px !important;
+  padding-bottom: 11px !important; border-bottom: 1px solid #e4e8ee !important;
+  line-height: 1.3 !important;
+}
+body.tax-product_cat .page-sidebar .widget > h2,
+body.tax-product_cat .page-sidebar .widget-title {
+  font-size: 13.5px !important; font-weight: 700 !important;
+  color: #16202c !important; letter-spacing: .01em !important;
+  margin-bottom: 9px !important;
+}
+body.tax-product_cat .page-sidebar .widget { margin-bottom: 26px !important; }
+body.tax-product_cat .page-sidebar li { line-height: 1.35 !important; }
+body.tax-product_cat .page-sidebar li a {
+  font-size: 14px !important; padding: 5px 0 !important;
+  display: inline-block !important; color: #48535f !important;
+}
+body.tax-product_cat .page-sidebar li a:hover { color: #185fa5 !important; }
+
+@media (max-width: 991px) {
+  body.tax-product_cat .page-content { margin-top: 20px !important; }
+  body.tax-product_cat h1.page-title { font-size: 27px !important; margin-bottom: 14px !important; }
+}
 
 /* ============================== ENTRADA ============================== */
 
@@ -415,4 +531,48 @@ body .eg-confianza span { display: block; font-size: 12.5px; line-height: 1.45; 
   body .eg-confianza { grid-template-columns: 1fr 1fr !important; }
 }
 EGCSS . "</style>";
+}
+
+
+/**
+ * Lo que se puede comprar, primero.
+ *
+ * Por defecto la rejilla saca los productos por orden de menu, y en DELTA 3
+ * eso llenaba la primera fila entera de "AGOTADO": quien entra desde una
+ * busqueda ve cuatro productos que no puede comprar antes que ninguno
+ * disponible. El orden dentro de cada grupo no se toca, solo se suben los
+ * que tienen stock.
+ *
+ * Se apoya en wc_product_meta_lookup, la tabla que WooCommerce ya cruza en
+ * las consultas de la tienda, en vez de anadir un JOIN propio a postmeta.
+ */
+add_filter( 'posts_clauses', 'eg_stock_primero', 20, 2 );
+
+function eg_stock_primero( $clauses, $consulta ) {
+
+	if ( is_admin() || ! $consulta->is_main_query() || ! is_product_category() ) {
+		return $clauses;
+	}
+
+	// Si el usuario ha pedido un orden concreto, manda el suyo.
+	if ( ! empty( $_GET['orderby'] ) ) {
+		return $clauses;
+	}
+
+	global $wpdb;
+
+	if ( false !== strpos( $clauses['join'], 'wc_product_meta_lookup' ) ) {
+		$orden = "wc_product_meta_lookup.stock_status = 'instock' DESC";
+	} else {
+		// Segun la version de WooCommerce la tabla de consulta no siempre se
+		// cruza, asi que se anade el cruce a postmeta. La clave _stock_status
+		// es unica por producto, de modo que no duplica filas.
+		$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS eg_stock"
+			. " ON ( {$wpdb->posts}.ID = eg_stock.post_id AND eg_stock.meta_key = '_stock_status' )";
+		$orden = "eg_stock.meta_value = 'instock' DESC";
+	}
+
+	$clauses['orderby'] = empty( $clauses['orderby'] ) ? $orden : $orden . ', ' . $clauses['orderby'];
+
+	return $clauses;
 }
