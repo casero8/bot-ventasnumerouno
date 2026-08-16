@@ -164,6 +164,23 @@ con ello, pero conviene saberlo al comprobar el HTML.
 
 ---
 
+## Al terminar: no dejar restos de prueba
+
+Para averiguar qué HTML sobrevive al guardado hubo que escribir descripciones
+de prueba en una categoría real (`accesorios-delta-3`), y se quedaron
+publicadas: una tabla con «a» y «b» y un desplegable con una «P». Se veían
+en la tienda.
+
+Antes de cerrar, repasar que ninguna categoría tenga restos:
+
+```
+GET /wp-json/wc/v3/products/categories?per_page=100&hide_empty=false&_fields=id,slug,description
+```
+
+y buscar `class="eg-t"`, `class="eg-faq"`, `>a</th>` o la palabra «prueba».
+Mejor todavía: hacer los experimentos sobre una categoría creada para eso y
+borrarla después, no sobre una que está publicada.
+
 ## Comprobación antes de dar una categoría por hecha
 
 - [ ] Las subcategorías responden 200 en su ruta nueva
@@ -184,3 +201,4 @@ con ello, pero conviene saberlo al comprobar el HTML.
       scroll las parte en dos columnas superpuestas
 - [ ] El filtro lateral solo ofrece categorías de la rama actual
 - [ ] En `/shop/` el filtro sigue mostrando el listado completo
+- [ ] Ninguna categoría ha quedado con HTML de prueba en su descripción
