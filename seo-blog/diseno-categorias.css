@@ -373,6 +373,13 @@ body .eg-nav-dato {
   display: block !important; font-size: 12.5px !important; line-height: 1.42 !important;
   color: var(--eg-suave) !important; margin-bottom: 10px !important;
 }
+body .eg-desde {
+  display: block !important; font-size: 13px !important;
+  color: #6b7686 !important; margin-bottom: 9px !important;
+}
+body .eg-desde b { color: #042c53 !important; font-weight: 700 !important; font-size: 15px !important; }
+body .eg-desde .woocommerce-Price-amount { font-size: 15px !important; }
+
 body .eg-nav-mas {
   display: inline-block !important; margin-top: auto !important;
   font-size: 12.5px !important; font-weight: 600 !important;
@@ -527,6 +534,33 @@ body .eg-cat-guias a b {
 body .eg-cat-guias a em {
   display: block !important; font-style: normal !important;
   font-size: 12.5px !important; line-height: 1.45 !important; color: var(--eg-suave) !important;
+}
+
+/* --- Cierre con llamada a la accion --- */
+
+body .eg-cierre {
+  background: linear-gradient(135deg, #f4f8fd 0%, #eef4fb 100%);
+  border: 1px solid #dbe6f3; border-radius: 14px;
+  padding: 22px 24px; margin: 34px 0 0;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+body .eg-cierre p {
+  margin: 0 !important; font-size: 15.5px !important; line-height: 1.6 !important;
+  color: #16283d !important; flex: 1 1 340px; max-width: 62ch;
+}
+body .eg-cierre-btn {
+  display: inline-block !important; flex-shrink: 0;
+  background: #185fa5 !important; color: #fff !important;
+  font-size: 15px !important; font-weight: 600 !important;
+  padding: 13px 26px !important; border-radius: 10px !important;
+  text-decoration: none !important; transition: background .16s ease;
+}
+body .eg-cierre-btn:hover { background: #0f4a86 !important; color: #fff !important; }
+
+@media (max-width: 700px) {
+  body .eg-cierre { padding: 18px; flex-direction: column; align-items: stretch; }
+  body .eg-cierre-btn { text-align: center !important; }
 }
 
 /* --- Franja de confianza --- */

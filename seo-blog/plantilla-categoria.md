@@ -207,6 +207,30 @@ Detalles que importan:
 - El botón usa `add_to_cart_url()` y `add_to_cart_text()` de WooCommerce, que
   ya distinguen entre producto simple y variable.
 
+## Escribir para vender, no solo para posicionar
+
+El texto informativo posiciona pero no empuja. Tres cambios que sí:
+
+**Abrir por la escena, no por la ficha técnica.** En vez de «las DELTA 3 son
+estaciones de energía de 1.024 a 2.048 Wh», ahora abre con *«se va la luz y
+en tu casa no pasa nada: la nevera sigue, el router sigue y el ordenador ni
+parpadea»*. El dato viene después, cuando ya sabes para qué lo quieres.
+
+**Precio en las tarjetas de subcategoría**, con el shortcode
+`[eg_desde cat="slug"]`. Calcula el más bajo entre los productos comprables
+de esa categoría y sus hijas, con media hora de caché. **Si no hay nada
+disponible no devuelve nada**: no se anuncia un precio de algo que no se
+puede comprar.
+
+**Un cierre que pide algo.** Antes acababa explicando quiénes somos. Ahora
+acaba con *«antes de gastarte 600 u 800 euros, hablemos»* y un botón. Y dice
+en voz alta que a veces la recomendación es la más barata —«muchas veces es
+la Classic y te ahorras 250 €»—, que es lo que hace creíble el resto.
+
+Lo que **no** se hace, y conviene recordarlo: nada de reseñas inventadas,
+nada de escasez falsa, y las estimaciones marcadas como tales con la fórmula
+a la vista.
+
 ## Cosas del sitio que hay que saber
 
 **El tema no imprime `term_description()`.** El texto guardado solo acababa

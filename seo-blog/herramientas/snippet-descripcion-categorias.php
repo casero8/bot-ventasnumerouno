@@ -539,6 +539,13 @@ body .eg-nav-dato {
   display: block !important; font-size: 12.5px !important; line-height: 1.42 !important;
   color: var(--eg-suave) !important; margin-bottom: 10px !important;
 }
+body .eg-desde {
+  display: block !important; font-size: 13px !important;
+  color: #6b7686 !important; margin-bottom: 9px !important;
+}
+body .eg-desde b { color: #042c53 !important; font-weight: 700 !important; font-size: 15px !important; }
+body .eg-desde .woocommerce-Price-amount { font-size: 15px !important; }
+
 body .eg-nav-mas {
   display: inline-block !important; margin-top: auto !important;
   font-size: 12.5px !important; font-weight: 600 !important;
@@ -693,6 +700,33 @@ body .eg-cat-guias a b {
 body .eg-cat-guias a em {
   display: block !important; font-style: normal !important;
   font-size: 12.5px !important; line-height: 1.45 !important; color: var(--eg-suave) !important;
+}
+
+/* --- Cierre con llamada a la accion --- */
+
+body .eg-cierre {
+  background: linear-gradient(135deg, #f4f8fd 0%, #eef4fb 100%);
+  border: 1px solid #dbe6f3; border-radius: 14px;
+  padding: 22px 24px; margin: 34px 0 0;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+body .eg-cierre p {
+  margin: 0 !important; font-size: 15.5px !important; line-height: 1.6 !important;
+  color: #16283d !important; flex: 1 1 340px; max-width: 62ch;
+}
+body .eg-cierre-btn {
+  display: inline-block !important; flex-shrink: 0;
+  background: #185fa5 !important; color: #fff !important;
+  font-size: 15px !important; font-weight: 600 !important;
+  padding: 13px 26px !important; border-radius: 10px !important;
+  text-decoration: none !important; transition: background .16s ease;
+}
+body .eg-cierre-btn:hover { background: #0f4a86 !important; color: #fff !important; }
+
+@media (max-width: 700px) {
+  body .eg-cierre { padding: 18px; flex-direction: column; align-items: stretch; }
+  body .eg-cierre-btn { text-align: center !important; }
 }
 
 /* --- Franja de confianza --- */
@@ -1027,4 +1061,74 @@ function eg_disponibles_ahora() {
 	echo '</div></div>';
 
 	wp_reset_postdata();
+}
+
+/**
+ * [eg_desde cat="delta-3-plus"] -> "desde 599 €"
+ *
+ * Pone el precio en las tarjetas de subcategoria sin escribirlo a mano: se
+ * calcula el mas bajo de los productos comprables de esa categoria y sus
+ * hijas. Si no hay ninguno disponible no devuelve nada, para no anunciar un
+ * precio de algo que no se puede comprar.
+ *
+ * Va como shortcode y no incrustado en el codigo para que las tarjetas se
+ * puedan seguir editando desde el escritorio.
+ */
+add_shortcode( 'eg_desde', 'eg_precio_desde' );
+
+function eg_precio_desde( $atributos ) {
+
+	$atributos = shortcode_atts( array( 'cat' => '' ), $atributos );
+
+	if ( empty( $atributos['cat'] ) ) {
+		return '';
+	}
+
+	$clave = 'eg_desde_' . sanitize_key( $atributos['cat'] );
+	$html  = get_transient( $clave );
+
+	if ( false !== $html ) {
+		return $html;
+	}
+
+	$termino = get_term_by( 'slug', $atributos['cat'], 'product_cat' );
+
+	if ( ! $termino || is_wp_error( $termino ) ) {
+		return '';
+	}
+
+	$consulta = new WP_Query( array(
+		'post_type'      => 'product',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+		'no_found_rows'  => true,
+		'orderby'        => 'meta_value_num',
+		'meta_key'       => '_price',
+		'order'          => 'ASC',
+		'tax_query'      => array( array(
+			'taxonomy'         => 'product_cat',
+			'field'            => 'term_id',
+			'terms'            => $termino->term_id,
+			'include_children' => true,
+		) ),
+		'meta_query'     => array( array( 'key' => '_stock_status', 'value' => 'instock' ) ),
+	) );
+
+	$html = '';
+
+	if ( $consulta->posts ) {
+		$p = wc_get_product( $consulta->posts[0] );
+
+		if ( $p && '' !== $p->get_price() ) {
+			$html = '<span class="eg-desde">desde <b>' . wc_price( $p->get_price() ) . '</b></span>';
+		}
+	}
+
+	wp_reset_postdata();
+
+	// Media hora de cache: el precio cambia poco y esto se pinta varias veces
+	// por pagina.
+	set_transient( $clave, $html, 30 * MINUTE_IN_SECONDS );
+
+	return $html;
 }
