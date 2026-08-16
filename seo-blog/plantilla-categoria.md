@@ -183,6 +183,30 @@ volcar la traza: eso da el nombre de la función culpable en un intento.
 Antes de tocar `custom_js` hay que guardar copia íntegra —son ajustes del
 tema— y borrar después `minimog_options-transients`, que es su caché.
 
+## La franja «Disponible ahora»
+
+Encima de la rejilla, cuatro tarjetas con **foto, nombre, precio y botón de
+añadir al carrito**. Es lo que hacen las tiendas grandes: el producto y el
+precio arriba, no a tres pantallas de scroll.
+
+Se genera **leyendo el stock y el precio reales en cada carga**, no escrito
+a mano en la descripción. Escribirlo a mano sería más rápido, pero un precio
+desfasado en la web no es un detalle: es un problema.
+
+Detalles que importan:
+
+- **Ordenada de menor a mayor precio.** La primera tarjeta es la puerta de
+  entrada más accesible de la gama, no la más cara. En DELTA 3 abre con la
+  Classic de 599 € en vez de con el pack de 1.148 €.
+- **`include_children` explícito** en la consulta: sin él se quedaban fuera
+  los productos que solo están en una subcategoría, que en DELTA 3 son
+  justamente dos de los cuatro disponibles.
+- **Solo aparece si la categoría tiene 6 productos o más.** En una
+  subcategoría pequeña la rejilla ya cabe en pantalla y la franja sería
+  repetir lo mismo dos veces.
+- El botón usa `add_to_cart_url()` y `add_to_cart_text()` de WooCommerce, que
+  ya distinguen entre producto simple y variable.
+
 ## Cosas del sitio que hay que saber
 
 **El tema no imprime `term_description()`.** El texto guardado solo acababa

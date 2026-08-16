@@ -116,6 +116,68 @@ body.tax-product_cat .eg-refina li > a em {
   color: #97a1af !important; flex-shrink: 0 !important;
 }
 
+/* ============ FRANJA "DISPONIBLE AHORA" ============ */
+
+body .eg-ya { margin: 0 0 30px; }
+body .eg-ya-titulo {
+  font-size: 17px !important; font-weight: 700 !important;
+  color: #0d1520 !important; margin: 0 0 13px !important;
+  display: flex; align-items: center; gap: 9px;
+}
+body .eg-ya-titulo::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.16);
+}
+body .eg-ya-lista {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr)) !important;
+  gap: 13px !important;
+}
+body .eg-ya-item {
+  display: flex; flex-direction: column; background: #fff;
+  border: 1px solid #e1e6ee; border-radius: 13px; padding: 14px;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+body .eg-ya-item:hover { border-color: #185fa5; box-shadow: 0 6px 18px rgba(4,44,83,.10); }
+body .eg-ya-foto {
+  display: flex !important; align-items: center; justify-content: center;
+  height: 128px; margin-bottom: 11px; background: #f7f9fc;
+  border-radius: 9px; overflow: hidden;
+}
+body .eg-ya-foto img {
+  max-width: 88% !important; max-height: 112px !important;
+  width: auto !important; height: auto !important;
+  object-fit: contain !important; mix-blend-mode: multiply;
+}
+body .eg-ya-nombre {
+  font-size: 14px !important; font-weight: 600 !important; line-height: 1.35 !important;
+  color: #16202c !important; text-decoration: none !important; margin-bottom: 8px !important;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+body .eg-ya-nombre:hover { color: #185fa5 !important; }
+body .eg-ya-precio {
+  font-size: 18px !important; font-weight: 700 !important;
+  color: #042c53 !important; margin: auto 0 11px !important; line-height: 1.2 !important;
+}
+body .eg-ya-precio del { font-size: 13px !important; font-weight: 400 !important; color: #97a1af !important; margin-right: 6px; }
+body .eg-ya-precio ins { text-decoration: none !important; }
+body .eg-ya-btn {
+  display: block !important; text-align: center !important;
+  background: #185fa5 !important; color: #fff !important;
+  font-size: 14px !important; font-weight: 600 !important;
+  padding: 10px 14px !important; border-radius: 9px !important;
+  text-decoration: none !important; transition: background .16s ease;
+}
+body .eg-ya-btn:hover { background: #0f4a86 !important; color: #fff !important; }
+
+@media (max-width: 700px) {
+  body .eg-ya-lista { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+  body .eg-ya-item { padding: 11px !important; }
+  body .eg-ya-foto { height: 104px; }
+  body .eg-ya-precio { font-size: 16.5px !important; }
+  body .eg-ya-nombre { font-size: 13px !important; }
+}
+
 /* ================= PANEL DE FILTROS ================= */
 
 /* Cada bloque de filtro, una tarjeta. Antes eran listas de texto suelto

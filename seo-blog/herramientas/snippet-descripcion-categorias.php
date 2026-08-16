@@ -282,6 +282,68 @@ body.tax-product_cat .eg-refina li > a em {
   color: #97a1af !important; flex-shrink: 0 !important;
 }
 
+/* ============ FRANJA "DISPONIBLE AHORA" ============ */
+
+body .eg-ya { margin: 0 0 30px; }
+body .eg-ya-titulo {
+  font-size: 17px !important; font-weight: 700 !important;
+  color: #0d1520 !important; margin: 0 0 13px !important;
+  display: flex; align-items: center; gap: 9px;
+}
+body .eg-ya-titulo::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.16);
+}
+body .eg-ya-lista {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr)) !important;
+  gap: 13px !important;
+}
+body .eg-ya-item {
+  display: flex; flex-direction: column; background: #fff;
+  border: 1px solid #e1e6ee; border-radius: 13px; padding: 14px;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+body .eg-ya-item:hover { border-color: #185fa5; box-shadow: 0 6px 18px rgba(4,44,83,.10); }
+body .eg-ya-foto {
+  display: flex !important; align-items: center; justify-content: center;
+  height: 128px; margin-bottom: 11px; background: #f7f9fc;
+  border-radius: 9px; overflow: hidden;
+}
+body .eg-ya-foto img {
+  max-width: 88% !important; max-height: 112px !important;
+  width: auto !important; height: auto !important;
+  object-fit: contain !important; mix-blend-mode: multiply;
+}
+body .eg-ya-nombre {
+  font-size: 14px !important; font-weight: 600 !important; line-height: 1.35 !important;
+  color: #16202c !important; text-decoration: none !important; margin-bottom: 8px !important;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+body .eg-ya-nombre:hover { color: #185fa5 !important; }
+body .eg-ya-precio {
+  font-size: 18px !important; font-weight: 700 !important;
+  color: #042c53 !important; margin: auto 0 11px !important; line-height: 1.2 !important;
+}
+body .eg-ya-precio del { font-size: 13px !important; font-weight: 400 !important; color: #97a1af !important; margin-right: 6px; }
+body .eg-ya-precio ins { text-decoration: none !important; }
+body .eg-ya-btn {
+  display: block !important; text-align: center !important;
+  background: #185fa5 !important; color: #fff !important;
+  font-size: 14px !important; font-weight: 600 !important;
+  padding: 10px 14px !important; border-radius: 9px !important;
+  text-decoration: none !important; transition: background .16s ease;
+}
+body .eg-ya-btn:hover { background: #0f4a86 !important; color: #fff !important; }
+
+@media (max-width: 700px) {
+  body .eg-ya-lista { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+  body .eg-ya-item { padding: 11px !important; }
+  body .eg-ya-foto { height: 104px; }
+  body .eg-ya-precio { font-size: 16.5px !important; }
+  body .eg-ya-nombre { font-size: 13px !important; }
+}
+
 /* ================= PANEL DE FILTROS ================= */
 
 /* Cada bloque de filtro, una tarjeta. Antes eran listas de texto suelto
@@ -881,4 +943,88 @@ function eg_boton_filtros_movil() {
 	} )();
 	</script>
 	<?php
+}
+
+/**
+ * Franja de "disponibles ahora", encima de la rejilla.
+ *
+ * Trae arriba lo unico que importa para comprar: foto, nombre, precio y
+ * boton. Sin bajar a la rejilla y sin tener que distinguir a simple vista
+ * cual de los veintitres productos se puede comprar hoy.
+ *
+ * Se genera leyendo el stock y el precio de verdad en cada carga. Escribirlo
+ * a mano en la descripcion de la categoria seria mas rapido, pero un precio
+ * desfasado en la web no es un detalle: es un problema.
+ *
+ * No se muestra si no hay nada disponible, y tampoco en las subcategorias
+ * pequeñas, donde la rejilla ya cabe entera en pantalla.
+ */
+add_action( 'woocommerce_before_shop_loop', 'eg_disponibles_ahora', 4 );
+
+function eg_disponibles_ahora() {
+
+	if ( ! is_product_category() || is_paged() ) {
+		return;
+	}
+
+	$termino = get_queried_object();
+
+	if ( ! $termino || (int) $termino->count < 6 ) {
+		return;
+	}
+
+	$consulta = new WP_Query( array(
+		'post_type'           => 'product',
+		'posts_per_page'      => 4,
+		'no_found_rows'       => true,
+		'ignore_sticky_posts' => true,
+		// De menor a mayor precio: la primera tarjeta es la puerta de entrada
+		// mas accesible de la gama, no la mas cara.
+		'orderby'             => 'meta_value_num',
+		'meta_key'            => '_price',
+		'order'               => 'ASC',
+		'tax_query'           => array( array(
+			'taxonomy'         => 'product_cat',
+			'field'            => 'term_id',
+			'terms'            => $termino->term_id,
+			// Explicito: sin esto se quedaban fuera los productos que solo
+			// estan en una subcategoria, como la DELTA 3 Plus o el panel de
+			// 400 W, que son justamente de los pocos que hay disponibles.
+			'include_children' => true,
+		) ),
+		'meta_query'          => array( array(
+			'key'   => '_stock_status',
+			'value' => 'instock',
+		) ),
+	) );
+
+	if ( ! $consulta->have_posts() ) {
+		wp_reset_postdata();
+		return;
+	}
+
+	echo '<div class="eg-ya"><h2 class="eg-ya-titulo">Disponible ahora</h2><div class="eg-ya-lista">';
+
+	while ( $consulta->have_posts() ) {
+		$consulta->the_post();
+		$p = wc_get_product( get_the_ID() );
+
+		if ( ! $p ) {
+			continue;
+		}
+
+		echo '<div class="eg-ya-item">';
+		echo '<a class="eg-ya-foto" href="' . esc_url( get_permalink() ) . '">'
+			. $p->get_image( 'woocommerce_thumbnail' ) . '</a>';
+		echo '<a class="eg-ya-nombre" href="' . esc_url( get_permalink() ) . '">'
+			. esc_html( $p->get_name() ) . '</a>';
+		echo '<div class="eg-ya-precio">' . $p->get_price_html() . '</div>';
+		echo '<a class="eg-ya-btn" href="' . esc_url( $p->add_to_cart_url() ) . '" rel="nofollow">'
+			. esc_html( $p->add_to_cart_text() ) . '</a>';
+		echo '</div>';
+	}
+
+	echo '</div></div>';
+
+	wp_reset_postdata();
 }
