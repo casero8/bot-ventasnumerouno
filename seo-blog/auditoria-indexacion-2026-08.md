@@ -150,7 +150,30 @@ esfuerzo de toda la lista.
 
 ---
 
-## 8. Qué hay que hacer
+## 8. Comprobación en directo de las 326 URLs del sitemap
+
+Rastreadas una a una el 16/08/2026, con pausa entre peticiones para no
+disparar el limitador:
+
+| Respuesta | URLs |
+|---|---:|
+| 200 | **326** |
+| 404 | 0 |
+| 301 / 302 | 0 |
+| 5xx | 0 |
+
+**El sitemap está limpio al 100 %.** Nada de lo que enlazamos hoy está roto.
+
+Esto acota los 277 errores 404 y los 39 soft 404 del informe: no están en
+el sitemap, son URLs antiguas que Google recuerda de antes (productos
+borrados, slugs viejos, restos de la plantilla). No hacen daño a las
+páginas que venden, pero conviene mandarlas con un 301 al sitio correcto.
+Sigue haciendo falta la exportación detallada del punto 11 para saber
+cuáles son.
+
+---
+
+## 9. Qué hay que hacer
 
 ### Bloque A · Hosting (hay que pedirlo, no se puede hacer por API)
 
