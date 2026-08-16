@@ -246,3 +246,50 @@ quitar si se busca velocidad, pero se deja hasta que David lo confirme.
 
 Copia íntegra del `custom_js` anterior guardada en la opción
 `eg_copia_custom_js` (39.451 caracteres).
+
+### Segunda limpieza (16/08/2026)
+
+| Bloque | Qué hacía | Estado |
+|---|---|---|
+| `quitar()` | Borraba el widget de filtro de precios del DOM | Eliminado, 864 car. |
+| `marcar()` | `rel="nofollow"` a los enlaces de filtro, con un `MutationObserver` sobre todo el `body` | Eliminado, 954 car. |
+
+`custom_js` pasa de **39.451 a 37.633 caracteres**, y sobre todo **desaparece
+el observador más caro**: recorría con `getElementsByTagName('a')` todos los
+enlaces de la página en cada cambio del DOM. Los dos hacían por JavaScript
+lo que ya hace el `robots.txt`.
+
+Copias íntegras guardadas en `eg_copia_custom_js` y `eg_copia_custom_js_2`.
+
+### Cómo quitar un bloque sin romper el resto
+
+El corte por expresión regular en `(function(){` **puede caer dentro de una
+función anidada**: varios de los 30 «bloques» que salen al partir son en
+realidad trozos de otros, porque contienen `setTimeout(function(){…})`.
+Cortar por ahí dejaría el fichero roto.
+
+Por eso la eliminación comprueba tres cosas antes de guardar:
+
+1. Que el trozo tiene los **paréntesis y las llaves equilibrados**, o sea que
+   es un bloque completo.
+2. Que la longitud resultante es exactamente la anterior menos la del trozo.
+3. Que ha desaparecido un **marcador exclusivo** de ese bloque. Aquí importa
+   elegirlo bien: comprobar por la palabra «nofollow» falló porque aparece en
+   otro bloque, y la comprobación abortó el guardado. Hubo que usar
+   `data-eg-nf`, que solo usa ese código.
+
+Y después, cargar la página en un navegador y **mirar si hay errores de
+sintaxis**: si el corte hubiera partido una función, fallaría todo el
+`custom_js` de golpe y con él media tienda.
+
+### Lo que queda por revisar
+
+Siguen dos `MutationObserver` en `custom_js`: uno vigila `.cart-goal-text` y
+otro `.woocommerce-result-count`. Son mucho más baratos que el eliminado
+—consultan un selector concreto, no todos los enlaces— y arreglan cosas
+visibles, así que no se tocan sin comprobar antes qué pasa si faltan.
+
+También hay unos 40 `setTimeout` repartidos por los bloques. La mayoría son
+reintentos de 600 a 2.800 ms para esperar a que el tema pinte algo. Se
+podrían sustituir por un único observador compartido, pero eso es reescribir
+código ajeno y conviene hacerlo con calma y de uno en uno.
