@@ -50,18 +50,25 @@ Se guarda en la descripción del término, partida en dos por el marcador
 
 **Arriba, antes de la rejilla** — lo que necesita quien acaba de aterrizar:
 
-- `.eg-cat-lead` — dos o tres frases: qué es la gama y qué comparten todos
-- `.eg-cat-regla` — la regla que resuelve la duda principal (en DELTA 3:
-  «los Plus se amplían, los demás no»)
-- `.eg-cat-nav` — tarjetas a las subcategorías, cada una con su gancho
+- `.eg-hero` — panel de entrada: dos frases y cuatro datos en pastillas
+  (potencia, ciclos, SAI, garantía). Es el gancho visual
+- `.eg-regla` — la regla que resuelve la duda principal, en verde (en
+  DELTA 3: «los Plus se amplían, los demás no»)
+- `.eg-cat-nav` — tarjetas **con foto de producto** a cada subcategoría,
+  con su dato y su botón. Es lo que más cambia la percepción de la página
 - `.eg-cat-ayuda` — enlace a la comparativa y a contacto
 
 **Abajo, después de la rejilla** — lo que convence y lo que posiciona:
 
-- Tabla comparativa de la gama, con ancla `#eg-comparativa`
-- «Cómo elegir», en tres preguntas ordenadas
+- Tabla comparativa con cabecera azul, la fila recomendada destacada y
+  etiquetas («Disponible», «La que más se lleva»). Ancla `#eg-comparativa`
+- «Cómo elegir», en tres tarjetas numeradas
 - Preguntas frecuentes con schema `FAQPage`
 - Tarjetas a las guías del blog y a `/man/`
+- Franja de confianza: oficial, servicio técnico, envío, asesoramiento
+
+Solo se enlazan productos que se pueden comprar. Los agotados van como
+«Consúltanos» hacia contacto, que genera aviso en vez de callejón sin salida.
 
 El comprador ve producto enseguida y el texto largo no le estorba, que es
 como lo montan las tiendas grandes.
@@ -93,6 +100,14 @@ pintar el `<title>` y no se entera de un cambio hecho por debajo.
 **El texto no se repite en `/page/2/`.** El snippet lo corta con `is_paged()`
 para no duplicar contenido dentro del propio sitio.
 
+**Nada de `wpautop`.** El texto de las categorías ya viene con sus propios
+`<p>`, y `wpautop` convierte los saltos de línea del maquetado en `<br />`
+que se cuelan dentro de las tarjetas y las descuadran.
+
+**Las imágenes las hace lazy LiteSpeed**, sustituyendo el `src` por un SVG
+en base64 y dejando el real en `data-src`. Es lo normal; no hay que pelearse
+con ello, pero conviene saberlo al comprobar el HTML.
+
 ---
 
 ## Comprobación antes de dar una categoría por hecha
@@ -105,3 +120,6 @@ para no duplicar contenido dentro del propio sitio.
 - [ ] El `<title>` de Yoast es el nuevo, no el del tema
 - [ ] La meta description lleva los acentos puestos
 - [ ] Las FAQ salen con `FAQPage` en el HTML
+- [ ] No hay `<br />` sueltos dentro de las tarjetas
+- [ ] Las fotos de las tarjetas son del producto suelto, no de un pack
+- [ ] Se ve bien a 390 px de ancho
