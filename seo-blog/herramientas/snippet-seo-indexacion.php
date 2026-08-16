@@ -46,6 +46,7 @@ function eg_redirigir_urls_muertas() {
 		'/serie-river/'                                          => '/product-category/serie-river/',
 		'/paneles-solares-portatiles/'                           => '/product-category/paneles-solares/',
 		'/placas-solares-ecoflow/'                               => '/product-category/paneles-solares/',
+		'/serie-rapid/'                                          => '/product-category/serie-rapid/',
 		'/generadores-solares/'                                  => '/generador-solar/',
 		'/product-category/hogar/'                               => '/kits-para-el-hogar/',
 		'/1381-2/'                                               => '/politicas-de-privacidad/',
