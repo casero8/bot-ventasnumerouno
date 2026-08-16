@@ -149,10 +149,15 @@ interacción: mientras tanto los filtros quedaban ocultos y sin botón que los
 abriera. Se arregla con `data-no-optimize="1"` y `data-no-defer="1"` en la
 etiqueta.
 
-**Y aun así, el plegado no depende del script.** Es el propio script el que
-añade la clase `eg-plegable`; si no llega a ejecutarse, los filtros se ven
-enteros en vez de desaparecer. Ocultar algo por CSS y depender de JavaScript
-para poder mostrarlo es la peor combinación posible.
+**Cuidado con plegar desde JavaScript: se ve el parpadeo.** El primer
+montaje ocultaba el panel añadiendo una clase desde el script, y como el
+script corre al final del documento, los filtros se pintaban y desaparecían
+medio segundo después, justo encima de los productos. Muy visible.
+
+Lo correcto es **pintarlo ya plegado desde el CSS** y dejar el respaldo en un
+`<noscript>` que los muestra y esconde el botón. Comprobado midiendo el
+`display` del panel durante toda la carga: con JavaScript sale `none` desde
+el primer fotograma, y sin JavaScript los filtros se ven enteros.
 
 **Ocultar el texto de un widget no basta.** Al esconder solo el `h6` del
 rótulo «Filtros», su envoltorio seguía ocupando casi 50 px en blanco. Hay
@@ -231,6 +236,8 @@ borrarla después, no sobre una que está publicada.
 - [ ] En móvil el botón «Filtrar y afinar» aparece **encima** de los
       productos, abre y cierra, y los contadores quedan a la derecha
 - [ ] Con el JavaScript desactivado los filtros siguen viéndose
+- [ ] Al recargar, el panel **no parpadea**: nace plegado, no se pliega
+      después
 - [ ] Los primeros productos de la rejilla son los que tienen stock
 - [ ] La barra lateral sigue en una sola columna. **El tema maqueta las
       listas del lateral en varias columnas**: cualquier lista propia que se

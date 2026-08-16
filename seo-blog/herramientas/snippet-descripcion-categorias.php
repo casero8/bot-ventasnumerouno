@@ -364,12 +364,12 @@ body .eg-filtros-btn { display: none; }
   body .eg-filtros-btn .eg-filtros-icono { margin-right: 9px; font-size: 15px; }
   body .eg-filtros-btn span { display: flex; align-items: center; }
 
-  /* Solo se pliega si el script ha podido marcar la barra con eg-plegable.
-     Si el JavaScript no llega a ejecutarse —LiteSpeed lo retrasa— los
-     filtros se ven enteros en vez de quedarse ocultos sin boton que los
-     abra, que es el peor de los dos fallos posibles. */
-  body.tax-product_cat .page-sidebar.eg-plegable .page-sidebar-content-wrap { display: none; }
-  body.tax-product_cat .page-sidebar.eg-plegable.eg-abierto .page-sidebar-content-wrap { display: block; }
+  /* Plegado desde el primer momento. Antes se ocultaba al añadir una clase
+     desde el script, y eso hacia que los filtros se pintaran y desaparecieran
+     medio segundo despues: un parpadeo feo justo encima de los productos.
+     El respaldo para quien no tiene JavaScript va en un <noscript>. */
+  body.tax-product_cat .page-sidebar .page-sidebar-content-wrap { display: none; }
+  body.tax-product_cat .page-sidebar.eg-abierto .page-sidebar-content-wrap { display: block; }
 
   body.tax-product_cat .page-sidebar .widget { padding: 14px 15px !important; margin-bottom: 10px !important; }
   body.tax-product_cat .page-sidebar li a { padding: 11px 10px !important; font-size: 15px !important; }
@@ -811,10 +811,11 @@ function eg_filtro_categorias_acotado( $instancia, $widget, $args ) {
  * Con el CSS sube por encima de los productos, y este boton la mantiene
  * plegada hasta que se toca, que es como lo resuelven las tiendas grandes.
  *
- * El boton se crea desde JavaScript y ademas es el script el que marca la
- * barra con la clase eg-plegable. Asi, si el script no llega a ejecutarse,
- * los filtros se ven enteros en lugar de quedarse ocultos y sin boton que
- * los abra. En escritorio el boton esta oculto por CSS.
+ * El panel se pinta ya plegado desde el CSS, no al ejecutarse el script:
+ * marcarlo desde JavaScript hacia que los filtros aparecieran y se
+ * escondieran medio segundo despues, un parpadeo justo encima de los
+ * productos. Para quien navegue sin JavaScript hay un <noscript> que los
+ * deja visibles y esconde el boton. En escritorio el boton no se muestra.
  *
  * Lleva data-no-optimize y data-no-defer porque LiteSpeed lo convertia en
  * type="litespeed/javascript" y no lo ejecutaba hasta que habia
@@ -828,6 +829,12 @@ function eg_boton_filtros_movil() {
 		return;
 	}
 	?>
+	<noscript><style>
+		@media (max-width: 991px) {
+			body.tax-product_cat .page-sidebar .page-sidebar-content-wrap { display: block !important; }
+			body .eg-filtros-btn { display: none !important; }
+		}
+	</style></noscript>
 	<script data-no-optimize="1" data-no-defer="1" data-cfasync="false">
 	( function () {
 		var barra = document.querySelector( '.page-sidebar' );
@@ -842,7 +849,6 @@ function eg_boton_filtros_movil() {
 		boton.setAttribute( 'aria-expanded', 'false' );
 		boton.innerHTML = '<span><span class="eg-filtros-icono" aria-hidden="true">☰</span>Filtrar y afinar</span>';
 
-		barra.classList.add( 'eg-plegable' );
 		barra.insertBefore( boton, barra.firstChild );
 
 		boton.addEventListener( 'click', function () {

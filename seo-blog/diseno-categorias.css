@@ -198,12 +198,12 @@ body .eg-filtros-btn { display: none; }
   body .eg-filtros-btn .eg-filtros-icono { margin-right: 9px; font-size: 15px; }
   body .eg-filtros-btn span { display: flex; align-items: center; }
 
-  /* Solo se pliega si el script ha podido marcar la barra con eg-plegable.
-     Si el JavaScript no llega a ejecutarse —LiteSpeed lo retrasa— los
-     filtros se ven enteros en vez de quedarse ocultos sin boton que los
-     abra, que es el peor de los dos fallos posibles. */
-  body.tax-product_cat .page-sidebar.eg-plegable .page-sidebar-content-wrap { display: none; }
-  body.tax-product_cat .page-sidebar.eg-plegable.eg-abierto .page-sidebar-content-wrap { display: block; }
+  /* Plegado desde el primer momento. Antes se ocultaba al añadir una clase
+     desde el script, y eso hacia que los filtros se pintaran y desaparecieran
+     medio segundo despues: un parpadeo feo justo encima de los productos.
+     El respaldo para quien no tiene JavaScript va en un <noscript>. */
+  body.tax-product_cat .page-sidebar .page-sidebar-content-wrap { display: none; }
+  body.tax-product_cat .page-sidebar.eg-abierto .page-sidebar-content-wrap { display: block; }
 
   body.tax-product_cat .page-sidebar .widget { padding: 14px 15px !important; margin-bottom: 10px !important; }
   body.tax-product_cat .page-sidebar li a { padding: 11px 10px !important; font-size: 15px !important; }
