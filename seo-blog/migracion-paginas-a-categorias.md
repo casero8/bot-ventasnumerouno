@@ -156,10 +156,53 @@ se queda.
 | Subcategoría redundante «Estaciones de energía DELTA» | Borrada |
 | Menú principal → «Estaciones DELTA» | Ahora apunta a la categoría |
 | Menú CATEGORÍAS → «Estaciones de energía DELTA» | Ahora apunta a la categoría |
-| 301 de la página `/serie-delta-ecoflow/` | **Pendiente de decisión** |
+| 301 de la página `/serie-delta-ecoflow/` | Hecho |
 
-La página sigue publicada a propósito: repuntar el menú no le hace daño y
-permite ver la categoría funcionando antes de retirar nada.
+La página hija `/serie-delta-ecoflow/serie-delta-2/` sigue respondiendo 200:
+despublicar la madre no rompe su URL. Se migrará cuando le toque a DELTA 2.
+
+---
+
+## Serie RIVER · hecho el 16/08/2026
+
+RIVER 3 estaba **partida en dos**: una categoría suelta en primer nivel con
+la RIVER 3 base, y otra llamada «RIVER 3 Plus» colgando de la serie con las
+tres variantes. Unificadas en una sola `RIVER 3` dentro de la serie.
+
+| Qué | Estado |
+|---|---|
+| Categoría `serie-river` con contenido, comparativa y FAQ | Hecho |
+| `RIVER 3` unificada y colgando de la serie | Hecho |
+| Categoría duplicada «RIVER 3 Plus» | Borrada |
+| Menú principal y menú CATEGORÍAS | Apuntan a la categoría |
+| 301 de `/serie-river/` | Hecho |
+
+### Las preguntas salen de Search Console, no de la cabeza
+
+Dos huecos que solo se ven mirando los datos:
+
+- **`ecoflow river 3 plus + bat eb300`** (200 impresiones) y **`+ bat eb600`**
+  (177) — la gente busca las combinaciones de batería sin saber que son los
+  modelos Max y Max Plus. Tiene su propia pregunta explicando que
+  286 + 286 = 572 Wh y 286 + 572 = 858 Wh.
+- **Los manuales de RIVER suman 957 impresiones** repartidas en cinco
+  consultas (`river 2 manual español`, `river manual`, `river 2 pro
+  manual`…). La categoría enlaza a `/man/` desde una pregunta propia.
+
+### Los enlaces de Elementor
+
+Los enlaces a las dos páginas migradas estaban repartidos por la portada, el
+pie y la página `/ecoflow/`, todos dentro de `_elementor_data`. Se
+sustituyeron de una pasada.
+
+Ojo con una cosa: **Elementor guarda su JSON también en las revisiones**, así
+que una sustitución global toca cientos de registros. Es inocuo —las
+revisiones no se sirven— pero conviene saberlo para no asustarse al ver el
+informe.
+
+Y al comprobar, cuidado con contar `/serie-river/` a pelo: la URL nueva
+`/product-category/serie-river/` **termina igual**, así que un contador
+ingenuo da falsos positivos. Hay que anclar la comprobación al dominio.
 
 ---
 
@@ -170,9 +213,7 @@ permite ver la categoría funcionando antes de retirar nada.
 | `/paneles-solares-portatiles/` | 9.394 | `paneles-solares` |
 | `/placas-solares-ecoflow/` | 1.614 | `paneles-solares` |
 | `/accesorios/` | 1.148 | `accesorios` |
-| `/serie-river/` | 763 | `serie-river` |
 | `/generadores/` | 313 | por decidir |
-| `/serie-delta-ecoflow/` | 278 | `serie-delta` |
 | `/serie-rapid/` | 218 | `serie-rapid` |
 | `/stream-series/` | 222 | `stream-series` |
 | `/baterias-extras/` | 25 | baterías adicionales |

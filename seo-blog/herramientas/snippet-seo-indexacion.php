@@ -36,6 +36,10 @@ function eg_redirigir_urls_muertas() {
 
 		// Paginas y categorias que cambiaron de ruta.
 		'/serie-delta-ecoflow/serie-delta-3/'                    => '/product-category/serie-delta/delta-3/',
+		// Migrada a categoria el 16/08/2026: la categoria cubre lo mismo con
+		// listado real de stock, comparativa y preguntas.
+		'/serie-delta-ecoflow/'                                  => '/product-category/serie-delta/',
+		'/serie-river/'                                          => '/product-category/serie-river/',
 		'/generadores-solares/'                                  => '/generador-solar/',
 		'/product-category/hogar/'                               => '/kits-para-el-hogar/',
 		'/1381-2/'                                               => '/politicas-de-privacidad/',
