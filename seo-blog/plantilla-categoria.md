@@ -129,6 +129,40 @@ que da WordPress y se devuelve `false` para que el original no salga. Así
 queda en su mismo sitio y en `/shop/` sigue apareciendo el listado completo,
 que ahí sí tiene sentido.
 
+## El panel de filtros, y el móvil
+
+En escritorio cada bloque de filtro es una **tarjeta con borde**: antes eran
+listas de texto una detrás de otra y no se veía dónde acababa una y empezaba
+la siguiente. Las filas tienen área de pulsación amplia y fondo al pasar por
+encima, y el contador va alineado a la derecha.
+
+**En móvil el tema dejaba los filtros al final de la página**, después de
+toda la rejilla: para filtrar había que pasar varias pantallas. Ahora suben
+por encima de los productos y van plegados detrás de un botón **«Filtrar y
+afinar»**, que es como lo resuelven las tiendas grandes.
+
+Tres cosas que costaron encontrar:
+
+**LiteSpeed retrasa el JavaScript en línea.** Convertía el script del botón
+en `type="litespeed/javascript"` y no lo ejecutaba hasta que había
+interacción: mientras tanto los filtros quedaban ocultos y sin botón que los
+abriera. Se arregla con `data-no-optimize="1"` y `data-no-defer="1"` en la
+etiqueta.
+
+**Y aun así, el plegado no depende del script.** Es el propio script el que
+añade la clase `eg-plegable`; si no llega a ejecutarse, los filtros se ven
+enteros en vez de desaparecer. Ocultar algo por CSS y depender de JavaScript
+para poder mostrarlo es la peor combinación posible.
+
+**Ocultar el texto de un widget no basta.** Al esconder solo el `h6` del
+rótulo «Filtros», su envoltorio seguía ocupando casi 50 px en blanco. Hay
+que ocultar el widget entero.
+
+Y ojo con el orden de las reglas: la regla general del lateral pone los
+enlaces en `display: block`, y eso aplastaba el contador contra el nombre en
+el filtro acotado. La corrección tiene que ir **después**, y fuera de la
+consulta de medios, o solo se arregla en un tamaño de pantalla.
+
 ## Cosas del sitio que hay que saber
 
 **El tema no imprime `term_description()`.** El texto guardado solo acababa
@@ -194,6 +228,9 @@ borrarla después, no sobre una que está publicada.
 - [ ] No hay `<br />` sueltos dentro de las tarjetas
 - [ ] Las fotos de las tarjetas son del producto suelto, no de un pack
 - [ ] Se ve bien a 390 px de ancho
+- [ ] En móvil el botón «Filtrar y afinar» aparece **encima** de los
+      productos, abre y cierra, y los contadores quedan a la derecha
+- [ ] Con el JavaScript desactivado los filtros siguen viéndose
 - [ ] Los primeros productos de la rejilla son los que tienen stock
 - [ ] La barra lateral sigue en una sola columna. **El tema maqueta las
       listas del lateral en varias columnas**: cualquier lista propia que se

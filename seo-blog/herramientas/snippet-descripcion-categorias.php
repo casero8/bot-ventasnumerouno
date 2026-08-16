@@ -282,6 +282,108 @@ body.tax-product_cat .eg-refina li > a em {
   color: #97a1af !important; flex-shrink: 0 !important;
 }
 
+/* ================= PANEL DE FILTROS ================= */
+
+/* Cada bloque de filtro, una tarjeta. Antes eran listas de texto suelto
+   una detras de otra y no se entendia donde acababa una y empezaba otra. */
+body.tax-product_cat .page-sidebar .widget {
+  background: #fff !important; border: 1px solid #e4e8ee !important;
+  border-radius: 12px !important; padding: 15px 16px !important;
+  margin-bottom: 12px !important;
+}
+body.tax-product_cat .page-sidebar .widget_text,
+body.tax-product_cat .page-sidebar .widget_custom_html {
+  background: none !important; border: 0 !important; padding: 0 !important;
+  margin-bottom: 14px !important;
+}
+body.tax-product_cat .page-sidebar .widget > h2,
+body.tax-product_cat .page-sidebar .widget-title {
+  font-size: 13.5px !important; font-weight: 700 !important;
+  color: #16202c !important; letter-spacing: .01em !important;
+  margin: 0 0 10px !important; padding-bottom: 9px !important;
+  border-bottom: 1px solid #eef1f5 !important;
+}
+
+/* Filas pulsables de verdad: area amplia y fondo al pasar por encima. */
+body.tax-product_cat .page-sidebar li a {
+  font-size: 14px !important; color: #48535f !important;
+  display: block !important; padding: 8px 10px !important;
+  margin: 0 -10px !important; border-radius: 8px !important;
+  line-height: 1.35 !important; text-decoration: none !important;
+}
+body.tax-product_cat .page-sidebar li a:hover {
+  color: #185fa5 !important; background: #f4f7fb !important;
+}
+body.tax-product_cat .page-sidebar li { line-height: 1.35 !important; margin: 0 !important; }
+
+/* Va despues de la regla de arriba a proposito: esa pone los enlaces del
+   lateral en block y aplastaba el contador contra el nombre. Aqui se
+   devuelve el reparto a los dos lados, en escritorio y en movil. */
+body.tax-product_cat .eg-refina li > a {
+  display: flex !important; justify-content: space-between !important;
+  align-items: baseline !important; gap: 12px !important;
+}
+
+/* El filtro de precios venia como texto plano sin pinta de ser pulsable. */
+body.tax-product_cat .page-sidebar .widget_price_filter li a,
+body.tax-product_cat .page-sidebar .minimog-wp-widget-price-filter li a {
+  font-variant-numeric: tabular-nums;
+}
+body.tax-product_cat .page-sidebar .widget a.selected,
+body.tax-product_cat .page-sidebar .widget li.chosen > a {
+  background: #eaf2fc !important; color: #10457c !important; font-weight: 600 !important;
+}
+
+/* Boton de filtros: solo existe en movil. */
+body .eg-filtros-btn { display: none; }
+
+/* ================= EN MOVIL ================= */
+
+@media (max-width: 991px) {
+
+  /* Los filtros, encima de los productos y no al final de la pagina, que es
+     donde los dejaba el tema: en un movil eso son varias pantallas de scroll
+     antes de poder filtrar nada. */
+  body.tax-product_cat .page-sidebar { order: -1 !important; margin-top: 0 !important; }
+  body.tax-product_cat .page-main-content { order: 0 !important; }
+
+  body .eg-filtros-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; margin: 0 0 14px; cursor: pointer;
+    background: #fff; border: 1px solid #d7dee8; border-radius: 11px;
+    padding: 13px 16px; font-size: 15px; font-weight: 600; color: #16202c;
+    font-family: inherit; -webkit-appearance: none; appearance: none;
+  }
+  body .eg-filtros-btn::after {
+    content: ""; width: 9px; height: 9px; flex-shrink: 0;
+    border-right: 2px solid #6b7686; border-bottom: 2px solid #6b7686;
+    transform: rotate(45deg) translate(-2px, -2px);
+    transition: transform .2s ease;
+  }
+  body .eg-filtros-btn.eg-abierto::after { transform: rotate(-135deg) translate(-2px, -2px); }
+  body .eg-filtros-btn .eg-filtros-icono { margin-right: 9px; font-size: 15px; }
+  body .eg-filtros-btn span { display: flex; align-items: center; }
+
+  /* Solo se pliega si el script ha podido marcar la barra con eg-plegable.
+     Si el JavaScript no llega a ejecutarse —LiteSpeed lo retrasa— los
+     filtros se ven enteros en vez de quedarse ocultos sin boton que los
+     abra, que es el peor de los dos fallos posibles. */
+  body.tax-product_cat .page-sidebar.eg-plegable .page-sidebar-content-wrap { display: none; }
+  body.tax-product_cat .page-sidebar.eg-plegable.eg-abierto .page-sidebar-content-wrap { display: block; }
+
+  body.tax-product_cat .page-sidebar .widget { padding: 14px 15px !important; margin-bottom: 10px !important; }
+  body.tax-product_cat .page-sidebar li a { padding: 11px 10px !important; font-size: 15px !important; }
+
+  /* El rotulo "FILTROS" ya lo dice el boton. Se oculta el widget entero y no
+     solo su texto: si no, el envoltorio seguia ocupando casi 50 px vacios. */
+  body.tax-product_cat .page-sidebar .widget_custom_html,
+  body.tax-product_cat .page-sidebar .widget_text { display: none !important; }
+  body.tax-product_cat .page-sidebar .widget:first-of-type { margin-top: 0 !important; }
+
+  body.tax-product_cat .eg-refina li > a em { font-size: 13px !important; }
+  body.tax-product_cat .eg-refina-actual { font-size: 15px !important; }
+}
+
 @media (max-width: 991px) {
   body.tax-product_cat .page-content { margin-top: 20px !important; }
   body.tax-product_cat h1.page-title { font-size: 27px !important; margin-bottom: 14px !important; }
@@ -699,4 +801,56 @@ function eg_filtro_categorias_acotado( $instancia, $widget, $args ) {
 	echo $args['after_widget'];
 
 	return false;
+}
+
+/**
+ * Botón para plegar y desplegar los filtros en movil.
+ *
+ * El tema deja la barra de filtros al final de la pagina en pantallas
+ * pequeñas: hay que pasar toda la rejilla de productos para llegar a ella.
+ * Con el CSS sube por encima de los productos, y este boton la mantiene
+ * plegada hasta que se toca, que es como lo resuelven las tiendas grandes.
+ *
+ * El boton se crea desde JavaScript y ademas es el script el que marca la
+ * barra con la clase eg-plegable. Asi, si el script no llega a ejecutarse,
+ * los filtros se ven enteros en lugar de quedarse ocultos y sin boton que
+ * los abra. En escritorio el boton esta oculto por CSS.
+ *
+ * Lleva data-no-optimize y data-no-defer porque LiteSpeed lo convertia en
+ * type="litespeed/javascript" y no lo ejecutaba hasta que habia
+ * interaccion: los filtros quedaban ocultos mientras tanto.
+ */
+add_action( 'wp_footer', 'eg_boton_filtros_movil', 99 );
+
+function eg_boton_filtros_movil() {
+
+	if ( ! is_product_category() ) {
+		return;
+	}
+	?>
+	<script data-no-optimize="1" data-no-defer="1" data-cfasync="false">
+	( function () {
+		var barra = document.querySelector( '.page-sidebar' );
+		if ( ! barra ) { return; }
+
+		var contenido = barra.querySelector( '.page-sidebar-content-wrap' );
+		if ( ! contenido ) { return; }
+
+		var boton = document.createElement( 'button' );
+		boton.type = 'button';
+		boton.className = 'eg-filtros-btn';
+		boton.setAttribute( 'aria-expanded', 'false' );
+		boton.innerHTML = '<span><span class="eg-filtros-icono" aria-hidden="true">☰</span>Filtrar y afinar</span>';
+
+		barra.classList.add( 'eg-plegable' );
+		barra.insertBefore( boton, barra.firstChild );
+
+		boton.addEventListener( 'click', function () {
+			var abierto = barra.classList.toggle( 'eg-abierto' );
+			boton.classList.toggle( 'eg-abierto', abierto );
+			boton.setAttribute( 'aria-expanded', abierto ? 'true' : 'false' );
+		} );
+	} )();
+	</script>
+	<?php
 }
