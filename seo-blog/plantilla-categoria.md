@@ -231,6 +231,30 @@ Lo que **no** se hace, y conviene recordarlo: nada de reseñas inventadas,
 nada de escasez falsa, y las estimaciones marcadas como tales con la fórmula
 a la vista.
 
+## Revisión de móvil
+
+Auditadas seis páginas a 390 px midiendo en el navegador: portada,
+categoría, paneles, ficha, blog y manuales.
+
+**Ninguna tiene scroll horizontal.** El ancho del documento es exactamente
+390 en las seis, que es la comprobación que de verdad importa.
+
+Las tablas comparativas sí son más anchas que la pantalla —llegan a 635 px—
+pero van dentro de `.eg-tabla-scroll` con `overflow-x: auto`: **se desplazan
+dentro de su propio recuadro** y la página no se mueve. Es el patrón
+correcto, no un fallo.
+
+Sobre el tamaño de letra: solo siete elementos propios bajaban de 12 px, los
+`.eg-nav-dato` de las tarjetas y las etiquetas `.eg-tag` de la tabla.
+Subidos a 12,5 y 11,5. El resto de texto pequeño que aparece —
+`menu-item-title` a 11,5 px y `info-text` a 10,8— es del tema, no nuestro.
+
+**Cómo repetir la auditoría:** cargar la página guardada en un viewport de
+390 px y recorrer `document.querySelectorAll('body *')` comparando
+`getBoundingClientRect().right` con `window.innerWidth`. Ojo con los falsos
+positivos: el menú móvil plegado vive en coordenadas negativas y las
+diapositivas ocultas del carrusel sobresalen sin verse.
+
 ## Cosas del sitio que hay que saber
 
 **El tema no imprime `term_description()`.** El texto guardado solo acababa

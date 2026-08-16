@@ -21,7 +21,11 @@
  * redireccion deja de dispararse sola, sin tener que tocar este codigo.
  */
 
-add_action( 'template_redirect', 'eg_redirigir_urls_muertas' );
+// Prioridad 1: WordPress trae su propia redireccion por slug parecido
+// (redirect_canonical, prioridad 10) y mandaba /paneles-solares-portatiles/
+// a una entrada del blog con un slug largo que empieza igual. La nuestra
+// tiene que correr antes.
+add_action( 'template_redirect', 'eg_redirigir_urls_muertas', 1 );
 
 function eg_redirigir_urls_muertas() {
 
@@ -40,6 +44,8 @@ function eg_redirigir_urls_muertas() {
 		// listado real de stock, comparativa y preguntas.
 		'/serie-delta-ecoflow/'                                  => '/product-category/serie-delta/',
 		'/serie-river/'                                          => '/product-category/serie-river/',
+		'/paneles-solares-portatiles/'                           => '/product-category/paneles-solares/',
+		'/placas-solares-ecoflow/'                               => '/product-category/paneles-solares/',
 		'/generadores-solares/'                                  => '/generador-solar/',
 		'/product-category/hogar/'                               => '/kits-para-el-hogar/',
 		'/1381-2/'                                               => '/politicas-de-privacidad/',

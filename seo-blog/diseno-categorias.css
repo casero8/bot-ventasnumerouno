@@ -451,7 +451,7 @@ body .eg-precio { color: var(--eg-azul) !important; font-size: 15.5px !important
 body .eg-consulta { font-size: 13.5px !important; }
 
 body .eg-tag {
-  display: inline-block; font-size: 10.5px; font-weight: 600;
+  display: inline-block; font-size: 11.5px; font-weight: 600;
   text-transform: uppercase; letter-spacing: .04em;
   padding: 3px 8px; border-radius: 999px; margin-left: 5px; white-space: nowrap;
 }
@@ -596,6 +596,6 @@ body .eg-confianza span { display: block; font-size: 12.5px; line-height: 1.45; 
   body .eg-nav-img { height: 92px; }
   body .eg-cat-nav a { padding: 12px 10px 13px !important; }
   body .eg-cat-nav a b { font-size: 14px !important; }
-  body .eg-nav-dato { font-size: 11.5px !important; }
+  body .eg-nav-dato { font-size: 12.5px !important; }  /* 11,5 px se queda corto en un movil */
   body .eg-confianza { grid-template-columns: 1fr 1fr !important; }
 }
