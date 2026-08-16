@@ -1,0 +1,59 @@
+User-agent: *
+
+# Zona de administracion
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+# Archivos internos de WooCommerce
+Disallow: /wp-content/uploads/wc-logs/
+Disallow: /wp-content/uploads/woocommerce_transient_files/
+Disallow: /wp-content/uploads/woocommerce_uploads/
+Disallow: /wp-content/uploads/wpforms/
+
+# ---------------------------------------------------------------
+# FILTROS DE TIENDA (agosto de 2026)
+#
+# Se bloquean despues de exportar los ocho motivos del informe de
+# indexacion de Search Console y contarlos uno a uno:
+#
+#   Rastreada sin indexar ..... 366.194 ... 99 % con filter_product_cat
+#   Pagina alternativa ........ 152.883 ... 100 %
+#   Duplicada sin canonica ..... 58.689 ... 100 %
+#   Pagina con redireccion ...... 1.861 ... 93 %
+#   No encontrada (404) ........... 277 ... 94 %
+#   Soft 404 ....................... 39 ... 100 %
+#
+# Son 211.572 URLs de /shop/?filter_product_cat= entre los dos saltos
+# grandes, cero impresiones, y creciendo: el saco de "pagina alternativa"
+# se triplico entre mayo y agosto de 2026.
+#
+# La nota anterior los dejaba abiertos para que Google leyera la canonical
+# y las consolidara. No podia funcionar: el cortafuegos responde 429 con el
+# cuerpo vacio a cualquier URL que lleve filter_product_cat, asi que la
+# canonical nunca llega. Comprobado con el servidor en reposo y 12 segundos
+# entre peticiones.
+# ---------------------------------------------------------------
+Disallow: /*filter_product_cat=
+Disallow: /*filtering=
+Disallow: /*query_type_
+
+# Acciones de carrito y de listas: no son paginas.
+# Los patrones van sin el ? inicial a proposito: escritos como /*?add-to-cart=
+# solo casaban cuando el parametro era el primero de la cadena.
+Disallow: /*add-to-cart=
+Disallow: /*remove_item=
+Disallow: /*undo_item=
+Disallow: /*wc-ajax=
+Disallow: /*add-to-wishlist=
+Disallow: /*add_to_wishlist=
+Disallow: /*compare=
+
+# Busquedas internas: URLs infinitas sin canonical util
+Disallow: /*?s=
+Disallow: /?s=
+
+# min_price, max_price y orderby se quedan ABIERTOS a proposito: esos si
+# entregan canonical correcta y Google ya los ha consolidado. Bloquearlos
+# ahora solo congelaria el informe en un estado peor.
+
+Sitemap: https://ecogadgetoficial.com/sitemap_index.xml

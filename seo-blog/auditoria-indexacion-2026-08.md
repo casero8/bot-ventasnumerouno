@@ -38,7 +38,7 @@ ficha recién actualizada tarda semanas en refrescarse en el buscador.
 |---|---:|---|
 | Rastreada: actualmente sin indexar | 366.194 | **Problema real.** Quema de rastreo |
 | Bloqueada por robots.txt | 220.913 | Correcto, es lo que queremos |
-| Página alternativa con canónica adecuada | 152.883 | Correcto, Google lo ha entendido |
+| Página alternativa con canónica adecuada | 152.883 | **Problema real.** Ver corrección del punto 10 |
 | Duplicada: sin canónica indicada | 58.689 | **Problema real.** Ver punto 3 |
 | Página con redirección | 1.861 | Normal (http→https, www, barra final) |
 | No se ha encontrado (404) | 277 | Revisar, hace falta el listado |
@@ -46,9 +46,9 @@ ficha recién actualizada tarda semanas en refrescarse en el buscador.
 | Excluida por noindex | 13 | Intencionado |
 | Error de servidor (5xx) | 6 | Ligado al punto 4 |
 
-De los nueve motivos, **tres son fallos reales y dos están funcionando como
-deben**. No hay que tocar los 220.913 bloqueados por robots.txt ni los
-152.883 con canónica: esos son el sistema haciendo su trabajo.
+Al exportar el detalle de cada motivo (punto 10) resultó que casi todos son
+el mismo fallo repetido. Lo único que funciona como debe son los 220.913
+bloqueados por robots.txt.
 
 ---
 
@@ -111,16 +111,23 @@ Todo esto sigue publicado, indexable y en el sitemap:
 **Categorías del blog vacías, de la demo:**
 `beauty`, `fashion`, `shopping`, `sweaters`, `trends`
 
-**Páginas de la demo publicadas**, que duplican a las españolas:
-`/all-collections/`, `/homepage/`, `/categories/`, `/wishlist-2/`,
-`/my-account/`, `/cart/`, `/checkout/`
+**Páginas de la demo publicadas:** `/all-collections/`, `/homepage/`,
+`/categories/`.
+
+Ojo con las que parecen de la demo y no lo son. Consultando la configuración
+de WooCommerce, **`/cart/`, `/checkout/`, `/my-account/` y `/shop/` son las
+páginas reales de la tienda** (IDs 7071, 7072, 7073 y 7070). Las huérfanas
+son las de nombre español: `/mi-cuenta/`, que estaba vacía. Despublicar las
+que parecían sobrar habría roto el carrito.
 
 **Páginas duplicadas entre sí:** `/contacto/` y `/contacto-2/`
 
 **Etiquetas de producto:** 35 en total, de las cuales 7 tienen un solo
 producto. Son páginas finas que compiten con las categorías.
 
-Nueve páginas literalmente vacías explican de sobra los 39 soft 404.
+Son páginas finas que no aportan nada, aunque **no** son la causa de los
+39 soft 404: la exportación detallada demostró que esos son también URLs de
+filtro (punto 10).
 
 ---
 
@@ -215,3 +222,133 @@ cuáles son.
 - Los 1.861 con redirección: son los saltos normales a https y sin www.
 - Las 27.000 páginas "perdidas" en junio: eran basura y su desaparición
   vino acompañada de un 94 % más de impresiones.
+
+---
+
+## 10. La exportación detallada: no eran ocho problemas, era uno
+
+Con el detalle de los ocho motivos exportado, se puede contar cuántas de las
+URLs de cada saco llevan `filter_product_cat` o `filtering=`:
+
+| Motivo | Páginas | Con parámetro de filtro |
+|---|---:|---:|
+| Rastreada: actualmente sin indexar | 366.194 | **99 %** |
+| Página alternativa con canónica adecuada | 152.883 | **100 %** |
+| Duplicada: sin canónica indicada | 58.689 | **100 %** |
+| Página con redirección | 1.861 | **93 %** |
+| No se ha encontrado (404) | 277 | **94 %** |
+| Soft 404 | 39 | **100 %** |
+| Excluida por noindex | 13 | 0 % |
+
+Todas son `/shop/?filter_product_cat=...`, sin excepción en las muestras de
+1.000 URLs de cada informe.
+
+**De las ~580.000 URLs que no bloquea el robots.txt, el 99 % son la misma
+cosa.** Los ocho motivos del informe eran un solo fallo visto desde ocho
+ángulos distintos.
+
+Dos cosas que había dado por buenas y no lo eran:
+
+- **Los 152.883 de "página alternativa con canónica adecuada" no son sanos.**
+  Se han **triplicado** entre mayo y agosto (51.784 → 152.883) y Google los
+  rastreaba el 8 de agosto. Son rastreo vivo, no un archivo histórico.
+- **Los 39 soft 404 no vienen de las categorías vacías.** Son el 100 % URLs
+  de filtro. La hipótesis de las páginas vacías era razonable y era falsa.
+
+### Los 404 que sí son reales
+
+De los 277, solo **18** no llevan parámetros de filtro, y casi todos tienen
+un destino evidente: slugs de fichas que se guardaron sin acentos y luego
+cambiaron, categorías de la serie DELTA sin el prefijo `product-category`,
+y dos entradas de la plantilla de demostración que no tienen equivalente y
+deben seguir devolviendo 404.
+
+---
+
+## 11. Lo que se ha hecho (16/08/2026)
+
+### robots.txt
+
+Se bloquean `filter_product_cat`, `filtering` y `query_type_`. Copia del
+anterior en `robots-txt-backup-2026-08-16.txt`.
+
+`min_price`, `max_price` y `orderby` se quedan abiertos: esos sí entregan
+canónica correcta y Google ya los ha consolidado; cerrarlos ahora solo
+congelaría el informe en un estado peor.
+
+De paso, dos fallos del robots.txt anterior:
+
+- Los patrones estaban escritos como `/*?add-to-cart=`, que solo casan
+  cuando el parámetro es **el primero** de la cadena. Ahora van como
+  `/*add-to-cart=` y casan en cualquier posición.
+- La lista de deseos se bloqueaba como `add_to_wishlist` con guiones bajos,
+  pero el parámetro real del sitio es `add-to-wishlist` con guiones. No
+  estaba bloqueando nada. Ahora están los dos.
+
+### Redirecciones (snippet 6, `EG · SEO · Redirecciones de URLs muertas`)
+
+301 para los 18 errores 404 reales. Se enganchan a `template_redirect` y
+**solo actúan cuando WordPress ya ha decidido que la URL es un 404**: si
+algún día se publica la página de la Serie DELTA 3 en su ruta original, la
+página gana y la redirección deja de dispararse sola.
+
+Las dos entradas de la demo (moda y maquillaje) se dejan en 404 a propósito.
+
+### Etiquetas de producto
+
+Las 35 pasan a `noindex, follow` y `product_tag-sitemap.xml` sale del índice
+de sitemaps. Se hace con los filtros `wpseo_robots_array` y
+`wpseo_sitemap_exclude_taxonomy`, no solo con el ajuste de Yoast: el ajuste
+escribe en la tabla de indexables, que no se regenera hasta reindexar el
+sitio entero, y por eso al principio no surtía efecto.
+
+### Restos de la plantilla borrados
+
+- 5 etiquetas de producto: `boot`, `cadigan`, `hot`, `sweater`, `women`
+- 2 categorías de producto vacías: `aparatos-inteligentes`,
+  `estaciones-de-energia`
+- 5 categorías de blog vacías: `beauty`, `fashion`, `shopping`, `sweaters`,
+  `trends`
+
+`sincategoria` no se borra: parecía vacía pero tiene un producto dentro
+(la cubierta del DELTA 2 Max). `uncategorized` es la categoría por defecto
+de WooCommerce y no se puede borrar.
+
+### Páginas
+
+Despublicadas: `/categories/`, `/all-collections/`, `/homepage/`,
+`/contacto-2/` y `/mi-cuenta/`. Las dos últimas, además, con 301 a
+`/contacto/` y `/my-account/`.
+
+`/wishlist/` y `/wishlist-2/` se quedan publicadas pero en `noindex`: llevan
+el shortcode del plugin y podría necesitarlas.
+
+### Blog
+
+Las 8 entradas que estaban en "Uncategorized" repartidas entre
+`kits-hogar`, `ahorro-energetico`, `estaciones-de-energia`, `placas-solares`
+y `guias-y-consejos`. La categoría por defecto se queda a cero.
+
+### Comprobado después de tocar
+
+Home, `/shop/`, ficha de producto, `/cart/`, `/checkout/`, `/my-account/`,
+`/contacto/`, `/blog/`, `/man/` y `/product-category/delta-3/`: **200 las
+diez**. El sitemap baja de 326 a 292 URLs.
+
+---
+
+## 12. Lo que queda
+
+**Del hosting**, sin lo cual el rastreo seguirá limitado:
+
+1. La regla que devuelve 429 a `filter_product_cat`.
+2. El limitador de peticiones, que responde 429 a páginas reales con 6
+   peticiones simultáneas. Conviene excluir a Googlebot verificándolo por
+   DNS inverso.
+3. La regla de ModSecurity que da 403 al guardar en Head & Footer Code.
+
+**Pendiente de decisión de David:**
+
+4. Publicar la página de la Serie DELTA 3, que sigue en borrador. Mientras
+   tanto su URL redirige a `/product-category/delta-3/`; el día que se
+   publique, la redirección se apaga sola.

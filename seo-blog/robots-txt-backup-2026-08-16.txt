@@ -1,0 +1,41 @@
+User-agent: *
+
+# Zona de administracion
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+# Archivos internos de WooCommerce
+Disallow: /wp-content/uploads/wc-logs/
+Disallow: /wp-content/uploads/woocommerce_transient_files/
+Disallow: /wp-content/uploads/woocommerce_uploads/
+Disallow: /wp-content/uploads/wpforms/
+
+# Acciones de carrito: no son paginas
+Disallow: /*?add-to-cart=
+Disallow: /*?remove_item=
+Disallow: /*?undo_item=
+Disallow: /*?wc-ajax=
+
+# Busquedas internas: URLs infinitas sin canonical util
+Disallow: /*?s=
+Disallow: /?s=
+
+# Comparadores y listas de deseos
+Disallow: /*?add_to_wishlist=
+Disallow: /*?compare=
+
+# ---------------------------------------------------------------
+# NOTA (agosto 2026): los filtros de tienda (filter_product_cat,
+# min_price, max_price, orderby) estan DESBLOQUEADOS a proposito.
+# Tienen canonical apuntando a /shop/ y necesitamos que Google entre
+# a leerla para consolidar las ~58.000 URLs duplicadas que ya conoce.
+# Si se bloquean aqui, Google no puede ver la canonical y no las purga.
+# REVISAR EN OCTUBRE 2026: cuando bajen las duplicadas en Search Console,
+# volver a anadir estas lineas:
+#   Disallow: /*?filter_
+#   Disallow: /*?min_price=
+#   Disallow: /*?max_price=
+#   Disallow: /*?orderby=
+# ---------------------------------------------------------------
+
+Sitemap: https://ecogadgetoficial.com/sitemap_index.xml
