@@ -245,6 +245,43 @@ body.tax-product_cat .page-sidebar li a {
 }
 body.tax-product_cat .page-sidebar li a:hover { color: #185fa5 !important; }
 
+/* --- Filtro de categorias acotado (estilo tienda grande) --- */
+
+body.tax-product_cat .eg-refina {
+  list-style: none !important; margin: 0 !important; padding: 0 !important;
+  /* El tema maqueta las listas de la barra lateral en varias columnas y
+     partia esta por la mitad, con los nombres superpuestos. Es la misma
+     causa por la que un max-height con scroll tampoco funciona aqui. */
+  display: block !important;
+  columns: 1 !important; column-count: 1 !important; column-width: auto !important;
+}
+body.tax-product_cat .eg-refina li { display: block !important; break-inside: avoid; }
+body.tax-product_cat .eg-refina li { margin: 0 !important; line-height: 1.35 !important; }
+
+body.tax-product_cat .eg-refina-arriba a {
+  display: inline-block !important; font-size: 13.5px !important;
+  color: #7a8595 !important; padding: 4px 0 !important; font-weight: 500 !important;
+}
+body.tax-product_cat .eg-refina-arriba a:hover { color: #185fa5 !important; }
+
+body.tax-product_cat .eg-refina-actual {
+  font-size: 14.5px !important; font-weight: 700 !important;
+  color: #0d1520 !important; padding: 6px 0 8px !important;
+  margin-bottom: 4px !important; border-bottom: 1px solid #eceff4 !important;
+}
+
+body.tax-product_cat .eg-refina li > a {
+  display: flex !important; align-items: baseline !important;
+  justify-content: space-between !important; gap: 10px !important;
+  font-size: 14px !important; color: #48535f !important;
+  padding: 6px 0 !important; text-decoration: none !important;
+}
+body.tax-product_cat .eg-refina li > a:hover { color: #185fa5 !important; }
+body.tax-product_cat .eg-refina li > a em {
+  font-style: normal !important; font-size: 12px !important;
+  color: #97a1af !important; flex-shrink: 0 !important;
+}
+
 @media (max-width: 991px) {
   body.tax-product_cat .page-content { margin-top: 20px !important; }
   body.tax-product_cat h1.page-title { font-size: 27px !important; margin-bottom: 14px !important; }
@@ -575,4 +612,91 @@ function eg_stock_primero( $clauses, $consulta ) {
 	$clauses['orderby'] = empty( $clauses['orderby'] ) ? $orden : $orden . ', ' . $clauses['orderby'];
 
 	return $clauses;
+}
+
+/**
+ * El filtro de categorias, acotado a donde estas.
+ *
+ * El widget del tema listaba las 59 categorias de la tienda dentro de
+ * cualquier categoria: estando en DELTA 3 ofrecia Lokithor, TRAIL DC o
+ * Automocion. Las tiendas grandes no hacen eso: te enseñan la rama en la
+ * que estas y en que puedes afinar dentro de ella.
+ *
+ * Se sustituye la salida del widget en su mismo sitio: widget_display_callback
+ * corre antes de que el widget pinte nada, asi que se imprime lo nuestro y se
+ * devuelve false para que el original no salga. Fuera de las categorias de
+ * producto no se toca, y en la tienda general sigue apareciendo el listado
+ * completo, que ahi si tiene sentido.
+ */
+add_filter( 'widget_display_callback', 'eg_filtro_categorias_acotado', 10, 3 );
+
+function eg_filtro_categorias_acotado( $instancia, $widget, $args ) {
+
+	if ( ! is_product_category() || ! is_object( $widget ) ) {
+		return $instancia;
+	}
+
+	if ( false === strpos( $widget->id_base, 'product-categories-layered-nav' ) ) {
+		return $instancia;
+	}
+
+	$actual = get_queried_object();
+
+	if ( ! $actual || empty( $actual->term_id ) ) {
+		return $instancia;
+	}
+
+	$hijas = get_terms( array(
+		'taxonomy'   => 'product_cat',
+		'parent'     => $actual->term_id,
+		'hide_empty' => true,
+	) );
+
+	// Sin hijas se muestran las hermanas: asi se salta entre modelos de la
+	// misma gama sin tener que volver atras.
+	$lista   = ( ! is_wp_error( $hijas ) && $hijas ) ? $hijas : array();
+	$titulo  = 'Dentro de ' . $actual->name;
+
+	if ( ! $lista && $actual->parent ) {
+		$hermanas = get_terms( array(
+			'taxonomy'   => 'product_cat',
+			'parent'     => $actual->parent,
+			'hide_empty' => true,
+			'exclude'    => array( $actual->term_id ),
+		) );
+
+		if ( ! is_wp_error( $hermanas ) && $hermanas ) {
+			$padre  = get_term( $actual->parent, 'product_cat' );
+			$lista  = $hermanas;
+			$titulo = $padre && ! is_wp_error( $padre ) ? 'Más de ' . $padre->name : 'Categorías relacionadas';
+		}
+	}
+
+	$ancestros = array_reverse( get_ancestors( $actual->term_id, 'product_cat' ) );
+
+	echo $args['before_widget'];
+	echo $args['before_title'] . esc_html( $titulo ) . $args['after_title'];
+
+	echo '<ul class="eg-refina">';
+
+	foreach ( $ancestros as $id ) {
+		$padre = get_term( $id, 'product_cat' );
+
+		if ( $padre && ! is_wp_error( $padre ) ) {
+			echo '<li class="eg-refina-arriba"><a href="' . esc_url( get_term_link( $padre ) ) . '">'
+				. '&lsaquo; ' . esc_html( $padre->name ) . '</a></li>';
+		}
+	}
+
+	echo '<li class="eg-refina-actual">' . esc_html( $actual->name ) . '</li>';
+
+	foreach ( $lista as $hija ) {
+		echo '<li><a href="' . esc_url( get_term_link( $hija ) ) . '">'
+			. esc_html( $hija->name ) . ' <em>' . (int) $hija->count . '</em></a></li>';
+	}
+
+	echo '</ul>';
+	echo $args['after_widget'];
+
+	return false;
 }

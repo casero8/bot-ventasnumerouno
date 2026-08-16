@@ -79,6 +79,43 @@ body.tax-product_cat .page-sidebar li a {
 }
 body.tax-product_cat .page-sidebar li a:hover { color: #185fa5 !important; }
 
+/* --- Filtro de categorias acotado (estilo tienda grande) --- */
+
+body.tax-product_cat .eg-refina {
+  list-style: none !important; margin: 0 !important; padding: 0 !important;
+  /* El tema maqueta las listas de la barra lateral en varias columnas y
+     partia esta por la mitad, con los nombres superpuestos. Es la misma
+     causa por la que un max-height con scroll tampoco funciona aqui. */
+  display: block !important;
+  columns: 1 !important; column-count: 1 !important; column-width: auto !important;
+}
+body.tax-product_cat .eg-refina li { display: block !important; break-inside: avoid; }
+body.tax-product_cat .eg-refina li { margin: 0 !important; line-height: 1.35 !important; }
+
+body.tax-product_cat .eg-refina-arriba a {
+  display: inline-block !important; font-size: 13.5px !important;
+  color: #7a8595 !important; padding: 4px 0 !important; font-weight: 500 !important;
+}
+body.tax-product_cat .eg-refina-arriba a:hover { color: #185fa5 !important; }
+
+body.tax-product_cat .eg-refina-actual {
+  font-size: 14.5px !important; font-weight: 700 !important;
+  color: #0d1520 !important; padding: 6px 0 8px !important;
+  margin-bottom: 4px !important; border-bottom: 1px solid #eceff4 !important;
+}
+
+body.tax-product_cat .eg-refina li > a {
+  display: flex !important; align-items: baseline !important;
+  justify-content: space-between !important; gap: 10px !important;
+  font-size: 14px !important; color: #48535f !important;
+  padding: 6px 0 !important; text-decoration: none !important;
+}
+body.tax-product_cat .eg-refina li > a:hover { color: #185fa5 !important; }
+body.tax-product_cat .eg-refina li > a em {
+  font-style: normal !important; font-size: 12px !important;
+  color: #97a1af !important; flex-shrink: 0 !important;
+}
+
 @media (max-width: 991px) {
   body.tax-product_cat .page-content { margin-top: 20px !important; }
   body.tax-product_cat h1.page-title { font-size: 27px !important; margin-bottom: 14px !important; }

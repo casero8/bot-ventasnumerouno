@@ -103,6 +103,32 @@ entera de «AGOTADO». Un filtro sobre `posts_clauses` sube los productos con
 stock, respetando el orden dentro de cada grupo y sin tocar nada si el
 visitante elige un orden concreto en el desplegable.
 
+## El filtro lateral, acotado
+
+El widget del tema listaba **las 59 categorías de la tienda dentro de
+cualquier categoría**: estando en DELTA 3 ofrecía Lokithor, TRAIL DC o
+Automoción. Ahora enseña la rama en la que estás:
+
+```
+Dentro de DELTA 3
+‹ Estaciones de energía portátiles DELTA
+DELTA 3                        ← la actual, en negrita
+Accesorios DELTA 3          2
+Batería adicional DELTA 3   2
+DELTA 3 Max                 4
+DELTA 3 Max Plus            6
+DELTA 3 Plus                5
+```
+
+Si la categoría no tiene hijas se muestran **las hermanas** («Más de
+DELTA 3»), para saltar entre modelos de la misma gama sin volver atrás.
+
+Se hace con `widget_display_callback`, que corre **antes** de que el widget
+pinte nada: se imprime lo nuestro con los `before_widget` / `after_widget`
+que da WordPress y se devuelve `false` para que el original no salga. Así
+queda en su mismo sitio y en `/shop/` sigue apareciendo el listado completo,
+que ahí sí tiene sentido.
+
 ## Cosas del sitio que hay que saber
 
 **El tema no imprime `term_description()`.** El texto guardado solo acababa
@@ -152,6 +178,9 @@ con ello, pero conviene saberlo al comprobar el HTML.
 - [ ] Las fotos de las tarjetas son del producto suelto, no de un pack
 - [ ] Se ve bien a 390 px de ancho
 - [ ] Los primeros productos de la rejilla son los que tienen stock
-- [ ] La barra lateral sigue en una sola columna (ojo: ponerle `max-height`
-      a las listas de filtro las parte en dos columnas superpuestas, porque
-      el tema las maqueta con columnas)
+- [ ] La barra lateral sigue en una sola columna. **El tema maqueta las
+      listas del lateral en varias columnas**: cualquier lista propia que se
+      meta ahí necesita `columns: 1 !important`, y ponerles `max-height` con
+      scroll las parte en dos columnas superpuestas
+- [ ] El filtro lateral solo ofrece categorías de la rama actual
+- [ ] En `/shop/` el filtro sigue mostrando el listado completo
