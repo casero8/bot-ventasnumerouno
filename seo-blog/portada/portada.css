@@ -4,322 +4,314 @@
    HTML y CSS puros. Sin Elementor y sin JavaScript.
    Se imprime en linea desde el snippet "EG · Portada", solo en is_front_page().
 
-   Estructura visual: mosaicos de fotos, como Amazon. El texto largo baja al
-   final, donde no estorba a quien viene a comprar y sigue contando para Google.
+   Criterio: es una tienda, no un folleto. Lo primero que se ve son productos
+   con su precio; el texto largo baja al final, donde sigue contando para
+   Google sin estorbar a quien viene a comprar.
+
+   Color: el azul de marca es la estructura (cabeceras, bandas). El naranja
+   es SOLO para novedad, oferta y precio rebajado: si se usa para adornar
+   deja de significar nada.
+
+   No se declara font-family a proposito: hereda la del tema, que ya es la
+   que usa el resto de la web.
 
    Prefijo .eg-home en todo porque el kit de Elementor sigue cargandose para
    la cabecera y el pie, y sin el prefijo gana el otro.
    ========================================================================== */
 
 .eg-home {
-  --azul: #042c53;
-  --azul-medio: #185fa5;
-  --azul-claro: #eef4fb;
-  --verde: #0f8a4a;
-  --ambar: #f0a202;
-  --borde: #e1e6ee;
-  --texto: #37404d;
-  --suave: #6b7686;
-  --tinta: #0d1520;
-  --fondo: #f4f7fb;
-  --radio: 10px;
+  --azul: #06213d;
+  --azul-medio: #12609f;
+  --naranja: #ff6a13;
+  --naranja-oscuro: #c74400;
+  --verde: #0b7a3f;
+  --borde: #e4e9f0;
+  --texto: #3a4350;
+  --suave: #6e7987;
+  --tinta: #0b1220;
+  --fondo: #f2f5f9;
+  --radio: 14px;
   color: var(--texto);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.55;
   background: var(--fondo);
-  padding-bottom: 8px;
+  padding-bottom: 10px;
 }
 
 .eg-saltar {
   position: absolute; left: -9999px; top: 0; z-index: 999;
   background: var(--azul); color: #fff; padding: 12px 20px;
-  border-radius: 0 0 var(--radio) 0; font-weight: 600; text-decoration: none;
+  border-radius: 0 0 var(--radio) 0; font-weight: 700; text-decoration: none;
 }
 .eg-saltar:focus { left: 0; }
 
 .eg-home a:focus-visible, .eg-home button:focus-visible {
-  outline: 3px solid var(--azul-medio); outline-offset: 2px; border-radius: 4px;
+  outline: 3px solid var(--naranja); outline-offset: 2px; border-radius: 6px;
 }
 .eg-home img { max-width: 100%; height: auto; display: block; }
-.eg-ancho { max-width: 1300px; margin: 0 auto; padding: 0 16px; }
-.eg-seccion { margin: 34px 0; }
+.eg-ancho { max-width: 1320px; margin: 0 auto; padding: 0 16px; }
+.eg-seccion { margin: 30px 0; }
 
 .eg-home h2 {
-  font-size: 22px; font-weight: 700; letter-spacing: -.02em;
-  color: var(--tinta); margin: 0; line-height: 1.25;
+  font-size: 23px; font-weight: 800; letter-spacing: -.025em;
+  color: var(--tinta); margin: 0; line-height: 1.2;
 }
 .eg-seccion-cab {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 14px; flex-wrap: wrap; margin: 0 0 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; flex-wrap: wrap; margin: 0 0 15px;
 }
-.eg-seccion-cab p { margin: 5px 0 0; color: var(--suave); font-size: 14px; }
+.eg-seccion-cab p { margin: 4px 0 0; color: var(--suave); font-size: 14px; }
 .eg-vertodo {
-  font-size: 14px; font-weight: 600; color: var(--azul-medio) !important;
+  font-size: 14px; font-weight: 700; color: var(--azul-medio) !important;
   text-decoration: none !important; white-space: nowrap;
 }
 .eg-vertodo:hover { text-decoration: underline !important; }
 
-/* ====================== 1. BANNER Y TARJETAS ENCIMA =====================
-   El patron de Amazon: imagen ancha arriba y una fila de tarjetas blancas
-   montadas sobre su borde inferior.
-   ====================================================================== */
+/* Etiquetas. El naranja solo aqui y en los precios rebajados. */
+.eg-pill {
+  display: inline-block; font-size: 11.5px; font-weight: 800;
+  letter-spacing: .07em; text-transform: uppercase;
+  padding: 5px 11px; border-radius: 999px;
+}
+.eg-pill-nuevo  { background: var(--naranja); color: #fff; }
+.eg-pill-top    { background: #ffeadb; color: var(--naranja-oscuro); }
+.eg-pill-oferta { background: var(--naranja); color: #fff; }
 
-.eg-banner {
-  position: relative; min-height: 340px; overflow: hidden;
-  background: linear-gradient(105deg, #04294d 0%, #0b4176 55%, #12629f 100%);
-  display: flex; align-items: center;
+/* ============================ 1. PORTADA ============================
+   Banda ancha a dos columnas: mensaje a la izquierda, producto grande a
+   la derecha. Debajo, la fila de accesos montada sobre el borde.
+   =================================================================== */
+
+.eg-hero {
+  background: radial-gradient(120% 140% at 12% 20%, #0d3c6e 0%, #06213d 62%, #04182c 100%);
+  color: #fff; overflow: hidden;
 }
-.eg-banner-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .5; }
-.eg-banner-txt { position: relative; max-width: 620px; padding: 40px 30px 96px; }
-.eg-etiqueta {
-  display: inline-block; background: var(--ambar); color: #2b1d00;
-  font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
-  padding: 5px 12px; border-radius: 999px; margin-bottom: 12px;
+.eg-hero-in {
+  max-width: 1320px; margin: 0 auto; padding: 40px 16px 88px;
+  display: grid; grid-template-columns: 1.02fr .98fr; gap: 30px; align-items: center;
 }
-.eg-home .eg-banner h1 {
-  font-size: 38px; line-height: 1.08; font-weight: 800; letter-spacing: -.03em;
-  color: #fff; margin: 0 0 12px;
+.eg-home .eg-hero h1 {
+  font-size: 42px; line-height: 1.05; font-weight: 800; letter-spacing: -.035em;
+  color: #fff; margin: 13px 0 12px; text-wrap: balance;
 }
-.eg-banner p { font-size: 17px; line-height: 1.45; color: #d5e3f3; margin: 0 0 20px; }
-.eg-banner-botones { display: flex; flex-wrap: wrap; gap: 10px; }
+.eg-hero p { font-size: 17px; line-height: 1.45; color: #cfe0f2; margin: 0 0 22px; max-width: 520px; }
+.eg-hero-botones { display: flex; flex-wrap: wrap; gap: 11px; }
+.eg-hero-foto {
+  border-radius: var(--radio); overflow: hidden; aspect-ratio: 16 / 11;
+  background: rgba(255,255,255,.06);
+}
+.eg-hero-foto img { width: 100%; height: 100%; object-fit: cover; }
 
 .eg-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  min-height: 46px; padding: 11px 24px; border-radius: 999px;
-  font-size: 15px; font-weight: 700; text-decoration: none !important;
-  border: 2px solid transparent;
+  min-height: 48px; padding: 12px 26px; border-radius: 999px;
+  font-size: 15.5px; font-weight: 800; text-decoration: none !important;
+  border: 2px solid transparent; letter-spacing: -.01em;
 }
-.eg-btn-principal { background: #fff; color: var(--azul) !important; }
-.eg-btn-principal:hover { background: #e3ecf7; }
-.eg-btn-secundario { background: transparent; color: #fff !important; border-color: rgba(255,255,255,.5); }
-.eg-btn-secundario:hover { background: rgba(255,255,255,.14); }
+.eg-btn-naranja { background: var(--naranja); color: #fff !important; }
+.eg-btn-naranja:hover { background: var(--naranja-oscuro); }
+.eg-btn-blanco { background: #fff; color: var(--azul) !important; }
+.eg-btn-blanco:hover { background: #dfe9f4; }
+.eg-btn-linea { background: transparent; color: #fff !important; border-color: rgba(255,255,255,.5); }
+.eg-btn-linea:hover { background: rgba(255,255,255,.13); }
 
-/* Fila de accesos montada sobre el banner */
+/* Accesos rapidos montados sobre la portada */
 .eg-atajos {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
-  margin-top: -66px; position: relative; z-index: 2;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px;
+  margin-top: -58px; position: relative; z-index: 2;
 }
 .eg-atajo {
-  background: #fff; border-radius: var(--radio); padding: 14px 16px;
-  box-shadow: 0 6px 20px rgba(4,44,83,.13);
+  background: #fff; border-radius: var(--radio); padding: 13px 15px;
+  box-shadow: 0 8px 24px rgba(6,33,61,.16);
   text-decoration: none !important; color: inherit !important;
-  display: flex; gap: 12px; align-items: center; min-height: 74px;
+  display: flex; gap: 12px; align-items: center; min-height: 76px;
 }
-.eg-atajo:hover { box-shadow: 0 8px 26px rgba(4,44,83,.2); }
+.eg-atajo:hover { box-shadow: 0 12px 30px rgba(6,33,61,.24); }
 .eg-atajo-mini {
-  width: 54px; height: 54px; flex: 0 0 54px; border-radius: 8px;
-  background: var(--fondo); overflow: hidden; display: flex;
-  align-items: center; justify-content: center;
+  width: 56px; height: 56px; flex: 0 0 56px; border-radius: 10px;
+  background: var(--fondo); overflow: hidden;
 }
-.eg-atajo-mini img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
-.eg-atajo b { display: block; font-size: 14.5px; color: var(--tinta); line-height: 1.25; }
-.eg-atajo span { display: block; font-size: 12.5px; color: var(--suave); margin-top: 2px; line-height: 1.35; }
+.eg-atajo-mini img, .eg-atajo-mini svg { width: 100%; height: 100%; object-fit: cover; }
+.eg-atajo b { display: block; font-size: 14.5px; font-weight: 800; color: var(--tinta); line-height: 1.2; }
+.eg-atajo span { display: block; font-size: 12.5px; color: var(--suave); margin-top: 3px; line-height: 1.3; }
 
-/* ==================== 2. TARJETAS CON MOSAICO DE 4 ====================
-   La pieza central de Amazon: titulo, cuatro fotos con su rotulo y un
-   enlace de "ver mas" abajo. Todo son fotos, casi nada de texto.
-   ===================================================================== */
+/* ======================== 2. FILA DE PRODUCTOS ======================= */
 
-.eg-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.eg-card {
-  background: #fff; border-radius: var(--radio); padding: 18px 18px 14px;
-  display: flex; flex-direction: column;
-}
-.eg-card > h3 {
-  font-size: 17.5px; font-weight: 700; color: var(--tinta);
-  margin: 0 0 13px; line-height: 1.25;
-}
-.eg-mosaico { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 13px; }
-.eg-pieza { text-decoration: none !important; color: inherit !important; display: block; }
-.eg-pieza-foto {
-  aspect-ratio: 1; background: var(--fondo); border-radius: 6px;
-  overflow: hidden; display: flex; align-items: center; justify-content: center;
-}
-.eg-pieza-foto img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
-.eg-pieza span {
-  display: block; font-size: 12.5px; color: var(--texto); margin-top: 6px;
-  line-height: 1.3;
-}
-.eg-pieza:hover span { color: var(--azul-medio); text-decoration: underline; }
-.eg-card > .eg-vertodo { margin-top: auto; }
-
-/* Variante de una sola foto grande, para categorias con poca profundidad */
-.eg-card-grande .eg-pieza-foto { aspect-ratio: 4 / 3; }
-.eg-card-grande .eg-mosaico { grid-template-columns: 1fr; }
-
-/* ===================== 3. BANDA DE MARCA DESTACADA ==================== */
-
-.eg-banda {
-  border-radius: var(--radio); overflow: hidden; display: grid;
-  grid-template-columns: 1.05fr .95fr; background: #10161f; color: #fff;
-  min-height: 300px;
-}
-.eg-banda-txt { padding: 38px 36px; align-self: center; }
-.eg-home .eg-banda h2 { color: #fff; font-size: 30px; letter-spacing: -.03em; margin-bottom: 10px; }
-.eg-banda p { color: #c2ccd9; font-size: 16px; line-height: 1.55; margin: 0 0 12px; max-width: 470px; }
-.eg-banda-lista { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 7px; }
-.eg-banda-lista li { font-size: 14.5px; color: #dbe3ec; padding-left: 22px; position: relative; }
-.eg-banda-lista li::before {
-  content: ""; position: absolute; left: 0; top: 8px; width: 9px; height: 9px;
-  border-radius: 50%; background: var(--ambar);
-}
-.eg-banda-foto { position: relative; background: #1a2330; min-height: 240px; }
-.eg-banda-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-
-/* ========================= 4. PRODUCTOS ============================== */
-
-.eg-productos { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.eg-fila { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
 .eg-prod {
-  display: flex; flex-direction: column; background: #fff;
-  border-radius: var(--radio); padding: 13px;
+  position: relative; display: flex; flex-direction: column; background: #fff;
+  border-radius: var(--radio); padding: 13px; transition: box-shadow .15s, transform .15s;
 }
-.eg-prod-foto { display: block; aspect-ratio: 1; margin-bottom: 10px; }
-.eg-prod-foto img { width: 100%; height: 100%; object-fit: contain; }
+.eg-prod:hover { box-shadow: 0 10px 26px rgba(6,33,61,.14); transform: translateY(-2px); }
+.eg-prod-etiq { position: absolute; top: 12px; left: 12px; z-index: 2; }
+.eg-prod-foto { display: block; aspect-ratio: 1; margin-bottom: 11px; border-radius: 8px; overflow: hidden; }
+.eg-prod-foto img, .eg-prod-foto svg { width: 100%; height: 100%; object-fit: contain; }
 .eg-prod-marca {
-  font-size: 11px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase;
-  color: var(--suave); margin-bottom: 4px;
+  font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--suave); margin: 0 0 4px;
 }
 .eg-prod-nombre {
   font-size: 14px; font-weight: 600; line-height: 1.35; color: var(--tinta) !important;
-  text-decoration: none !important; display: block; margin-bottom: 7px;
+  text-decoration: none !important; display: block; margin-bottom: 9px;
 }
 .eg-prod-nombre:hover { color: var(--azul-medio) !important; text-decoration: underline !important; }
-.eg-prod-precio { font-size: 19px; font-weight: 800; color: var(--tinta); margin: 0 0 3px; letter-spacing: -.02em; }
-.eg-prod-precio del { font-size: 13.5px; font-weight: 400; color: var(--suave); margin-right: 5px; }
-.eg-prod-precio ins { text-decoration: none; }
-.eg-prod-stock { font-size: 12px; color: var(--verde); font-weight: 700; margin-bottom: 11px; }
+.eg-prod-precio {
+  font-size: 24px; font-weight: 800; color: var(--tinta); margin: 0 0 2px;
+  letter-spacing: -.035em; font-variant-numeric: tabular-nums; line-height: 1.1;
+}
+.eg-prod-precio del { font-size: 14px; font-weight: 500; color: var(--suave); margin-right: 7px; letter-spacing: 0; }
+.eg-prod-precio ins { text-decoration: none; color: var(--naranja-oscuro); }
+.eg-prod-stock { font-size: 12.5px; color: var(--verde); font-weight: 700; margin: 0 0 12px; }
 .eg-prod-btn {
   margin-top: auto; display: block; text-align: center; min-height: 44px;
   line-height: 44px; border-radius: 999px; background: var(--azul);
-  color: #fff !important; font-size: 14px; font-weight: 700; text-decoration: none !important;
+  color: #fff !important; font-size: 14.5px; font-weight: 800; text-decoration: none !important;
 }
 .eg-prod-btn:hover { background: var(--azul-medio); }
 
-/* ========================== 5. MARCAS =============================== */
+/* ==================== 3. CATEGORIAS EN CIRCULO ======================
+   Lo que hacen MediaMarkt y PcComponentes: foto redonda y nombre debajo.
+   Ocupa poco, se escanea de un vistazo y reparte trafico a categorias.
+   =================================================================== */
+
+.eg-circulos {
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 14px;
+}
+.eg-circulo { text-decoration: none !important; color: inherit !important; text-align: center; }
+.eg-circulo-foto {
+  aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #fff;
+  margin-bottom: 9px; box-shadow: 0 3px 12px rgba(6,33,61,.09);
+  transition: box-shadow .15s, transform .15s;
+}
+.eg-circulo-foto img, .eg-circulo-foto svg { width: 100%; height: 100%; object-fit: cover; }
+.eg-circulo:hover .eg-circulo-foto { box-shadow: 0 8px 20px rgba(6,33,61,.2); transform: translateY(-3px); }
+.eg-circulo b { display: block; font-size: 13.5px; font-weight: 700; color: var(--tinta); line-height: 1.3; }
+
+/* ======================= 4. BANDAS DE MARCA ========================= */
+
+.eg-banda {
+  border-radius: var(--radio); overflow: hidden; display: grid;
+  grid-template-columns: 1fr 1fr; background: #0b1220; color: #fff; min-height: 320px;
+}
+.eg-banda-txt { padding: 40px 38px; align-self: center; }
+.eg-home .eg-banda h2 { color: #fff; font-size: 31px; letter-spacing: -.035em; margin: 12px 0 10px; }
+.eg-banda p { color: #c3cddb; font-size: 16px; line-height: 1.55; margin: 0 0 16px; max-width: 460px; }
+.eg-banda-lista { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 8px; }
+.eg-banda-lista li { font-size: 14.5px; color: #dde4ed; padding-left: 24px; position: relative; }
+.eg-banda-lista li::before {
+  content: ""; position: absolute; left: 0; top: 7px; width: 10px; height: 10px;
+  border-radius: 50%; background: var(--naranja);
+}
+.eg-banda-foto { position: relative; background: #141d2b; min-height: 250px; }
+.eg-banda-foto img, .eg-banda-foto svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.eg-banda-clara { background: #fff; color: var(--texto); }
+.eg-home .eg-banda-clara h2 { color: var(--tinta); }
+.eg-banda-clara p { color: var(--texto); }
+.eg-banda-clara .eg-banda-lista li { color: var(--texto); }
+.eg-banda-clara .eg-banda-foto { background: var(--fondo); }
+
+/* =========================== 5. MARCAS ============================== */
 
 .eg-marcas {
-  background: #fff; border-radius: var(--radio); padding: 22px 24px;
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; align-items: center;
+  background: #fff; border-radius: var(--radio); padding: 20px 22px;
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; align-items: center;
 }
-.eg-marca {
-  display: flex; align-items: center; justify-content: center; min-height: 56px;
-  text-decoration: none !important;
-}
-.eg-marca img { max-height: 42px; width: auto; object-fit: contain; }
-.eg-marca span {
-  font-size: 15px; font-weight: 800; letter-spacing: -.01em; color: #5c6878;
-}
+.eg-marca { display: flex; align-items: center; justify-content: center; min-height: 54px; text-decoration: none !important; }
+.eg-marca img { max-height: 40px; width: auto; object-fit: contain; }
+.eg-marca span { font-size: 15px; font-weight: 800; letter-spacing: -.01em; color: #64707f; }
 
-/* ========================== 6. AVALES =============================== */
+/* =========================== 6. AVALES ============================== */
 
-.eg-avales {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px;
-}
+.eg-avales { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .eg-aval { background: #fff; border-radius: var(--radio); padding: 15px 17px; }
-.eg-aval b { display: block; font-size: 14.5px; color: var(--tinta); margin-bottom: 2px; }
+.eg-aval b { display: block; font-size: 14.5px; font-weight: 800; color: var(--tinta); margin-bottom: 3px; }
 .eg-aval span { font-size: 12.5px; color: var(--suave); line-height: 1.45; display: block; }
 
-/* ====================== 7. TEXTO, TABLA Y FAQ ======================== */
+/* ======================= 7. TEXTO, TABLA, FAQ ======================= */
 
-.eg-texto, .eg-faq, .eg-tabla-caja {
-  background: #fff; border-radius: var(--radio);
-}
-.eg-texto { padding: 28px 30px; }
-.eg-texto h2 { margin-bottom: 12px; }
-.eg-texto h3 { font-size: 17px; font-weight: 700; color: var(--tinta); margin: 22px 0 8px; }
-.eg-texto p { margin: 0 0 13px; font-size: 15px; line-height: 1.7; }
+.eg-texto, .eg-faq, .eg-tabla-caja { background: #fff; border-radius: var(--radio); }
+.eg-texto { padding: 30px 32px; }
+.eg-texto h2 { margin-bottom: 13px; }
+.eg-texto h3 { font-size: 17px; font-weight: 800; color: var(--tinta); margin: 24px 0 8px; }
+.eg-texto p { margin: 0 0 13px; font-size: 15px; line-height: 1.7; max-width: 78ch; }
 .eg-texto p:last-child { margin-bottom: 0; }
-.eg-texto a, .eg-tabla a, .eg-faq-cuerpo a { color: var(--azul-medio) !important; font-weight: 600; }
-
-.eg-tabla-caja { overflow-x: auto; }
-.eg-home table.eg-tabla { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 600px; }
-.eg-home table.eg-tabla caption { text-align: left; padding: 15px 18px 0; color: var(--suave); font-size: 13.5px; }
-.eg-home table.eg-tabla th, .eg-home table.eg-tabla td {
-  padding: 12px 18px; text-align: left; border-bottom: 1px solid var(--borde);
-}
-.eg-home table.eg-tabla thead th {
-  background: var(--fondo); font-size: 12px; text-transform: uppercase;
-  letter-spacing: .06em; color: #5f6b7c; font-weight: 700;
-}
-.eg-home table.eg-tabla tbody th { font-weight: 700; color: var(--tinta); }
-.eg-home table.eg-tabla tr:last-child td, .eg-home table.eg-tabla tr:last-child th { border-bottom: 0; }
+.eg-texto a, .eg-faq-cuerpo a { color: var(--azul-medio) !important; font-weight: 700; }
 
 .eg-faq { overflow: hidden; }
 .eg-faq details { border-bottom: 1px solid var(--borde); }
 .eg-faq details:last-child { border-bottom: 0; }
 .eg-faq summary {
-  cursor: pointer; padding: 15px 20px; font-weight: 600; font-size: 15px;
-  color: var(--tinta); list-style: none; position: relative; padding-right: 48px;
+  cursor: pointer; padding: 16px 20px; font-weight: 700; font-size: 15px;
+  color: var(--tinta); list-style: none; position: relative; padding-right: 50px;
 }
 .eg-faq summary::-webkit-details-marker { display: none; }
 .eg-faq summary::after {
   content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-  font-size: 21px; font-weight: 400; color: var(--azul-medio); line-height: 1;
+  font-size: 22px; font-weight: 400; color: var(--naranja); line-height: 1;
 }
 .eg-faq details[open] summary::after { content: "\2212"; }
 .eg-faq summary:hover { background: var(--fondo); }
-.eg-faq-cuerpo { padding: 0 20px 17px; font-size: 14.5px; line-height: 1.65; }
+.eg-faq-cuerpo { padding: 0 20px 18px; font-size: 14.5px; line-height: 1.65; max-width: 82ch; }
 .eg-faq-cuerpo p { margin: 0; }
 
-/* =========================== 8. CIERRE ============================== */
+/* ============================ 8. CIERRE ============================= */
 
 .eg-cierre {
-  background: var(--azul); color: #fff; border-radius: var(--radio);
-  padding: 30px 32px; display: flex; align-items: center;
-  justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  background: linear-gradient(100deg, #06213d 0%, #0d3c6e 100%); color: #fff;
+  border-radius: var(--radio); padding: 32px 34px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
 }
-.eg-home .eg-cierre h2 { color: #fff; margin-bottom: 5px; }
-.eg-cierre p { margin: 0; color: #d5e3f3; font-size: 15px; max-width: 560px; }
+.eg-home .eg-cierre h2 { color: #fff; margin-bottom: 6px; }
+.eg-cierre p { margin: 0; color: #cfe0f2; font-size: 15px; max-width: 560px; }
 
-/* ============================ MOVIL ================================ */
+/* ============================= MOVIL =============================== */
 
 @media (max-width: 1150px) {
-  .eg-cards { grid-template-columns: repeat(2, 1fr); }
-  .eg-productos { grid-template-columns: repeat(3, 1fr); }
+  .eg-fila { grid-template-columns: repeat(3, 1fr); }
+  .eg-circulos { grid-template-columns: repeat(4, 1fr); }
   .eg-marcas { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 900px) {
-  .eg-atajos { grid-template-columns: repeat(2, 1fr); margin-top: -30px; }
-  .eg-banner-txt { padding-bottom: 62px; }
+  .eg-hero-in { grid-template-columns: 1fr; padding-bottom: 76px; }
+  .eg-hero-foto { order: -1; aspect-ratio: 16 / 9; }
+  .eg-atajos { grid-template-columns: repeat(2, 1fr); margin-top: -46px; }
   .eg-banda { grid-template-columns: 1fr; }
-  .eg-banda-foto { min-height: 220px; order: -1; }
+  .eg-banda-foto { min-height: 210px; order: -1; }
   .eg-avales { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 767px) {
   .eg-home { font-size: 15.5px; }
   .eg-ancho { padding: 0 12px; }
-  .eg-seccion { margin: 26px 0; }
-  .eg-home h2 { font-size: 19.5px; }
+  .eg-seccion { margin: 24px 0; }
+  .eg-home h2 { font-size: 20px; }
 
-  .eg-banner { min-height: 0; }
-  .eg-banner-txt { padding: 30px 18px 54px; }
-  .eg-home .eg-banner h1 { font-size: 26px; }
-  .eg-banner p { font-size: 15.5px; }
-  .eg-banner-botones { flex-direction: column; align-items: stretch; }
+  .eg-hero-in { padding: 22px 12px 66px; gap: 20px; }
+  .eg-home .eg-hero h1 { font-size: 28px; }
+  .eg-hero p { font-size: 15.5px; }
+  .eg-hero-botones { flex-direction: column; align-items: stretch; }
   .eg-btn { width: 100%; }
 
-  .eg-atajos { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: -26px; }
-  .eg-atajo { padding: 10px 11px; min-height: 62px; }
+  .eg-atajos { gap: 9px; margin-top: -38px; }
+  .eg-atajo { padding: 10px 11px; min-height: 62px; gap: 9px; }
   .eg-atajo-mini { width: 42px; height: 42px; flex-basis: 42px; }
-  .eg-atajo b { font-size: 13px; }
+  .eg-atajo b { font-size: 12.5px; }
   .eg-atajo span { display: none; }
 
-  .eg-cards { grid-template-columns: 1fr; }
-
-  /* Productos en carrusel horizontal, como Amazon: se pasa el dedo en vez
-     de bajar por diez tarjetas apiladas. Es scroll-snap, no JavaScript. */
-  .eg-productos {
+  /* Productos y categorias en carrusel: se pasa el dedo, como en Amazon.
+     Es scroll-snap, no JavaScript. */
+  .eg-fila, .eg-circulos {
     display: flex; gap: 11px; overflow-x: auto; scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch; padding: 0 12px 6px;
-    margin: 0 -12px;
+    -webkit-overflow-scrolling: touch; padding: 2px 12px 8px; margin: 0 -12px;
   }
-  .eg-prod { flex: 0 0 64vw; max-width: 230px; scroll-snap-align: start; }
+  .eg-prod { flex: 0 0 62vw; max-width: 225px; scroll-snap-align: start; }
+  .eg-circulo { flex: 0 0 27vw; max-width: 120px; scroll-snap-align: start; }
+  .eg-prod-precio { font-size: 22px; }
 
-  .eg-marcas { grid-template-columns: repeat(2, 1fr); padding: 16px; }
+  .eg-marcas { grid-template-columns: repeat(2, 1fr); padding: 14px; }
   .eg-avales { grid-template-columns: 1fr; }
-  .eg-texto { padding: 20px 17px; }
+  .eg-texto { padding: 22px 18px; }
   .eg-banda-txt { padding: 26px 20px; }
   .eg-home .eg-banda h2 { font-size: 23px; }
   .eg-cierre { padding: 24px 18px; flex-direction: column; align-items: flex-start; }
@@ -330,7 +322,8 @@
   .eg-home *, .eg-home *::before, .eg-home *::after {
     transition-duration: .01ms !important; animation-duration: .01ms !important;
   }
+  .eg-prod:hover, .eg-circulo:hover .eg-circulo-foto { transform: none; }
 }
 @media (forced-colors: active) {
-  .eg-card, .eg-prod, .eg-atajo, .eg-aval { border: 1px solid CanvasText; }
+  .eg-prod, .eg-atajo, .eg-aval, .eg-circulo-foto { border: 1px solid CanvasText; }
 }

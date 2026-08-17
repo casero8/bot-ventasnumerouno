@@ -10,112 +10,90 @@
  * o de bloques). NUNCA editar esa pagina con Elementor: en cuanto se abre con
  * el constructor vuelve a cargarse todo su CSS y se pierde el motivo de esto.
  *
- * LO UNICO QUE HAY QUE TOCAR PARA ADAPTARLO: los tres bloques de
- * configuracion de aqui abajo (atajos, tarjetas y banda destacada). Todo se
- * define por slug de categoria; las categorias que no existan se saltan solas
- * y nunca dejan un hueco roto.
+ * Orden de la pagina, y el porque: novedades y mas vendidos van arriba del
+ * todo, antes que cualquier texto. Quien entra en una tienda quiere ver
+ * producto y precio, no un parrafo. El texto de posicionamiento va al final,
+ * donde sigue contando para Google sin estorbar a quien viene a comprar.
  *
- * Precios, stock, imagenes y marcas se leen de WooCommerce en cada
- * generacion. Nada escrito a mano.
+ * LO UNICO QUE HAY QUE TOCAR PARA ADAPTARLO son los bloques de configuracion
+ * de aqui abajo. Todo va por slug de categoria: las que no existan se saltan
+ * solas y nunca dejan un hueco roto.
+ *
+ * Precios, stock, ofertas y marcas se leen de WooCommerce en cada generacion.
+ * Nada escrito a mano. El porcentaje de descuento se calcula del precio real.
  *
  * Sobre las tildes: los textos fijos van en entidades HTML (&aacute;,
  * &ntilde;...). Los snippets viajan por copia-pega entre editores y los
- * acentos en UTF-8 se han perdido ya dos veces en este proyecto. Las
- * entidades no se pierden.
+ * acentos en UTF-8 se han perdido ya dos veces en este proyecto.
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /* ==========================================================================
-   CONFIGURACION 1 · Los cuatro accesos montados sobre el banner
-   array( slug de categoria, titulo, texto pequeno )
+   CONFIGURACION 1 · Accesos montados sobre la portada
+   array( slug, titulo, texto pequeno )
    ========================================================================== */
 
 function eg_portada_atajos_cfg() {
 	return array(
-		array( 'hypershell',       'Hypershell',        'Exoesqueletos' ),
-		array( 'serie-delta',      'Estaciones DELTA',  'Respaldo para casa' ),
-		array( 'paneles-solares',  'Placas solares',    'Port&aacute;tiles y balc&oacute;n' ),
-		array( 'serie-rapid',      'Powerbanks',        'Carga r&aacute;pida' ),
+		array( 'hypershell',      'Hypershell',       'La novedad' ),
+		array( 'serie-delta',     'Estaciones DELTA', 'Respaldo para casa' ),
+		array( 'paneles-solares', 'Placas solares',   'Ahorra en la factura' ),
+		array( 'serie-rapid',     'Powerbanks',       'Carga r&aacute;pida' ),
 	);
 }
 
 /* ==========================================================================
-   CONFIGURACION 2 · Tarjetas con mosaico de cuatro fotos
-   Es la pieza central: casi todo son imagenes, como en Amazon.
-
-   array(
-     'titulo'  => rotulo de la tarjeta,
-     'ver'     => slug al que lleva el enlace de abajo,
-     'texto'   => texto de ese enlace,
-     'piezas'  => hasta 4 slugs con su rotulo,
-     'grande'  => true para una sola foto grande en vez de mosaico
-   )
-
-   Una tarjeta con menos de 2 piezas validas no se pinta.
+   CONFIGURACION 2 · Circulos de categoria
+   array( slug, rotulo )
    ========================================================================== */
 
-function eg_portada_tarjetas_cfg() {
+function eg_portada_circulos_cfg() {
 	return array(
-		array(
-			'titulo' => 'Energ&iacute;a port&aacute;til',
-			'ver'    => 'serie-delta',
-			'texto'  => 'Ver todas las estaciones',
-			'piezas' => array(
-				array( 'serie-delta',     'Estaciones DELTA' ),
-				array( 'serie-river',     'Bater&iacute;as RIVER' ),
-				array( 'generador-solar', 'Generadores solares' ),
-				array( 'serie-rapid',     'Powerbanks RAPID' ),
-			),
-		),
-		array(
-			'titulo' => 'Solar para casa y balc&oacute;n',
-			'ver'    => 'paneles-solares',
-			'texto'  => 'Ver todo lo solar',
-			'piezas' => array(
-				array( 'paneles-solares',    'Placas solares' ),
-				array( 'kits-para-el-hogar', 'Kits para balc&oacute;n' ),
-				array( 'stream-series',      'EcoFlow STREAM' ),
-				array( 'generador-solar',    'Kits todo en uno' ),
-			),
-		),
-		array(
-			'titulo' => 'Hypershell &middot; lo m&aacute;s nuevo',
-			'ver'    => 'hypershell',
-			'texto'  => 'Descubrir Hypershell',
-			'grande' => true,
-			'piezas' => array(
-				array( 'hypershell', 'Exoesqueletos Hypershell' ),
-			),
-		),
-		array(
-			'titulo' => 'Accesorios y carga',
-			'ver'    => 'accesorios',
-			'texto'  => 'Ver accesorios',
-			'piezas' => array(
-				array( 'accesorios',  'Cables y adaptadores' ),
-				array( 'serie-rapid', 'Cargadores y powerbanks' ),
-			),
-		),
+		array( 'serie-delta',        'Estaciones DELTA' ),
+		array( 'serie-river',        'Bater&iacute;as RIVER' ),
+		array( 'paneles-solares',    'Placas solares' ),
+		array( 'serie-rapid',        'Powerbanks' ),
+		array( 'hypershell',         'Hypershell' ),
+		array( 'kits-para-el-hogar', 'Kits hogar' ),
+		array( 'stream-series',      'STREAM' ),
+		array( 'accesorios',         'Accesorios' ),
+		array( 'generador-solar',    'Generadores' ),
 	);
 }
 
 /* ==========================================================================
-   CONFIGURACION 3 · Banda destacada (la novedad de temporada)
+   CONFIGURACION 3 · Bandas destacadas
+   'clara' => true la pinta en blanco en vez de en oscuro.
    ========================================================================== */
 
-function eg_portada_banda_cfg() {
+function eg_portada_bandas_cfg() {
 	return array(
-		'slug'     => 'hypershell',
-		'etiqueta' => 'Novedad',
-		'titulo'   => 'Hypershell: el exoesqueleto que te quita peso de las piernas',
-		'texto'    => 'Un motor te acompa&ntilde;a al andar y al subir. Pensado para caminatas largas, monta&ntilde;a y para quien pasa el d&iacute;a de pie.',
-		'puntos'   => array(
-			'Se pone y se quita en segundos',
-			'Bater&iacute;a intercambiable',
-			'Distribuidor oficial en Espa&ntilde;a',
+		array(
+			'slug'     => 'hypershell',
+			'etiqueta' => 'Novedad',
+			'titulo'   => 'Hypershell: el exoesqueleto que te quita peso de las piernas',
+			'texto'    => 'Un motor te acompa&ntilde;a al andar y al subir. Para caminatas largas, monta&ntilde;a y para quien pasa el d&iacute;a de pie.',
+			'puntos'   => array(
+				'Se pone y se quita en segundos',
+				'Bater&iacute;a intercambiable',
+				'Distribuidor oficial en Espa&ntilde;a',
+			),
+			'boton'    => 'Ver los modelos',
 		),
-		'boton'    => 'Ver los modelos',
+		array(
+			'slug'     => 'kits-para-el-hogar',
+			'etiqueta' => 'Para casa',
+			'clara'    => true,
+			'titulo'   => 'Kits solares de balc&oacute;n: produce tu propia luz sin obra',
+			'texto'    => 'Se instalan en un balc&oacute;n o una terraza y empiezan a producir desde el primer d&iacute;a. Te decimos qu&eacute; potencia encaja en tu caso.',
+			'puntos'   => array(
+				'Sin obra y sin permisos de comunidad en la mayor&iacute;a de casos',
+				'Se amplian despues con m&aacute;s paneles o bater&iacute;a',
+				'Te calculamos el ahorro con tu factura delante',
+			),
+			'boton'    => 'Ver los kits',
+		),
 	);
 }
 
@@ -130,13 +108,126 @@ function eg_portada_term( $slug ) {
 
 function eg_portada_foto_term( $t, $tam = 'woocommerce_thumbnail', $lazy = true ) {
 	$id = (int) get_term_meta( $t->term_id, 'thumbnail_id', true );
-	if ( ! $id ) {
-		return '';
-	}
+	if ( ! $id ) { return ''; }
 	return wp_get_attachment_image( $id, $tam, false, array(
 		'alt'     => '',
 		'loading' => $lazy ? 'lazy' : 'eager',
 	) );
+}
+
+/**
+ * Marca de un producto. Solo si existe de verdad como taxonomia; si no,
+ * cadena vacia y no se pinta nada. Nunca se inventa.
+ */
+function eg_portada_marca_de( $id ) {
+	foreach ( array( 'product_brand', 'pwb-brand', 'pa_marca', 'yith_product_brand' ) as $tax ) {
+		if ( ! taxonomy_exists( $tax ) ) { continue; }
+		$t = wp_get_post_terms( $id, $tax, array( 'fields' => 'names' ) );
+		if ( ! is_wp_error( $t ) && ! empty( $t ) ) { return $t[0]; }
+	}
+	return '';
+}
+
+/**
+ * Una tarjeta de producto. $etiqueta pinta la pastilla de arriba a la
+ * izquierda; el descuento, si lo hay, la sustituye porque es mas potente.
+ */
+function eg_portada_tarjeta_producto( $p, $prioridad = false, $etiqueta = '' ) {
+
+	$url   = esc_url( get_permalink( $p->get_id() ) );
+	$marca = eg_portada_marca_de( $p->get_id() );
+	$stock = $p->get_stock_quantity();
+
+	$texto_stock = ( $stock && $stock > 0 )
+		? ( 1 === (int) $stock ? '1 disponible' : $stock . ' disponibles' )
+		: 'Disponible';
+
+	// Descuento calculado del precio real. Si no hay rebaja, no hay pastilla.
+	$pastilla = '';
+	$regular  = (float) $p->get_regular_price();
+	$actual   = (float) $p->get_price();
+
+	if ( $p->is_on_sale() && $regular > 0 && $actual > 0 && $actual < $regular ) {
+		$pc = (int) round( ( ( $regular - $actual ) / $regular ) * 100 );
+		if ( $pc >= 5 ) {
+			$pastilla = '<span class="eg-pill eg-pill-oferta">-' . $pc . '%</span>';
+		}
+	}
+
+	if ( ! $pastilla && $etiqueta ) {
+		$pastilla = $etiqueta;
+	}
+
+	// La foto lleva tabindex="-1" y aria-hidden: va al mismo sitio que el
+	// titulo de al lado y sin esto un lector de pantalla repite cada producto.
+	return '<article class="eg-prod">'
+		. ( $pastilla ? '<span class="eg-prod-etiq">' . $pastilla . '</span>' : '' )
+		. '<a class="eg-prod-foto" href="' . $url . '" tabindex="-1" aria-hidden="true">'
+		. $p->get_image( 'woocommerce_thumbnail', array( 'loading' => $prioridad ? 'eager' : 'lazy' ) )
+		. '</a>'
+		. ( $marca ? '<p class="eg-prod-marca">' . esc_html( $marca ) . '</p>' : '' )
+		. '<a class="eg-prod-nombre" href="' . $url . '">' . esc_html( $p->get_name() ) . '</a>'
+		. '<div class="eg-prod-precio">' . wp_kses_post( $p->get_price_html() ) . '</div>'
+		. '<p class="eg-prod-stock">' . esc_html( $texto_stock ) . '</p>'
+		. '<a class="eg-prod-btn" href="' . esc_url( $p->add_to_cart_url() ) . '" rel="nofollow">'
+		. esc_html( $p->add_to_cart_text() ) . '</a>'
+		. '</article>';
+}
+
+/**
+ * Fila de productos. $orden: 'nuevos' o 'ventas'.
+ * Menos de cuatro productos y la fila no se pinta: una fila coja da peor
+ * impresion que no tenerla.
+ */
+function eg_portada_fila( $titulo, $subtitulo, $orden, $etiqueta, $id_titulo, $tienda ) {
+
+	$args = array(
+		'post_type'           => 'product',
+		'posts_per_page'      => 10,
+		'no_found_rows'       => true,
+		'ignore_sticky_posts' => true,
+		'meta_query'          => array(
+			array( 'key' => '_stock_status', 'value' => 'instock' ),
+			array( 'key' => '_price', 'value' => 0, 'compare' => '>', 'type' => 'NUMERIC' ),
+		),
+	);
+
+	if ( 'ventas' === $orden ) {
+		$args['orderby']  = 'meta_value_num';
+		$args['meta_key'] = 'total_sales';
+		$args['order']    = 'DESC';
+	} else {
+		$args['orderby'] = 'date';
+		$args['order']   = 'DESC';
+	}
+
+	$q = new WP_Query( $args );
+
+	if ( $q->post_count < 4 ) {
+		wp_reset_postdata();
+		return '';
+	}
+
+	$h = '<section class="eg-seccion" aria-labelledby="' . $id_titulo . '">'
+		. '<div class="eg-seccion-cab"><div>'
+		. '<h2 id="' . $id_titulo . '">' . $titulo . '</h2>'
+		. ( $subtitulo ? '<p>' . $subtitulo . '</p>' : '' )
+		. '</div><a class="eg-vertodo" href="' . $tienda . '">Ver todos &rarr;</a></div>'
+		. '<div class="eg-fila">';
+
+	$i = 0;
+
+	while ( $q->have_posts() ) {
+		$q->the_post();
+		$p = wc_get_product( get_the_ID() );
+		if ( ! $p ) { continue; }
+		$i++;
+		$h .= eg_portada_tarjeta_producto( $p, $i <= 5, $etiqueta );
+	}
+
+	wp_reset_postdata();
+
+	return $h . '</div></section>';
 }
 
 /* ==========================================================================
@@ -151,21 +242,33 @@ function eg_portada_html() {
 
 	$h  = '<div class="eg-home">';
 	$h .= '<a class="eg-saltar" href="#eg-comprar">Saltar a los productos</a>';
-
-	$h .= eg_portada_banner( $tienda );
+	$h .= eg_portada_hero( $tienda );
 
 	$h .= '<div class="eg-ancho">';
 	$h .= eg_portada_atajos();
 
-	$h .= '<section class="eg-seccion" id="eg-comprar" aria-labelledby="eg-t-cat">'
-		. '<div class="eg-seccion-cab"><div>'
-		. '<h2 id="eg-t-cat">Compra por categor&iacute;a</h2>'
-		. '</div><a class="eg-vertodo" href="' . $tienda . '">Ver toda la tienda &rarr;</a></div>'
-		. eg_portada_tarjetas()
-		. '</section>';
+	$h .= '<span id="eg-comprar"></span>';
 
-	$h .= eg_portada_banda();
-	$h .= eg_portada_productos( $tienda );
+	$h .= eg_portada_fila(
+		'Novedades',
+		'Lo &uacute;ltimo que ha entrado en la tienda.',
+		'nuevos',
+		'<span class="eg-pill eg-pill-nuevo">Nuevo</span>',
+		'eg-t-nuevo',
+		$tienda
+	);
+
+	$h .= eg_portada_fila(
+		'Los m&aacute;s vendidos',
+		'Lo que m&aacute;s sale, con stock confirmado hoy.',
+		'ventas',
+		'<span class="eg-pill eg-pill-top">Top ventas</span>',
+		'eg-t-top',
+		$tienda
+	);
+
+	$h .= eg_portada_circulos( $tienda );
+	$h .= eg_portada_bandas();
 	$h .= eg_portada_marcas();
 	$h .= eg_portada_avales();
 	$h .= eg_portada_texto();
@@ -182,18 +285,17 @@ function eg_portada_html() {
 }
 
 /* ==========================================================================
-   Banner
+   Portada
    ========================================================================== */
 
-function eg_portada_banner( $tienda ) {
+function eg_portada_hero( $tienda ) {
 
 	$id   = (int) get_option( 'eg_portada_hero', 0 );
 	$foto = '';
 
 	if ( $id ) {
 		// Sin lazy y con prioridad alta: es lo primero que se ve.
-		$foto = wp_get_attachment_image( $id, 'full', false, array(
-			'class'         => 'eg-banner-foto',
+		$foto = wp_get_attachment_image( $id, 'large', false, array(
 			'alt'           => '',
 			'aria-hidden'   => 'true',
 			'loading'       => 'eager',
@@ -202,209 +304,104 @@ function eg_portada_banner( $tienda ) {
 		) );
 	}
 
-	return '<div class="eg-banner">' . $foto
-		. '<div class="eg-ancho"><div class="eg-banner-txt">'
-		. '<span class="eg-etiqueta">Distribuidor oficial</span>'
+	return '<div class="eg-hero"><div class="eg-hero-in"><div>'
+		. '<span class="eg-pill eg-pill-nuevo">Distribuidor oficial</span>'
 		. '<h1>Energ&iacute;a port&aacute;til, solar y movilidad, con servicio t&eacute;cnico en Espa&ntilde;a</h1>'
 		. '<p>EcoFlow, Hypershell y el resto de marcas que trabajamos. Te asesoramos antes de comprar y, si algo falla, lo resolvemos nosotros.</p>'
-		. '<div class="eg-banner-botones">'
-		. '<a class="eg-btn eg-btn-principal" href="' . $tienda . '">Ver el cat&aacute;logo</a>'
-		. '<a class="eg-btn eg-btn-secundario" href="/contacto/">Preguntar antes de comprar</a>'
-		. '</div></div></div></div>';
+		. '<div class="eg-hero-botones">'
+		. '<a class="eg-btn eg-btn-naranja" href="' . $tienda . '">Ver el cat&aacute;logo</a>'
+		. '<a class="eg-btn eg-btn-linea" href="/contacto/">Preguntar antes de comprar</a>'
+		. '</div></div>'
+		. ( $foto ? '<div class="eg-hero-foto">' . $foto . '</div>' : '' )
+		. '</div></div>';
 }
 
 /* ==========================================================================
-   Atajos sobre el banner
+   Accesos rapidos
    ========================================================================== */
 
 function eg_portada_atajos() {
 
 	$piezas = '';
-	$n = 0;
 
 	foreach ( eg_portada_atajos_cfg() as $a ) {
 		$t = eg_portada_term( $a[0] );
 		if ( ! $t ) { continue; }
-		$n++;
 		$piezas .= '<a class="eg-atajo" href="' . esc_url( get_term_link( $t ) ) . '">'
-			. '<span class="eg-atajo-mini">' . eg_portada_foto_term( $t, 'woocommerce_gallery_thumbnail', false ) . '</span>'
+			. '<span class="eg-atajo-mini">' . eg_portada_foto_term( $t, 'woocommerce_thumbnail', false ) . '</span>'
 			. '<span><b>' . $a[1] . '</b><span>' . $a[2] . '</span></span>'
 			. '</a>';
 	}
 
-	if ( ! $n ) {
-		return '<div class="eg-ancho"></div>';
-	}
+	if ( ! $piezas ) { return '<div class="eg-ancho"></div>'; }
 
-	return '<div class="eg-ancho"><nav class="eg-atajos" aria-label="Accesos r&aacute;pidos">' . $piezas . '</nav></div>';
+	return '<nav class="eg-atajos" aria-label="Accesos r&aacute;pidos">' . $piezas . '</nav>';
 }
 
 /* ==========================================================================
-   Tarjetas con mosaico
+   Circulos de categoria
    ========================================================================== */
 
-function eg_portada_tarjetas() {
+function eg_portada_circulos( $tienda ) {
 
-	$html = '<div class="eg-cards">';
+	$piezas = '';
+	$n      = 0;
 
-	foreach ( eg_portada_tarjetas_cfg() as $c ) {
+	foreach ( eg_portada_circulos_cfg() as $c ) {
+		$t = eg_portada_term( $c[0] );
+		if ( ! $t ) { continue; }
+		$n++;
+		$piezas .= '<a class="eg-circulo" href="' . esc_url( get_term_link( $t ) ) . '">'
+			. '<span class="eg-circulo-foto">' . eg_portada_foto_term( $t ) . '</span>'
+			. '<b>' . $c[1] . '</b></a>';
+	}
 
-		$grande = ! empty( $c['grande'] );
-		$piezas = '';
-		$n      = 0;
+	if ( $n < 4 ) { return ''; }
 
-		foreach ( $c['piezas'] as $p ) {
-			$t = eg_portada_term( $p[0] );
-			if ( ! $t ) { continue; }
-			$n++;
-			$piezas .= '<a class="eg-pieza" href="' . esc_url( get_term_link( $t ) ) . '">'
-				. '<span class="eg-pieza-foto">' . eg_portada_foto_term( $t, 'woocommerce_thumbnail', $n > 2 ) . '</span>'
-				. '<span>' . $p[1] . '</span></a>';
+	return '<section class="eg-seccion" aria-labelledby="eg-t-cat">'
+		. '<div class="eg-seccion-cab"><div><h2 id="eg-t-cat">Compra por categor&iacute;a</h2></div>'
+		. '<a class="eg-vertodo" href="' . $tienda . '">Ver toda la tienda &rarr;</a></div>'
+		. '<div class="eg-circulos">' . $piezas . '</div></section>';
+}
+
+/* ==========================================================================
+   Bandas destacadas
+   ========================================================================== */
+
+function eg_portada_bandas() {
+
+	$h = '';
+
+	foreach ( eg_portada_bandas_cfg() as $c ) {
+
+		$t = eg_portada_term( $c['slug'] );
+		if ( ! $t ) { continue; } // si la categoria no existe, no se pinta
+
+		$puntos = '';
+		foreach ( $c['puntos'] as $p ) {
+			$puntos .= '<li>' . $p . '</li>';
 		}
 
-		// Una tarjeta a medias queda peor que no ponerla.
-		$minimo = $grande ? 1 : 2;
-		if ( $n < $minimo ) { continue; }
+		$clara = ! empty( $c['clara'] );
+		$boton = $clara ? 'eg-btn-naranja' : 'eg-btn-blanco';
 
-		$ver  = eg_portada_term( $c['ver'] );
-		$link = $ver
-			? '<a class="eg-vertodo" href="' . esc_url( get_term_link( $ver ) ) . '">' . $c['texto'] . ' &rarr;</a>'
-			: '';
-
-		$html .= '<div class="eg-card' . ( $grande ? ' eg-card-grande' : '' ) . '">'
-			. '<h3>' . $c['titulo'] . '</h3>'
-			. '<div class="eg-mosaico">' . $piezas . '</div>'
-			. $link . '</div>';
+		$h .= '<section class="eg-seccion"><div class="eg-banda' . ( $clara ? ' eg-banda-clara' : '' ) . '">'
+			. '<div class="eg-banda-txt">'
+			. '<span class="eg-pill eg-pill-nuevo">' . $c['etiqueta'] . '</span>'
+			. '<h2>' . $c['titulo'] . '</h2>'
+			. '<p>' . $c['texto'] . '</p>'
+			. '<ul class="eg-banda-lista">' . $puntos . '</ul>'
+			. '<a class="eg-btn ' . $boton . '" href="' . esc_url( get_term_link( $t ) ) . '">' . $c['boton'] . '</a>'
+			. '</div>'
+			. '<div class="eg-banda-foto">' . eg_portada_foto_term( $t, 'full' ) . '</div>'
+			. '</div></section>';
 	}
 
-	return $html . '</div>';
+	return $h;
 }
 
 /* ==========================================================================
-   Banda destacada
-   ========================================================================== */
-
-function eg_portada_banda() {
-
-	$c = eg_portada_banda_cfg();
-	$t = eg_portada_term( $c['slug'] );
-
-	if ( ! $t ) {
-		return ''; // si la categoria no existe, la banda no se pinta
-	}
-
-	$puntos = '';
-	foreach ( $c['puntos'] as $p ) {
-		$puntos .= '<li>' . $p . '</li>';
-	}
-
-	$foto = eg_portada_foto_term( $t, 'full' );
-
-	return '<section class="eg-seccion"><div class="eg-banda">'
-		. '<div class="eg-banda-txt">'
-		. '<span class="eg-etiqueta">' . $c['etiqueta'] . '</span>'
-		. '<h2>' . $c['titulo'] . '</h2>'
-		. '<p>' . $c['texto'] . '</p>'
-		. '<ul class="eg-banda-lista">' . $puntos . '</ul>'
-		. '<a class="eg-btn eg-btn-principal" href="' . esc_url( get_term_link( $t ) ) . '">' . $c['boton'] . '</a>'
-		. '</div>'
-		. '<div class="eg-banda-foto">' . $foto . '</div>'
-		. '</div></section>';
-}
-
-/* ==========================================================================
-   Productos
-   Solo con stock y con precio. Menos de cinco, no se pinta la fila.
-   ========================================================================== */
-
-function eg_portada_productos( $tienda ) {
-
-	$q = new WP_Query( array(
-		'post_type'           => 'product',
-		'posts_per_page'      => 10,
-		'no_found_rows'       => true,
-		'ignore_sticky_posts' => true,
-		'orderby'             => 'meta_value_num',
-		'meta_key'            => 'total_sales',
-		'order'               => 'DESC',
-		'meta_query'          => array(
-			array( 'key' => '_stock_status', 'value' => 'instock' ),
-			array( 'key' => '_price', 'value' => 0, 'compare' => '>', 'type' => 'NUMERIC' ),
-		),
-	) );
-
-	if ( $q->post_count < 5 ) {
-		wp_reset_postdata();
-		return '';
-	}
-
-	$h = '<section class="eg-seccion" aria-labelledby="eg-t-prod">'
-		. '<div class="eg-seccion-cab"><div>'
-		. '<h2 id="eg-t-prod">Los m&aacute;s vendidos, disponibles ahora</h2>'
-		. '<p>Con stock confirmado hoy.</p>'
-		. '</div><a class="eg-vertodo" href="' . $tienda . '">Ver todos &rarr;</a></div>'
-		. '<div class="eg-productos">';
-
-	$i = 0;
-
-	while ( $q->have_posts() ) {
-
-		$q->the_post();
-		$p = wc_get_product( get_the_ID() );
-		if ( ! $p ) { continue; }
-
-		$i++;
-		$url   = esc_url( get_permalink() );
-		$stock = $p->get_stock_quantity();
-		$texto_stock = ( $stock && $stock > 0 )
-			? ( 1 === (int) $stock ? '1 disponible' : $stock . ' disponibles' )
-			: 'Disponible';
-
-		// La marca solo se muestra si existe de verdad como taxonomia.
-		$marca = eg_portada_marca_de( get_the_ID() );
-
-		// La foto lleva tabindex="-1" y aria-hidden: va al mismo sitio que el
-		// titulo de al lado y sin esto el lector de pantalla repite cada producto.
-		$h .= '<article class="eg-prod">'
-			. '<a class="eg-prod-foto" href="' . $url . '" tabindex="-1" aria-hidden="true">'
-			. $p->get_image( 'woocommerce_thumbnail', array( 'loading' => $i <= 5 ? 'eager' : 'lazy' ) )
-			. '</a>'
-			. ( $marca ? '<p class="eg-prod-marca">' . esc_html( $marca ) . '</p>' : '' )
-			. '<a class="eg-prod-nombre" href="' . $url . '">' . esc_html( $p->get_name() ) . '</a>'
-			. '<div class="eg-prod-precio">' . wp_kses_post( $p->get_price_html() ) . '</div>'
-			. '<p class="eg-prod-stock">' . esc_html( $texto_stock ) . '</p>'
-			. '<a class="eg-prod-btn" href="' . esc_url( $p->add_to_cart_url() ) . '" rel="nofollow">'
-			. esc_html( $p->add_to_cart_text() ) . '</a>'
-			. '</article>';
-	}
-
-	wp_reset_postdata();
-
-	return $h . '</div></section>';
-}
-
-/**
- * Marca de un producto. Se busca en las taxonomias que suelen usarse; si no
- * hay ninguna, se devuelve vacio y no se pinta nada. Nunca se inventa.
- */
-function eg_portada_marca_de( $id ) {
-
-	foreach ( array( 'product_brand', 'pwb-brand', 'pa_marca', 'yith_product_brand' ) as $tax ) {
-
-		if ( ! taxonomy_exists( $tax ) ) { continue; }
-
-		$terminos = wp_get_post_terms( $id, $tax, array( 'fields' => 'names' ) );
-
-		if ( ! is_wp_error( $terminos ) && ! empty( $terminos ) ) {
-			return $terminos[0];
-		}
-	}
-
-	return '';
-}
-
-/* ==========================================================================
-   Marcas con las que trabajamos
+   Marcas
    Se pinta solo si existe una taxonomia de marcas con terminos. Sin inventar.
    ========================================================================== */
 
@@ -536,7 +533,7 @@ function eg_portada_cierre() {
 	return '<section class="eg-seccion"><div class="eg-cierre"><div>'
 		. '<h2>&iquest;No lo tienes claro?</h2>'
 		. '<p>Cu&eacute;ntanos qu&eacute; necesitas y te decimos qu&eacute; equipo encaja. Sin compromiso.</p>'
-		. '</div><a class="eg-btn eg-btn-principal" href="/contacto/">Escr&iacute;benos</a></div></section>';
+		. '</div><a class="eg-btn eg-btn-naranja" href="/contacto/">Escr&iacute;benos</a></div></section>';
 }
 
 /* ==========================================================================
@@ -546,9 +543,7 @@ function eg_portada_cierre() {
 add_action( 'wp_head', 'eg_portada_estilos', 99 );
 
 function eg_portada_estilos() {
-
 	if ( ! is_front_page() ) { return; }
-
 	echo "<style id='eg-home-css'>";
 	echo eg_portada_css();
 	echo "</style>\n";
