@@ -1,0 +1,412 @@
+<title>Portada EcoGadget</title>
+<style>
+:root {
+  --marco: #0d1520; --marco-txt: #cfdae8; --marco-acento: #6fb2ff;
+  --pagina: #ffffff;
+}
+html, body { background: var(--pagina); color: #37404d; margin: 0; }
+body { font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; }
+
+.pv-barra {
+  background: var(--marco); color: var(--marco-txt);
+  padding: 14px 18px; font-size: 13.5px; line-height: 1.55;
+}
+.pv-barra .pv-in { max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px 26px; align-items: baseline; }
+.pv-barra b { color: #fff; font-size: 14px; }
+.pv-barra em { font-style: normal; color: var(--marco-acento); font-weight: 600; }
+
+.pv-cab { border-bottom: 1px solid #e1e6ee; background: #fff; }
+.pv-cab .pv-in { max-width: 1280px; margin: 0 auto; padding: 14px 18px; display: flex; align-items: center; gap: 20px; }
+.pv-logo { font-weight: 800; letter-spacing: -.03em; font-size: 20px; color: #0d1520; white-space: nowrap; }
+.pv-logo span { color: #185fa5; }
+.pv-buscar { flex: 1; border: 1px solid #d5dce6; border-radius: 999px; padding: 11px 18px; color: #8a94a2; font-size: 14.5px; min-width: 120px; }
+.pv-nota { font-size: 12.5px; color: #8a94a2; }
+
+.pv-aviso { background: #0d1520; color: #dbe6f3; }
+.pv-aviso .pv-in { max-width: 1280px; margin: 0 auto; padding: 18px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.pv-aviso b { color: #fff; display: block; }
+.pv-aviso small { color: #9fb2c8; }
+.pv-pill { margin-left: auto; background: #2aa1ef; color: #04263f; font-weight: 700; border-radius: 999px; padding: 8px 18px; font-size: 13px; }
+
+.pv-pie { max-width: 1280px; margin: 40px auto 0; padding: 26px 18px 46px; border-top: 1px solid #e1e6ee; color: #6b7686; font-size: 13.5px; line-height: 1.65; }
+.pv-pie b { color: #0d1520; }
+@media (max-width: 767px) { .pv-buscar, .pv-nota { display: none; } }
+
+/* ==========================================================================
+   Portada · ecogadgetoficial.com
+   --------------------------------------------------------------------------
+   Se imprime en linea desde el snippet "EG · Portada", solo en is_front_page().
+   Sin JavaScript: todo lo que se ve funciona con CSS y HTML.
+
+   Las reglas llevan prefijo .eg-home porque el kit de Elementor sigue
+   cargandose para la cabecera y el pie, y sin el gana el otro.
+   ========================================================================== */
+
+.eg-home {
+  --azul: #042c53;
+  --azul-medio: #185fa5;
+  --azul-claro: #eef4fb;
+  --verde: #0f8a4a;
+  --borde: #e1e6ee;
+  --texto: #37404d;
+  --suave: #6b7686;
+  --tinta: #0d1520;
+  --fondo: #f6f8fb;
+  --radio: 12px;
+  color: var(--texto);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Enlace para saltar al contenido: invisible hasta que se tabula. */
+.eg-saltar {
+  position: absolute; left: -9999px; top: 0; z-index: 999;
+  background: var(--azul); color: #fff; padding: 12px 20px;
+  border-radius: 0 0 var(--radio) 0; font-weight: 600; text-decoration: none;
+}
+.eg-saltar:focus { left: 0; }
+
+/* Foco visible en todo lo navegable. Sin esto no se puede usar con teclado. */
+.eg-home a:focus-visible,
+.eg-home button:focus-visible {
+  outline: 3px solid var(--azul-medio);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.eg-home img { max-width: 100%; height: auto; display: block; }
+
+.eg-ancho { max-width: 1280px; margin: 0 auto; padding: 0 18px; }
+
+.eg-seccion { margin: 46px 0; }
+.eg-seccion-cab {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 14px; flex-wrap: wrap; margin: 0 0 18px;
+}
+.eg-home h2 {
+  font-size: 25px; font-weight: 700; letter-spacing: -.02em;
+  color: var(--tinta); margin: 0; line-height: 1.2;
+}
+.eg-home h3 { font-size: 17px; font-weight: 700; color: var(--tinta); margin: 0 0 6px; line-height: 1.3; }
+.eg-seccion-cab p { margin: 6px 0 0; color: var(--suave); font-size: 14.5px; }
+.eg-vertodo {
+  font-size: 14.5px; font-weight: 600; color: var(--azul-medio) !important;
+  text-decoration: none !important; white-space: nowrap;
+}
+.eg-vertodo:hover { text-decoration: underline !important; }
+
+/* ============================ 1. PORTADA ============================= */
+
+.eg-hero {
+  position: relative; overflow: hidden; border-radius: var(--radio);
+  background: var(--azul); color: #fff; margin: 18px 0 0;
+}
+.eg-hero-foto {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: .42;
+}
+.eg-hero-texto {
+  position: relative; padding: 54px 34px; max-width: 640px;
+}
+.eg-home .eg-hero h1 {
+  font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -.025em;
+  color: #fff; margin: 0 0 14px;
+}
+.eg-hero p { font-size: 17.5px; line-height: 1.5; color: #dbe6f3; margin: 0 0 24px; }
+.eg-hero-botones { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.eg-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 48px; padding: 12px 26px; border-radius: 999px;
+  font-size: 15.5px; font-weight: 700; text-decoration: none !important;
+  border: 2px solid transparent; transition: background .15s, color .15s;
+}
+.eg-btn-principal { background: #fff; color: var(--azul) !important; }
+.eg-btn-principal:hover { background: #e6eef8; }
+.eg-btn-secundario { background: transparent; color: #fff !important; border-color: rgba(255,255,255,.55); }
+.eg-btn-secundario:hover { background: rgba(255,255,255,.12); }
+
+/* ========================== 2. CONFIANZA ============================= */
+
+.eg-avales {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: var(--borde); border: 1px solid var(--borde);
+  border-radius: var(--radio); overflow: hidden; margin: 22px 0 0;
+}
+.eg-aval { background: #fff; padding: 16px 18px; }
+.eg-aval b { display: block; font-size: 14.5px; color: var(--tinta); margin-bottom: 2px; }
+.eg-aval span { font-size: 13px; color: var(--suave); line-height: 1.45; display: block; }
+
+/* ====================== 3. COMPRA POR CATEGORIA ====================== */
+
+.eg-rejilla {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.eg-tarjeta {
+  display: flex; flex-direction: column; background: #fff;
+  border: 1px solid var(--borde); border-radius: var(--radio);
+  padding: 16px; text-decoration: none !important; color: inherit !important;
+  transition: border-color .15s, box-shadow .15s;
+}
+.eg-tarjeta:hover { border-color: #c4d2e4; box-shadow: 0 4px 16px rgba(4,44,83,.09); }
+.eg-tarjeta-foto {
+  aspect-ratio: 4 / 3; background: var(--fondo); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin-bottom: 13px;
+}
+.eg-tarjeta-foto img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+.eg-tarjeta b { font-size: 15.5px; font-weight: 700; color: var(--tinta); line-height: 1.3; }
+.eg-tarjeta small { display: block; font-size: 13px; color: var(--suave); margin-top: 4px; line-height: 1.45; }
+.eg-tarjeta i {
+  font-style: normal; font-size: 13.5px; font-weight: 600;
+  color: var(--azul-medio); margin-top: auto; padding-top: 11px;
+}
+
+/* ===================== 4. ELIGE POR USO (guia) ======================= */
+
+.eg-usos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.eg-uso {
+  background: var(--azul-claro); border: 1px solid #d7e5f5; border-radius: var(--radio);
+  padding: 20px 18px; text-decoration: none !important; color: inherit !important;
+  display: block; transition: background .15s;
+}
+.eg-uso:hover { background: #e3eefa; }
+.eg-uso b { display: block; font-size: 16px; color: var(--azul); margin-bottom: 5px; }
+.eg-uso span { display: block; font-size: 13.5px; color: #4a5b70; line-height: 1.5; }
+.eg-uso em {
+  font-style: normal; display: block; margin-top: 10px;
+  font-size: 13px; font-weight: 700; color: var(--azul-medio);
+}
+
+/* ========================= 5. PRODUCTOS ============================== */
+
+.eg-productos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.eg-prod {
+  display: flex; flex-direction: column; background: #fff;
+  border: 1px solid var(--borde); border-radius: var(--radio); padding: 14px;
+}
+.eg-prod-foto { display: block; aspect-ratio: 1; margin-bottom: 12px; }
+.eg-prod-foto img { width: 100%; height: 100%; object-fit: contain; }
+.eg-prod-nombre {
+  font-size: 14.5px; font-weight: 600; line-height: 1.35; color: var(--tinta) !important;
+  text-decoration: none !important; display: block; margin-bottom: 8px;
+}
+.eg-prod-nombre:hover { color: var(--azul-medio) !important; text-decoration: underline !important; }
+.eg-prod-precio { font-size: 19px; font-weight: 700; color: var(--tinta); margin: 0 0 4px; }
+.eg-prod-precio del { font-size: 14px; font-weight: 400; color: var(--suave); margin-right: 6px; }
+.eg-prod-precio ins { text-decoration: none; }
+.eg-prod-stock { font-size: 12.5px; color: var(--verde); font-weight: 600; margin-bottom: 12px; }
+.eg-prod-btn {
+  margin-top: auto; display: block; text-align: center; min-height: 44px;
+  line-height: 44px; border-radius: 999px; background: var(--azul);
+  color: #fff !important; font-size: 14.5px; font-weight: 700;
+  text-decoration: none !important;
+}
+.eg-prod-btn:hover { background: var(--azul-medio); }
+
+/* ======================= 6. TABLA DE SERIES ========================== */
+
+.eg-tabla-caja { overflow-x: auto; border: 1px solid var(--borde); border-radius: var(--radio); }
+.eg-home table.eg-tabla { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 620px; }
+.eg-home table.eg-tabla caption { text-align: left; padding: 14px 16px 0; color: var(--suave); font-size: 13.5px; }
+.eg-home table.eg-tabla th,
+.eg-home table.eg-tabla td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--borde); }
+.eg-home table.eg-tabla thead th {
+  background: var(--fondo); font-size: 12.5px; text-transform: uppercase;
+  letter-spacing: .06em; color: #5f6b7c; font-weight: 700;
+}
+.eg-home table.eg-tabla tbody th { font-weight: 700; color: var(--tinta); }
+.eg-home table.eg-tabla tr:last-child td,
+.eg-home table.eg-tabla tr:last-child th { border-bottom: 0; }
+.eg-tabla a { color: var(--azul-medio) !important; font-weight: 600; }
+
+/* =========================== 7. TEXTO SEO =========================== */
+
+.eg-texto { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 30px 32px; }
+.eg-texto h2 { margin-bottom: 14px; }
+.eg-texto h3 { margin-top: 24px; }
+.eg-texto p { margin: 0 0 14px; font-size: 15.5px; line-height: 1.7; }
+.eg-texto p:last-child { margin-bottom: 0; }
+.eg-texto a { color: var(--azul-medio) !important; font-weight: 600; }
+.eg-texto ul { margin: 0 0 14px; padding-left: 22px; }
+.eg-texto li { margin-bottom: 7px; font-size: 15.5px; line-height: 1.6; }
+
+/* ============================= 8. FAQ =============================== */
+
+.eg-faq { border: 1px solid var(--borde); border-radius: var(--radio); overflow: hidden; background: #fff; }
+.eg-faq details { border-bottom: 1px solid var(--borde); }
+.eg-faq details:last-child { border-bottom: 0; }
+.eg-faq summary {
+  cursor: pointer; padding: 16px 20px; font-weight: 600; font-size: 15.5px;
+  color: var(--tinta); list-style: none; position: relative; padding-right: 48px;
+  min-height: 24px;
+}
+.eg-faq summary::-webkit-details-marker { display: none; }
+.eg-faq summary::after {
+  content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  font-size: 21px; font-weight: 400; color: var(--azul-medio); line-height: 1;
+}
+.eg-faq details[open] summary::after { content: "\2212"; }
+.eg-faq summary:hover { background: var(--fondo); }
+.eg-faq-cuerpo { padding: 0 20px 18px; font-size: 15px; line-height: 1.65; color: var(--texto); }
+.eg-faq-cuerpo p { margin: 0 0 10px; }
+.eg-faq-cuerpo p:last-child { margin-bottom: 0; }
+.eg-faq-cuerpo a { color: var(--azul-medio) !important; font-weight: 600; }
+
+/* ========================== 9. CIERRE =============================== */
+
+.eg-cierre {
+  background: var(--azul); color: #fff; border-radius: var(--radio);
+  padding: 34px 32px; display: flex; align-items: center;
+  justify-content: space-between; gap: 22px; flex-wrap: wrap;
+}
+.eg-home .eg-cierre h2 { color: #fff; margin-bottom: 6px; }
+.eg-cierre p { margin: 0; color: #dbe6f3; font-size: 15.5px; max-width: 560px; }
+
+/* =========================== MOVIL ================================= */
+
+@media (max-width: 1024px) {
+  .eg-rejilla, .eg-productos { grid-template-columns: repeat(3, 1fr); }
+  .eg-usos { grid-template-columns: repeat(2, 1fr); }
+  .eg-avales { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .eg-home { font-size: 15.5px; }
+  .eg-ancho { padding: 0 14px; }
+  .eg-seccion { margin: 34px 0; }
+  .eg-home h2 { font-size: 21px; }
+
+  .eg-hero-texto { padding: 34px 20px; }
+  .eg-home .eg-hero h1 { font-size: 28px; }
+  .eg-hero p { font-size: 16px; }
+  .eg-hero-botones { flex-direction: column; align-items: stretch; }
+  .eg-btn { width: 100%; }
+
+  /* Categorias y productos: carrusel horizontal, como en Amazon. Se pasa
+     el dedo en vez de hacer scroll por 12 tarjetas apiladas. */
+  .eg-rejilla, .eg-productos {
+    display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; padding-bottom: 6px;
+    margin-left: -14px; margin-right: -14px; padding-left: 14px; padding-right: 14px;
+  }
+  .eg-tarjeta, .eg-prod { flex: 0 0 68vw; max-width: 260px; scroll-snap-align: start; }
+
+  .eg-usos { grid-template-columns: 1fr; gap: 10px; }
+  .eg-texto { padding: 22px 18px; }
+  .eg-cierre { padding: 26px 20px; flex-direction: column; align-items: flex-start; }
+  .eg-cierre .eg-btn { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .eg-avales { grid-template-columns: 1fr; }
+}
+
+/* Quien pide menos movimiento en su sistema, no lo tiene. */
+@media (prefers-reduced-motion: reduce) {
+  .eg-home *, .eg-home *::before, .eg-home *::after {
+    transition-duration: .01ms !important; animation-duration: .01ms !important;
+  }
+  .eg-rejilla, .eg-productos { scroll-behavior: auto; }
+}
+
+/* Impresion y modo alto contraste: que no dependa del color de fondo. */
+@media (forced-colors: active) {
+  .eg-tarjeta, .eg-prod, .eg-uso { border: 1px solid CanvasText; }
+}
+
+</style>
+
+<div class="pv-barra"><div class="pv-in">
+  <b>Vista previa · portada nueva</b>
+  <span>Sin Elementor · <em>~12 KB de CSS</em> · <em>0 KB de JavaScript</em></span>
+  <span>Las fotos son marcadores; precios y stock se leen de WooCommerce en vivo.</span>
+</div></div>
+
+<div class="pv-cab"><div class="pv-in">
+  <span class="pv-logo">ECO<span>GADGET</span></span>
+  <span class="pv-buscar">Búsqueda de productos</span>
+  <span class="pv-nota">La cabecera y el pie no cambian</span>
+</div></div>
+
+<div class="pv-aviso"><div class="pv-in">
+  <div><b>¡Nos vamos de vacaciones!</b><small>Atención temporalmente pausada. Retomaremos los envíos a nuestro regreso.</small></div>
+  <span class="pv-pill">14 - 28 DE AGOSTO</span>
+</div></div>
+
+<div class="eg-home">
+<a class="eg-saltar" href="#eg-comprar">Saltar a los productos</a>
+
+<div class="eg-ancho"><div class="eg-hero">
+  <div class="eg-hero-texto">
+    <h1>Baterías y placas solares EcoFlow con servicio oficial en España</h1>
+    <p>Somos distribuidor oficial. Te asesoramos antes de comprar y, si algo falla, lo resolvemos nosotros sin intermediarios.</p>
+    <div class="eg-hero-botones">
+      <a class="eg-btn eg-btn-principal" href="#eg-comprar">Ver el catálogo</a>
+      <a class="eg-btn eg-btn-secundario" href="#">Preguntar antes de comprar</a>
+    </div>
+  </div>
+</div></div>
+
+<div class="eg-ancho">
+
+<div class="eg-avales"><div class="eg-aval"><b>Distribuidor oficial</b><span>Producto EcoFlow con garantía de fabricante.</span></div><div class="eg-aval"><b>Tienda física</b><span>Puedes verlo y recogerlo en persona.</span></div><div class="eg-aval"><b>Servicio técnico propio</b><span>La incidencia la gestionamos nosotros.</span></div><div class="eg-aval"><b>Pago a plazos</b><span>Financiación con SeQura al finalizar la compra.</span></div></div>
+
+<section class="eg-seccion" id="eg-comprar" aria-labelledby="t1">
+  <div class="eg-seccion-cab">
+    <div><h2 id="t1">Compra por categoría</h2><p>Todo el catálogo EcoFlow ordenado por tipo de equipo.</p></div>
+    <a class="eg-vertodo" href="#">Ver toda la tienda</a>
+  </div>
+  <div class="eg-rejilla"><a class="eg-tarjeta" href="#"><span class="eg-tarjeta-foto"><svg viewBox="0 0 400 300" role="img" aria-label="Estaciones DELTA" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(212 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(212 25% 52%)">Estaciones DELTA</text></svg></span><b>Estaciones DELTA</b><small>Para casa, apagones y consumos grandes</small><i>Ver estaciones DELTA &rarr;</i></a><a class="eg-tarjeta" href="#"><span class="eg-tarjeta-foto"><svg viewBox="0 0 400 300" role="img" aria-label="Baterías RIVER" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(198 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(198 25% 52%)">Baterías RIVER</text></svg></span><b>Baterías RIVER</b><small>Ligeras, para camping y furgoneta</small><i>Ver baterías RIVER &rarr;</i></a><a class="eg-tarjeta" href="#"><span class="eg-tarjeta-foto"><svg viewBox="0 0 400 300" role="img" aria-label="Placas solares" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(44 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(44 25% 52%)">Placas solares</text></svg></span><b>Placas solares</b><small>Portátiles y para balcón</small><i>Ver placas solares &rarr;</i></a><a class="eg-tarjeta" href="#"><span class="eg-tarjeta-foto"><svg viewBox="0 0 400 300" role="img" aria-label="Powerbanks RAPID" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(262 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(262 25% 52%)">Powerbanks RAPID</text></svg></span><b>Powerbanks RAPID</b><small>Móvil, portátil y carga rápida</small><i>Ver powerbanks &rarr;</i></a><a class="eg-tarjeta" href="#"><span class="eg-tarjeta-foto"><svg viewBox="0 0 400 300" role="img" aria-label="Kits para el hogar" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(150 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(150 25% 52%)">Kits para el hogar</text></svg></span><b>Kits para el hogar</b><small>Balcón, autoconsumo y respaldo</small><i>Ver kits &rarr;</i></a><a class="eg-tarjeta" href="#"><span class="eg-tarjeta-foto"><svg viewBox="0 0 400 300" role="img" aria-label="EcoFlow STREAM" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(190 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(190 25% 52%)">EcoFlow STREAM</text></svg></span><b>EcoFlow STREAM</b><small>Microinversor y batería de balcón</small><i>Ver STREAM &rarr;</i></a><a class="eg-tarjeta" href="#"><span class="eg-tarjeta-foto"><svg viewBox="0 0 400 300" role="img" aria-label="Accesorios" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(220 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(220 25% 52%)">Accesorios</text></svg></span><b>Accesorios</b><small>Cables, fundas y adaptadores</small><i>Ver accesorios &rarr;</i></a><a class="eg-tarjeta" href="#"><span class="eg-tarjeta-foto"><svg viewBox="0 0 400 300" role="img" aria-label="Generadores solares" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(30 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(30 25% 52%)">Generadores solares</text></svg></span><b>Generadores solares</b><small>Batería y placa, listo para usar</small><i>Ver generadores &rarr;</i></a></div>
+</section>
+
+<section class="eg-seccion" aria-labelledby="t2">
+  <div class="eg-seccion-cab"><div><h2 id="t2">¿Qué quieres alimentar?</h2><p>Si no sabes qué modelo necesitas, empieza por aquí.</p></div></div>
+  <div class="eg-usos"><a class="eg-uso" href="#"><b>Móvil, portátil y viaje</b><span>Cabe en la mochila y carga el teléfono varias veces.</span><em>Ver powerbanks RAPID &rarr;</em></a><a class="eg-uso" href="#"><b>Camping, furgo y nevera</b><span>Peso contenido y suficiente para una nevera o una noche de luces.</span><em>Ver baterías RIVER &rarr;</em></a><a class="eg-uso" href="#"><b>Apagones en casa</b><span>Mantiene el frigorífico, el router y algunas luces.</span><em>Ver estaciones DELTA &rarr;</em></a><a class="eg-uso" href="#"><b>Bajar la factura</b><span>Placas y kits de balcón para producir tu propia electricidad.</span><em>Ver placas solares &rarr;</em></a></div>
+</section>
+
+<section class="eg-seccion" aria-labelledby="t3">
+  <div class="eg-seccion-cab">
+    <div><h2 id="t3">Disponibles ahora</h2><p>Con stock confirmado hoy, listos para salir.</p></div>
+    <a class="eg-vertodo" href="#">Ver todos</a>
+  </div>
+  <div class="eg-productos"><article class="eg-prod"><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 300" role="img" aria-label="DELTA" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(212 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(212 25% 52%)">DELTA</text></svg></a><a class="eg-prod-nombre" href="#">EcoFlow DELTA 3 Classic (1024Wh)</a><div class="eg-prod-precio">599,00&nbsp;€</div><p class="eg-prod-stock">7 disponibles</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 300" role="img" aria-label="DELTA" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(212 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(212 25% 52%)">DELTA</text></svg></a><a class="eg-prod-nombre" href="#">EcoFlow DELTA 3 Plus</a><div class="eg-prod-precio">849,00&nbsp;€</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 300" role="img" aria-label="solar" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(44 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(44 25% 52%)">solar</text></svg></a><a class="eg-prod-nombre" href="#">Panel solar 220 W bifacial</a><div class="eg-prod-precio">399,00&nbsp;€</div><p class="eg-prod-stock">4 disponibles</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 300" role="img" aria-label="Solar" style="width:100%;height:100%"><rect width="400" height="300" fill="hsl(220 30% 94%)"/><text x="200" y="152" text-anchor="middle" font-family="system-ui" font-size="17" fill="hsl(220 25% 52%)">Solar</text></svg></a><a class="eg-prod-nombre" href="#">Cable Solar A XT60i EcoFlow</a><div class="eg-prod-precio">25,00&nbsp;€ – 39,00&nbsp;€</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article></div>
+</section>
+
+<section class="eg-seccion" aria-labelledby="t4">
+  <div class="eg-seccion-cab"><div><h2 id="t4">Las series de EcoFlow, en corto</h2><p>Cuatro familias y para qué usa la gente cada una.</p></div></div>
+  <div class="eg-tabla-caja"><table class="eg-tabla">
+    <caption>Cada serie cubre un uso distinto. El enlace lleva a la categoría completa.</caption>
+    <thead><tr><th scope="col">Serie</th><th scope="col">Qué es</th><th scope="col">Para qué la usa la gente</th><th scope="col">Ver</th></tr></thead>
+    <tbody><tr><th scope="row">RAPID</th><td>Powerbanks de bolsillo</td><td>Móvil, tablet y portátil ligero</td><td><a href="#">Ver RAPID</a></td></tr><tr><th scope="row">RIVER</th><td>Estaciones ligeras</td><td>Camping, furgoneta, nevera portátil</td><td><a href="#">Ver RIVER</a></td></tr><tr><th scope="row">DELTA</th><td>Estaciones de mayor capacidad</td><td>Apagones en casa, obra, teletrabajo</td><td><a href="#">Ver DELTA</a></td></tr><tr><th scope="row">STREAM</th><td>Balcón solar y microinversor</td><td>Producir y almacenar en casa</td><td><a href="#">Ver STREAM</a></td></tr></tbody>
+  </table></div>
+</section>
+
+<section class="eg-seccion"><div class="eg-texto">
+  <h2>Comprar EcoFlow en España con respaldo real</h2>
+  <p>EcoFlow fabrica estaciones de energía portátil y placas solares. Nosotros somos distribuidor oficial en España: el equipo que compras aquí llega con la garantía del fabricante y con alguien detrás a quien puedes llamar.</p>
+  <p>Esa es la diferencia que más nos preguntan. Cuando compras en un marketplace y el equipo falla, empieza un ir y venir de correos entre el vendedor, la plataforma y el fabricante. Aquí la incidencia la abre y la sigue nuestro servicio técnico.</p>
+  <h3>¿Qué modelo necesitas?</h3>
+  <p>Depende de dos cosas: cuánto consume lo que quieres enchufar y cuánto tiempo quieres que aguante. Un móvil y un portátil se resuelven con un <a href="#">powerbank de la serie RAPID</a>. Una nevera de camping o unas luces para el fin de semana entran en la <a href="#">serie RIVER</a>. Si lo que buscas es aguantar un apagón en casa con el frigorífico y el router encendidos, ahí ya hablamos de la <a href="#">serie DELTA</a>.</p>
+  <p>Y si el objetivo es gastar menos luz cada mes, y no solo tener respaldo para una emergencia, lo que necesitas son <a href="#">placas solares</a> o un <a href="#">kit para balcón</a>: producen electricidad todos los días en lugar de guardarla.</p>
+  <p>Si dudas entre dos modelos, escríbenos y te decimos cuál encaja. Preferimos venderte el que te sirve antes que el más caro.</p>
+</div></section>
+
+<section class="eg-seccion" aria-labelledby="t5">
+  <div class="eg-seccion-cab"><div><h2 id="t5">Preguntas frecuentes</h2></div></div>
+  <div class="eg-faq"><details open><summary>¿Sois distribuidor oficial de EcoFlow?</summary><div class="eg-faq-cuerpo"><p>Sí. Somos distribuidor oficial de EcoFlow en España, con tienda física y servicio técnico propio. El producto sale de nuestro almacén con la garantía del fabricante.</p></div></details><details><summary>¿Cuánto tarda el envío?</summary><div class="eg-faq-cuerpo"><p>Los pedidos con stock confirmado salen en 24-48 horas laborables. En la ficha de cada producto ves si está disponible en ese momento. Si algo va a tardar más, te avisamos antes de cobrar.</p></div></details><details><summary>¿Qué pasa si el equipo falla?</summary><div class="eg-faq-cuerpo"><p>Abres la incidencia con nosotros, no con el fabricante. Nuestro servicio técnico la gestiona de principio a fin y te vamos contando en qué punto está.</p></div></details><details><summary>¿Puedo pagar a plazos?</summary><div class="eg-faq-cuerpo"><p>Sí. Al finalizar la compra puedes elegir el pago fraccionado con SeQura. Las condiciones y el coste te los muestra SeQura antes de que confirmes nada.</p></div></details><details><summary>¿Qué batería necesito para un apagón en casa?</summary><div class="eg-faq-cuerpo"><p>Depende de qué quieras mantener encendido. Para frigorífico, router y algunas luces, la serie DELTA suele ser la que encaja. Si nos dices qué aparatos son, te lo calculamos.</p></div></details><details><summary>¿Sirven las placas solares para el balcón de un piso?</summary><div class="eg-faq-cuerpo"><p>Sí, hay kits pensados para balcón que no necesitan obra. Lo que cambia entre un piso y una casa es la potencia que puedes instalar y cómo se conecta. Pregúntanos y te decimos qué opciones tienes.</p></div></details></div>
+</section>
+
+<section class="eg-seccion"><div class="eg-cierre">
+  <div><h2>¿No lo tienes claro?</h2><p>Cuéntanos qué quieres alimentar y cuánto tiempo, y te decimos qué equipo encaja. Sin compromiso.</p></div>
+  <a class="eg-btn eg-btn-principal" href="#">Escríbenos</a>
+</div></section>
+
+</div></div>
+
+<div class="pv-pie">
+  <b>Qué estás viendo.</b> El contenido de la portada tal y como lo genera el snippet <code>[eg_portada]</code>.
+  La cabecera, el menú de categorías y el pie de tu web no cambian: los sigue pintando el tema.
+  Las imágenes son marcadores grises porque esta vista previa no puede cargar ficheros de tu servidor;
+  en tu web saldrán las fotos reales de cada categoría y producto.
+</div>
