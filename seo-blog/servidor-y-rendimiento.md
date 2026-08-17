@@ -259,3 +259,62 @@ Verificado: ahora responde **403**.
 - `wp-staging` y `wp-staging-pro` están los dos activos; el gratuito sobra.
 - 118 MB huérfanos en `uploads/mailster` y `uploads/wp-statistics` (plugins ya no instalados).
 - Borrar `eg-check-9f3a2.php` del docroot.
+
+## Por qué la web sigue pareciendo lenta con la caché funcionando (17/08/2026)
+
+El servidor entrega la portada en **0,06 s**. Lo que queda es peso de navegador, y estos son los números:
+
+| Concepto | Peso |
+|---|---|
+| HTML de la portada | 402 KB |
+| CSS + JS (3 ficheros combinados por LiteSpeed) | **2.918 KB** |
+| `2026/03/help-flash.png` | **1.999.858 B (2,0 MB)** |
+| `2026/02/Diseno-sin-titulo-e1770069774623.png` | **1.748.185 B (1,7 MB)** |
+| ...sus recortes 823x1024 / 768x956 / 600x747 | 620 + 547 + 348 KB |
+| `2025/11/Diseno-sin-titulo-14.png` + recortes | 538 + 433 + 262 + 169 KB |
+| Imágenes distintas en la portada | 159 |
+
+Es decir: la portada se acerca a los **10 MB** entre código e imágenes. Ninguna optimización de
+servidor arregla eso; hay que aligerar la página.
+
+Dos causas concretas:
+
+1. **Tres PNG sin convertir.** Hay 8.517 webp en `uploads` (932 jpg, 1.420 png), así que la conversión
+   se hizo en su día, pero estas tres se quedaron fuera y son justo las de la portada. Solo esas
+   tres y sus recortes suman más de 4 MB.
+2. **2,9 MB de CSS y JS** de Elementor + Minimog + los plugins activos.
+
+Ajustes de LiteSpeed que estaban saboteando el pintado (corregidos):
+
+| Opción | Estaba | Ahora | Efecto que causaba |
+|---|---|---|---|
+| `optm-js_defer` | **2** (= retrasado hasta la primera interacción) | 0 | menú, animaciones y galería no se montaban hasta mover el ratón |
+| `optm-css_async` | 1 | 0 | el precio y los bloques se repintaban un segundo después |
+| `media-lazy` | 0 (ya estaba) | 0 | — |
+
+`pre_loader_enable` del tema Minimog está a `'0'`, así que el cargador de tres puntos no es del tema.
+
+### Limpieza hecha
+
+- Copias de WP Staging: borradas las tres antiguas (30/01, 31/01, 25/07). De **6,8 GB a 1,9 GB**.
+- `wp-content/compressx-nextgen` (176 MB) y `wp-content/compressx` (4,3 MB) son de un plugin que
+  ya no está instalado — pendiente de borrar.
+
+### Medición de plugins: cuidado
+
+Contar `/plugins/<slug>/` en el HTML **no sirve** mientras LiteSpeed combine CSS y JS: todo queda
+bajo `/wp-content/litespeed/` y solo asoman `wpforms` y `litespeed-cache`. Además las claves
+`litespeed.conf.optm-css_comb` y `optm-js_comb` no existen con ese nombre, así que el intento de
+desactivar la combinación para medir no tuvo efecto.
+
+### Inventario de la portada (página 187, Elementor, 90.988 bytes)
+
+12 `heading`, 10 `image-box`, 7 `image`, 6 `call-to-action`, 3 `text-editor`, 2 `button`,
+`tm-product-carousel`, `tm-product`, `tm-modern-slider`, `tm-button-add-to-cart`, `loop-grid`,
+`icon-list`, `spacer`, `html`.
+
+Secciones actuales: DELTA 3 y DELTA 3 ULTRA · Arrancadores de Coche · Baliza V16 · Marcas con las que
+trabajamos · ECOFLOW STREAM · Microinversor STREAM + STREAM CA Pro · Soluciones solares para el hogar ·
+Servicio oficial EcoFlow España · Generadores solares para balcones · EcoFlow España y SeQura ·
+Kit solar para balcón · DELTA 3 · Serie Rapid · Control a Distancia · Soluciones para casa ·
+Independencia Energética.
