@@ -247,13 +247,22 @@ html, body { background: #eef2f7; color: #364152; margin: 0;
 
 /* ====================== 6. MARCAS Y CONFIANZA ======================= */
 
+/* Muro de marcas: todas las que haya, en rejilla que se llena sola.
+   Cada marca es una tarjeta blanca clicable a su pagina. */
 .eg-marcas {
-  background: #fff; border-radius: var(--r); padding: 20px 24px;
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; align-items: center;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 12px;
 }
-.eg-marca { display: flex; align-items: center; justify-content: center; min-height: 56px; text-decoration: none !important; }
-.eg-marca img { max-height: 42px; width: auto; object-fit: contain; }
-.eg-marca span { font-size: 16px; font-weight: 900; letter-spacing: -.02em; color: #5e6b7b; }
+.eg-marca {
+  background: #fff; border-radius: 12px; min-height: 84px; padding: 14px 16px;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none !important; transition: box-shadow .15s, transform .15s;
+}
+.eg-marca:hover { box-shadow: 0 10px 24px rgba(7,42,77,.16); transform: translateY(-2px); }
+.eg-marca img { max-height: 46px; max-width: 100%; width: auto; object-fit: contain; }
+.eg-marca span {
+  font-size: 16px; font-weight: 900; letter-spacing: -.02em; color: #4d5a6b;
+  text-align: center; line-height: 1.2;
+}
 
 .eg-avales {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
@@ -305,7 +314,6 @@ html, body { background: #eef2f7; color: #364152; margin: 0;
 @media (max-width: 1150px) {
   .eg-fila { grid-template-columns: repeat(3, 1fr); }
   .eg-circulos { grid-template-columns: repeat(4, 1fr); }
-  .eg-marcas { grid-template-columns: repeat(3, 1fr); }
   .eg-promos { grid-auto-rows: 168px; }
 }
 
@@ -348,7 +356,9 @@ html, body { background: #eef2f7; color: #364152; margin: 0;
   .eg-circulo { flex: 0 0 27vw; max-width: 122px; scroll-snap-align: start; }
   .eg-prod-precio { font-size: 26px; }
 
-  .eg-marcas { grid-template-columns: repeat(2, 1fr); padding: 14px; }
+  .eg-marcas { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 9px; }
+  .eg-marca { min-height: 70px; padding: 11px; }
+  .eg-marca span { font-size: 14px; }
   .eg-avales { grid-template-columns: 1fr; }
   .eg-texto { padding: 22px 18px; }
   .eg-banda-txt { padding: 26px 20px; }
@@ -386,8 +396,8 @@ html, body { background: #eef2f7; color: #364152; margin: 0;
     <h1>Energía portátil, solar y movilidad</h1>
     <p>EcoFlow, Hypershell y el resto de marcas que trabajamos. Con tienda física y servicio técnico propio en España.</p>
     <div class="eg-hero-botones">
-      <a class="eg-btn eg-btn-naranja" href="#eg-comprar">Ver el catálogo</a>
-      <a class="eg-btn eg-btn-linea" href="#">Preguntar antes de comprar</a>
+      <a class="eg-btn eg-btn-naranja" href="#eg-comprar">Comprar ahora</a>
+      <a class="eg-btn eg-btn-linea" href="#">Ver Hypershell</a>
     </div>
   </div>
   <div class="eg-hero-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f25" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset="1" stop-color="#c23a00"/></linearGradient></defs><rect width="400" height="320" fill="url(#f25)"/><circle cx="322" cy="252" r="130" fill="#ffffff" opacity=".08"/><circle cx="200" cy="58" r="26" fill="#1b2430"/><rect x="168" y="90" width="64" height="66" rx="18" fill="#232f3e"/><rect x="134" y="152" width="132" height="30" rx="15" fill="#0f1620"/><circle cx="152" cy="167" r="16" fill="#ffb547"/><circle cx="248" cy="167" r="16" fill="#ffb547"/><rect x="150" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="226" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="144" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="220" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="150" y="276" width="24" height="14" rx="6" fill="#0f1620"/><rect x="226" y="276" width="24" height="14" rx="6" fill="#0f1620"/></svg></div>
@@ -438,12 +448,9 @@ html, body { background: #eef2f7; color: #364152; margin: 0;
   <div class="eg-banda-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f27" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12a75f"/><stop offset="1" stop-color="#04603a"/></linearGradient></defs><rect width="400" height="320" fill="url(#f27)"/><circle cx="60" cy="52" r="90" fill="#ffffff" opacity=".07"/><path d="M70 168 L200 76 L330 168 Z" fill="#12304f"/><rect x="104" y="168" width="192" height="120" fill="#f5f8fc"/><rect x="104" y="168" width="192" height="120" fill="none" stroke="#c6d3e1" stroke-width="3"/><rect x="134" y="200" width="48" height="42" fill="#7fbdf0"/><rect x="214" y="200" width="50" height="88" fill="#12304f"/><circle cx="254" cy="248" r="4" fill="#ffc233"/><g transform="rotate(-27 236 122)"><rect x="192" y="94" width="104" height="60" rx="5" fill="#0b2c50"/><rect x="198" y="100" width="92" height="48" rx="3" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="2.5"><line x1="229" y1="100" x2="229" y2="148"/><line x1="259" y1="100" x2="259" y2="148"/><line x1="198" y1="124" x2="290" y2="124"/></g></g></svg></div>
 </div></section>
 
-<section class="eg-seccion" aria-labelledby="t4">
-  <div class="eg-seccion-cab"><div><h2 id="t4">Marcas con las que trabajamos</h2></div></div>
-  <div class="eg-marcas"><a class="eg-marca" href="#"><span>ECOFLOW</span></a><a class="eg-marca" href="#"><span>HYPERSHELL</span></a><a class="eg-marca" href="#"><span>marca 3</span></a><a class="eg-marca" href="#"><span>marca 4</span></a><a class="eg-marca" href="#"><span>marca 5</span></a><a class="eg-marca" href="#"><span>marca 6</span></a></div>
-</section>
+<section class="eg-seccion" aria-labelledby="t4"><div class="eg-seccion-cab"><div><h2 id="t4">Nuestras marcas</h2><p>Somos distribuidor autorizado de las marcas que vendemos.</p></div></div><div class="eg-marcas"><a class="eg-marca" href="#"><span>ECOFLOW</span></a><a class="eg-marca" href="#"><span>HYPERSHELL</span></a><a class="eg-marca" href="#"><span>MARCA 3</span></a><a class="eg-marca" href="#"><span>MARCA 4</span></a><a class="eg-marca" href="#"><span>MARCA 5</span></a><a class="eg-marca" href="#"><span>MARCA 6</span></a><a class="eg-marca" href="#"><span>MARCA 7</span></a><a class="eg-marca" href="#"><span>MARCA 8</span></a><a class="eg-marca" href="#"><span>MARCA 9</span></a><a class="eg-marca" href="#"><span>MARCA 10</span></a><a class="eg-marca" href="#"><span>MARCA 11</span></a><a class="eg-marca" href="#"><span>MARCA 12</span></a><a class="eg-marca" href="#"><span>MARCA 13</span></a><a class="eg-marca" href="#"><span>MARCA 14</span></a><a class="eg-marca" href="#"><span>MARCA 15</span></a><a class="eg-marca" href="#"><span>MARCA 16</span></a></div></section>
 
-<section class="eg-seccion"><div class="eg-avales"><div class="eg-aval"><b>Distribuidor oficial</b><span>Con la garantía del fabricante.</span></div><div class="eg-aval"><b>Tienda física</b><span>Puedes verlo y recogerlo en persona.</span></div><div class="eg-aval"><b>Servicio técnico propio</b><span>La incidencia la gestionamos nosotros.</span></div><div class="eg-aval"><b>Pago a plazos</b><span>Financiación con SeQura al finalizar.</span></div></div></section>
+<section class="eg-seccion"><div class="eg-avales"><div class="eg-aval"><b>Envío en 24-48 h</b><span>En los productos con stock confirmado.</span></div><div class="eg-aval"><b>Garantía oficial</b><span>Distribuidor autorizado de las marcas que vendemos.</span></div><div class="eg-aval"><b>Servicio técnico propio</b><span>La incidencia la gestionamos nosotros.</span></div><div class="eg-aval"><b>Pago a plazos</b><span>Financiación con SeQura al finalizar.</span></div></div></section>
 
 <section class="eg-seccion"><div class="eg-texto">
   <h2>Una tienda especializada, no un marketplace</h2>
@@ -472,5 +479,5 @@ html, body { background: #eef2f7; color: #364152; margin: 0;
   <b>Qué estás viendo.</b> Solo el contenido de la portada. Tu cabecera, tu logo, el menú y el pie no se tocan.
   <br><b>Las ilustraciones</b> están dibujadas para esta vista previa porque no puede cargar ficheros de tu servidor.
   En tu web van tus fotos reales, y llenan el bloque igual que aquí.
-  <br><b>El «-18%»</b> se calcula del precio real de WooCommerce. Si un producto no está rebajado, no sale etiqueta.
+  <br><b>El «-18%»</b> se calcula del precio real de WooCommerce. Si un producto no está rebajado, no sale etiqueta.<br><b>Las marcas</b> se leen solas de WooCommerce: salen <em>todas</em> las que tengas, con su logo, y cada una enlaza a su página. Aquí van de relleno porque no sé cuáles son.
 </div>

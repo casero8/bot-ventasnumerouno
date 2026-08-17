@@ -357,13 +357,20 @@ function eg_portada_hero( $tienda ) {
 		) );
 	}
 
+	// El segundo boton lleva a la novedad de temporada. Si esa categoria no
+	// existe, lleva a los mas vendidos, que estan en la misma pagina.
+	$destacada = eg_portada_term( 'hypershell' );
+	$segundo   = $destacada
+		? '<a class="eg-btn eg-btn-linea" href="' . esc_url( get_term_link( $destacada ) ) . '">Ver Hypershell</a>'
+		: '<a class="eg-btn eg-btn-linea" href="#eg-comprar">Ver lo m&aacute;s vendido</a>';
+
 	return '<div class="eg-hero"><div class="eg-hero-in"><div class="eg-hero-txt">'
 		. '<span class="eg-pill eg-pill-nuevo">Distribuidor oficial</span>'
 		. '<h1>Energ&iacute;a port&aacute;til, solar y movilidad, con servicio t&eacute;cnico en Espa&ntilde;a</h1>'
 		. '<p>EcoFlow, Hypershell y el resto de marcas que trabajamos. Te asesoramos antes de comprar y, si algo falla, lo resolvemos nosotros.</p>'
 		. '<div class="eg-hero-botones">'
-		. '<a class="eg-btn eg-btn-naranja" href="' . $tienda . '">Ver el cat&aacute;logo</a>'
-		. '<a class="eg-btn eg-btn-linea" href="/contacto/">Preguntar antes de comprar</a>'
+		. '<a class="eg-btn eg-btn-naranja" href="' . $tienda . '">Comprar ahora</a>'
+		. $segundo
 		. '</div></div>'
 		. ( $foto ? '<div class="eg-hero-foto">' . $foto . '</div>' : '' )
 		. '</div></div>';
@@ -489,7 +496,7 @@ function eg_portada_marcas() {
 	$marcas = get_terms( array(
 		'taxonomy'   => $tax,
 		'hide_empty' => true,
-		'number'     => 12,
+		'number'     => 0,      // todas las que tenga, como hace MediaMarkt
 		'orderby'    => 'count',
 		'order'      => 'DESC',
 	) );
@@ -497,7 +504,8 @@ function eg_portada_marcas() {
 	if ( is_wp_error( $marcas ) || count( $marcas ) < 2 ) { return ''; }
 
 	$h = '<section class="eg-seccion" aria-labelledby="eg-t-marcas">'
-		. '<div class="eg-seccion-cab"><div><h2 id="eg-t-marcas">Marcas con las que trabajamos</h2></div></div>'
+		. '<div class="eg-seccion-cab"><div><h2 id="eg-t-marcas">Nuestras marcas</h2>'
+		. '<p>Somos distribuidor autorizado de las marcas que vendemos.</p></div></div>'
 		. '<div class="eg-marcas">';
 
 	foreach ( $marcas as $m ) {
@@ -523,9 +531,11 @@ function eg_portada_marcas() {
 
 function eg_portada_avales() {
 
+	// Nada de recogida en tienda: hay productos que salen directos de
+	// almacen y no pasan por la tienda fisica.
 	$items = array(
-		array( 'Distribuidor oficial',           'Con la garant&iacute;a del fabricante.' ),
-		array( 'Tienda f&iacute;sica',           'Puedes verlo y recogerlo en persona.' ),
+		array( 'Env&iacute;o en 24-48 h',        'En los productos con stock confirmado.' ),
+		array( 'Garant&iacute;a oficial',        'Distribuidor autorizado de las marcas que vendemos.' ),
 		array( 'Servicio t&eacute;cnico propio', 'La incidencia la gestionamos nosotros.' ),
 		array( 'Pago a plazos',                  'Financiaci&oacute;n con SeQura al finalizar.' ),
 	);
@@ -858,13 +868,22 @@ function eg_portada_css() {
 
 /* ====================== 6. MARCAS Y CONFIANZA ======================= */
 
+/* Muro de marcas: todas las que haya, en rejilla que se llena sola.
+   Cada marca es una tarjeta blanca clicable a su pagina. */
 .eg-marcas {
-  background: #fff; border-radius: var(--r); padding: 20px 24px;
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; align-items: center;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 12px;
 }
-.eg-marca { display: flex; align-items: center; justify-content: center; min-height: 56px; text-decoration: none !important; }
-.eg-marca img { max-height: 42px; width: auto; object-fit: contain; }
-.eg-marca span { font-size: 16px; font-weight: 900; letter-spacing: -.02em; color: #5e6b7b; }
+.eg-marca {
+  background: #fff; border-radius: 12px; min-height: 84px; padding: 14px 16px;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none !important; transition: box-shadow .15s, transform .15s;
+}
+.eg-marca:hover { box-shadow: 0 10px 24px rgba(7,42,77,.16); transform: translateY(-2px); }
+.eg-marca img { max-height: 46px; max-width: 100%; width: auto; object-fit: contain; }
+.eg-marca span {
+  font-size: 16px; font-weight: 900; letter-spacing: -.02em; color: #4d5a6b;
+  text-align: center; line-height: 1.2;
+}
 
 .eg-avales {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
@@ -916,7 +935,6 @@ function eg_portada_css() {
 @media (max-width: 1150px) {
   .eg-fila { grid-template-columns: repeat(3, 1fr); }
   .eg-circulos { grid-template-columns: repeat(4, 1fr); }
-  .eg-marcas { grid-template-columns: repeat(3, 1fr); }
   .eg-promos { grid-auto-rows: 168px; }
 }
 
@@ -959,7 +977,9 @@ function eg_portada_css() {
   .eg-circulo { flex: 0 0 27vw; max-width: 122px; scroll-snap-align: start; }
   .eg-prod-precio { font-size: 26px; }
 
-  .eg-marcas { grid-template-columns: repeat(2, 1fr); padding: 14px; }
+  .eg-marcas { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 9px; }
+  .eg-marca { min-height: 70px; padding: 11px; }
+  .eg-marca span { font-size: 14px; }
   .eg-avales { grid-template-columns: 1fr; }
   .eg-texto { padding: 22px 18px; }
   .eg-banda-txt { padding: 26px 20px; }
