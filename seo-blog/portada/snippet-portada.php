@@ -30,16 +30,68 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /* ==========================================================================
-   CONFIGURACION 1 · Accesos montados sobre la portada
-   array( slug, titulo, texto pequeno )
+   CONFIGURACION 1 · Mosaico de promociones
+   Los dos primeros son grandes (ocupan cuatro huecos), el resto pequenos.
+
+   array(
+     'slug'     => categoria a la que lleva,
+     'xl'       => true para el bloque grande,
+     'etiqueta' => pastilla de arriba a la izquierda (opcional),
+     'titulo'   => rotulo grande,
+     'texto'    => linea pequena (opcional),
+     'enlace'   => texto del enlace,
+     'color'    => 'azul' | 'naranja' | 'verde', fondo si la categoria no
+                   tiene imagen asignada
+   )
    ========================================================================== */
 
-function eg_portada_atajos_cfg() {
+function eg_portada_promos_cfg() {
 	return array(
-		array( 'hypershell',      'Hypershell',       'La novedad' ),
-		array( 'serie-delta',     'Estaciones DELTA', 'Respaldo para casa' ),
-		array( 'paneles-solares', 'Placas solares',   'Ahorra en la factura' ),
-		array( 'serie-rapid',     'Powerbanks',       'Carga r&aacute;pida' ),
+		array(
+			'slug'     => 'hypershell',
+			'xl'       => true,
+			'etiqueta' => 'Novedad',
+			'titulo'   => 'Hypershell: camina con ayuda',
+			'texto'    => 'El exoesqueleto que te quita peso de las piernas en cuestas y caminatas largas.',
+			'enlace'   => 'Descubrir Hypershell',
+			'color'    => 'naranja',
+		),
+		array(
+			'slug'     => 'serie-delta',
+			'xl'       => true,
+			'titulo'   => 'Que un apag&oacute;n no te pare',
+			'texto'    => 'Estaciones DELTA para mantener el frigor&iacute;fico, el router y las luces.',
+			'enlace'   => 'Ver estaciones DELTA',
+			'color'    => 'azul',
+		),
+		array(
+			'slug'   => 'paneles-solares',
+			'titulo' => 'Placas solares',
+			'texto'  => 'Port&aacute;tiles y para balc&oacute;n',
+			'enlace' => 'Ver placas',
+			'color'  => 'verde',
+		),
+		array(
+			'slug'   => 'kits-para-el-hogar',
+			'titulo' => 'Kits de balc&oacute;n',
+			'texto'  => 'Produce sin obra',
+			'enlace' => 'Ver kits',
+			'color'  => 'verde',
+		),
+		array(
+			'slug'   => 'serie-river',
+			'titulo' => 'Camping y furgo',
+			'texto'  => 'Bater&iacute;as RIVER, ligeras',
+			'enlace' => 'Ver RIVER',
+			'color'  => 'azul',
+		),
+		array(
+			'slug'   => 'serie-rapid',
+			'titulo' => 'Carga r&aacute;pida',
+			'texto'  => 'Powerbanks para el d&iacute;a a d&iacute;a',
+			'enlace' => 'Ver powerbanks',
+			'color'  => 'azul',
+		),
 	);
 }
 
@@ -165,13 +217,14 @@ function eg_portada_tarjeta_producto( $p, $prioridad = false, $etiqueta = '' ) {
 		. '<a class="eg-prod-foto" href="' . $url . '" tabindex="-1" aria-hidden="true">'
 		. $p->get_image( 'woocommerce_thumbnail', array( 'loading' => $prioridad ? 'eager' : 'lazy' ) )
 		. '</a>'
+		. '<div class="eg-prod-cuerpo">'
 		. ( $marca ? '<p class="eg-prod-marca">' . esc_html( $marca ) . '</p>' : '' )
 		. '<a class="eg-prod-nombre" href="' . $url . '">' . esc_html( $p->get_name() ) . '</a>'
 		. '<div class="eg-prod-precio">' . wp_kses_post( $p->get_price_html() ) . '</div>'
 		. '<p class="eg-prod-stock">' . esc_html( $texto_stock ) . '</p>'
 		. '<a class="eg-prod-btn" href="' . esc_url( $p->add_to_cart_url() ) . '" rel="nofollow">'
 		. esc_html( $p->add_to_cart_text() ) . '</a>'
-		. '</article>';
+		. '</div></article>';
 }
 
 /**
@@ -245,7 +298,7 @@ function eg_portada_html() {
 	$h .= eg_portada_hero( $tienda );
 
 	$h .= '<div class="eg-ancho">';
-	$h .= eg_portada_atajos();
+	$h .= eg_portada_promos();
 
 	$h .= '<span id="eg-comprar"></span>';
 
@@ -304,7 +357,7 @@ function eg_portada_hero( $tienda ) {
 		) );
 	}
 
-	return '<div class="eg-hero"><div class="eg-hero-in"><div>'
+	return '<div class="eg-hero"><div class="eg-hero-in"><div class="eg-hero-txt">'
 		. '<span class="eg-pill eg-pill-nuevo">Distribuidor oficial</span>'
 		. '<h1>Energ&iacute;a port&aacute;til, solar y movilidad, con servicio t&eacute;cnico en Espa&ntilde;a</h1>'
 		. '<p>EcoFlow, Hypershell y el resto de marcas que trabajamos. Te asesoramos antes de comprar y, si algo falla, lo resolvemos nosotros.</p>'
@@ -317,25 +370,43 @@ function eg_portada_hero( $tienda ) {
 }
 
 /* ==========================================================================
-   Accesos rapidos
+   Mosaico de promociones
    ========================================================================== */
 
-function eg_portada_atajos() {
+function eg_portada_promos() {
 
 	$piezas = '';
+	$n      = 0;
 
-	foreach ( eg_portada_atajos_cfg() as $a ) {
-		$t = eg_portada_term( $a[0] );
-		if ( ! $t ) { continue; }
-		$piezas .= '<a class="eg-atajo" href="' . esc_url( get_term_link( $t ) ) . '">'
-			. '<span class="eg-atajo-mini">' . eg_portada_foto_term( $t, 'woocommerce_thumbnail', false ) . '</span>'
-			. '<span><b>' . $a[1] . '</b><span>' . $a[2] . '</span></span>'
-			. '</a>';
+	foreach ( eg_portada_promos_cfg() as $c ) {
+
+		$t = eg_portada_term( $c['slug'] );
+		if ( ! $t ) { continue; } // categoria inexistente: se salta sola
+
+		$n++;
+		$xl    = ! empty( $c['xl'] );
+		$color = isset( $c['color'] ) ? $c['color'] : 'azul';
+
+		// Las dos primeras entran en pantalla: se cargan sin lazy.
+		$foto = eg_portada_foto_term( $t, 'large', $n > 2 );
+
+		$piezas .= '<a class="eg-promo eg-promo-' . $color . ( $xl ? ' eg-promo-xl' : '' ) . '"'
+			. ' href="' . esc_url( get_term_link( $t ) ) . '">'
+			. ( $foto ? '<span class="eg-promo-foto">' . $foto . '</span>' : '' )
+			. '<span class="eg-promo-velo"></span>'
+			. ( ! empty( $c['etiqueta'] )
+				? '<span class="eg-promo-etiq"><span class="eg-pill eg-pill-nuevo">' . $c['etiqueta'] . '</span></span>'
+				: '' )
+			. '<span class="eg-promo-txt">'
+			. '<b>' . $c['titulo'] . '</b>'
+			. ( ! empty( $c['texto'] ) ? '<span>' . $c['texto'] . '</span>' : '' )
+			. '<i>' . $c['enlace'] . ' &rarr;</i>'
+			. '</span></a>';
 	}
 
-	if ( ! $piezas ) { return '<div class="eg-ancho"></div>'; }
+	if ( $n < 3 ) { return ''; }
 
-	return '<nav class="eg-atajos" aria-label="Accesos r&aacute;pidos">' . $piezas . '</nav>';
+	return '<section class="eg-seccion"><div class="eg-promos">' . $piezas . '</div></section>';
 }
 
 /* ==========================================================================

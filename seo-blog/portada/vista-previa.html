@@ -1,332 +1,358 @@
 <title>Portada EcoGadget</title>
 <style>
-html, body { background: #f2f5f9; color: #3a4350; margin: 0;
+html, body { background: #eef2f7; color: #364152; margin: 0;
   font-family: "Poppins", "Outfit", "Segoe UI", system-ui, -apple-system, sans-serif; }
-.pv-barra { background: #0b1220; color: #c8d4e2; padding: 12px 16px; font-size: 12.5px; line-height: 1.5; }
-.pv-barra .pv-in { max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 5px 22px; align-items: baseline; }
+.pv-barra { background: #0a1020; color: #c6d3e2; padding: 12px 16px; font-size: 12.5px; line-height: 1.5; }
+.pv-barra .pv-in { max-width: 1340px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 5px 22px; align-items: baseline; }
 .pv-barra b { color: #fff; font-size: 13px; }
-.pv-barra em { font-style: normal; color: #ff8a45; font-weight: 700; }
-.pv-hueco { background: #fff; border-bottom: 1px solid #e4e9f0; }
-.pv-hueco .pv-in { max-width: 1320px; margin: 0 auto; padding: 18px 16px; text-align: center;
-  color: #9aa5b3; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; }
-.pv-pie { max-width: 1320px; margin: 0 auto; padding: 24px 16px 46px; color: #6e7987; font-size: 13.5px; line-height: 1.7; }
-.pv-pie b { color: #0b1220; }
+.pv-barra em { font-style: normal; color: #ff8a45; font-weight: 800; }
+.pv-hueco { background: #fff; border-bottom: 1px solid #e2e8f0; }
+.pv-hueco .pv-in { max-width: 1340px; margin: 0 auto; padding: 18px 16px; text-align: center;
+  color: #96a2b1; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; font-weight: 800; }
+.pv-pie { max-width: 1340px; margin: 0 auto; padding: 24px 16px 46px; color: #6b7686; font-size: 13.5px; line-height: 1.7; }
+.pv-pie b { color: #0a1020; }
 /* ==========================================================================
    Portada · ecogadgetoficial.com
    --------------------------------------------------------------------------
    HTML y CSS puros. Sin Elementor y sin JavaScript.
    Se imprime en linea desde el snippet "EG · Portada", solo en is_front_page().
 
-   Criterio: es una tienda, no un folleto. Lo primero que se ve son productos
-   con su precio; el texto largo baja al final, donde sigue contando para
-   Google sin estorbar a quien viene a comprar.
+   Criterio de diseno, y por que es asi:
 
-   Color: el azul de marca es la estructura (cabeceras, bandas). El naranja
-   es SOLO para novedad, oferta y precio rebajado: si se usa para adornar
-   deja de significar nada.
+   1. Las imagenes sangran hasta el borde de su caja. Una foto pequena
+      centrada con margenes blancos alrededor es lo que hace que una tienda
+      parezca de 2012. Aqui la foto ES el bloque.
+   2. Bloques de color saturado, no cajas blancas sobre gris. MediaMarkt y
+      PcComponentes son color; el blanco se reserva para las fichas de
+      producto, donde el producto tiene que destacar sobre fondo neutro.
+   3. El precio es el elemento tipografico mas grande de la ficha, por
+      encima del nombre. En una tienda se compra por precio.
+   4. El naranja significa dinero: novedad, oferta y precio rebajado. Si se
+      usa para adornar deja de significar nada.
 
-   No se declara font-family a proposito: hereda la del tema, que ya es la
-   que usa el resto de la web.
-
-   Prefijo .eg-home en todo porque el kit de Elementor sigue cargandose para
-   la cabecera y el pie, y sin el prefijo gana el otro.
+   No se declara font-family a proposito: hereda la del tema.
+   Prefijo .eg-home porque el kit de Elementor sigue cargandose para la
+   cabecera y el pie, y sin el prefijo gana el otro.
    ========================================================================== */
 
 .eg-home {
-  --azul: #06213d;
-  --azul-medio: #12609f;
-  --naranja: #ff6a13;
-  --naranja-oscuro: #c74400;
+  --azul: #072a4d;
+  --azul-vivo: #0a6ed1;
+  --naranja: #ff5a1f;
+  --naranja-osc: #d63c00;
   --verde: #0b7a3f;
-  --borde: #e4e9f0;
-  --texto: #3a4350;
-  --suave: #6e7987;
-  --tinta: #0b1220;
-  --fondo: #f2f5f9;
-  --radio: 14px;
+  --texto: #364152;
+  --suave: #6b7686;
+  --tinta: #0a1020;
+  --fondo: #eef2f7;
+  --r: 16px;
   color: var(--texto);
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.5;
   background: var(--fondo);
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 }
 
 .eg-saltar {
   position: absolute; left: -9999px; top: 0; z-index: 999;
   background: var(--azul); color: #fff; padding: 12px 20px;
-  border-radius: 0 0 var(--radio) 0; font-weight: 700; text-decoration: none;
+  border-radius: 0 0 var(--r) 0; font-weight: 700; text-decoration: none;
 }
 .eg-saltar:focus { left: 0; }
-
-.eg-home a:focus-visible, .eg-home button:focus-visible {
-  outline: 3px solid var(--naranja); outline-offset: 2px; border-radius: 6px;
+.eg-home a:focus-visible {
+  outline: 3px solid var(--naranja); outline-offset: 3px; border-radius: 6px;
 }
 .eg-home img { max-width: 100%; height: auto; display: block; }
-.eg-ancho { max-width: 1320px; margin: 0 auto; padding: 0 16px; }
-.eg-seccion { margin: 30px 0; }
+.eg-ancho { max-width: 1340px; margin: 0 auto; padding: 0 16px; }
+.eg-seccion { margin: 28px 0; }
 
 .eg-home h2 {
-  font-size: 23px; font-weight: 800; letter-spacing: -.025em;
-  color: var(--tinta); margin: 0; line-height: 1.2;
+  font-size: 26px; font-weight: 800; letter-spacing: -.03em;
+  color: var(--tinta); margin: 0; line-height: 1.15; text-wrap: balance;
 }
 .eg-seccion-cab {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 14px; flex-wrap: wrap; margin: 0 0 15px;
+  gap: 14px; flex-wrap: wrap; margin: 0 0 16px;
 }
-.eg-seccion-cab p { margin: 4px 0 0; color: var(--suave); font-size: 14px; }
+.eg-seccion-cab p { margin: 5px 0 0; color: var(--suave); font-size: 14.5px; }
 .eg-vertodo {
-  font-size: 14px; font-weight: 700; color: var(--azul-medio) !important;
+  font-size: 14.5px; font-weight: 800; color: var(--azul-vivo) !important;
   text-decoration: none !important; white-space: nowrap;
 }
 .eg-vertodo:hover { text-decoration: underline !important; }
 
-/* Etiquetas. El naranja solo aqui y en los precios rebajados. */
 .eg-pill {
-  display: inline-block; font-size: 11.5px; font-weight: 800;
-  letter-spacing: .07em; text-transform: uppercase;
-  padding: 5px 11px; border-radius: 999px;
+  display: inline-block; font-size: 11.5px; font-weight: 900;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 6px 13px; border-radius: 999px;
 }
 .eg-pill-nuevo  { background: var(--naranja); color: #fff; }
-.eg-pill-top    { background: #ffeadb; color: var(--naranja-oscuro); }
-.eg-pill-oferta { background: var(--naranja); color: #fff; }
-
-/* ============================ 1. PORTADA ============================
-   Banda ancha a dos columnas: mensaje a la izquierda, producto grande a
-   la derecha. Debajo, la fila de accesos montada sobre el borde.
-   =================================================================== */
-
-.eg-hero {
-  background: radial-gradient(120% 140% at 12% 20%, #0d3c6e 0%, #06213d 62%, #04182c 100%);
-  color: #fff; overflow: hidden;
-}
-.eg-hero-in {
-  max-width: 1320px; margin: 0 auto; padding: 40px 16px 88px;
-  display: grid; grid-template-columns: 1.02fr .98fr; gap: 30px; align-items: center;
-}
-.eg-home .eg-hero h1 {
-  font-size: 42px; line-height: 1.05; font-weight: 800; letter-spacing: -.035em;
-  color: #fff; margin: 13px 0 12px; text-wrap: balance;
-}
-.eg-hero p { font-size: 17px; line-height: 1.45; color: #cfe0f2; margin: 0 0 22px; max-width: 520px; }
-.eg-hero-botones { display: flex; flex-wrap: wrap; gap: 11px; }
-.eg-hero-foto {
-  border-radius: var(--radio); overflow: hidden; aspect-ratio: 16 / 11;
-  background: rgba(255,255,255,.06);
-}
-.eg-hero-foto img { width: 100%; height: 100%; object-fit: cover; }
+.eg-pill-top    { background: #fff2e8; color: var(--naranja-osc); }
+.eg-pill-oferta { background: var(--naranja); color: #fff; font-size: 13px; padding: 7px 13px; }
 
 .eg-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  min-height: 48px; padding: 12px 26px; border-radius: 999px;
-  font-size: 15.5px; font-weight: 800; text-decoration: none !important;
+  min-height: 50px; padding: 13px 30px; border-radius: 999px;
+  font-size: 16px; font-weight: 800; text-decoration: none !important;
   border: 2px solid transparent; letter-spacing: -.01em;
 }
 .eg-btn-naranja { background: var(--naranja); color: #fff !important; }
-.eg-btn-naranja:hover { background: var(--naranja-oscuro); }
+.eg-btn-naranja:hover { background: var(--naranja-osc); }
 .eg-btn-blanco { background: #fff; color: var(--azul) !important; }
-.eg-btn-blanco:hover { background: #dfe9f4; }
-.eg-btn-linea { background: transparent; color: #fff !important; border-color: rgba(255,255,255,.5); }
-.eg-btn-linea:hover { background: rgba(255,255,255,.13); }
+.eg-btn-blanco:hover { background: #dde8f3; }
+.eg-btn-linea { background: transparent; color: #fff !important; border-color: rgba(255,255,255,.55); }
+.eg-btn-linea:hover { background: rgba(255,255,255,.15); }
 
-/* Accesos rapidos montados sobre la portada */
-.eg-atajos {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px;
-  margin-top: -58px; position: relative; z-index: 2;
-}
-.eg-atajo {
-  background: #fff; border-radius: var(--radio); padding: 13px 15px;
-  box-shadow: 0 8px 24px rgba(6,33,61,.16);
-  text-decoration: none !important; color: inherit !important;
-  display: flex; gap: 12px; align-items: center; min-height: 76px;
-}
-.eg-atajo:hover { box-shadow: 0 12px 30px rgba(6,33,61,.24); }
-.eg-atajo-mini {
-  width: 56px; height: 56px; flex: 0 0 56px; border-radius: 10px;
-  background: var(--fondo); overflow: hidden;
-}
-.eg-atajo-mini img, .eg-atajo-mini svg { width: 100%; height: 100%; object-fit: cover; }
-.eg-atajo b { display: block; font-size: 14.5px; font-weight: 800; color: var(--tinta); line-height: 1.2; }
-.eg-atajo span { display: block; font-size: 12.5px; color: var(--suave); margin-top: 3px; line-height: 1.3; }
+/* ======================= 1. PORTADA A SANGRE ========================
+   La foto ocupa la mitad derecha entera, sin margenes ni bordes: sangra
+   hasta arriba, abajo y a la derecha.
+   =================================================================== */
 
-/* ======================== 2. FILA DE PRODUCTOS ======================= */
+.eg-hero { background: var(--azul); color: #fff; overflow: hidden; }
+.eg-hero-in {
+  max-width: 1340px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; min-height: 430px;
+}
+.eg-hero-txt { padding: 46px 40px 46px 16px; align-self: center; }
+.eg-home .eg-hero h1 {
+  font-size: 46px; line-height: 1.02; font-weight: 900; letter-spacing: -.04em;
+  color: #fff; margin: 14px 0 14px; text-wrap: balance;
+}
+.eg-hero p { font-size: 17.5px; line-height: 1.42; color: #c3d8ef; margin: 0 0 24px; max-width: 500px; }
+.eg-hero-botones { display: flex; flex-wrap: wrap; gap: 12px; }
+.eg-hero-foto { position: relative; min-height: 300px; background: #0b3868; }
+.eg-hero-foto img, .eg-hero-foto svg {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+
+/* ==================== 2. MOSAICO DE PROMOCIONES =====================
+   Bloques de color con la foto sangrada. Dos grandes y cuatro pequenos.
+   Es la pieza que hace que una portada parezca una tienda y no un folleto.
+   =================================================================== */
+
+.eg-promos {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 190px; gap: 14px;
+}
+.eg-promo {
+  position: relative; overflow: hidden; border-radius: var(--r);
+  text-decoration: none !important; color: #fff !important;
+  display: flex; align-items: flex-end; background: var(--azul);
+  transition: transform .15s, box-shadow .15s;
+}
+.eg-promo:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(7,42,77,.26); }
+.eg-promo-foto { position: absolute; inset: 0; }
+.eg-promo-foto img, .eg-promo-foto svg { width: 100%; height: 100%; object-fit: cover; }
+.eg-promo-velo {
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(6,20,38,.88) 0%, rgba(6,20,38,.42) 45%, rgba(6,20,38,0) 78%);
+}
+.eg-promo-txt { position: relative; padding: 18px 20px; width: 100%; }
+.eg-promo b {
+  display: block; font-size: 19px; font-weight: 800; letter-spacing: -.025em;
+  line-height: 1.15; margin-bottom: 4px; text-wrap: balance;
+}
+.eg-promo span { display: block; font-size: 13.5px; color: #d3e2f2; line-height: 1.35; }
+.eg-promo i {
+  font-style: normal; display: inline-block; margin-top: 11px;
+  font-size: 13.5px; font-weight: 800; color: #fff;
+  border-bottom: 2px solid var(--naranja); padding-bottom: 2px;
+}
+.eg-promo-etiq { position: absolute; top: 15px; left: 16px; z-index: 2; }
+
+/* Los dos grandes ocupan dos columnas y dos filas */
+.eg-promo-xl { grid-column: span 2; grid-row: span 2; }
+.eg-promo-xl .eg-promo b { font-size: 30px; letter-spacing: -.035em; }
+.eg-promo-xl .eg-promo-txt { padding: 26px 28px; }
+.eg-promo-xl span { font-size: 15px; }
+
+/* Variantes de color para cuando la categoria no tiene foto */
+.eg-promo-naranja { background: linear-gradient(140deg, #ff7a3d, #d63c00); }
+.eg-promo-azul    { background: linear-gradient(140deg, #1287ec, #054a92); }
+.eg-promo-verde   { background: linear-gradient(140deg, #16a75c, #05663a); }
+
+/* ======================= 3. FICHAS DE PRODUCTO ======================
+   Fondo blanco solo aqui: el producto necesita fondo neutro. La foto
+   sangra por arriba y por los lados de la ficha.
+   =================================================================== */
 
 .eg-fila { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
 .eg-prod {
   position: relative; display: flex; flex-direction: column; background: #fff;
-  border-radius: var(--radio); padding: 13px; transition: box-shadow .15s, transform .15s;
+  border-radius: var(--r); overflow: hidden; transition: box-shadow .15s, transform .15s;
 }
-.eg-prod:hover { box-shadow: 0 10px 26px rgba(6,33,61,.14); transform: translateY(-2px); }
+.eg-prod:hover { box-shadow: 0 14px 30px rgba(7,42,77,.16); transform: translateY(-3px); }
 .eg-prod-etiq { position: absolute; top: 12px; left: 12px; z-index: 2; }
-.eg-prod-foto { display: block; aspect-ratio: 1; margin-bottom: 11px; border-radius: 8px; overflow: hidden; }
-.eg-prod-foto img, .eg-prod-foto svg { width: 100%; height: 100%; object-fit: contain; }
+.eg-prod-foto {
+  display: block; aspect-ratio: 5 / 4; background: #f6f8fb; overflow: hidden;
+}
+.eg-prod-foto img, .eg-prod-foto svg { width: 100%; height: 100%; object-fit: cover; }
+.eg-prod-cuerpo { padding: 13px 15px 15px; display: flex; flex-direction: column; flex: 1; }
 .eg-prod-marca {
-  font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
-  color: var(--suave); margin: 0 0 4px;
+  font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--suave); margin: 0 0 5px;
 }
 .eg-prod-nombre {
-  font-size: 14px; font-weight: 600; line-height: 1.35; color: var(--tinta) !important;
-  text-decoration: none !important; display: block; margin-bottom: 9px;
+  font-size: 14.5px; font-weight: 600; line-height: 1.32; color: var(--tinta) !important;
+  text-decoration: none !important; display: block; margin-bottom: 11px;
 }
-.eg-prod-nombre:hover { color: var(--azul-medio) !important; text-decoration: underline !important; }
+.eg-prod-nombre:hover { color: var(--azul-vivo) !important; text-decoration: underline !important; }
 .eg-prod-precio {
-  font-size: 24px; font-weight: 800; color: var(--tinta); margin: 0 0 2px;
-  letter-spacing: -.035em; font-variant-numeric: tabular-nums; line-height: 1.1;
+  font-size: 29px; font-weight: 900; color: var(--tinta); margin: auto 0 2px;
+  letter-spacing: -.045em; font-variant-numeric: tabular-nums; line-height: 1;
 }
-.eg-prod-precio del { font-size: 14px; font-weight: 500; color: var(--suave); margin-right: 7px; letter-spacing: 0; }
-.eg-prod-precio ins { text-decoration: none; color: var(--naranja-oscuro); }
-.eg-prod-stock { font-size: 12.5px; color: var(--verde); font-weight: 700; margin: 0 0 12px; }
+.eg-prod-precio del { font-size: 15px; font-weight: 500; color: var(--suave); margin-right: 8px; letter-spacing: 0; }
+.eg-prod-precio ins { text-decoration: none; color: var(--naranja-osc); }
+.eg-prod-stock { font-size: 12.5px; color: var(--verde); font-weight: 800; margin: 6px 0 12px; }
 .eg-prod-btn {
-  margin-top: auto; display: block; text-align: center; min-height: 44px;
-  line-height: 44px; border-radius: 999px; background: var(--azul);
-  color: #fff !important; font-size: 14.5px; font-weight: 800; text-decoration: none !important;
+  display: block; text-align: center; min-height: 46px; line-height: 46px;
+  border-radius: 999px; background: var(--azul); color: #fff !important;
+  font-size: 15px; font-weight: 800; text-decoration: none !important;
 }
-.eg-prod-btn:hover { background: var(--azul-medio); }
+.eg-prod-btn:hover { background: var(--azul-vivo); }
 
-/* ==================== 3. CATEGORIAS EN CIRCULO ======================
-   Lo que hacen MediaMarkt y PcComponentes: foto redonda y nombre debajo.
-   Ocupa poco, se escanea de un vistazo y reparte trafico a categorias.
-   =================================================================== */
+/* ===================== 4. CATEGORIAS EN CIRCULO ===================== */
 
-.eg-circulos {
-  display: grid; grid-template-columns: repeat(8, 1fr); gap: 14px;
-}
+.eg-circulos { display: grid; grid-template-columns: repeat(8, 1fr); gap: 16px; }
 .eg-circulo { text-decoration: none !important; color: inherit !important; text-align: center; }
 .eg-circulo-foto {
   aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #fff;
-  margin-bottom: 9px; box-shadow: 0 3px 12px rgba(6,33,61,.09);
+  margin-bottom: 10px; box-shadow: 0 4px 14px rgba(7,42,77,.12);
   transition: box-shadow .15s, transform .15s;
 }
 .eg-circulo-foto img, .eg-circulo-foto svg { width: 100%; height: 100%; object-fit: cover; }
-.eg-circulo:hover .eg-circulo-foto { box-shadow: 0 8px 20px rgba(6,33,61,.2); transform: translateY(-3px); }
-.eg-circulo b { display: block; font-size: 13.5px; font-weight: 700; color: var(--tinta); line-height: 1.3; }
+.eg-circulo:hover .eg-circulo-foto { box-shadow: 0 10px 24px rgba(7,42,77,.24); transform: translateY(-4px); }
+.eg-circulo b { display: block; font-size: 14px; font-weight: 800; color: var(--tinta); line-height: 1.25; }
 
-/* ======================= 4. BANDAS DE MARCA ========================= */
+/* ======================== 5. BANDA A SANGRE ========================= */
 
 .eg-banda {
-  border-radius: var(--radio); overflow: hidden; display: grid;
-  grid-template-columns: 1fr 1fr; background: #0b1220; color: #fff; min-height: 320px;
+  border-radius: var(--r); overflow: hidden; display: grid;
+  grid-template-columns: 1fr 1fr; background: #0a1020; color: #fff; min-height: 340px;
 }
-.eg-banda-txt { padding: 40px 38px; align-self: center; }
-.eg-home .eg-banda h2 { color: #fff; font-size: 31px; letter-spacing: -.035em; margin: 12px 0 10px; }
-.eg-banda p { color: #c3cddb; font-size: 16px; line-height: 1.55; margin: 0 0 16px; max-width: 460px; }
-.eg-banda-lista { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 8px; }
-.eg-banda-lista li { font-size: 14.5px; color: #dde4ed; padding-left: 24px; position: relative; }
+.eg-banda-txt { padding: 42px 40px; align-self: center; }
+.eg-home .eg-banda h2 { color: #fff; font-size: 34px; letter-spacing: -.04em; margin: 14px 0 12px; }
+.eg-banda p { color: #c0ccdb; font-size: 16.5px; line-height: 1.5; margin: 0 0 18px; max-width: 460px; }
+.eg-banda-lista { list-style: none; margin: 0 0 26px; padding: 0; display: grid; gap: 9px; }
+.eg-banda-lista li { font-size: 15px; color: #dbe3ee; padding-left: 26px; position: relative; }
 .eg-banda-lista li::before {
-  content: ""; position: absolute; left: 0; top: 7px; width: 10px; height: 10px;
+  content: ""; position: absolute; left: 0; top: 7px; width: 11px; height: 11px;
   border-radius: 50%; background: var(--naranja);
 }
-.eg-banda-foto { position: relative; background: #141d2b; min-height: 250px; }
+.eg-banda-foto { position: relative; min-height: 260px; background: #131c2b; }
 .eg-banda-foto img, .eg-banda-foto svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .eg-banda-clara { background: #fff; color: var(--texto); }
 .eg-home .eg-banda-clara h2 { color: var(--tinta); }
-.eg-banda-clara p { color: var(--texto); }
-.eg-banda-clara .eg-banda-lista li { color: var(--texto); }
-.eg-banda-clara .eg-banda-foto { background: var(--fondo); }
+.eg-banda-clara p, .eg-banda-clara .eg-banda-lista li { color: var(--texto); }
 
-/* =========================== 5. MARCAS ============================== */
+/* ====================== 6. MARCAS Y CONFIANZA ======================= */
 
 .eg-marcas {
-  background: #fff; border-radius: var(--radio); padding: 20px 22px;
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; align-items: center;
+  background: #fff; border-radius: var(--r); padding: 20px 24px;
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; align-items: center;
 }
-.eg-marca { display: flex; align-items: center; justify-content: center; min-height: 54px; text-decoration: none !important; }
-.eg-marca img { max-height: 40px; width: auto; object-fit: contain; }
-.eg-marca span { font-size: 15px; font-weight: 800; letter-spacing: -.01em; color: #64707f; }
+.eg-marca { display: flex; align-items: center; justify-content: center; min-height: 56px; text-decoration: none !important; }
+.eg-marca img { max-height: 42px; width: auto; object-fit: contain; }
+.eg-marca span { font-size: 16px; font-weight: 900; letter-spacing: -.02em; color: #5e6b7b; }
 
-/* =========================== 6. AVALES ============================== */
+.eg-avales {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: #dde4ed; border-radius: var(--r); overflow: hidden;
+}
+.eg-aval { background: #fff; padding: 17px 19px; }
+.eg-aval b { display: block; font-size: 15px; font-weight: 800; color: var(--tinta); margin-bottom: 3px; }
+.eg-aval span { font-size: 13px; color: var(--suave); line-height: 1.45; display: block; }
 
-.eg-avales { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.eg-aval { background: #fff; border-radius: var(--radio); padding: 15px 17px; }
-.eg-aval b { display: block; font-size: 14.5px; font-weight: 800; color: var(--tinta); margin-bottom: 3px; }
-.eg-aval span { font-size: 12.5px; color: var(--suave); line-height: 1.45; display: block; }
+/* ========================= 7. TEXTO Y FAQ =========================== */
 
-/* ======================= 7. TEXTO, TABLA, FAQ ======================= */
-
-.eg-texto, .eg-faq, .eg-tabla-caja { background: #fff; border-radius: var(--radio); }
-.eg-texto { padding: 30px 32px; }
-.eg-texto h2 { margin-bottom: 13px; }
-.eg-texto h3 { font-size: 17px; font-weight: 800; color: var(--tinta); margin: 24px 0 8px; }
-.eg-texto p { margin: 0 0 13px; font-size: 15px; line-height: 1.7; max-width: 78ch; }
+.eg-texto, .eg-faq { background: #fff; border-radius: var(--r); }
+.eg-texto { padding: 32px 34px; }
+.eg-texto h2 { margin-bottom: 14px; }
+.eg-texto h3 { font-size: 18px; font-weight: 800; color: var(--tinta); margin: 26px 0 9px; }
+.eg-texto p { margin: 0 0 14px; font-size: 15.5px; line-height: 1.7; max-width: 78ch; }
 .eg-texto p:last-child { margin-bottom: 0; }
-.eg-texto a, .eg-faq-cuerpo a { color: var(--azul-medio) !important; font-weight: 700; }
+.eg-texto a, .eg-faq-cuerpo a { color: var(--azul-vivo) !important; font-weight: 700; }
 
 .eg-faq { overflow: hidden; }
-.eg-faq details { border-bottom: 1px solid var(--borde); }
+.eg-faq details { border-bottom: 1px solid #e5eaf1; }
 .eg-faq details:last-child { border-bottom: 0; }
 .eg-faq summary {
-  cursor: pointer; padding: 16px 20px; font-weight: 700; font-size: 15px;
-  color: var(--tinta); list-style: none; position: relative; padding-right: 50px;
+  cursor: pointer; padding: 17px 22px; font-weight: 700; font-size: 15.5px;
+  color: var(--tinta); list-style: none; position: relative; padding-right: 52px;
 }
 .eg-faq summary::-webkit-details-marker { display: none; }
 .eg-faq summary::after {
-  content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-  font-size: 22px; font-weight: 400; color: var(--naranja); line-height: 1;
+  content: "+"; position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+  font-size: 23px; font-weight: 400; color: var(--naranja); line-height: 1;
 }
 .eg-faq details[open] summary::after { content: "\2212"; }
-.eg-faq summary:hover { background: var(--fondo); }
-.eg-faq-cuerpo { padding: 0 20px 18px; font-size: 14.5px; line-height: 1.65; max-width: 82ch; }
+.eg-faq summary:hover { background: #f6f8fb; }
+.eg-faq-cuerpo { padding: 0 22px 19px; font-size: 15px; line-height: 1.65; max-width: 82ch; }
 .eg-faq-cuerpo p { margin: 0; }
 
-/* ============================ 8. CIERRE ============================= */
+/* =========================== 8. CIERRE ============================== */
 
 .eg-cierre {
-  background: linear-gradient(100deg, #06213d 0%, #0d3c6e 100%); color: #fff;
-  border-radius: var(--radio); padding: 32px 34px;
-  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  background: linear-gradient(100deg, #072a4d 0%, #0a6ed1 130%); color: #fff;
+  border-radius: var(--r); padding: 34px 36px;
+  display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap;
 }
 .eg-home .eg-cierre h2 { color: #fff; margin-bottom: 6px; }
-.eg-cierre p { margin: 0; color: #cfe0f2; font-size: 15px; max-width: 560px; }
+.eg-cierre p { margin: 0; color: #c9dcf1; font-size: 15.5px; max-width: 560px; }
 
-/* ============================= MOVIL =============================== */
+/* ============================= MOVIL ================================ */
 
 @media (max-width: 1150px) {
   .eg-fila { grid-template-columns: repeat(3, 1fr); }
   .eg-circulos { grid-template-columns: repeat(4, 1fr); }
   .eg-marcas { grid-template-columns: repeat(3, 1fr); }
+  .eg-promos { grid-auto-rows: 168px; }
 }
 
 @media (max-width: 900px) {
-  .eg-hero-in { grid-template-columns: 1fr; padding-bottom: 76px; }
-  .eg-hero-foto { order: -1; aspect-ratio: 16 / 9; }
-  .eg-atajos { grid-template-columns: repeat(2, 1fr); margin-top: -46px; }
+  .eg-hero-in { grid-template-columns: 1fr; min-height: 0; }
+  .eg-hero-foto { order: -1; min-height: 250px; aspect-ratio: 16 / 9; }
+  .eg-hero-txt { padding: 28px 16px 34px; }
+  .eg-promos { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
+  .eg-promo-xl { grid-column: span 2; grid-row: span 1; }
+  .eg-promo-xl .eg-promo b { font-size: 24px; }
   .eg-banda { grid-template-columns: 1fr; }
-  .eg-banda-foto { min-height: 210px; order: -1; }
+  .eg-banda-foto { order: -1; min-height: 220px; }
   .eg-avales { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 767px) {
   .eg-home { font-size: 15.5px; }
   .eg-ancho { padding: 0 12px; }
-  .eg-seccion { margin: 24px 0; }
-  .eg-home h2 { font-size: 20px; }
+  .eg-seccion { margin: 22px 0; }
+  .eg-home h2 { font-size: 21px; }
 
-  .eg-hero-in { padding: 22px 12px 66px; gap: 20px; }
-  .eg-home .eg-hero h1 { font-size: 28px; }
+  .eg-home .eg-hero h1 { font-size: 30px; }
   .eg-hero p { font-size: 15.5px; }
   .eg-hero-botones { flex-direction: column; align-items: stretch; }
   .eg-btn { width: 100%; }
 
-  .eg-atajos { gap: 9px; margin-top: -38px; }
-  .eg-atajo { padding: 10px 11px; min-height: 62px; gap: 9px; }
-  .eg-atajo-mini { width: 42px; height: 42px; flex-basis: 42px; }
-  .eg-atajo b { font-size: 12.5px; }
-  .eg-atajo span { display: none; }
+  .eg-promos { grid-auto-rows: 148px; gap: 10px; }
+  .eg-promo-txt { padding: 14px 16px; }
+  .eg-promo b { font-size: 17px; }
+  .eg-promo span { display: none; }
+  .eg-promo-xl .eg-promo-txt { padding: 18px 18px; }
 
-  /* Productos y categorias en carrusel: se pasa el dedo, como en Amazon.
-     Es scroll-snap, no JavaScript. */
+  /* Productos y categorias en carrusel: se pasa el dedo, como en la app
+     de Amazon. Es scroll-snap, no JavaScript. */
   .eg-fila, .eg-circulos {
     display: flex; gap: 11px; overflow-x: auto; scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch; padding: 2px 12px 8px; margin: 0 -12px;
   }
-  .eg-prod { flex: 0 0 62vw; max-width: 225px; scroll-snap-align: start; }
-  .eg-circulo { flex: 0 0 27vw; max-width: 120px; scroll-snap-align: start; }
-  .eg-prod-precio { font-size: 22px; }
+  .eg-prod { flex: 0 0 63vw; max-width: 235px; scroll-snap-align: start; }
+  .eg-circulo { flex: 0 0 27vw; max-width: 122px; scroll-snap-align: start; }
+  .eg-prod-precio { font-size: 26px; }
 
   .eg-marcas { grid-template-columns: repeat(2, 1fr); padding: 14px; }
   .eg-avales { grid-template-columns: 1fr; }
   .eg-texto { padding: 22px 18px; }
   .eg-banda-txt { padding: 26px 20px; }
-  .eg-home .eg-banda h2 { font-size: 23px; }
+  .eg-home .eg-banda h2 { font-size: 24px; }
   .eg-cierre { padding: 24px 18px; flex-direction: column; align-items: flex-start; }
   .eg-cierre .eg-btn { width: 100%; }
 }
@@ -335,18 +361,18 @@ html, body { background: #f2f5f9; color: #3a4350; margin: 0;
   .eg-home *, .eg-home *::before, .eg-home *::after {
     transition-duration: .01ms !important; animation-duration: .01ms !important;
   }
-  .eg-prod:hover, .eg-circulo:hover .eg-circulo-foto { transform: none; }
+  .eg-prod:hover, .eg-promo:hover, .eg-circulo:hover .eg-circulo-foto { transform: none; }
 }
 @media (forced-colors: active) {
-  .eg-prod, .eg-atajo, .eg-aval, .eg-circulo-foto { border: 1px solid CanvasText; }
+  .eg-prod, .eg-aval, .eg-circulo-foto, .eg-promo { border: 1px solid CanvasText; }
 }
 
 </style>
 
 <div class="pv-barra"><div class="pv-in">
   <b>Vista previa · portada nueva</b>
-  <span>Sin Elementor · <em>~15 KB de CSS</em> · <em>0 KB de JavaScript</em></span>
-  <span>Las ilustraciones sustituyen a tus fotos reales; precios, stock y ofertas se leen de WooCommerce.</span>
+  <span>Sin Elementor · <em>~17 KB de CSS</em> · <em>0 KB de JavaScript</em></span>
+  <span>Las ilustraciones sustituyen a tus fotos; precios, stock y ofertas salen de WooCommerce.</span>
 </div></div>
 
 <div class="pv-hueco"><div class="pv-in">Aquí va tu cabecera y tu logo · no se tocan</div></div>
@@ -355,38 +381,39 @@ html, body { background: #f2f5f9; color: #3a4350; margin: 0;
 <a class="eg-saltar" href="#eg-comprar">Saltar a los productos</a>
 
 <div class="eg-hero"><div class="eg-hero-in">
-  <div>
+  <div class="eg-hero-txt">
     <span class="eg-pill eg-pill-nuevo">Distribuidor oficial</span>
-    <h1>Energía portátil, solar y movilidad, con servicio técnico en España</h1>
-    <p>EcoFlow, Hypershell y el resto de marcas que trabajamos. Te asesoramos antes de comprar y, si algo falla, lo resolvemos nosotros.</p>
+    <h1>Energía portátil, solar y movilidad</h1>
+    <p>EcoFlow, Hypershell y el resto de marcas que trabajamos. Con tienda física y servicio técnico propio en España.</p>
     <div class="eg-hero-botones">
       <a class="eg-btn eg-btn-naranja" href="#eg-comprar">Ver el catálogo</a>
       <a class="eg-btn eg-btn-linea" href="#">Preguntar antes de comprar</a>
     </div>
   </div>
-  <div class="eg-hero-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g23" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0e2"/><stop offset="1" stop-color="#ffd8b8"/></linearGradient></defs><rect width="300" height="300" fill="url(#g23)"/><circle cx="150" cy="66" r="20" fill="#2b3442"/><rect x="126" y="92" width="48" height="54" rx="14" fill="#33404f"/><rect x="102" y="140" width="96" height="24" rx="12" fill="#ff6a13"/><circle cx="116" cy="152" r="13" fill="#22303f"/><circle cx="184" cy="152" r="13" fill="#22303f"/><rect x="112" y="164" width="18" height="72" rx="9" fill="#33404f"/><rect x="170" y="164" width="18" height="72" rx="9" fill="#33404f"/><rect x="108" y="196" width="26" height="12" rx="6" fill="#ff6a13"/><rect x="166" y="196" width="26" height="12" rx="6" fill="#ff6a13"/></svg></div>
+  <div class="eg-hero-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f25" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset="1" stop-color="#c23a00"/></linearGradient></defs><rect width="400" height="320" fill="url(#f25)"/><circle cx="322" cy="252" r="130" fill="#ffffff" opacity=".08"/><circle cx="200" cy="58" r="26" fill="#1b2430"/><rect x="168" y="90" width="64" height="66" rx="18" fill="#232f3e"/><rect x="134" y="152" width="132" height="30" rx="15" fill="#0f1620"/><circle cx="152" cy="167" r="16" fill="#ffb547"/><circle cx="248" cy="167" r="16" fill="#ffb547"/><rect x="150" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="226" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="144" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="220" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="150" y="276" width="24" height="14" rx="6" fill="#0f1620"/><rect x="226" y="276" width="24" height="14" rx="6" fill="#0f1620"/></svg></div>
 </div></div>
 
 <div class="eg-ancho">
-<nav class="eg-atajos" aria-label="Accesos rápidos"><a class="eg-atajo" href="#"><span class="eg-atajo-mini"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0e2"/><stop offset="1" stop-color="#ffd8b8"/></linearGradient></defs><rect width="300" height="300" fill="url(#g1)"/><circle cx="150" cy="66" r="20" fill="#2b3442"/><rect x="126" y="92" width="48" height="54" rx="14" fill="#33404f"/><rect x="102" y="140" width="96" height="24" rx="12" fill="#ff6a13"/><circle cx="116" cy="152" r="13" fill="#22303f"/><circle cx="184" cy="152" r="13" fill="#22303f"/><rect x="112" y="164" width="18" height="72" rx="9" fill="#33404f"/><rect x="170" y="164" width="18" height="72" rx="9" fill="#33404f"/><rect x="108" y="196" width="26" height="12" rx="6" fill="#ff6a13"/><rect x="166" y="196" width="26" height="12" rx="6" fill="#ff6a13"/></svg></span><span><b>Hypershell</b><span>La novedad</span></span></a><a class="eg-atajo" href="#"><span class="eg-atajo-mini"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf1f9"/><stop offset="1" stop-color="#cfdeee"/></linearGradient></defs><rect width="300" height="300" fill="url(#g2)"/><rect x="72" y="92" width="156" height="116" rx="14" fill="#f7f9fc"/><rect x="72" y="92" width="156" height="116" rx="14" fill="none" stroke="#c3d1e0" stroke-width="3"/><rect x="112" y="74" width="76" height="20" rx="9" fill="#22303f"/><rect x="90" y="108" width="72" height="40" rx="6" fill="#12222f"/><rect x="99" y="118" width="34" height="7" rx="3" fill="#3ddc84"/><rect x="99" y="131" width="20" height="6" rx="3" fill="#5b6b7a"/><circle cx="192" cy="128" r="19" fill="#e6ecf3" stroke="#b9c8d8" stroke-width="3"/><rect x="186" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="195" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="90" y="164" width="120" height="10" rx="5" fill="#dde5ee"/><rect x="90" y="182" width="76" height="10" rx="5" fill="#dde5ee"/></svg></span><span><b>Estaciones DELTA</b><span>Respaldo para casa</span></span></a><a class="eg-atajo" href="#"><span class="eg-atajo-mini"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8f0fb"/><stop offset="1" stop-color="#c8dcf3"/></linearGradient></defs><rect width="300" height="300" fill="url(#g3)"/><g transform="rotate(-8 150 150)"><rect x="58" y="96" width="184" height="112" rx="8" fill="#123a63"/><rect x="66" y="104" width="168" height="96" rx="4" fill="#1c5b96"/><g stroke="#8fc2ee" stroke-width="2.5" opacity=".8"><line x1="122" y1="104" x2="122" y2="200"/><line x1="178" y1="104" x2="178" y2="200"/><line x1="66" y1="136" x2="234" y2="136"/><line x1="66" y1="168" x2="234" y2="168"/></g></g><circle cx="228" cy="72" r="24" fill="#ffb020"/><g stroke="#ffb020" stroke-width="5" stroke-linecap="round"><line x1="228" y1="30" x2="228" y2="40"/><line x1="264" y1="72" x2="274" y2="72"/><line x1="256" y1="44" x2="263" y2="37"/></g></svg></span><span><b>Placas solares</b><span>Ahorra en la factura</span></span></a><a class="eg-atajo" href="#"><span class="eg-atajo-mini"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0ecfb"/><stop offset="1" stop-color="#dcd3f3"/></linearGradient></defs><rect width="300" height="300" fill="url(#g4)"/><rect x="106" y="66" width="88" height="168" rx="20" fill="#2b3442"/><rect x="114" y="74" width="72" height="152" rx="15" fill="#3b4756"/><rect x="130" y="96" width="40" height="52" rx="8" fill="#161d26"/><g fill="#3ddc84"><circle cx="140" cy="170" r="5"/><circle cx="154" cy="170" r="5"/><circle cx="168" cy="170" r="5"/></g><rect x="134" y="196" width="32" height="9" rx="4" fill="#5f6c7c"/></svg></span><span><b>Powerbanks</b><span>Carga rápida</span></span></a></nav>
+
+<section class="eg-seccion"><div class="eg-promos"><a class="eg-promo eg-promo-naranja eg-promo-xl" href="#"><span class="eg-promo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset="1" stop-color="#c23a00"/></linearGradient></defs><rect width="400" height="320" fill="url(#f1)"/><circle cx="322" cy="252" r="130" fill="#ffffff" opacity=".08"/><circle cx="200" cy="58" r="26" fill="#1b2430"/><rect x="168" y="90" width="64" height="66" rx="18" fill="#232f3e"/><rect x="134" y="152" width="132" height="30" rx="15" fill="#0f1620"/><circle cx="152" cy="167" r="16" fill="#ffb547"/><circle cx="248" cy="167" r="16" fill="#ffb547"/><rect x="150" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="226" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="144" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="220" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="150" y="276" width="24" height="14" rx="6" fill="#0f1620"/><rect x="226" y="276" width="24" height="14" rx="6" fill="#0f1620"/></svg></span><span class="eg-promo-velo"></span><span class="eg-promo-etiq"><span class="eg-pill eg-pill-nuevo">Novedad</span></span><span class="eg-promo-txt"><b>Hypershell: camina con ayuda</b><span>El exoesqueleto que te quita peso de las piernas en cuestas y caminatas largas.</span><i>Descubrir Hypershell &rarr;</i></span></a><a class="eg-promo eg-promo-azul eg-promo-xl" href="#"><span class="eg-promo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b4f88"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f2)"/><circle cx="330" cy="70" r="120" fill="#ffffff" opacity=".05"/><rect x="96" y="98" width="208" height="150" rx="18" fill="#f4f7fb"/><rect x="96" y="98" width="208" height="150" rx="18" fill="none" stroke="#ccd8e6" stroke-width="3"/><rect x="152" y="76" width="96" height="24" rx="11" fill="#1d2a38"/><rect x="118" y="120" width="96" height="52" rx="8" fill="#0d1a26"/><rect x="130" y="134" width="46" height="9" rx="4" fill="#37e08a"/><rect x="130" y="150" width="26" height="8" rx="4" fill="#5d6f80"/><circle cx="256" cy="146" r="25" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/><rect x="248" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="260" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="118" y="192" width="160" height="12" rx="6" fill="#dbe4ee"/><rect x="118" y="214" width="98" height="12" rx="6" fill="#dbe4ee"/></svg></span><span class="eg-promo-velo"></span><span class="eg-promo-txt"><b>Que un apagón no te pare</b><span>Estaciones DELTA para mantener el frigorífico, el router y las luces.</span><i>Ver estaciones DELTA &rarr;</i></span></a><a class="eg-promo eg-promo-verde" href="#"><span class="eg-promo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f7bd6"/><stop offset="1" stop-color="#053b70"/></linearGradient></defs><rect width="400" height="320" fill="url(#f3)"/><circle cx="322" cy="66" r="42" fill="#ffc233"/><g stroke="#ffc233" stroke-width="6" stroke-linecap="round" opacity=".85"><line x1="322" y1="4" x2="322" y2="16"/><line x1="380" y1="66" x2="392" y2="66"/><line x1="366" y1="24" x2="374" y2="16"/></g><g transform="rotate(-9 190 180)"><rect x="42" y="112" width="296" height="152" rx="10" fill="#0b2c50"/><rect x="52" y="122" width="276" height="132" rx="5" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="3" opacity=".75"><line x1="144" y1="122" x2="144" y2="254"/><line x1="236" y1="122" x2="236" y2="254"/><line x1="52" y1="166" x2="328" y2="166"/><line x1="52" y1="210" x2="328" y2="210"/></g></g></svg></span><span class="eg-promo-velo"></span><span class="eg-promo-txt"><b>Placas solares</b><span>Portátiles y para balcón</span><i>Ver placas &rarr;</i></span></a><a class="eg-promo eg-promo-verde" href="#"><span class="eg-promo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12a75f"/><stop offset="1" stop-color="#04603a"/></linearGradient></defs><rect width="400" height="320" fill="url(#f4)"/><circle cx="60" cy="52" r="90" fill="#ffffff" opacity=".07"/><path d="M70 168 L200 76 L330 168 Z" fill="#12304f"/><rect x="104" y="168" width="192" height="120" fill="#f5f8fc"/><rect x="104" y="168" width="192" height="120" fill="none" stroke="#c6d3e1" stroke-width="3"/><rect x="134" y="200" width="48" height="42" fill="#7fbdf0"/><rect x="214" y="200" width="50" height="88" fill="#12304f"/><circle cx="254" cy="248" r="4" fill="#ffc233"/><g transform="rotate(-27 236 122)"><rect x="192" y="94" width="104" height="60" rx="5" fill="#0b2c50"/><rect x="198" y="100" width="92" height="48" rx="3" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="2.5"><line x1="229" y1="100" x2="229" y2="148"/><line x1="259" y1="100" x2="259" y2="148"/><line x1="198" y1="124" x2="290" y2="124"/></g></g></svg></span><span class="eg-promo-velo"></span><span class="eg-promo-txt"><b>Kits de balcón</b><span>Produce sin obra</span><i>Ver kits &rarr;</i></span></a><a class="eg-promo eg-promo-azul" href="#"><span class="eg-promo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12629f"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f5)"/><circle cx="330" cy="70" r="120" fill="#ffffff" opacity=".05"/><rect x="96" y="98" width="208" height="150" rx="18" fill="#f4f7fb"/><rect x="96" y="98" width="208" height="150" rx="18" fill="none" stroke="#ccd8e6" stroke-width="3"/><rect x="152" y="76" width="96" height="24" rx="11" fill="#1d2a38"/><rect x="118" y="120" width="96" height="52" rx="8" fill="#0d1a26"/><rect x="130" y="134" width="46" height="9" rx="4" fill="#37e08a"/><rect x="130" y="150" width="26" height="8" rx="4" fill="#5d6f80"/><circle cx="256" cy="146" r="25" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/><rect x="248" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="260" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="118" y="192" width="160" height="12" rx="6" fill="#dbe4ee"/><rect x="118" y="214" width="98" height="12" rx="6" fill="#dbe4ee"/></svg></span><span class="eg-promo-velo"></span><span class="eg-promo-txt"><b>Camping y furgo</b><span>Baterías RIVER, ligeras</span><i>Ver RIVER &rarr;</i></span></a><a class="eg-promo eg-promo-azul" href="#"><span class="eg-promo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b3df0"/><stop offset="1" stop-color="#25166e"/></linearGradient></defs><rect width="400" height="320" fill="url(#f6)"/><circle cx="86" cy="252" r="118" fill="#ffffff" opacity=".06"/><rect x="146" y="52" width="112" height="216" rx="26" fill="#20293a"/><rect x="156" y="62" width="92" height="196" rx="20" fill="#323e52"/><rect x="178" y="90" width="48" height="64" rx="10" fill="#101823"/><rect x="188" y="104" width="28" height="8" rx="4" fill="#37e08a"/><g fill="#37e08a"><circle cx="182" cy="190" r="6"/><circle cx="202" cy="190" r="6"/><circle cx="222" cy="190" r="6"/></g><rect x="184" y="222" width="36" height="11" rx="5" fill="#5f6d80"/></svg></span><span class="eg-promo-velo"></span><span class="eg-promo-txt"><b>Carga rápida</b><span>Powerbanks para el día a día</span><i>Ver powerbanks &rarr;</i></span></a></div></section>
 <span id="eg-comprar"></span>
 
 <section class="eg-seccion" aria-labelledby="t1">
   <div class="eg-seccion-cab"><div><h2 id="t1">Novedades</h2><p>Lo último que ha entrado en la tienda.</p></div>
   <a class="eg-vertodo" href="#">Ver todos &rarr;</a></div>
-  <div class="eg-fila"><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-nuevo">Nuevo</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0e2"/><stop offset="1" stop-color="#ffd8b8"/></linearGradient></defs><rect width="300" height="300" fill="url(#g5)"/><circle cx="150" cy="66" r="20" fill="#2b3442"/><rect x="126" y="92" width="48" height="54" rx="14" fill="#33404f"/><rect x="102" y="140" width="96" height="24" rx="12" fill="#ff6a13"/><circle cx="116" cy="152" r="13" fill="#22303f"/><circle cx="184" cy="152" r="13" fill="#22303f"/><rect x="112" y="164" width="18" height="72" rx="9" fill="#33404f"/><rect x="170" y="164" width="18" height="72" rx="9" fill="#33404f"/><rect x="108" y="196" width="26" height="12" rx="6" fill="#ff6a13"/><rect x="166" y="196" width="26" height="12" rx="6" fill="#ff6a13"/></svg></a><p class="eg-prod-marca">HYPERSHELL</p><a class="eg-prod-nombre" href="#">Hypershell exoesqueleto — modelo de entrada</a><div class="eg-prod-precio">—</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-nuevo">Nuevo</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9f1fc"/><stop offset="1" stop-color="#cadcf2"/></linearGradient></defs><rect width="300" height="300" fill="url(#g6)"/><rect x="78" y="102" width="144" height="96" rx="12" fill="#f7f9fc" stroke="#c3d1e0" stroke-width="3"/><path d="M156 116 L124 158 L146 158 L138 190 L176 144 L152 144 Z" fill="#ff6a13"/><rect x="96" y="212" width="108" height="10" rx="5" fill="#dde5ee"/></svg></a><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">EcoFlow STREAM microinversor</a><div class="eg-prod-precio">—</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-nuevo">Nuevo</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g7" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6f5ec"/><stop offset="1" stop-color="#c6e7d5"/></linearGradient></defs><rect width="300" height="300" fill="url(#g7)"/><path d="M62 148 L150 84 L238 148 Z" fill="#25405c"/><rect x="86" y="148" width="128" height="86" fill="#f6f9fc"/><rect x="86" y="148" width="128" height="86" fill="none" stroke="#c3d1e0" stroke-width="3"/><rect x="108" y="172" width="34" height="30" fill="#8fc2ee"/><rect x="162" y="172" width="34" height="62" fill="#25405c"/><g transform="rotate(-26 176 116)"><rect x="146" y="98" width="70" height="40" rx="4" fill="#1c5b96"/><g stroke="#8fc2ee" stroke-width="2"><line x1="169" y1="98" x2="169" y2="138"/><line x1="192" y1="98" x2="192" y2="138"/><line x1="146" y1="118" x2="216" y2="118"/></g></g></svg></a><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">Kit solar de balcón EcoFlow</a><div class="eg-prod-precio">—</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-nuevo">Nuevo</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g8" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf1f9"/><stop offset="1" stop-color="#cfdeee"/></linearGradient></defs><rect width="300" height="300" fill="url(#g8)"/><rect x="72" y="92" width="156" height="116" rx="14" fill="#f7f9fc"/><rect x="72" y="92" width="156" height="116" rx="14" fill="none" stroke="#c3d1e0" stroke-width="3"/><rect x="112" y="74" width="76" height="20" rx="9" fill="#22303f"/><rect x="90" y="108" width="72" height="40" rx="6" fill="#12222f"/><rect x="99" y="118" width="34" height="7" rx="3" fill="#3ddc84"/><rect x="99" y="131" width="20" height="6" rx="3" fill="#5b6b7a"/><circle cx="192" cy="128" r="19" fill="#e6ecf3" stroke="#b9c8d8" stroke-width="3"/><rect x="186" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="195" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="90" y="164" width="120" height="10" rx="5" fill="#dde5ee"/><rect x="90" y="182" width="76" height="10" rx="5" fill="#dde5ee"/></svg></a><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">EcoFlow DELTA 3 Plus</a><div class="eg-prod-precio">849,00&nbsp;€</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-nuevo">Nuevo</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g9" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8f0fb"/><stop offset="1" stop-color="#c8dcf3"/></linearGradient></defs><rect width="300" height="300" fill="url(#g9)"/><g transform="rotate(-8 150 150)"><rect x="58" y="96" width="184" height="112" rx="8" fill="#123a63"/><rect x="66" y="104" width="168" height="96" rx="4" fill="#1c5b96"/><g stroke="#8fc2ee" stroke-width="2.5" opacity=".8"><line x1="122" y1="104" x2="122" y2="200"/><line x1="178" y1="104" x2="178" y2="200"/><line x1="66" y1="136" x2="234" y2="136"/><line x1="66" y1="168" x2="234" y2="168"/></g></g><circle cx="228" cy="72" r="24" fill="#ffb020"/><g stroke="#ffb020" stroke-width="5" stroke-linecap="round"><line x1="228" y1="30" x2="228" y2="40"/><line x1="264" y1="72" x2="274" y2="72"/><line x1="256" y1="44" x2="263" y2="37"/></g></svg></a><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">Panel solar 220 W bifacial</a><div class="eg-prod-precio">399,00&nbsp;€</div><p class="eg-prod-stock">4 disponibles</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article></div>
+  <div class="eg-fila"><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-nuevo">Nuevo</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f7" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset="1" stop-color="#c23a00"/></linearGradient></defs><rect width="400" height="320" fill="url(#f7)"/><circle cx="322" cy="252" r="130" fill="#ffffff" opacity=".08"/><circle cx="200" cy="58" r="26" fill="#1b2430"/><rect x="168" y="90" width="64" height="66" rx="18" fill="#232f3e"/><rect x="134" y="152" width="132" height="30" rx="15" fill="#0f1620"/><circle cx="152" cy="167" r="16" fill="#ffb547"/><circle cx="248" cy="167" r="16" fill="#ffb547"/><rect x="150" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="226" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="144" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="220" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="150" y="276" width="24" height="14" rx="6" fill="#0f1620"/><rect x="226" y="276" width="24" height="14" rx="6" fill="#0f1620"/></svg></a><div class="eg-prod-cuerpo"><p class="eg-prod-marca">HYPERSHELL</p><a class="eg-prod-nombre" href="#">Hypershell exoesqueleto — modelo de entrada</a><div class="eg-prod-precio">—</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></div></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-nuevo">Nuevo</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f8" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a6ed1"/><stop offset="1" stop-color="#062a52"/></linearGradient></defs><rect width="400" height="320" fill="url(#f8)"/><circle cx="340" cy="270" r="110" fill="#ffffff" opacity=".06"/><rect x="100" y="96" width="200" height="140" rx="16" fill="#f5f8fc" stroke="#c6d3e1" stroke-width="3"/><path d="M212 116 L162 182 L196 182 L184 226 L242 156 L204 156 Z" fill="#ff5a1f"/><rect x="128" y="252" width="144" height="13" rx="6" fill="#ffffff" opacity=".55"/></svg></a><div class="eg-prod-cuerpo"><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">EcoFlow STREAM microinversor</a><div class="eg-prod-precio">—</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></div></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-nuevo">Nuevo</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f9" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12a75f"/><stop offset="1" stop-color="#04603a"/></linearGradient></defs><rect width="400" height="320" fill="url(#f9)"/><circle cx="60" cy="52" r="90" fill="#ffffff" opacity=".07"/><path d="M70 168 L200 76 L330 168 Z" fill="#12304f"/><rect x="104" y="168" width="192" height="120" fill="#f5f8fc"/><rect x="104" y="168" width="192" height="120" fill="none" stroke="#c6d3e1" stroke-width="3"/><rect x="134" y="200" width="48" height="42" fill="#7fbdf0"/><rect x="214" y="200" width="50" height="88" fill="#12304f"/><circle cx="254" cy="248" r="4" fill="#ffc233"/><g transform="rotate(-27 236 122)"><rect x="192" y="94" width="104" height="60" rx="5" fill="#0b2c50"/><rect x="198" y="100" width="92" height="48" rx="3" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="2.5"><line x1="229" y1="100" x2="229" y2="148"/><line x1="259" y1="100" x2="259" y2="148"/><line x1="198" y1="124" x2="290" y2="124"/></g></g></svg></a><div class="eg-prod-cuerpo"><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">Kit solar de balcón EcoFlow</a><div class="eg-prod-precio">—</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></div></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-nuevo">Nuevo</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f10" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b4f88"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f10)"/><circle cx="330" cy="70" r="120" fill="#ffffff" opacity=".05"/><rect x="96" y="98" width="208" height="150" rx="18" fill="#f4f7fb"/><rect x="96" y="98" width="208" height="150" rx="18" fill="none" stroke="#ccd8e6" stroke-width="3"/><rect x="152" y="76" width="96" height="24" rx="11" fill="#1d2a38"/><rect x="118" y="120" width="96" height="52" rx="8" fill="#0d1a26"/><rect x="130" y="134" width="46" height="9" rx="4" fill="#37e08a"/><rect x="130" y="150" width="26" height="8" rx="4" fill="#5d6f80"/><circle cx="256" cy="146" r="25" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/><rect x="248" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="260" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="118" y="192" width="160" height="12" rx="6" fill="#dbe4ee"/><rect x="118" y="214" width="98" height="12" rx="6" fill="#dbe4ee"/></svg></a><div class="eg-prod-cuerpo"><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">EcoFlow DELTA 3 Plus</a><div class="eg-prod-precio">849,00&nbsp;€</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></div></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-nuevo">Nuevo</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f11" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f7bd6"/><stop offset="1" stop-color="#053b70"/></linearGradient></defs><rect width="400" height="320" fill="url(#f11)"/><circle cx="322" cy="66" r="42" fill="#ffc233"/><g stroke="#ffc233" stroke-width="6" stroke-linecap="round" opacity=".85"><line x1="322" y1="4" x2="322" y2="16"/><line x1="380" y1="66" x2="392" y2="66"/><line x1="366" y1="24" x2="374" y2="16"/></g><g transform="rotate(-9 190 180)"><rect x="42" y="112" width="296" height="152" rx="10" fill="#0b2c50"/><rect x="52" y="122" width="276" height="132" rx="5" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="3" opacity=".75"><line x1="144" y1="122" x2="144" y2="254"/><line x1="236" y1="122" x2="236" y2="254"/><line x1="52" y1="166" x2="328" y2="166"/><line x1="52" y1="210" x2="328" y2="210"/></g></g></svg></a><div class="eg-prod-cuerpo"><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">Panel solar 220 W bifacial</a><div class="eg-prod-precio">399,00&nbsp;€</div><p class="eg-prod-stock">4 disponibles</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></div></article></div>
 </section>
 
 <section class="eg-seccion" aria-labelledby="t2">
   <div class="eg-seccion-cab"><div><h2 id="t2">Los más vendidos</h2><p>Lo que más sale, con stock confirmado hoy.</p></div>
   <a class="eg-vertodo" href="#">Ver todos &rarr;</a></div>
-  <div class="eg-fila"><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-top">Top ventas</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g10" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf1f9"/><stop offset="1" stop-color="#cfdeee"/></linearGradient></defs><rect width="300" height="300" fill="url(#g10)"/><rect x="72" y="92" width="156" height="116" rx="14" fill="#f7f9fc"/><rect x="72" y="92" width="156" height="116" rx="14" fill="none" stroke="#c3d1e0" stroke-width="3"/><rect x="112" y="74" width="76" height="20" rx="9" fill="#22303f"/><rect x="90" y="108" width="72" height="40" rx="6" fill="#12222f"/><rect x="99" y="118" width="34" height="7" rx="3" fill="#3ddc84"/><rect x="99" y="131" width="20" height="6" rx="3" fill="#5b6b7a"/><circle cx="192" cy="128" r="19" fill="#e6ecf3" stroke="#b9c8d8" stroke-width="3"/><rect x="186" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="195" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="90" y="164" width="120" height="10" rx="5" fill="#dde5ee"/><rect x="90" y="182" width="76" height="10" rx="5" fill="#dde5ee"/></svg></a><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">EcoFlow DELTA 3 Classic (1024Wh)</a><div class="eg-prod-precio">599,00&nbsp;€</div><p class="eg-prod-stock">7 disponibles</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-oferta">-18%</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g11" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf1f9"/><stop offset="1" stop-color="#cfdeee"/></linearGradient></defs><rect width="300" height="300" fill="url(#g11)"/><rect x="72" y="92" width="156" height="116" rx="14" fill="#f7f9fc"/><rect x="72" y="92" width="156" height="116" rx="14" fill="none" stroke="#c3d1e0" stroke-width="3"/><rect x="112" y="74" width="76" height="20" rx="9" fill="#22303f"/><rect x="90" y="108" width="72" height="40" rx="6" fill="#12222f"/><rect x="99" y="118" width="34" height="7" rx="3" fill="#3ddc84"/><rect x="99" y="131" width="20" height="6" rx="3" fill="#5b6b7a"/><circle cx="192" cy="128" r="19" fill="#e6ecf3" stroke="#b9c8d8" stroke-width="3"/><rect x="186" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="195" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="90" y="164" width="120" height="10" rx="5" fill="#dde5ee"/><rect x="90" y="182" width="76" height="10" rx="5" fill="#dde5ee"/></svg></a><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">EcoFlow RIVER 2 Max</a><div class="eg-prod-precio"><del>399,00&nbsp;€</del><ins>329,00&nbsp;€</ins></div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-top">Top ventas</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g12" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0ecfb"/><stop offset="1" stop-color="#dcd3f3"/></linearGradient></defs><rect width="300" height="300" fill="url(#g12)"/><rect x="106" y="66" width="88" height="168" rx="20" fill="#2b3442"/><rect x="114" y="74" width="72" height="152" rx="15" fill="#3b4756"/><rect x="130" y="96" width="40" height="52" rx="8" fill="#161d26"/><g fill="#3ddc84"><circle cx="140" cy="170" r="5"/><circle cx="154" cy="170" r="5"/><circle cx="168" cy="170" r="5"/></g><rect x="134" y="196" width="32" height="9" rx="4" fill="#5f6c7c"/></svg></a><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">Powerbank RAPID 10.000 mAh</a><div class="eg-prod-precio">—</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-top">Top ventas</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g13" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf1f9"/><stop offset="1" stop-color="#d0e2f2"/></linearGradient></defs><rect width="300" height="300" fill="url(#g13)"/><rect x="52" y="132" width="112" height="82" rx="12" fill="#f7f9fc" stroke="#c3d1e0" stroke-width="3"/><rect x="68" y="150" width="48" height="30" rx="5" fill="#12222f"/><rect x="74" y="158" width="24" height="6" rx="3" fill="#3ddc84"/><g transform="rotate(-14 210 130)"><rect x="160" y="92" width="100" height="70" rx="6" fill="#123a63"/><rect x="166" y="98" width="88" height="58" rx="3" fill="#1c5b96"/><g stroke="#8fc2ee" stroke-width="2"><line x1="196" y1="98" x2="196" y2="156"/><line x1="224" y1="98" x2="224" y2="156"/><line x1="166" y1="127" x2="254" y2="127"/></g></g></svg></a><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">Generador solar DELTA + panel</a><div class="eg-prod-precio">—</div><p class="eg-prod-stock">2 disponibles</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-top">Top ventas</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g14" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef1f5"/><stop offset="1" stop-color="#d7dde5"/></linearGradient></defs><rect width="300" height="300" fill="url(#g14)"/><path d="M74 96 C150 96 150 204 226 204" fill="none" stroke="#2b3442" stroke-width="16" stroke-linecap="round"/><rect x="52" y="80" width="34" height="32" rx="7" fill="#ff6a13"/><rect x="214" y="188" width="34" height="32" rx="7" fill="#25405c"/></svg></a><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">Cable Solar A XT60i</a><div class="eg-prod-precio">25,00&nbsp;€ – 39,00&nbsp;€</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></article></div>
+  <div class="eg-fila"><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-top">Top ventas</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f12" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b4f88"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f12)"/><circle cx="330" cy="70" r="120" fill="#ffffff" opacity=".05"/><rect x="96" y="98" width="208" height="150" rx="18" fill="#f4f7fb"/><rect x="96" y="98" width="208" height="150" rx="18" fill="none" stroke="#ccd8e6" stroke-width="3"/><rect x="152" y="76" width="96" height="24" rx="11" fill="#1d2a38"/><rect x="118" y="120" width="96" height="52" rx="8" fill="#0d1a26"/><rect x="130" y="134" width="46" height="9" rx="4" fill="#37e08a"/><rect x="130" y="150" width="26" height="8" rx="4" fill="#5d6f80"/><circle cx="256" cy="146" r="25" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/><rect x="248" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="260" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="118" y="192" width="160" height="12" rx="6" fill="#dbe4ee"/><rect x="118" y="214" width="98" height="12" rx="6" fill="#dbe4ee"/></svg></a><div class="eg-prod-cuerpo"><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">EcoFlow DELTA 3 Classic (1024Wh)</a><div class="eg-prod-precio">599,00&nbsp;€</div><p class="eg-prod-stock">7 disponibles</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></div></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-oferta">-18%</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f13" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12629f"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f13)"/><circle cx="330" cy="70" r="120" fill="#ffffff" opacity=".05"/><rect x="96" y="98" width="208" height="150" rx="18" fill="#f4f7fb"/><rect x="96" y="98" width="208" height="150" rx="18" fill="none" stroke="#ccd8e6" stroke-width="3"/><rect x="152" y="76" width="96" height="24" rx="11" fill="#1d2a38"/><rect x="118" y="120" width="96" height="52" rx="8" fill="#0d1a26"/><rect x="130" y="134" width="46" height="9" rx="4" fill="#37e08a"/><rect x="130" y="150" width="26" height="8" rx="4" fill="#5d6f80"/><circle cx="256" cy="146" r="25" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/><rect x="248" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="260" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="118" y="192" width="160" height="12" rx="6" fill="#dbe4ee"/><rect x="118" y="214" width="98" height="12" rx="6" fill="#dbe4ee"/></svg></a><div class="eg-prod-cuerpo"><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">EcoFlow RIVER 2 Max</a><div class="eg-prod-precio"><del>399,00&nbsp;€</del><ins>329,00&nbsp;€</ins></div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></div></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-top">Top ventas</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f14" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b3df0"/><stop offset="1" stop-color="#25166e"/></linearGradient></defs><rect width="400" height="320" fill="url(#f14)"/><circle cx="86" cy="252" r="118" fill="#ffffff" opacity=".06"/><rect x="146" y="52" width="112" height="216" rx="26" fill="#20293a"/><rect x="156" y="62" width="92" height="196" rx="20" fill="#323e52"/><rect x="178" y="90" width="48" height="64" rx="10" fill="#101823"/><rect x="188" y="104" width="28" height="8" rx="4" fill="#37e08a"/><g fill="#37e08a"><circle cx="182" cy="190" r="6"/><circle cx="202" cy="190" r="6"/><circle cx="222" cy="190" r="6"/></g><rect x="184" y="222" width="36" height="11" rx="5" fill="#5f6d80"/></svg></a><div class="eg-prod-cuerpo"><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">Powerbank RAPID 10.000 mAh</a><div class="eg-prod-precio">—</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></div></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-top">Top ventas</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f15" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b4f88"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f15)"/><g transform="rotate(-13 268 130)"><rect x="196" y="76" width="150" height="106" rx="8" fill="#0b2c50"/><rect x="204" y="84" width="134" height="90" rx="4" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="2.5"><line x1="249" y1="84" x2="249" y2="174"/><line x1="293" y1="84" x2="293" y2="174"/><line x1="204" y1="129" x2="338" y2="129"/></g></g><rect x="42" y="152" width="168" height="118" rx="16" fill="#f4f7fb" stroke="#ccd8e6" stroke-width="3"/><rect x="64" y="178" width="72" height="44" rx="7" fill="#0d1a26"/><rect x="74" y="192" width="34" height="8" rx="4" fill="#37e08a"/><circle cx="172" cy="200" r="20" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/></svg></a><div class="eg-prod-cuerpo"><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">Generador solar DELTA + panel</a><div class="eg-prod-precio">—</div><p class="eg-prod-stock">2 disponibles</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></div></article><article class="eg-prod"><span class="eg-prod-etiq"><span class="eg-pill eg-pill-top">Top ventas</span></span><a class="eg-prod-foto" href="#" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f16" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#37475a"/><stop offset="1" stop-color="#141d29"/></linearGradient></defs><rect width="400" height="320" fill="url(#f16)"/><path d="M40 88 C170 88 170 232 330 232" fill="none" stroke="#0c1219" stroke-width="26" stroke-linecap="round"/><path d="M40 88 C170 88 170 232 330 232" fill="none" stroke="#22303f" stroke-width="16" stroke-linecap="round"/><rect x="14" y="66" width="46" height="44" rx="10" fill="#ff5a1f"/><rect x="316" y="210" width="46" height="44" rx="10" fill="#8cc6f5"/></svg></a><div class="eg-prod-cuerpo"><p class="eg-prod-marca">ECOFLOW</p><a class="eg-prod-nombre" href="#">Cable Solar A XT60i</a><div class="eg-prod-precio">25,00&nbsp;€ – 39,00&nbsp;€</div><p class="eg-prod-stock">Disponible</p><a class="eg-prod-btn" href="#">Añadir al carrito</a></div></article></div>
 </section>
 
 <section class="eg-seccion" aria-labelledby="t3">
   <div class="eg-seccion-cab"><div><h2 id="t3">Compra por categoría</h2></div>
   <a class="eg-vertodo" href="#">Ver toda la tienda &rarr;</a></div>
-  <div class="eg-circulos"><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g15" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf1f9"/><stop offset="1" stop-color="#cfdeee"/></linearGradient></defs><rect width="300" height="300" fill="url(#g15)"/><rect x="72" y="92" width="156" height="116" rx="14" fill="#f7f9fc"/><rect x="72" y="92" width="156" height="116" rx="14" fill="none" stroke="#c3d1e0" stroke-width="3"/><rect x="112" y="74" width="76" height="20" rx="9" fill="#22303f"/><rect x="90" y="108" width="72" height="40" rx="6" fill="#12222f"/><rect x="99" y="118" width="34" height="7" rx="3" fill="#3ddc84"/><rect x="99" y="131" width="20" height="6" rx="3" fill="#5b6b7a"/><circle cx="192" cy="128" r="19" fill="#e6ecf3" stroke="#b9c8d8" stroke-width="3"/><rect x="186" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="195" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="90" y="164" width="120" height="10" rx="5" fill="#dde5ee"/><rect x="90" y="182" width="76" height="10" rx="5" fill="#dde5ee"/></svg></span><b>Estaciones DELTA</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g16" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf1f9"/><stop offset="1" stop-color="#cfdeee"/></linearGradient></defs><rect width="300" height="300" fill="url(#g16)"/><rect x="72" y="92" width="156" height="116" rx="14" fill="#f7f9fc"/><rect x="72" y="92" width="156" height="116" rx="14" fill="none" stroke="#c3d1e0" stroke-width="3"/><rect x="112" y="74" width="76" height="20" rx="9" fill="#22303f"/><rect x="90" y="108" width="72" height="40" rx="6" fill="#12222f"/><rect x="99" y="118" width="34" height="7" rx="3" fill="#3ddc84"/><rect x="99" y="131" width="20" height="6" rx="3" fill="#5b6b7a"/><circle cx="192" cy="128" r="19" fill="#e6ecf3" stroke="#b9c8d8" stroke-width="3"/><rect x="186" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="195" y="120" width="4" height="9" rx="2" fill="#4a5b6b"/><rect x="90" y="164" width="120" height="10" rx="5" fill="#dde5ee"/><rect x="90" y="182" width="76" height="10" rx="5" fill="#dde5ee"/></svg></span><b>Baterías RIVER</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g17" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8f0fb"/><stop offset="1" stop-color="#c8dcf3"/></linearGradient></defs><rect width="300" height="300" fill="url(#g17)"/><g transform="rotate(-8 150 150)"><rect x="58" y="96" width="184" height="112" rx="8" fill="#123a63"/><rect x="66" y="104" width="168" height="96" rx="4" fill="#1c5b96"/><g stroke="#8fc2ee" stroke-width="2.5" opacity=".8"><line x1="122" y1="104" x2="122" y2="200"/><line x1="178" y1="104" x2="178" y2="200"/><line x1="66" y1="136" x2="234" y2="136"/><line x1="66" y1="168" x2="234" y2="168"/></g></g><circle cx="228" cy="72" r="24" fill="#ffb020"/><g stroke="#ffb020" stroke-width="5" stroke-linecap="round"><line x1="228" y1="30" x2="228" y2="40"/><line x1="264" y1="72" x2="274" y2="72"/><line x1="256" y1="44" x2="263" y2="37"/></g></svg></span><b>Placas solares</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g18" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0ecfb"/><stop offset="1" stop-color="#dcd3f3"/></linearGradient></defs><rect width="300" height="300" fill="url(#g18)"/><rect x="106" y="66" width="88" height="168" rx="20" fill="#2b3442"/><rect x="114" y="74" width="72" height="152" rx="15" fill="#3b4756"/><rect x="130" y="96" width="40" height="52" rx="8" fill="#161d26"/><g fill="#3ddc84"><circle cx="140" cy="170" r="5"/><circle cx="154" cy="170" r="5"/><circle cx="168" cy="170" r="5"/></g><rect x="134" y="196" width="32" height="9" rx="4" fill="#5f6c7c"/></svg></span><b>Powerbanks</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g19" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0e2"/><stop offset="1" stop-color="#ffd8b8"/></linearGradient></defs><rect width="300" height="300" fill="url(#g19)"/><circle cx="150" cy="66" r="20" fill="#2b3442"/><rect x="126" y="92" width="48" height="54" rx="14" fill="#33404f"/><rect x="102" y="140" width="96" height="24" rx="12" fill="#ff6a13"/><circle cx="116" cy="152" r="13" fill="#22303f"/><circle cx="184" cy="152" r="13" fill="#22303f"/><rect x="112" y="164" width="18" height="72" rx="9" fill="#33404f"/><rect x="170" y="164" width="18" height="72" rx="9" fill="#33404f"/><rect x="108" y="196" width="26" height="12" rx="6" fill="#ff6a13"/><rect x="166" y="196" width="26" height="12" rx="6" fill="#ff6a13"/></svg></span><b>Hypershell</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g20" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6f5ec"/><stop offset="1" stop-color="#c6e7d5"/></linearGradient></defs><rect width="300" height="300" fill="url(#g20)"/><path d="M62 148 L150 84 L238 148 Z" fill="#25405c"/><rect x="86" y="148" width="128" height="86" fill="#f6f9fc"/><rect x="86" y="148" width="128" height="86" fill="none" stroke="#c3d1e0" stroke-width="3"/><rect x="108" y="172" width="34" height="30" fill="#8fc2ee"/><rect x="162" y="172" width="34" height="62" fill="#25405c"/><g transform="rotate(-26 176 116)"><rect x="146" y="98" width="70" height="40" rx="4" fill="#1c5b96"/><g stroke="#8fc2ee" stroke-width="2"><line x1="169" y1="98" x2="169" y2="138"/><line x1="192" y1="98" x2="192" y2="138"/><line x1="146" y1="118" x2="216" y2="118"/></g></g></svg></span><b>Kits hogar</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g21" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9f1fc"/><stop offset="1" stop-color="#cadcf2"/></linearGradient></defs><rect width="300" height="300" fill="url(#g21)"/><rect x="78" y="102" width="144" height="96" rx="12" fill="#f7f9fc" stroke="#c3d1e0" stroke-width="3"/><path d="M156 116 L124 158 L146 158 L138 190 L176 144 L152 144 Z" fill="#ff6a13"/><rect x="96" y="212" width="108" height="10" rx="5" fill="#dde5ee"/></svg></span><b>STREAM</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g22" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf1f9"/><stop offset="1" stop-color="#d0e2f2"/></linearGradient></defs><rect width="300" height="300" fill="url(#g22)"/><rect x="52" y="132" width="112" height="82" rx="12" fill="#f7f9fc" stroke="#c3d1e0" stroke-width="3"/><rect x="68" y="150" width="48" height="30" rx="5" fill="#12222f"/><rect x="74" y="158" width="24" height="6" rx="3" fill="#3ddc84"/><g transform="rotate(-14 210 130)"><rect x="160" y="92" width="100" height="70" rx="6" fill="#123a63"/><rect x="166" y="98" width="88" height="58" rx="3" fill="#1c5b96"/><g stroke="#8fc2ee" stroke-width="2"><line x1="196" y1="98" x2="196" y2="156"/><line x1="224" y1="98" x2="224" y2="156"/><line x1="166" y1="127" x2="254" y2="127"/></g></g></svg></span><b>Generadores</b></a></div>
+  <div class="eg-circulos"><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f17" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b4f88"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f17)"/><circle cx="330" cy="70" r="120" fill="#ffffff" opacity=".05"/><rect x="96" y="98" width="208" height="150" rx="18" fill="#f4f7fb"/><rect x="96" y="98" width="208" height="150" rx="18" fill="none" stroke="#ccd8e6" stroke-width="3"/><rect x="152" y="76" width="96" height="24" rx="11" fill="#1d2a38"/><rect x="118" y="120" width="96" height="52" rx="8" fill="#0d1a26"/><rect x="130" y="134" width="46" height="9" rx="4" fill="#37e08a"/><rect x="130" y="150" width="26" height="8" rx="4" fill="#5d6f80"/><circle cx="256" cy="146" r="25" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/><rect x="248" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="260" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="118" y="192" width="160" height="12" rx="6" fill="#dbe4ee"/><rect x="118" y="214" width="98" height="12" rx="6" fill="#dbe4ee"/></svg></span><b>Estaciones DELTA</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f18" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12629f"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f18)"/><circle cx="330" cy="70" r="120" fill="#ffffff" opacity=".05"/><rect x="96" y="98" width="208" height="150" rx="18" fill="#f4f7fb"/><rect x="96" y="98" width="208" height="150" rx="18" fill="none" stroke="#ccd8e6" stroke-width="3"/><rect x="152" y="76" width="96" height="24" rx="11" fill="#1d2a38"/><rect x="118" y="120" width="96" height="52" rx="8" fill="#0d1a26"/><rect x="130" y="134" width="46" height="9" rx="4" fill="#37e08a"/><rect x="130" y="150" width="26" height="8" rx="4" fill="#5d6f80"/><circle cx="256" cy="146" r="25" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/><rect x="248" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="260" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="118" y="192" width="160" height="12" rx="6" fill="#dbe4ee"/><rect x="118" y="214" width="98" height="12" rx="6" fill="#dbe4ee"/></svg></span><b>Baterías RIVER</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f19" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f7bd6"/><stop offset="1" stop-color="#053b70"/></linearGradient></defs><rect width="400" height="320" fill="url(#f19)"/><circle cx="322" cy="66" r="42" fill="#ffc233"/><g stroke="#ffc233" stroke-width="6" stroke-linecap="round" opacity=".85"><line x1="322" y1="4" x2="322" y2="16"/><line x1="380" y1="66" x2="392" y2="66"/><line x1="366" y1="24" x2="374" y2="16"/></g><g transform="rotate(-9 190 180)"><rect x="42" y="112" width="296" height="152" rx="10" fill="#0b2c50"/><rect x="52" y="122" width="276" height="132" rx="5" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="3" opacity=".75"><line x1="144" y1="122" x2="144" y2="254"/><line x1="236" y1="122" x2="236" y2="254"/><line x1="52" y1="166" x2="328" y2="166"/><line x1="52" y1="210" x2="328" y2="210"/></g></g></svg></span><b>Placas solares</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f20" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b3df0"/><stop offset="1" stop-color="#25166e"/></linearGradient></defs><rect width="400" height="320" fill="url(#f20)"/><circle cx="86" cy="252" r="118" fill="#ffffff" opacity=".06"/><rect x="146" y="52" width="112" height="216" rx="26" fill="#20293a"/><rect x="156" y="62" width="92" height="196" rx="20" fill="#323e52"/><rect x="178" y="90" width="48" height="64" rx="10" fill="#101823"/><rect x="188" y="104" width="28" height="8" rx="4" fill="#37e08a"/><g fill="#37e08a"><circle cx="182" cy="190" r="6"/><circle cx="202" cy="190" r="6"/><circle cx="222" cy="190" r="6"/></g><rect x="184" y="222" width="36" height="11" rx="5" fill="#5f6d80"/></svg></span><b>Powerbanks</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f21" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset="1" stop-color="#c23a00"/></linearGradient></defs><rect width="400" height="320" fill="url(#f21)"/><circle cx="322" cy="252" r="130" fill="#ffffff" opacity=".08"/><circle cx="200" cy="58" r="26" fill="#1b2430"/><rect x="168" y="90" width="64" height="66" rx="18" fill="#232f3e"/><rect x="134" y="152" width="132" height="30" rx="15" fill="#0f1620"/><circle cx="152" cy="167" r="16" fill="#ffb547"/><circle cx="248" cy="167" r="16" fill="#ffb547"/><rect x="150" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="226" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="144" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="220" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="150" y="276" width="24" height="14" rx="6" fill="#0f1620"/><rect x="226" y="276" width="24" height="14" rx="6" fill="#0f1620"/></svg></span><b>Hypershell</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f22" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12a75f"/><stop offset="1" stop-color="#04603a"/></linearGradient></defs><rect width="400" height="320" fill="url(#f22)"/><circle cx="60" cy="52" r="90" fill="#ffffff" opacity=".07"/><path d="M70 168 L200 76 L330 168 Z" fill="#12304f"/><rect x="104" y="168" width="192" height="120" fill="#f5f8fc"/><rect x="104" y="168" width="192" height="120" fill="none" stroke="#c6d3e1" stroke-width="3"/><rect x="134" y="200" width="48" height="42" fill="#7fbdf0"/><rect x="214" y="200" width="50" height="88" fill="#12304f"/><circle cx="254" cy="248" r="4" fill="#ffc233"/><g transform="rotate(-27 236 122)"><rect x="192" y="94" width="104" height="60" rx="5" fill="#0b2c50"/><rect x="198" y="100" width="92" height="48" rx="3" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="2.5"><line x1="229" y1="100" x2="229" y2="148"/><line x1="259" y1="100" x2="259" y2="148"/><line x1="198" y1="124" x2="290" y2="124"/></g></g></svg></span><b>Kits hogar</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f23" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a6ed1"/><stop offset="1" stop-color="#062a52"/></linearGradient></defs><rect width="400" height="320" fill="url(#f23)"/><circle cx="340" cy="270" r="110" fill="#ffffff" opacity=".06"/><rect x="100" y="96" width="200" height="140" rx="16" fill="#f5f8fc" stroke="#c6d3e1" stroke-width="3"/><path d="M212 116 L162 182 L196 182 L184 226 L242 156 L204 156 Z" fill="#ff5a1f"/><rect x="128" y="252" width="144" height="13" rx="6" fill="#ffffff" opacity=".55"/></svg></span><b>STREAM</b></a><a class="eg-circulo" href="#"><span class="eg-circulo-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f24" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b4f88"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f24)"/><g transform="rotate(-13 268 130)"><rect x="196" y="76" width="150" height="106" rx="8" fill="#0b2c50"/><rect x="204" y="84" width="134" height="90" rx="4" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="2.5"><line x1="249" y1="84" x2="249" y2="174"/><line x1="293" y1="84" x2="293" y2="174"/><line x1="204" y1="129" x2="338" y2="129"/></g></g><rect x="42" y="152" width="168" height="118" rx="16" fill="#f4f7fb" stroke="#ccd8e6" stroke-width="3"/><rect x="64" y="178" width="72" height="44" rx="7" fill="#0d1a26"/><rect x="74" y="192" width="34" height="8" rx="4" fill="#37e08a"/><circle cx="172" cy="200" r="20" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/></svg></span><b>Generadores</b></a></div>
 </section>
 
 <section class="eg-seccion"><div class="eg-banda">
@@ -394,14 +421,10 @@ html, body { background: #f2f5f9; color: #3a4350; margin: 0;
     <span class="eg-pill eg-pill-nuevo">Novedad</span>
     <h2>Hypershell: el exoesqueleto que te quita peso de las piernas</h2>
     <p>Un motor te acompaña al andar y al subir. Para caminatas largas, montaña y para quien pasa el día de pie.</p>
-    <ul class="eg-banda-lista">
-      <li>Se pone y se quita en segundos</li>
-      <li>Batería intercambiable</li>
-      <li>Distribuidor oficial en España</li>
-    </ul>
+    <ul class="eg-banda-lista"><li>Se pone y se quita en segundos</li><li>Batería intercambiable</li><li>Distribuidor oficial en España</li></ul>
     <a class="eg-btn eg-btn-blanco" href="#">Ver los modelos</a>
   </div>
-  <div class="eg-banda-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g24" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c2733"/><stop offset="1" stop-color="#0f1720"/></linearGradient></defs><rect width="300" height="300" fill="url(#g24)"/><circle cx="150" cy="66" r="20" fill="#2b3442"/><rect x="126" y="92" width="48" height="54" rx="14" fill="#33404f"/><rect x="102" y="140" width="96" height="24" rx="12" fill="#ff6a13"/><circle cx="116" cy="152" r="13" fill="#22303f"/><circle cx="184" cy="152" r="13" fill="#22303f"/><rect x="112" y="164" width="18" height="72" rx="9" fill="#33404f"/><rect x="170" y="164" width="18" height="72" rx="9" fill="#33404f"/><rect x="108" y="196" width="26" height="12" rx="6" fill="#ff6a13"/><rect x="166" y="196" width="26" height="12" rx="6" fill="#ff6a13"/></svg></div>
+  <div class="eg-banda-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f26" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset="1" stop-color="#c23a00"/></linearGradient></defs><rect width="400" height="320" fill="url(#f26)"/><circle cx="322" cy="252" r="130" fill="#ffffff" opacity=".08"/><circle cx="200" cy="58" r="26" fill="#1b2430"/><rect x="168" y="90" width="64" height="66" rx="18" fill="#232f3e"/><rect x="134" y="152" width="132" height="30" rx="15" fill="#0f1620"/><circle cx="152" cy="167" r="16" fill="#ffb547"/><circle cx="248" cy="167" r="16" fill="#ffb547"/><rect x="150" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="226" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="144" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="220" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="150" y="276" width="24" height="14" rx="6" fill="#0f1620"/><rect x="226" y="276" width="24" height="14" rx="6" fill="#0f1620"/></svg></div>
 </div></section>
 
 <section class="eg-seccion"><div class="eg-banda eg-banda-clara">
@@ -409,14 +432,10 @@ html, body { background: #f2f5f9; color: #3a4350; margin: 0;
     <span class="eg-pill eg-pill-nuevo">Para casa</span>
     <h2>Kits solares de balcón: produce tu propia luz sin obra</h2>
     <p>Se instalan en un balcón o una terraza y empiezan a producir desde el primer día. Te decimos qué potencia encaja en tu caso.</p>
-    <ul class="eg-banda-lista">
-      <li>Sin obra y sin permisos de comunidad en la mayoría de casos</li>
-      <li>Se amplían después con más paneles o batería</li>
-      <li>Te calculamos el ahorro con tu factura delante</li>
-    </ul>
+    <ul class="eg-banda-lista"><li>Sin obra y sin permisos de comunidad en la mayoría de casos</li><li>Se amplían después con más paneles o batería</li><li>Te calculamos el ahorro con tu factura delante</li></ul>
     <a class="eg-btn eg-btn-naranja" href="#">Ver los kits</a>
   </div>
-  <div class="eg-banda-foto"><svg viewBox="0 0 300 300" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="g25" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6f5ec"/><stop offset="1" stop-color="#c6e7d5"/></linearGradient></defs><rect width="300" height="300" fill="url(#g25)"/><path d="M62 148 L150 84 L238 148 Z" fill="#25405c"/><rect x="86" y="148" width="128" height="86" fill="#f6f9fc"/><rect x="86" y="148" width="128" height="86" fill="none" stroke="#c3d1e0" stroke-width="3"/><rect x="108" y="172" width="34" height="30" fill="#8fc2ee"/><rect x="162" y="172" width="34" height="62" fill="#25405c"/><g transform="rotate(-26 176 116)"><rect x="146" y="98" width="70" height="40" rx="4" fill="#1c5b96"/><g stroke="#8fc2ee" stroke-width="2"><line x1="169" y1="98" x2="169" y2="138"/><line x1="192" y1="98" x2="192" y2="138"/><line x1="146" y1="118" x2="216" y2="118"/></g></g></svg></div>
+  <div class="eg-banda-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f27" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12a75f"/><stop offset="1" stop-color="#04603a"/></linearGradient></defs><rect width="400" height="320" fill="url(#f27)"/><circle cx="60" cy="52" r="90" fill="#ffffff" opacity=".07"/><path d="M70 168 L200 76 L330 168 Z" fill="#12304f"/><rect x="104" y="168" width="192" height="120" fill="#f5f8fc"/><rect x="104" y="168" width="192" height="120" fill="none" stroke="#c6d3e1" stroke-width="3"/><rect x="134" y="200" width="48" height="42" fill="#7fbdf0"/><rect x="214" y="200" width="50" height="88" fill="#12304f"/><circle cx="254" cy="248" r="4" fill="#ffc233"/><g transform="rotate(-27 236 122)"><rect x="192" y="94" width="104" height="60" rx="5" fill="#0b2c50"/><rect x="198" y="100" width="92" height="48" rx="3" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="2.5"><line x1="229" y1="100" x2="229" y2="148"/><line x1="259" y1="100" x2="259" y2="148"/><line x1="198" y1="124" x2="290" y2="124"/></g></g></svg></div>
 </div></section>
 
 <section class="eg-seccion" aria-labelledby="t4">
@@ -450,11 +469,8 @@ html, body { background: #f2f5f9; color: #3a4350; margin: 0;
 </div></div>
 
 <div class="pv-pie">
-  <b>Qué estás viendo.</b> Solo el contenido de la portada, el que genera el shortcode <code>[eg_portada]</code>.
-  Tu cabecera, tu logo, el menú y el pie no se tocan.
+  <b>Qué estás viendo.</b> Solo el contenido de la portada. Tu cabecera, tu logo, el menú y el pie no se tocan.
   <br><b>Las ilustraciones</b> están dibujadas para esta vista previa porque no puede cargar ficheros de tu servidor.
-  En tu web irán tus fotos reales de producto y de categoría.
-  <br><b>Los precios, el stock y el «-18%»</b> salen de WooCommerce. El descuento se calcula del precio real:
-  si un producto no está rebajado, no aparece ninguna etiqueta.
-  <br><b>Las marcas</b> se leen de la taxonomía de marcas. Si no existe, esa sección no se pinta.
+  En tu web van tus fotos reales, y llenan el bloque igual que aquí.
+  <br><b>El «-18%»</b> se calcula del precio real de WooCommerce. Si un producto no está rebajado, no sale etiqueta.
 </div>

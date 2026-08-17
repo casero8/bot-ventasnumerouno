@@ -4,316 +4,342 @@
    HTML y CSS puros. Sin Elementor y sin JavaScript.
    Se imprime en linea desde el snippet "EG · Portada", solo en is_front_page().
 
-   Criterio: es una tienda, no un folleto. Lo primero que se ve son productos
-   con su precio; el texto largo baja al final, donde sigue contando para
-   Google sin estorbar a quien viene a comprar.
+   Criterio de diseno, y por que es asi:
 
-   Color: el azul de marca es la estructura (cabeceras, bandas). El naranja
-   es SOLO para novedad, oferta y precio rebajado: si se usa para adornar
-   deja de significar nada.
+   1. Las imagenes sangran hasta el borde de su caja. Una foto pequena
+      centrada con margenes blancos alrededor es lo que hace que una tienda
+      parezca de 2012. Aqui la foto ES el bloque.
+   2. Bloques de color saturado, no cajas blancas sobre gris. MediaMarkt y
+      PcComponentes son color; el blanco se reserva para las fichas de
+      producto, donde el producto tiene que destacar sobre fondo neutro.
+   3. El precio es el elemento tipografico mas grande de la ficha, por
+      encima del nombre. En una tienda se compra por precio.
+   4. El naranja significa dinero: novedad, oferta y precio rebajado. Si se
+      usa para adornar deja de significar nada.
 
-   No se declara font-family a proposito: hereda la del tema, que ya es la
-   que usa el resto de la web.
-
-   Prefijo .eg-home en todo porque el kit de Elementor sigue cargandose para
-   la cabecera y el pie, y sin el prefijo gana el otro.
+   No se declara font-family a proposito: hereda la del tema.
+   Prefijo .eg-home porque el kit de Elementor sigue cargandose para la
+   cabecera y el pie, y sin el prefijo gana el otro.
    ========================================================================== */
 
 .eg-home {
-  --azul: #06213d;
-  --azul-medio: #12609f;
-  --naranja: #ff6a13;
-  --naranja-oscuro: #c74400;
+  --azul: #072a4d;
+  --azul-vivo: #0a6ed1;
+  --naranja: #ff5a1f;
+  --naranja-osc: #d63c00;
   --verde: #0b7a3f;
-  --borde: #e4e9f0;
-  --texto: #3a4350;
-  --suave: #6e7987;
-  --tinta: #0b1220;
-  --fondo: #f2f5f9;
-  --radio: 14px;
+  --texto: #364152;
+  --suave: #6b7686;
+  --tinta: #0a1020;
+  --fondo: #eef2f7;
+  --r: 16px;
   color: var(--texto);
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.5;
   background: var(--fondo);
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 }
 
 .eg-saltar {
   position: absolute; left: -9999px; top: 0; z-index: 999;
   background: var(--azul); color: #fff; padding: 12px 20px;
-  border-radius: 0 0 var(--radio) 0; font-weight: 700; text-decoration: none;
+  border-radius: 0 0 var(--r) 0; font-weight: 700; text-decoration: none;
 }
 .eg-saltar:focus { left: 0; }
-
-.eg-home a:focus-visible, .eg-home button:focus-visible {
-  outline: 3px solid var(--naranja); outline-offset: 2px; border-radius: 6px;
+.eg-home a:focus-visible {
+  outline: 3px solid var(--naranja); outline-offset: 3px; border-radius: 6px;
 }
 .eg-home img { max-width: 100%; height: auto; display: block; }
-.eg-ancho { max-width: 1320px; margin: 0 auto; padding: 0 16px; }
-.eg-seccion { margin: 30px 0; }
+.eg-ancho { max-width: 1340px; margin: 0 auto; padding: 0 16px; }
+.eg-seccion { margin: 28px 0; }
 
 .eg-home h2 {
-  font-size: 23px; font-weight: 800; letter-spacing: -.025em;
-  color: var(--tinta); margin: 0; line-height: 1.2;
+  font-size: 26px; font-weight: 800; letter-spacing: -.03em;
+  color: var(--tinta); margin: 0; line-height: 1.15; text-wrap: balance;
 }
 .eg-seccion-cab {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 14px; flex-wrap: wrap; margin: 0 0 15px;
+  gap: 14px; flex-wrap: wrap; margin: 0 0 16px;
 }
-.eg-seccion-cab p { margin: 4px 0 0; color: var(--suave); font-size: 14px; }
+.eg-seccion-cab p { margin: 5px 0 0; color: var(--suave); font-size: 14.5px; }
 .eg-vertodo {
-  font-size: 14px; font-weight: 700; color: var(--azul-medio) !important;
+  font-size: 14.5px; font-weight: 800; color: var(--azul-vivo) !important;
   text-decoration: none !important; white-space: nowrap;
 }
 .eg-vertodo:hover { text-decoration: underline !important; }
 
-/* Etiquetas. El naranja solo aqui y en los precios rebajados. */
 .eg-pill {
-  display: inline-block; font-size: 11.5px; font-weight: 800;
-  letter-spacing: .07em; text-transform: uppercase;
-  padding: 5px 11px; border-radius: 999px;
+  display: inline-block; font-size: 11.5px; font-weight: 900;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 6px 13px; border-radius: 999px;
 }
 .eg-pill-nuevo  { background: var(--naranja); color: #fff; }
-.eg-pill-top    { background: #ffeadb; color: var(--naranja-oscuro); }
-.eg-pill-oferta { background: var(--naranja); color: #fff; }
-
-/* ============================ 1. PORTADA ============================
-   Banda ancha a dos columnas: mensaje a la izquierda, producto grande a
-   la derecha. Debajo, la fila de accesos montada sobre el borde.
-   =================================================================== */
-
-.eg-hero {
-  background: radial-gradient(120% 140% at 12% 20%, #0d3c6e 0%, #06213d 62%, #04182c 100%);
-  color: #fff; overflow: hidden;
-}
-.eg-hero-in {
-  max-width: 1320px; margin: 0 auto; padding: 40px 16px 88px;
-  display: grid; grid-template-columns: 1.02fr .98fr; gap: 30px; align-items: center;
-}
-.eg-home .eg-hero h1 {
-  font-size: 42px; line-height: 1.05; font-weight: 800; letter-spacing: -.035em;
-  color: #fff; margin: 13px 0 12px; text-wrap: balance;
-}
-.eg-hero p { font-size: 17px; line-height: 1.45; color: #cfe0f2; margin: 0 0 22px; max-width: 520px; }
-.eg-hero-botones { display: flex; flex-wrap: wrap; gap: 11px; }
-.eg-hero-foto {
-  border-radius: var(--radio); overflow: hidden; aspect-ratio: 16 / 11;
-  background: rgba(255,255,255,.06);
-}
-.eg-hero-foto img { width: 100%; height: 100%; object-fit: cover; }
+.eg-pill-top    { background: #fff2e8; color: var(--naranja-osc); }
+.eg-pill-oferta { background: var(--naranja); color: #fff; font-size: 13px; padding: 7px 13px; }
 
 .eg-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  min-height: 48px; padding: 12px 26px; border-radius: 999px;
-  font-size: 15.5px; font-weight: 800; text-decoration: none !important;
+  min-height: 50px; padding: 13px 30px; border-radius: 999px;
+  font-size: 16px; font-weight: 800; text-decoration: none !important;
   border: 2px solid transparent; letter-spacing: -.01em;
 }
 .eg-btn-naranja { background: var(--naranja); color: #fff !important; }
-.eg-btn-naranja:hover { background: var(--naranja-oscuro); }
+.eg-btn-naranja:hover { background: var(--naranja-osc); }
 .eg-btn-blanco { background: #fff; color: var(--azul) !important; }
-.eg-btn-blanco:hover { background: #dfe9f4; }
-.eg-btn-linea { background: transparent; color: #fff !important; border-color: rgba(255,255,255,.5); }
-.eg-btn-linea:hover { background: rgba(255,255,255,.13); }
+.eg-btn-blanco:hover { background: #dde8f3; }
+.eg-btn-linea { background: transparent; color: #fff !important; border-color: rgba(255,255,255,.55); }
+.eg-btn-linea:hover { background: rgba(255,255,255,.15); }
 
-/* Accesos rapidos montados sobre la portada */
-.eg-atajos {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px;
-  margin-top: -58px; position: relative; z-index: 2;
-}
-.eg-atajo {
-  background: #fff; border-radius: var(--radio); padding: 13px 15px;
-  box-shadow: 0 8px 24px rgba(6,33,61,.16);
-  text-decoration: none !important; color: inherit !important;
-  display: flex; gap: 12px; align-items: center; min-height: 76px;
-}
-.eg-atajo:hover { box-shadow: 0 12px 30px rgba(6,33,61,.24); }
-.eg-atajo-mini {
-  width: 56px; height: 56px; flex: 0 0 56px; border-radius: 10px;
-  background: var(--fondo); overflow: hidden;
-}
-.eg-atajo-mini img, .eg-atajo-mini svg { width: 100%; height: 100%; object-fit: cover; }
-.eg-atajo b { display: block; font-size: 14.5px; font-weight: 800; color: var(--tinta); line-height: 1.2; }
-.eg-atajo span { display: block; font-size: 12.5px; color: var(--suave); margin-top: 3px; line-height: 1.3; }
+/* ======================= 1. PORTADA A SANGRE ========================
+   La foto ocupa la mitad derecha entera, sin margenes ni bordes: sangra
+   hasta arriba, abajo y a la derecha.
+   =================================================================== */
 
-/* ======================== 2. FILA DE PRODUCTOS ======================= */
+.eg-hero { background: var(--azul); color: #fff; overflow: hidden; }
+.eg-hero-in {
+  max-width: 1340px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; min-height: 430px;
+}
+.eg-hero-txt { padding: 46px 40px 46px 16px; align-self: center; }
+.eg-home .eg-hero h1 {
+  font-size: 46px; line-height: 1.02; font-weight: 900; letter-spacing: -.04em;
+  color: #fff; margin: 14px 0 14px; text-wrap: balance;
+}
+.eg-hero p { font-size: 17.5px; line-height: 1.42; color: #c3d8ef; margin: 0 0 24px; max-width: 500px; }
+.eg-hero-botones { display: flex; flex-wrap: wrap; gap: 12px; }
+.eg-hero-foto { position: relative; min-height: 300px; background: #0b3868; }
+.eg-hero-foto img, .eg-hero-foto svg {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+
+/* ==================== 2. MOSAICO DE PROMOCIONES =====================
+   Bloques de color con la foto sangrada. Dos grandes y cuatro pequenos.
+   Es la pieza que hace que una portada parezca una tienda y no un folleto.
+   =================================================================== */
+
+.eg-promos {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 190px; gap: 14px;
+}
+.eg-promo {
+  position: relative; overflow: hidden; border-radius: var(--r);
+  text-decoration: none !important; color: #fff !important;
+  display: flex; align-items: flex-end; background: var(--azul);
+  transition: transform .15s, box-shadow .15s;
+}
+.eg-promo:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(7,42,77,.26); }
+.eg-promo-foto { position: absolute; inset: 0; }
+.eg-promo-foto img, .eg-promo-foto svg { width: 100%; height: 100%; object-fit: cover; }
+.eg-promo-velo {
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(6,20,38,.88) 0%, rgba(6,20,38,.42) 45%, rgba(6,20,38,0) 78%);
+}
+.eg-promo-txt { position: relative; padding: 18px 20px; width: 100%; }
+.eg-promo b {
+  display: block; font-size: 19px; font-weight: 800; letter-spacing: -.025em;
+  line-height: 1.15; margin-bottom: 4px; text-wrap: balance;
+}
+.eg-promo span { display: block; font-size: 13.5px; color: #d3e2f2; line-height: 1.35; }
+.eg-promo i {
+  font-style: normal; display: inline-block; margin-top: 11px;
+  font-size: 13.5px; font-weight: 800; color: #fff;
+  border-bottom: 2px solid var(--naranja); padding-bottom: 2px;
+}
+.eg-promo-etiq { position: absolute; top: 15px; left: 16px; z-index: 2; }
+
+/* Los dos grandes ocupan dos columnas y dos filas */
+.eg-promo-xl { grid-column: span 2; grid-row: span 2; }
+.eg-promo-xl .eg-promo b { font-size: 30px; letter-spacing: -.035em; }
+.eg-promo-xl .eg-promo-txt { padding: 26px 28px; }
+.eg-promo-xl span { font-size: 15px; }
+
+/* Variantes de color para cuando la categoria no tiene foto */
+.eg-promo-naranja { background: linear-gradient(140deg, #ff7a3d, #d63c00); }
+.eg-promo-azul    { background: linear-gradient(140deg, #1287ec, #054a92); }
+.eg-promo-verde   { background: linear-gradient(140deg, #16a75c, #05663a); }
+
+/* ======================= 3. FICHAS DE PRODUCTO ======================
+   Fondo blanco solo aqui: el producto necesita fondo neutro. La foto
+   sangra por arriba y por los lados de la ficha.
+   =================================================================== */
 
 .eg-fila { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
 .eg-prod {
   position: relative; display: flex; flex-direction: column; background: #fff;
-  border-radius: var(--radio); padding: 13px; transition: box-shadow .15s, transform .15s;
+  border-radius: var(--r); overflow: hidden; transition: box-shadow .15s, transform .15s;
 }
-.eg-prod:hover { box-shadow: 0 10px 26px rgba(6,33,61,.14); transform: translateY(-2px); }
+.eg-prod:hover { box-shadow: 0 14px 30px rgba(7,42,77,.16); transform: translateY(-3px); }
 .eg-prod-etiq { position: absolute; top: 12px; left: 12px; z-index: 2; }
-.eg-prod-foto { display: block; aspect-ratio: 1; margin-bottom: 11px; border-radius: 8px; overflow: hidden; }
-.eg-prod-foto img, .eg-prod-foto svg { width: 100%; height: 100%; object-fit: contain; }
+.eg-prod-foto {
+  display: block; aspect-ratio: 5 / 4; background: #f6f8fb; overflow: hidden;
+}
+.eg-prod-foto img, .eg-prod-foto svg { width: 100%; height: 100%; object-fit: cover; }
+.eg-prod-cuerpo { padding: 13px 15px 15px; display: flex; flex-direction: column; flex: 1; }
 .eg-prod-marca {
-  font-size: 11px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
-  color: var(--suave); margin: 0 0 4px;
+  font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--suave); margin: 0 0 5px;
 }
 .eg-prod-nombre {
-  font-size: 14px; font-weight: 600; line-height: 1.35; color: var(--tinta) !important;
-  text-decoration: none !important; display: block; margin-bottom: 9px;
+  font-size: 14.5px; font-weight: 600; line-height: 1.32; color: var(--tinta) !important;
+  text-decoration: none !important; display: block; margin-bottom: 11px;
 }
-.eg-prod-nombre:hover { color: var(--azul-medio) !important; text-decoration: underline !important; }
+.eg-prod-nombre:hover { color: var(--azul-vivo) !important; text-decoration: underline !important; }
 .eg-prod-precio {
-  font-size: 24px; font-weight: 800; color: var(--tinta); margin: 0 0 2px;
-  letter-spacing: -.035em; font-variant-numeric: tabular-nums; line-height: 1.1;
+  font-size: 29px; font-weight: 900; color: var(--tinta); margin: auto 0 2px;
+  letter-spacing: -.045em; font-variant-numeric: tabular-nums; line-height: 1;
 }
-.eg-prod-precio del { font-size: 14px; font-weight: 500; color: var(--suave); margin-right: 7px; letter-spacing: 0; }
-.eg-prod-precio ins { text-decoration: none; color: var(--naranja-oscuro); }
-.eg-prod-stock { font-size: 12.5px; color: var(--verde); font-weight: 700; margin: 0 0 12px; }
+.eg-prod-precio del { font-size: 15px; font-weight: 500; color: var(--suave); margin-right: 8px; letter-spacing: 0; }
+.eg-prod-precio ins { text-decoration: none; color: var(--naranja-osc); }
+.eg-prod-stock { font-size: 12.5px; color: var(--verde); font-weight: 800; margin: 6px 0 12px; }
 .eg-prod-btn {
-  margin-top: auto; display: block; text-align: center; min-height: 44px;
-  line-height: 44px; border-radius: 999px; background: var(--azul);
-  color: #fff !important; font-size: 14.5px; font-weight: 800; text-decoration: none !important;
+  display: block; text-align: center; min-height: 46px; line-height: 46px;
+  border-radius: 999px; background: var(--azul); color: #fff !important;
+  font-size: 15px; font-weight: 800; text-decoration: none !important;
 }
-.eg-prod-btn:hover { background: var(--azul-medio); }
+.eg-prod-btn:hover { background: var(--azul-vivo); }
 
-/* ==================== 3. CATEGORIAS EN CIRCULO ======================
-   Lo que hacen MediaMarkt y PcComponentes: foto redonda y nombre debajo.
-   Ocupa poco, se escanea de un vistazo y reparte trafico a categorias.
-   =================================================================== */
+/* ===================== 4. CATEGORIAS EN CIRCULO ===================== */
 
-.eg-circulos {
-  display: grid; grid-template-columns: repeat(8, 1fr); gap: 14px;
-}
+.eg-circulos { display: grid; grid-template-columns: repeat(8, 1fr); gap: 16px; }
 .eg-circulo { text-decoration: none !important; color: inherit !important; text-align: center; }
 .eg-circulo-foto {
   aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #fff;
-  margin-bottom: 9px; box-shadow: 0 3px 12px rgba(6,33,61,.09);
+  margin-bottom: 10px; box-shadow: 0 4px 14px rgba(7,42,77,.12);
   transition: box-shadow .15s, transform .15s;
 }
 .eg-circulo-foto img, .eg-circulo-foto svg { width: 100%; height: 100%; object-fit: cover; }
-.eg-circulo:hover .eg-circulo-foto { box-shadow: 0 8px 20px rgba(6,33,61,.2); transform: translateY(-3px); }
-.eg-circulo b { display: block; font-size: 13.5px; font-weight: 700; color: var(--tinta); line-height: 1.3; }
+.eg-circulo:hover .eg-circulo-foto { box-shadow: 0 10px 24px rgba(7,42,77,.24); transform: translateY(-4px); }
+.eg-circulo b { display: block; font-size: 14px; font-weight: 800; color: var(--tinta); line-height: 1.25; }
 
-/* ======================= 4. BANDAS DE MARCA ========================= */
+/* ======================== 5. BANDA A SANGRE ========================= */
 
 .eg-banda {
-  border-radius: var(--radio); overflow: hidden; display: grid;
-  grid-template-columns: 1fr 1fr; background: #0b1220; color: #fff; min-height: 320px;
+  border-radius: var(--r); overflow: hidden; display: grid;
+  grid-template-columns: 1fr 1fr; background: #0a1020; color: #fff; min-height: 340px;
 }
-.eg-banda-txt { padding: 40px 38px; align-self: center; }
-.eg-home .eg-banda h2 { color: #fff; font-size: 31px; letter-spacing: -.035em; margin: 12px 0 10px; }
-.eg-banda p { color: #c3cddb; font-size: 16px; line-height: 1.55; margin: 0 0 16px; max-width: 460px; }
-.eg-banda-lista { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 8px; }
-.eg-banda-lista li { font-size: 14.5px; color: #dde4ed; padding-left: 24px; position: relative; }
+.eg-banda-txt { padding: 42px 40px; align-self: center; }
+.eg-home .eg-banda h2 { color: #fff; font-size: 34px; letter-spacing: -.04em; margin: 14px 0 12px; }
+.eg-banda p { color: #c0ccdb; font-size: 16.5px; line-height: 1.5; margin: 0 0 18px; max-width: 460px; }
+.eg-banda-lista { list-style: none; margin: 0 0 26px; padding: 0; display: grid; gap: 9px; }
+.eg-banda-lista li { font-size: 15px; color: #dbe3ee; padding-left: 26px; position: relative; }
 .eg-banda-lista li::before {
-  content: ""; position: absolute; left: 0; top: 7px; width: 10px; height: 10px;
+  content: ""; position: absolute; left: 0; top: 7px; width: 11px; height: 11px;
   border-radius: 50%; background: var(--naranja);
 }
-.eg-banda-foto { position: relative; background: #141d2b; min-height: 250px; }
+.eg-banda-foto { position: relative; min-height: 260px; background: #131c2b; }
 .eg-banda-foto img, .eg-banda-foto svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .eg-banda-clara { background: #fff; color: var(--texto); }
 .eg-home .eg-banda-clara h2 { color: var(--tinta); }
-.eg-banda-clara p { color: var(--texto); }
-.eg-banda-clara .eg-banda-lista li { color: var(--texto); }
-.eg-banda-clara .eg-banda-foto { background: var(--fondo); }
+.eg-banda-clara p, .eg-banda-clara .eg-banda-lista li { color: var(--texto); }
 
-/* =========================== 5. MARCAS ============================== */
+/* ====================== 6. MARCAS Y CONFIANZA ======================= */
 
 .eg-marcas {
-  background: #fff; border-radius: var(--radio); padding: 20px 22px;
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; align-items: center;
+  background: #fff; border-radius: var(--r); padding: 20px 24px;
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; align-items: center;
 }
-.eg-marca { display: flex; align-items: center; justify-content: center; min-height: 54px; text-decoration: none !important; }
-.eg-marca img { max-height: 40px; width: auto; object-fit: contain; }
-.eg-marca span { font-size: 15px; font-weight: 800; letter-spacing: -.01em; color: #64707f; }
+.eg-marca { display: flex; align-items: center; justify-content: center; min-height: 56px; text-decoration: none !important; }
+.eg-marca img { max-height: 42px; width: auto; object-fit: contain; }
+.eg-marca span { font-size: 16px; font-weight: 900; letter-spacing: -.02em; color: #5e6b7b; }
 
-/* =========================== 6. AVALES ============================== */
+.eg-avales {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: #dde4ed; border-radius: var(--r); overflow: hidden;
+}
+.eg-aval { background: #fff; padding: 17px 19px; }
+.eg-aval b { display: block; font-size: 15px; font-weight: 800; color: var(--tinta); margin-bottom: 3px; }
+.eg-aval span { font-size: 13px; color: var(--suave); line-height: 1.45; display: block; }
 
-.eg-avales { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.eg-aval { background: #fff; border-radius: var(--radio); padding: 15px 17px; }
-.eg-aval b { display: block; font-size: 14.5px; font-weight: 800; color: var(--tinta); margin-bottom: 3px; }
-.eg-aval span { font-size: 12.5px; color: var(--suave); line-height: 1.45; display: block; }
+/* ========================= 7. TEXTO Y FAQ =========================== */
 
-/* ======================= 7. TEXTO, TABLA, FAQ ======================= */
-
-.eg-texto, .eg-faq, .eg-tabla-caja { background: #fff; border-radius: var(--radio); }
-.eg-texto { padding: 30px 32px; }
-.eg-texto h2 { margin-bottom: 13px; }
-.eg-texto h3 { font-size: 17px; font-weight: 800; color: var(--tinta); margin: 24px 0 8px; }
-.eg-texto p { margin: 0 0 13px; font-size: 15px; line-height: 1.7; max-width: 78ch; }
+.eg-texto, .eg-faq { background: #fff; border-radius: var(--r); }
+.eg-texto { padding: 32px 34px; }
+.eg-texto h2 { margin-bottom: 14px; }
+.eg-texto h3 { font-size: 18px; font-weight: 800; color: var(--tinta); margin: 26px 0 9px; }
+.eg-texto p { margin: 0 0 14px; font-size: 15.5px; line-height: 1.7; max-width: 78ch; }
 .eg-texto p:last-child { margin-bottom: 0; }
-.eg-texto a, .eg-faq-cuerpo a { color: var(--azul-medio) !important; font-weight: 700; }
+.eg-texto a, .eg-faq-cuerpo a { color: var(--azul-vivo) !important; font-weight: 700; }
 
 .eg-faq { overflow: hidden; }
-.eg-faq details { border-bottom: 1px solid var(--borde); }
+.eg-faq details { border-bottom: 1px solid #e5eaf1; }
 .eg-faq details:last-child { border-bottom: 0; }
 .eg-faq summary {
-  cursor: pointer; padding: 16px 20px; font-weight: 700; font-size: 15px;
-  color: var(--tinta); list-style: none; position: relative; padding-right: 50px;
+  cursor: pointer; padding: 17px 22px; font-weight: 700; font-size: 15.5px;
+  color: var(--tinta); list-style: none; position: relative; padding-right: 52px;
 }
 .eg-faq summary::-webkit-details-marker { display: none; }
 .eg-faq summary::after {
-  content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-  font-size: 22px; font-weight: 400; color: var(--naranja); line-height: 1;
+  content: "+"; position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+  font-size: 23px; font-weight: 400; color: var(--naranja); line-height: 1;
 }
 .eg-faq details[open] summary::after { content: "\2212"; }
-.eg-faq summary:hover { background: var(--fondo); }
-.eg-faq-cuerpo { padding: 0 20px 18px; font-size: 14.5px; line-height: 1.65; max-width: 82ch; }
+.eg-faq summary:hover { background: #f6f8fb; }
+.eg-faq-cuerpo { padding: 0 22px 19px; font-size: 15px; line-height: 1.65; max-width: 82ch; }
 .eg-faq-cuerpo p { margin: 0; }
 
-/* ============================ 8. CIERRE ============================= */
+/* =========================== 8. CIERRE ============================== */
 
 .eg-cierre {
-  background: linear-gradient(100deg, #06213d 0%, #0d3c6e 100%); color: #fff;
-  border-radius: var(--radio); padding: 32px 34px;
-  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  background: linear-gradient(100deg, #072a4d 0%, #0a6ed1 130%); color: #fff;
+  border-radius: var(--r); padding: 34px 36px;
+  display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap;
 }
 .eg-home .eg-cierre h2 { color: #fff; margin-bottom: 6px; }
-.eg-cierre p { margin: 0; color: #cfe0f2; font-size: 15px; max-width: 560px; }
+.eg-cierre p { margin: 0; color: #c9dcf1; font-size: 15.5px; max-width: 560px; }
 
-/* ============================= MOVIL =============================== */
+/* ============================= MOVIL ================================ */
 
 @media (max-width: 1150px) {
   .eg-fila { grid-template-columns: repeat(3, 1fr); }
   .eg-circulos { grid-template-columns: repeat(4, 1fr); }
   .eg-marcas { grid-template-columns: repeat(3, 1fr); }
+  .eg-promos { grid-auto-rows: 168px; }
 }
 
 @media (max-width: 900px) {
-  .eg-hero-in { grid-template-columns: 1fr; padding-bottom: 76px; }
-  .eg-hero-foto { order: -1; aspect-ratio: 16 / 9; }
-  .eg-atajos { grid-template-columns: repeat(2, 1fr); margin-top: -46px; }
+  .eg-hero-in { grid-template-columns: 1fr; min-height: 0; }
+  .eg-hero-foto { order: -1; min-height: 250px; aspect-ratio: 16 / 9; }
+  .eg-hero-txt { padding: 28px 16px 34px; }
+  .eg-promos { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
+  .eg-promo-xl { grid-column: span 2; grid-row: span 1; }
+  .eg-promo-xl .eg-promo b { font-size: 24px; }
   .eg-banda { grid-template-columns: 1fr; }
-  .eg-banda-foto { min-height: 210px; order: -1; }
+  .eg-banda-foto { order: -1; min-height: 220px; }
   .eg-avales { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 767px) {
   .eg-home { font-size: 15.5px; }
   .eg-ancho { padding: 0 12px; }
-  .eg-seccion { margin: 24px 0; }
-  .eg-home h2 { font-size: 20px; }
+  .eg-seccion { margin: 22px 0; }
+  .eg-home h2 { font-size: 21px; }
 
-  .eg-hero-in { padding: 22px 12px 66px; gap: 20px; }
-  .eg-home .eg-hero h1 { font-size: 28px; }
+  .eg-home .eg-hero h1 { font-size: 30px; }
   .eg-hero p { font-size: 15.5px; }
   .eg-hero-botones { flex-direction: column; align-items: stretch; }
   .eg-btn { width: 100%; }
 
-  .eg-atajos { gap: 9px; margin-top: -38px; }
-  .eg-atajo { padding: 10px 11px; min-height: 62px; gap: 9px; }
-  .eg-atajo-mini { width: 42px; height: 42px; flex-basis: 42px; }
-  .eg-atajo b { font-size: 12.5px; }
-  .eg-atajo span { display: none; }
+  .eg-promos { grid-auto-rows: 148px; gap: 10px; }
+  .eg-promo-txt { padding: 14px 16px; }
+  .eg-promo b { font-size: 17px; }
+  .eg-promo span { display: none; }
+  .eg-promo-xl .eg-promo-txt { padding: 18px 18px; }
 
-  /* Productos y categorias en carrusel: se pasa el dedo, como en Amazon.
-     Es scroll-snap, no JavaScript. */
+  /* Productos y categorias en carrusel: se pasa el dedo, como en la app
+     de Amazon. Es scroll-snap, no JavaScript. */
   .eg-fila, .eg-circulos {
     display: flex; gap: 11px; overflow-x: auto; scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch; padding: 2px 12px 8px; margin: 0 -12px;
   }
-  .eg-prod { flex: 0 0 62vw; max-width: 225px; scroll-snap-align: start; }
-  .eg-circulo { flex: 0 0 27vw; max-width: 120px; scroll-snap-align: start; }
-  .eg-prod-precio { font-size: 22px; }
+  .eg-prod { flex: 0 0 63vw; max-width: 235px; scroll-snap-align: start; }
+  .eg-circulo { flex: 0 0 27vw; max-width: 122px; scroll-snap-align: start; }
+  .eg-prod-precio { font-size: 26px; }
 
   .eg-marcas { grid-template-columns: repeat(2, 1fr); padding: 14px; }
   .eg-avales { grid-template-columns: 1fr; }
   .eg-texto { padding: 22px 18px; }
   .eg-banda-txt { padding: 26px 20px; }
-  .eg-home .eg-banda h2 { font-size: 23px; }
+  .eg-home .eg-banda h2 { font-size: 24px; }
   .eg-cierre { padding: 24px 18px; flex-direction: column; align-items: flex-start; }
   .eg-cierre .eg-btn { width: 100%; }
 }
@@ -322,8 +348,8 @@
   .eg-home *, .eg-home *::before, .eg-home *::after {
     transition-duration: .01ms !important; animation-duration: .01ms !important;
   }
-  .eg-prod:hover, .eg-circulo:hover .eg-circulo-foto { transform: none; }
+  .eg-prod:hover, .eg-promo:hover, .eg-circulo:hover .eg-circulo-foto { transform: none; }
 }
 @media (forced-colors: active) {
-  .eg-prod, .eg-atajo, .eg-aval, .eg-circulo-foto { border: 1px solid CanvasText; }
+  .eg-prod, .eg-aval, .eg-circulo-foto, .eg-promo { border: 1px solid CanvasText; }
 }
