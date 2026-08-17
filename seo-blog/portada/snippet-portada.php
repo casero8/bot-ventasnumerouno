@@ -150,6 +150,30 @@ function eg_portada_bandas_cfg() {
 }
 
 /* ==========================================================================
+   Iconos
+   SVG en linea, dibujados a mano: ni una peticion mas ni una fuente de
+   iconos de 200 KB para pintar cuatro flechas.
+   ========================================================================== */
+
+function eg_portada_icono( $n ) {
+
+	$d = array(
+		'flecha'  => '<path d="M4 10h12M11 5l5 5-5 5"/>',
+		'carrito' => '<path d="M2 3h3l2 10h9l2-7H6"/><circle cx="9" cy="17" r="1.4"/><circle cx="16" cy="17" r="1.4"/>',
+		'camion'  => '<path d="M2 5h10v9H2zM12 8h4l3 3v3h-7z"/><circle cx="6" cy="16" r="1.6"/><circle cx="15" cy="16" r="1.6"/>',
+		'escudo'  => '<path d="M10 2l6 3v5c0 4-2.6 6.9-6 8-3.4-1.1-6-4-6-8V5z"/><path d="M7.5 10l1.8 1.8L13 8"/>',
+		'llave'   => '<path d="M12.5 3a4 4 0 00-3.6 5.7L3 14.6V17h2.4l5.9-5.9A4 4 0 1012.5 3z"/>',
+		'tarjeta' => '<path d="M2 5h16v10H2z"/><path d="M2 8h16"/><path d="M5 12h3"/>',
+	);
+
+	if ( ! isset( $d[ $n ] ) ) { return ''; }
+
+	return '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"'
+		. ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
+		. $d[ $n ] . '</svg>';
+}
+
+/* ==========================================================================
    Utilidades
    ========================================================================== */
 
@@ -223,7 +247,7 @@ function eg_portada_tarjeta_producto( $p, $prioridad = false, $etiqueta = '' ) {
 		. '<div class="eg-prod-precio">' . wp_kses_post( $p->get_price_html() ) . '</div>'
 		. '<p class="eg-prod-stock">' . esc_html( $texto_stock ) . '</p>'
 		. '<a class="eg-prod-btn" href="' . esc_url( $p->add_to_cart_url() ) . '" rel="nofollow">'
-		. esc_html( $p->add_to_cart_text() ) . '</a>'
+		. eg_portada_icono( 'carrito' ) . esc_html( $p->add_to_cart_text() ) . '</a>'
 		. '</div></article>';
 }
 
@@ -361,15 +385,15 @@ function eg_portada_hero( $tienda ) {
 	// existe, lleva a los mas vendidos, que estan en la misma pagina.
 	$destacada = eg_portada_term( 'hypershell' );
 	$segundo   = $destacada
-		? '<a class="eg-btn eg-btn-linea" href="' . esc_url( get_term_link( $destacada ) ) . '">Ver Hypershell</a>'
-		: '<a class="eg-btn eg-btn-linea" href="#eg-comprar">Ver lo m&aacute;s vendido</a>';
+		? '<a class="eg-btn eg-btn-linea" href="' . esc_url( get_term_link( $destacada ) ) . '">Ver Hypershell' . eg_portada_icono( 'flecha' ) . '</a>'
+		: '<a class="eg-btn eg-btn-linea" href="#eg-comprar">Ver lo m&aacute;s vendido' . eg_portada_icono( 'flecha' ) . '</a>';
 
 	return '<div class="eg-hero"><div class="eg-hero-in"><div class="eg-hero-txt">'
 		. '<span class="eg-pill eg-pill-nuevo">Distribuidor oficial</span>'
 		. '<h1>Energ&iacute;a port&aacute;til, solar y movilidad, con servicio t&eacute;cnico en Espa&ntilde;a</h1>'
 		. '<p>EcoFlow, Hypershell y el resto de marcas que trabajamos. Te asesoramos antes de comprar y, si algo falla, lo resolvemos nosotros.</p>'
 		. '<div class="eg-hero-botones">'
-		. '<a class="eg-btn eg-btn-naranja" href="' . $tienda . '">Comprar ahora</a>'
+		. '<a class="eg-btn eg-btn-naranja" href="' . $tienda . '">Comprar ahora' . eg_portada_icono( 'flecha' ) . '</a>'
 		. $segundo
 		. '</div></div>'
 		. ( $foto ? '<div class="eg-hero-foto">' . $foto . '</div>' : '' )
@@ -469,7 +493,7 @@ function eg_portada_bandas() {
 			. '<h2>' . $c['titulo'] . '</h2>'
 			. '<p>' . $c['texto'] . '</p>'
 			. '<ul class="eg-banda-lista">' . $puntos . '</ul>'
-			. '<a class="eg-btn ' . $boton . '" href="' . esc_url( get_term_link( $t ) ) . '">' . $c['boton'] . '</a>'
+			. '<a class="eg-btn ' . $boton . '" href="' . esc_url( get_term_link( $t ) ) . '">' . $c['boton'] . eg_portada_icono( 'flecha' ) . '</a>'
 			. '</div>'
 			. '<div class="eg-banda-foto">' . eg_portada_foto_term( $t, 'full' ) . '</div>'
 			. '</div></section>';
@@ -534,15 +558,16 @@ function eg_portada_avales() {
 	// Nada de recogida en tienda: hay productos que salen directos de
 	// almacen y no pasan por la tienda fisica.
 	$items = array(
-		array( 'Env&iacute;o en 24-48 h',        'En los productos con stock confirmado.' ),
-		array( 'Garant&iacute;a oficial',        'Distribuidor autorizado de las marcas que vendemos.' ),
-		array( 'Servicio t&eacute;cnico propio', 'La incidencia la gestionamos nosotros.' ),
-		array( 'Pago a plazos',                  'Financiaci&oacute;n con SeQura al finalizar.' ),
+		array( 'camion',  'Env&iacute;o en 24-48 h',        'En los productos con stock confirmado.' ),
+		array( 'escudo',  'Garant&iacute;a oficial',        'Distribuidor autorizado de las marcas que vendemos.' ),
+		array( 'llave',   'Servicio t&eacute;cnico propio', 'La incidencia la gestionamos nosotros.' ),
+		array( 'tarjeta', 'Pago a plazos',                  'Financiaci&oacute;n con SeQura al finalizar.' ),
 	);
 
 	$h = '<section class="eg-seccion"><div class="eg-avales">';
 	foreach ( $items as $i ) {
-		$h .= '<div class="eg-aval"><b>' . $i[0] . '</b><span>' . $i[1] . '</span></div>';
+		$h .= '<div class="eg-aval">' . eg_portada_icono( $i[0] )
+			. '<div><b>' . $i[1] . '</b><span>' . $i[2] . '</span></div></div>';
 	}
 	return $h . '</div></section>';
 }
@@ -552,16 +577,19 @@ function eg_portada_avales() {
    ========================================================================== */
 
 function eg_portada_texto() {
-	return '<section class="eg-seccion"><div class="eg-texto">'
+	// <details> nativo: el primer parrafo se ve siempre, el resto se despliega.
+	// Google indexa el contenido igual, este abierto o cerrado.
+	return '<section class="eg-seccion"><details class="eg-texto">'
 		. '<h2>Una tienda especializada, no un marketplace</h2>'
 		. '<p>Trabajamos con marcas de energ&iacute;a port&aacute;til, solar y movilidad, y somos distribuidor oficial de las que vendemos. El equipo que compras aqu&iacute; llega con la garant&iacute;a del fabricante y con alguien detr&aacute;s a quien puedes llamar.</p>'
 		. '<p>Esa es la diferencia que m&aacute;s nos preguntan. Cuando compras en un marketplace y el equipo falla, empieza un ir y venir de correos entre el vendedor, la plataforma y el fabricante. Aqu&iacute; la incidencia la abre y la sigue nuestro servicio t&eacute;cnico.</p>'
+		. '<summary>Leer m&aacute;s sobre lo que vendemos</summary>'
 		. '<h3>&iquest;Qu&eacute; necesitas?</h3>'
 		. '<p>Si buscas energ&iacute;a, depende de cu&aacute;nto consume lo que quieres enchufar y de cu&aacute;nto tiempo quieres que aguante. Un m&oacute;vil y un port&aacute;til se resuelven con un <a href="/product-category/serie-rapid/">powerbank</a>. Una nevera de camping o unas luces para el fin de semana entran en la <a href="/product-category/serie-river/">serie RIVER</a>. Para aguantar un apag&oacute;n en casa con el frigor&iacute;fico y el router encendidos ya hablamos de la <a href="/product-category/serie-delta/">serie DELTA</a>.</p>'
 		. '<p>Si lo que quieres es gastar menos luz cada mes, y no solo tener respaldo para una emergencia, lo tuyo son <a href="/product-category/paneles-solares/">placas solares</a> o un <a href="/kits-para-el-hogar/">kit para balc&oacute;n</a>: producen electricidad todos los d&iacute;as en lugar de guardarla.</p>'
 		. '<p>Y si lo que buscas es moverte mejor, ah&iacute; est&aacute; <a href="/product-category/hypershell/">Hypershell</a>, la novedad de la tienda: un exoesqueleto que te ayuda al caminar y al subir.</p>'
 		. '<p>Si dudas entre dos modelos, escr&iacute;benos y te decimos cu&aacute;l encaja. Preferimos venderte el que te sirve antes que el m&aacute;s caro.</p>'
-		. '</div></section>';
+		. '</details></section>';
 }
 
 /* ==========================================================================
