@@ -92,6 +92,13 @@ function eg_portada_promos_cfg() {
 			'enlace' => 'Ver powerbanks',
 			'color'  => 'azul',
 		),
+		array(
+			'slug'   => 'arrancadores',
+			'titulo' => 'Arrancadores de coche',
+			'texto'  => 'Lokithor: arranque, compresor y linterna',
+			'enlace' => 'Ver arrancadores',
+			'color'  => 'naranja',
+		),
 	);
 }
 
@@ -109,6 +116,7 @@ function eg_portada_circulos_cfg() {
 		array( 'hypershell',         'Hypershell' ),
 		array( 'kits-para-el-hogar', 'Kits hogar' ),
 		array( 'stream-series',      'STREAM' ),
+		array( 'arrancadores',       'Arrancadores' ),
 		array( 'accesorios',         'Accesorios' ),
 		array( 'generador-solar',    'Generadores' ),
 	);
@@ -393,7 +401,7 @@ function eg_portada_hero( $tienda ) {
 		. '<h1>Energ&iacute;a port&aacute;til, solar y movilidad, con servicio t&eacute;cnico en Espa&ntilde;a</h1>'
 		. '<p>EcoFlow, Hypershell y el resto de marcas que trabajamos. Te asesoramos antes de comprar y, si algo falla, lo resolvemos nosotros.</p>'
 		. '<div class="eg-hero-botones">'
-		. '<a class="eg-btn eg-btn-naranja" href="' . $tienda . '">Comprar ahora' . eg_portada_icono( 'flecha' ) . '</a>'
+		. '<a class="eg-btn eg-btn-principal" href="' . $tienda . '">Comprar ahora' . eg_portada_icono( 'flecha' ) . '</a>'
 		. $segundo
 		. '</div></div>'
 		. ( $foto ? '<div class="eg-hero-foto">' . $foto . '</div>' : '' )
@@ -424,7 +432,6 @@ function eg_portada_promos() {
 		$piezas .= '<a class="eg-promo eg-promo-' . $color . ( $xl ? ' eg-promo-xl' : '' ) . '"'
 			. ' href="' . esc_url( get_term_link( $t ) ) . '">'
 			. ( $foto ? '<span class="eg-promo-foto">' . $foto . '</span>' : '' )
-			. '<span class="eg-promo-velo"></span>'
 			. ( ! empty( $c['etiqueta'] )
 				? '<span class="eg-promo-etiq"><span class="eg-pill eg-pill-nuevo">' . $c['etiqueta'] . '</span></span>'
 				: '' )
@@ -485,7 +492,7 @@ function eg_portada_bandas() {
 		}
 
 		$clara = ! empty( $c['clara'] );
-		$boton = $clara ? 'eg-btn-naranja' : 'eg-btn-blanco';
+		$boton = 'eg-btn-principal';
 
 		$h .= '<section class="eg-seccion"><div class="eg-banda' . ( $clara ? ' eg-banda-clara' : '' ) . '">'
 			. '<div class="eg-banda-txt">'
@@ -642,7 +649,7 @@ function eg_portada_cierre() {
 	return '<section class="eg-seccion"><div class="eg-cierre"><div>'
 		. '<h2>&iquest;No lo tienes claro?</h2>'
 		. '<p>Cu&eacute;ntanos qu&eacute; necesitas y te decimos qu&eacute; equipo encaja. Sin compromiso.</p>'
-		. '</div><a class="eg-btn eg-btn-naranja" href="/contacto/">Escr&iacute;benos</a></div></section>';
+		. '</div><a class="eg-btn eg-btn-principal" href="/contacto/">Escr&iacute;benos' . eg_portada_icono( 'flecha' ) . '</a></div></section>';
 }
 
 /* ==========================================================================

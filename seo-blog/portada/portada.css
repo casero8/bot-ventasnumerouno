@@ -23,26 +23,30 @@
    ========================================================================== */
 
 .eg-home {
-  --azul: #072a4d;
-  --azul-vivo: #0a6ed1;
+  /* Paleta clara. El azul marino con degradados sobre las fotos es el
+     lenguaje visual de 2018; hoy PcComponentes y MediaMarkt son blanco con
+     mucho aire y el color reservado al acento. */
+  --tinta: #101827;
+  --texto: #4a5568;
+  --suave: #7b8794;
+  --borde: #e8ebf0;
+  --fondo: #f7f8fa;
+  --grafito: #18202e;
   --naranja: #ff5a1f;
-  --naranja-osc: #d63c00;
-  --verde: #0b7a3f;
-  --texto: #364152;
-  --suave: #6b7686;
-  --tinta: #0a1020;
-  --fondo: #eef2f7;
-  --r: 16px;
+  --naranja-osc: #e04400;
+  --naranja-suave: #fff3ee;
+  --verde: #0f7a45;
+  --r: 18px;
   color: var(--texto);
   font-size: 16px;
-  line-height: 1.5;
-  background: var(--fondo);
-  padding-bottom: 12px;
+  line-height: 1.55;
+  background: #fff;
+  padding-bottom: 14px;
 }
 
 .eg-saltar {
   position: absolute; left: -9999px; top: 0; z-index: 999;
-  background: var(--azul); color: #fff; padding: 12px 20px;
+  background: var(--grafito); color: #fff; padding: 12px 20px;
   border-radius: 0 0 var(--r) 0; font-weight: 700; text-decoration: none;
 }
 .eg-saltar:focus { left: 0; }
@@ -63,7 +67,7 @@
 }
 .eg-seccion-cab p { margin: 5px 0 0; color: var(--suave); font-size: 14.5px; }
 .eg-vertodo {
-  font-size: 14.5px; font-weight: 800; color: var(--azul-vivo) !important;
+  font-size: 14.5px; font-weight: 800; color: var(--naranja-osc) !important;
   text-decoration: none !important; white-space: nowrap;
 }
 .eg-vertodo:hover { text-decoration: underline !important; }
@@ -77,101 +81,120 @@
 .eg-pill-top    { background: #fff2e8; color: var(--naranja-osc); }
 .eg-pill-oferta { background: var(--naranja); color: #fff; font-size: 13px; padding: 7px 13px; }
 
-/* Botones. Rectangulo de esquina corta, no pastilla: la pastilla de 999 px
-   es lo que llevan las plantillas y se reconoce a un kilometro. Amazon,
-   MediaMarkt y PcComponentes usan todos rectangulo con radio corto. */
+/* Botones. Rectangulo de esquina corta, nunca pastilla de 999 px: la
+   pastilla es la forma que traen las plantillas y se reconoce enseguida.
+
+   El principal va en blanco con reborde naranja y se RELLENA de naranja al
+   pasar por encima. Es mas amable que un bloque naranja macizo y el relleno
+   da la sensacion de respuesta que pedia el cliente. */
 .eg-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-  min-height: 52px; padding: 14px 28px; border-radius: 10px;
-  font-size: 16px; font-weight: 800; text-decoration: none !important;
+  min-height: 52px; padding: 14px 28px; border-radius: 12px;
+  font-size: 16px; font-weight: 700; text-decoration: none !important;
   border: 2px solid transparent; letter-spacing: -.015em; position: relative;
-  transition: background .16s ease, box-shadow .16s ease, transform .16s ease;
+  transition: background .2s ease, color .2s ease, border-color .2s ease,
+              box-shadow .2s ease, transform .2s ease;
 }
-.eg-btn svg { width: 18px; height: 18px; flex: 0 0 18px; transition: transform .18s ease; }
-.eg-btn:hover svg { transform: translateX(3px); }
-.eg-btn:active { transform: translateY(1px); }
+.eg-btn svg { width: 18px; height: 18px; flex: 0 0 18px; transition: transform .22s ease; }
+.eg-btn:hover svg { transform: translateX(4px); }
+.eg-btn:active { transform: translateY(1px) scale(.99); }
 
-.eg-btn-naranja {
-  background: var(--naranja); color: #fff !important;
-  box-shadow: 0 4px 14px rgba(255,90,31,.35);
+/* Principal: blanco con reborde naranja, se rellena al pasar por encima */
+.eg-btn-principal {
+  background: #fff; color: var(--naranja-osc) !important; border-color: var(--naranja);
+  box-shadow: 0 2px 10px rgba(16,24,39,.06);
 }
-.eg-btn-naranja:hover { background: var(--naranja-osc); box-shadow: 0 8px 22px rgba(255,90,31,.45); transform: translateY(-2px); }
-.eg-btn-blanco { background: #fff; color: var(--azul) !important; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
-.eg-btn-blanco:hover { background: #edf3fa; box-shadow: 0 8px 22px rgba(0,0,0,.26); transform: translateY(-2px); }
-.eg-btn-linea { background: rgba(255,255,255,.08); color: #fff !important; border-color: rgba(255,255,255,.4); }
-.eg-btn-linea:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.7); transform: translateY(-2px); }
+.eg-btn-principal:hover {
+  background: var(--naranja); color: #fff !important; border-color: var(--naranja);
+  box-shadow: 0 10px 26px rgba(255,90,31,.32); transform: translateY(-2px);
+}
 
-/* ======================= 1. PORTADA A SANGRE ========================
-   La foto ocupa la mitad derecha entera, sin margenes ni bordes: sangra
-   hasta arriba, abajo y a la derecha.
+/* Secundario: reborde gris, se vuelve naranja al acercarse */
+.eg-btn-suave {
+  background: #fff; color: var(--tinta) !important; border-color: var(--borde);
+}
+.eg-btn-suave:hover {
+  border-color: var(--naranja); color: var(--naranja-osc) !important;
+  box-shadow: 0 8px 20px rgba(16,24,39,.1); transform: translateY(-2px);
+}
+
+/* Sobre fondo oscuro */
+.eg-btn-linea {
+  background: transparent; color: #fff !important; border-color: rgba(255,255,255,.45);
+}
+.eg-btn-linea:hover {
+  background: #fff; color: var(--tinta) !important; border-color: #fff;
+  box-shadow: 0 10px 26px rgba(0,0,0,.3); transform: translateY(-2px);
+}
+
+/* ========================= 1. PORTADA CLARA =========================
+   Fondo claro con un tinte calido, texto en tinta y la foto a sangre en la
+   mitad derecha. Nada de velos oscuros sobre la imagen.
    =================================================================== */
 
-.eg-hero { background: var(--azul); color: #fff; overflow: hidden; }
+.eg-hero { background: linear-gradient(120deg, #fff7f3 0%, #f7f8fa 58%, #f2f5f9 100%); overflow: hidden; }
 .eg-hero-in {
   max-width: 1340px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; min-height: 430px;
+  display: grid; grid-template-columns: 1.04fr .96fr; align-items: stretch; min-height: 440px;
 }
-.eg-hero-txt { padding: 46px 40px 46px 16px; align-self: center; }
+.eg-hero-txt { padding: 52px 44px 52px 16px; align-self: center; }
 .eg-home .eg-hero h1 {
-  font-size: 46px; line-height: 1.02; font-weight: 900; letter-spacing: -.04em;
-  color: #fff; margin: 14px 0 14px; text-wrap: balance;
+  font-size: 50px; line-height: 1.02; font-weight: 800; letter-spacing: -.042em;
+  color: var(--tinta); margin: 16px 0 16px; text-wrap: balance;
 }
-.eg-hero p { font-size: 17.5px; line-height: 1.42; color: #c3d8ef; margin: 0 0 24px; max-width: 500px; }
+.eg-hero p { font-size: 18px; line-height: 1.5; color: var(--texto); margin: 0 0 28px; max-width: 480px; }
 .eg-hero-botones { display: flex; flex-wrap: wrap; gap: 12px; }
-.eg-hero-foto { position: relative; min-height: 300px; background: #0b3868; }
+.eg-hero-foto {
+  position: relative; min-height: 320px; margin: 22px 16px 22px 0;
+  border-radius: 24px; overflow: hidden; background: #eef1f5;
+}
 .eg-hero-foto img, .eg-hero-foto svg {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
 }
 
 /* ==================== 2. MOSAICO DE PROMOCIONES =====================
-   Bloques de color con la foto sangrada. Dos grandes y cuatro pequenos.
-   Es la pieza que hace que una portada parezca una tienda y no un folleto.
+   Tarjetas blancas: foto arriba a sangre y el texto debajo sobre blanco.
+   La alternativa (velo oscuro encima de la foto) es lo que hacia que
+   pareciese de 2018, y ademas se lee peor.
    =================================================================== */
 
-.eg-promos {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 190px; gap: 14px;
-}
+.eg-promos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .eg-promo {
   position: relative; overflow: hidden; border-radius: var(--r);
-  text-decoration: none !important; color: #fff !important;
-  display: flex; align-items: flex-end; background: var(--azul);
-  transition: transform .15s, box-shadow .15s;
+  text-decoration: none !important; color: inherit !important;
+  background: #fff; border: 1px solid var(--borde);
+  display: flex; flex-direction: column;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
-.eg-promo:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(7,42,77,.26); }
-.eg-promo-foto { position: absolute; inset: 0; }
+.eg-promo:hover {
+  transform: translateY(-4px); border-color: #dfe4ec;
+  box-shadow: 0 16px 36px rgba(16,24,39,.11);
+}
+.eg-promo-foto { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--fondo); }
 .eg-promo-foto img, .eg-promo-foto svg {
   width: 100%; height: 100%; object-fit: cover;
-  transition: transform .5s cubic-bezier(.2,.7,.3,1);
+  transition: transform .55s cubic-bezier(.2,.7,.3,1);
 }
-.eg-promo:hover .eg-promo-foto img, .eg-promo:hover .eg-promo-foto svg { transform: scale(1.07); }
-.eg-promo-velo {
-  position: absolute; inset: 0;
-  background: linear-gradient(0deg, rgba(6,20,38,.88) 0%, rgba(6,20,38,.42) 45%, rgba(6,20,38,0) 78%);
-}
-.eg-promo-txt { position: relative; padding: 18px 20px; width: 100%; }
+.eg-promo:hover .eg-promo-foto img, .eg-promo:hover .eg-promo-foto svg { transform: scale(1.06); }
+.eg-promo-txt { padding: 18px 20px 20px; display: flex; flex-direction: column; flex: 1; }
 .eg-promo b {
-  display: block; font-size: 19px; font-weight: 800; letter-spacing: -.025em;
-  line-height: 1.15; margin-bottom: 4px; text-wrap: balance;
+  display: block; font-size: 19px; font-weight: 800; letter-spacing: -.03em;
+  line-height: 1.18; margin-bottom: 6px; color: var(--tinta); text-wrap: balance;
 }
-.eg-promo span { display: block; font-size: 13.5px; color: #d3e2f2; line-height: 1.35; }
+.eg-promo span { display: block; font-size: 14px; color: var(--suave); line-height: 1.45; }
 .eg-promo i {
-  font-style: normal; display: inline-block; margin-top: 11px;
-  font-size: 13.5px; font-weight: 800; color: #fff;
-  border-bottom: 2px solid var(--naranja); padding-bottom: 2px;
+  font-style: normal; display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 14px; font-size: 14.5px; font-weight: 800; color: var(--naranja-osc);
 }
-.eg-promo-etiq { position: absolute; top: 15px; left: 16px; z-index: 2; }
+.eg-promo:hover i { text-decoration: underline; }
+.eg-promo-etiq { position: absolute; top: 14px; left: 15px; z-index: 2; }
 
-/* Los dos grandes ocupan dos columnas y dos filas */
-.eg-promo-xl { grid-column: span 2; grid-row: span 2; }
-.eg-promo-xl .eg-promo b { font-size: 30px; letter-spacing: -.035em; }
-.eg-promo-xl .eg-promo-txt { padding: 26px 28px; }
-.eg-promo-xl span { font-size: 15px; }
-
-/* Variantes de color para cuando la categoria no tiene foto */
-.eg-promo-naranja { background: linear-gradient(140deg, #ff7a3d, #d63c00); }
-.eg-promo-azul    { background: linear-gradient(140deg, #1287ec, #054a92); }
-.eg-promo-verde   { background: linear-gradient(140deg, #16a75c, #05663a); }
+/* Los dos grandes: foto a la izquierda y texto a la derecha */
+.eg-promo-xl { grid-column: span 2; grid-row: span 2; flex-direction: row; }
+.eg-promo-xl .eg-promo-foto { aspect-ratio: auto; width: 52%; flex: 0 0 52%; }
+.eg-promo-xl .eg-promo-txt { justify-content: center; padding: 28px 30px; }
+.eg-promo-xl b { font-size: 27px; letter-spacing: -.038em; margin-bottom: 9px; }
+.eg-promo-xl span { font-size: 15.5px; }
 
 /* ======================= 3. FICHAS DE PRODUCTO ======================
    Fondo blanco solo aqui: el producto necesita fondo neutro. La foto
@@ -181,9 +204,10 @@
 .eg-fila { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
 .eg-prod {
   position: relative; display: flex; flex-direction: column; background: #fff;
-  border-radius: var(--r); overflow: hidden; transition: box-shadow .15s, transform .15s;
+  border: 1px solid var(--borde); border-radius: var(--r); overflow: hidden;
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
 }
-.eg-prod:hover { box-shadow: 0 14px 30px rgba(7,42,77,.16); transform: translateY(-3px); }
+.eg-prod:hover { box-shadow: 0 16px 34px rgba(16,24,39,.12); transform: translateY(-4px); border-color: #dfe4ec; }
 .eg-prod-etiq { position: absolute; top: 12px; left: 12px; z-index: 2; }
 .eg-prod-foto {
   display: block; aspect-ratio: 5 / 4; background: #f6f8fb; overflow: hidden;
@@ -202,7 +226,7 @@
   font-size: 14.5px; font-weight: 600; line-height: 1.32; color: var(--tinta) !important;
   text-decoration: none !important; display: block; margin-bottom: 11px;
 }
-.eg-prod-nombre:hover { color: var(--azul-vivo) !important; text-decoration: underline !important; }
+.eg-prod-nombre:hover { color: var(--naranja-osc) !important; text-decoration: underline !important; }
 .eg-prod-precio {
   font-size: 29px; font-weight: 900; color: var(--tinta); margin: auto 0 2px;
   letter-spacing: -.045em; font-variant-numeric: tabular-nums; line-height: 1;
@@ -212,7 +236,7 @@
 .eg-prod-stock { font-size: 12.5px; color: var(--verde); font-weight: 800; margin: 6px 0 12px; }
 .eg-prod-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 48px; border-radius: 10px; background: var(--azul);
+  min-height: 48px; border-radius: 10px; background: var(--grafito);
   color: #fff !important; font-size: 15px; font-weight: 800;
   text-decoration: none !important; letter-spacing: -.015em;
   transition: background .16s ease, box-shadow .16s ease;
@@ -225,8 +249,8 @@
 .eg-circulos { display: grid; grid-template-columns: repeat(8, 1fr); gap: 16px; }
 .eg-circulo { text-decoration: none !important; color: inherit !important; text-align: center; }
 .eg-circulo-foto {
-  aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #fff;
-  margin-bottom: 10px; box-shadow: 0 4px 14px rgba(7,42,77,.12);
+  aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: var(--fondo);
+  margin-bottom: 11px; box-shadow: 0 4px 14px rgba(16,24,39,.09);
   transition: box-shadow .15s, transform .15s;
 }
 .eg-circulo-foto img, .eg-circulo-foto svg {
@@ -241,7 +265,7 @@
 
 .eg-banda {
   border-radius: var(--r); overflow: hidden; display: grid;
-  grid-template-columns: 1fr 1fr; background: #0a1020; color: #fff; min-height: 340px;
+  grid-template-columns: 1fr 1fr; background: var(--grafito); color: #fff; min-height: 340px;
 }
 .eg-banda-txt { padding: 42px 40px; align-self: center; }
 .eg-home .eg-banda h2 { color: #fff; font-size: 34px; letter-spacing: -.04em; margin: 14px 0 12px; }
@@ -266,7 +290,7 @@
   display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 12px;
 }
 .eg-marca {
-  background: #fff; border-radius: 12px; min-height: 84px; padding: 14px 16px;
+  background: #fff; border: 1px solid var(--borde); border-radius: 14px; min-height: 92px; padding: 16px 18px;
   display: flex; align-items: center; justify-content: center;
   text-decoration: none !important; transition: box-shadow .15s, transform .15s;
 }
@@ -283,7 +307,7 @@
 
 .eg-avales {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
-  background: #dde4ed; border-radius: var(--r); overflow: hidden;
+  background: var(--borde); border: 1px solid var(--borde); border-radius: var(--r); overflow: hidden;
 }
 .eg-aval { background: #fff; padding: 17px 19px; display: flex; gap: 13px; align-items: flex-start; }
 .eg-aval svg { width: 24px; height: 24px; flex: 0 0 24px; color: var(--naranja); margin-top: 1px; }
@@ -295,7 +319,7 @@
    viene a comprar. Es <details> nativo, sin JavaScript. */
 .eg-texto > summary {
   cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 8px;
-  font-size: 15px; font-weight: 800; color: var(--azul-vivo); margin-top: 14px;
+  font-size: 15px; font-weight: 800; color: var(--naranja-osc); margin-top: 14px;
 }
 .eg-texto > summary::-webkit-details-marker { display: none; }
 .eg-texto > summary::after { content: "\25be"; font-size: 15px; }
@@ -304,13 +328,13 @@
 
 /* ========================= 7. TEXTO Y FAQ =========================== */
 
-.eg-texto, .eg-faq { background: #fff; border-radius: var(--r); }
+.eg-texto, .eg-faq { background: #fff; border: 1px solid var(--borde); border-radius: var(--r); }
 .eg-texto { padding: 32px 34px; }
 .eg-texto h2 { margin-bottom: 14px; }
 .eg-texto h3 { font-size: 18px; font-weight: 800; color: var(--tinta); margin: 26px 0 9px; }
 .eg-texto p { margin: 0 0 14px; font-size: 15.5px; line-height: 1.7; max-width: 78ch; }
 .eg-texto p:last-child { margin-bottom: 0; }
-.eg-texto a, .eg-faq-cuerpo a { color: var(--azul-vivo) !important; font-weight: 700; }
+.eg-texto a, .eg-faq-cuerpo a { color: var(--naranja-osc) !important; font-weight: 700; }
 
 .eg-faq { overflow: hidden; }
 .eg-faq details { border-bottom: 1px solid #e5eaf1; }
@@ -332,7 +356,7 @@
 /* =========================== 8. CIERRE ============================== */
 
 .eg-cierre {
-  background: linear-gradient(100deg, #072a4d 0%, #0a6ed1 130%); color: #fff;
+  background: linear-gradient(115deg, #18202e 0%, #2b3547 100%); color: #fff;
   border-radius: var(--r); padding: 34px 36px;
   display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap;
 }
@@ -352,7 +376,8 @@
   .eg-hero-foto { order: -1; min-height: 250px; aspect-ratio: 16 / 9; }
   .eg-hero-txt { padding: 28px 16px 34px; }
   .eg-promos { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
-  .eg-promo-xl { grid-column: span 2; grid-row: span 1; }
+  .eg-promo-xl { grid-column: span 2; grid-row: span 1; flex-direction: column; }
+  .eg-promo-xl .eg-promo-foto { width: auto; flex: none; aspect-ratio: 16 / 9; }
   .eg-promo-xl .eg-promo b { font-size: 24px; }
   .eg-banda { grid-template-columns: 1fr; }
   .eg-banda-foto { order: -1; min-height: 220px; }
@@ -373,7 +398,7 @@
   .eg-promos { grid-auto-rows: 148px; gap: 10px; }
   .eg-promo-txt { padding: 14px 16px; }
   .eg-promo b { font-size: 17px; }
-  .eg-promo span { display: none; }
+
   .eg-promo-xl .eg-promo-txt { padding: 18px 18px; }
 
   /* Productos y categorias en carrusel: se pasa el dedo, como en la app
