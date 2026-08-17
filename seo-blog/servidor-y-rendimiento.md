@@ -86,3 +86,38 @@ cortafuegos, así que puede tener código dentro.
 5. **Excluir a Googlebot del limitador** de peticiones, verificándolo por DNS inverso.
 6. Revisar los **límites de recursos**: hoy la web se cayó con PHP sin responder
    mientras los ficheros estáticos seguían sirviéndose.
+
+---
+
+## Sesión SSH — lote 2 (17/08/2026)
+
+Datos confirmados en el servidor (`hl1341.dinaserver.com`, Debian 11):
+
+| Dato | Valor |
+|---|---|
+| WP-CLI | 2.5.0, funciona con PHP 8.4 (`wp core version` → 7.0.4) |
+| `user_ini.filename` | **`.php.ini`** (no `.user.ini`) → se puede subir ini por cuenta |
+| `wp-content` | 8,7 G |
+| ├ `uploads` | 7,7 G |
+| ├ `plugins` | 448 M |
+| ├ `themes` | 201 M |
+| ├ `litespeed` (caché) | 179 M |
+| ├ `compressx-nextgen` | 176 M |
+| └ `languages` | 29 M |
+| Copia de seguridad BD | `/home/ecogadgetoficial/copias/antes-limpieza-20260817-1234.sql` |
+
+`mysqldump` solo avisa de que conviene usar `mariadb-dump`; el volcado se completó bien.
+
+## Lote 3 — limpieza (pendiente de ejecutar)
+
+Orden: **mirar → copia → limpiar → verificar**. La copia ya está hecha, así que toca limpiar.
+
+1. Confirmar tamaño de la copia.
+2. Probar OPcache para web con `.php.ini` en el docroot (`opcache.enable=1`, `opcache.memory_consumption=192`,
+   `opcache.max_accelerated_files=20000`, `opcache.revalidate_freq=60`). PHP relee el `.php.ini` cada
+   `user_ini.cache_ttl` (300 s por defecto), así que la comprobación se hace pasados unos minutos.
+3. Borrar las 3.714 revisiones (**irreversible**, por eso va después de la copia), transitorios caducados,
+   logs de Action Scheduler de más de 30 días y `wp db optimize`.
+4. Verificar portada, categoría, ficha, carrito, checkout y "mi cuenta" con códigos HTTP y tiempos.
+
+El prefijo de tablas se resuelve con `wp db prefix` en vez de asumir `wp_`.
