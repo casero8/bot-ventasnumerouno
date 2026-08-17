@@ -44,7 +44,7 @@ html, body { background: #fff; color: #4a5568; margin: 0;
   --suave: #7b8794;
   --borde: #e8ebf0;
   --fondo: #f7f8fa;
-  --grafito: #18202e;
+  --grafito: #1d1b1a;   /* carbon calido: el gris azulado tiraba a azul corporativo */
   --naranja: #ff5a1f;
   --naranja-osc: #e04400;
   --naranja-suave: #fff3ee;
@@ -140,30 +140,79 @@ html, body { background: #fff; color: #4a5568; margin: 0;
   box-shadow: 0 10px 26px rgba(0,0,0,.3); transform: translateY(-2px);
 }
 
-/* ========================= 1. PORTADA CLARA =========================
-   Fondo claro con un tinte calido, texto en tinta y la foto a sangre en la
-   mitad derecha. Nada de velos oscuros sobre la imagen.
+/* ========================= 1. PORTADA UTIL ==========================
+   Una foto grande y bonita que no dice nada es espacio perdido justo donde
+   se decide la compra. Aqui la mitad izquierda son los cuatro caminos de
+   entrada al catalogo (enlaces internos con texto descriptivo: sirven al
+   visitante y a Google) y la derecha una ficha real con precio y boton.
    =================================================================== */
 
-.eg-hero { background: linear-gradient(120deg, #fff7f3 0%, #f7f8fa 58%, #f2f5f9 100%); overflow: hidden; }
+.eg-hero { background: linear-gradient(125deg, #fff6f1 0%, #f8f9fb 55%, #f4f6f9 100%); }
 .eg-hero-in {
-  max-width: 1340px; margin: 0 auto;
-  display: grid; grid-template-columns: 1.04fr .96fr; align-items: stretch; min-height: 440px;
+  max-width: 1340px; margin: 0 auto; padding: 40px 16px 44px;
+  display: grid; grid-template-columns: 1.12fr .88fr; gap: 40px; align-items: center;
 }
-.eg-hero-txt { padding: 52px 44px 52px 16px; align-self: center; }
 .eg-home .eg-hero h1 {
-  font-size: 50px; line-height: 1.02; font-weight: 800; letter-spacing: -.042em;
-  color: var(--tinta); margin: 16px 0 16px; text-wrap: balance;
+  font-size: 46px; line-height: 1.04; font-weight: 800; letter-spacing: -.042em;
+  color: var(--tinta); margin: 0 0 14px; text-wrap: balance;
 }
-.eg-hero p { font-size: 18px; line-height: 1.5; color: var(--texto); margin: 0 0 28px; max-width: 480px; }
+.eg-hero > div > p, .eg-hero-txt > p {
+  font-size: 17.5px; line-height: 1.5; color: var(--texto); margin: 0 0 24px; max-width: 520px;
+}
+
+/* Los cuatro caminos de entrada */
+.eg-caminos { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-bottom: 24px; }
+.eg-camino {
+  display: flex; align-items: center; gap: 12px; background: #fff;
+  border: 1px solid var(--borde); border-radius: 14px; padding: 13px 15px;
+  text-decoration: none !important; color: inherit !important; min-height: 70px;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.eg-camino:hover {
+  border-color: var(--naranja); transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16,24,39,.1);
+}
+.eg-camino-foto {
+  width: 46px; height: 46px; flex: 0 0 46px; border-radius: 10px;
+  overflow: hidden; background: var(--fondo);
+}
+.eg-camino-foto img, .eg-camino-foto svg { width: 100%; height: 100%; object-fit: cover; }
+.eg-camino b { display: block; font-size: 14.5px; font-weight: 800; color: var(--tinta); line-height: 1.2; }
+.eg-camino span { display: block; font-size: 12.5px; color: var(--suave); margin-top: 3px; line-height: 1.3; }
+
 .eg-hero-botones { display: flex; flex-wrap: wrap; gap: 12px; }
-.eg-hero-foto {
-  position: relative; min-height: 320px; margin: 22px 16px 22px 0;
-  border-radius: 24px; overflow: hidden; background: #eef1f5;
+
+/* Ficha destacada de la derecha */
+.eg-destacado {
+  background: #fff; border: 1px solid var(--borde); border-radius: 22px;
+  overflow: hidden; box-shadow: 0 18px 44px rgba(16,24,39,.1);
+  display: flex; flex-direction: column;
 }
-.eg-hero-foto img, .eg-hero-foto svg {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+.eg-destacado-foto { position: relative; aspect-ratio: 4 / 3; background: var(--fondo); overflow: hidden; }
+.eg-destacado-foto img, .eg-destacado-foto svg {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .5s cubic-bezier(.2,.7,.3,1);
 }
+.eg-destacado:hover .eg-destacado-foto img, .eg-destacado:hover .eg-destacado-foto svg { transform: scale(1.04); }
+.eg-destacado-etiq { position: absolute; top: 14px; left: 15px; z-index: 2; }
+.eg-destacado-txt { padding: 20px 22px 22px; }
+.eg-destacado-marca {
+  font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--suave); margin: 0 0 5px;
+}
+.eg-destacado-nombre {
+  display: block; font-size: 19px; font-weight: 800; letter-spacing: -.025em;
+  line-height: 1.25; color: var(--tinta) !important; text-decoration: none !important; margin-bottom: 10px;
+}
+.eg-destacado-nombre:hover { color: var(--naranja-osc) !important; }
+.eg-destacado-precio {
+  font-size: 34px; font-weight: 900; color: var(--tinta); letter-spacing: -.045em;
+  font-variant-numeric: tabular-nums; line-height: 1; margin-bottom: 4px;
+}
+.eg-destacado-precio del { font-size: 17px; font-weight: 500; color: var(--suave); margin-right: 8px; letter-spacing: 0; }
+.eg-destacado-precio ins { text-decoration: none; color: var(--naranja-osc); }
+.eg-destacado-stock { font-size: 13px; color: var(--verde); font-weight: 800; margin: 0 0 16px; }
+.eg-destacado .eg-btn { width: 100%; }
 
 /* ==================== 2. MOSAICO DE PROMOCIONES =====================
    Tarjetas blancas: foto arriba a sangre y el texto debajo sobre blanco.
@@ -289,7 +338,7 @@ html, body { background: #fff; color: #4a5568; margin: 0;
   content: ""; position: absolute; left: 0; top: 7px; width: 11px; height: 11px;
   border-radius: 50%; background: var(--naranja);
 }
-.eg-banda-foto { position: relative; min-height: 260px; background: #131c2b; }
+.eg-banda-foto { position: relative; min-height: 260px; background: #2a2725; }
 .eg-banda-foto img, .eg-banda-foto svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .eg-banda-clara { background: #fff; color: var(--texto); }
 .eg-home .eg-banda-clara h2 { color: var(--tinta); }
@@ -369,7 +418,7 @@ html, body { background: #fff; color: #4a5568; margin: 0;
 /* =========================== 8. CIERRE ============================== */
 
 .eg-cierre {
-  background: linear-gradient(115deg, #18202e 0%, #2b3547 100%); color: #fff;
+  background: linear-gradient(115deg, #1d1b1a 0%, #3a3634 100%); color: #fff;
   border-radius: var(--r); padding: 34px 36px;
   display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap;
 }
@@ -385,9 +434,7 @@ html, body { background: #fff; color: #4a5568; margin: 0;
 }
 
 @media (max-width: 900px) {
-  .eg-hero-in { grid-template-columns: 1fr; min-height: 0; }
-  .eg-hero-foto { order: -1; min-height: 250px; aspect-ratio: 16 / 9; }
-  .eg-hero-txt { padding: 28px 16px 34px; }
+  .eg-hero-in { grid-template-columns: 1fr; gap: 26px; padding: 28px 16px 34px; }
   .eg-promos { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
   .eg-promo-xl { grid-column: span 2; grid-row: span 1; flex-direction: column; }
   .eg-promo-xl .eg-promo-foto { width: auto; flex: none; aspect-ratio: 16 / 9; }
@@ -403,7 +450,10 @@ html, body { background: #fff; color: #4a5568; margin: 0;
   .eg-seccion { margin: 22px 0; }
   .eg-home h2 { font-size: 21px; }
 
-  .eg-home .eg-hero h1 { font-size: 30px; }
+  .eg-home .eg-hero h1 { font-size: 29px; }
+  .eg-caminos { grid-template-columns: 1fr; gap: 9px; }
+  .eg-camino { min-height: 62px; }
+  .eg-destacado-precio { font-size: 30px; }
   .eg-hero p { font-size: 15.5px; }
   .eg-hero-botones { flex-direction: column; align-items: stretch; }
   .eg-btn { width: 100%; }
@@ -502,7 +552,7 @@ html, body { background: #fff; color: #4a5568; margin: 0;
 
 <div class="pv-barra"><div class="pv-in">
   <b>Vista previa · portada nueva</b>
-  <span>Sin Elementor · animaciones en CSS · <em>~23 KB de CSS</em> · <em>0 KB de JavaScript</em></span>
+  <span>Sin Elementor · animaciones en CSS · <em>~26 KB de CSS</em> · <em>0 KB de JavaScript</em></span>
   <span>Las ilustraciones sustituyen a tus fotos; precios y stock salen de WooCommerce.</span>
 </div></div>
 
@@ -513,15 +563,27 @@ html, body { background: #fff; color: #4a5568; margin: 0;
 
 <div class="eg-hero"><div class="eg-hero-in">
   <div class="eg-hero-txt">
-    <span class="eg-pill eg-pill-nuevo">Distribuidor oficial</span>
-    <h1>Energía portátil, solar y movilidad</h1>
-    <p>EcoFlow, HyperShell y Lokithor. Con servicio técnico propio en España y asesoramiento antes de comprar.</p>
+    <h1>Baterías portátiles, placas solares y arrancadores de coche</h1>
+    <p>EcoFlow, HyperShell y Lokithor. Te decimos qué equipo encaja antes de que lo compres.</p>
+    <div class="eg-caminos"><a class="eg-camino" href="#"><span class="eg-camino-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f25" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b4f88"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f25)"/><circle cx="330" cy="70" r="120" fill="#ffffff" opacity=".05"/><rect x="96" y="98" width="208" height="150" rx="18" fill="#f4f7fb"/><rect x="96" y="98" width="208" height="150" rx="18" fill="none" stroke="#ccd8e6" stroke-width="3"/><rect x="152" y="76" width="96" height="24" rx="11" fill="#1d2a38"/><rect x="118" y="120" width="96" height="52" rx="8" fill="#0d1a26"/><rect x="130" y="134" width="46" height="9" rx="4" fill="#37e08a"/><rect x="130" y="150" width="26" height="8" rx="4" fill="#5d6f80"/><circle cx="256" cy="146" r="25" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/><rect x="248" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="260" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="118" y="192" width="160" height="12" rx="6" fill="#dbe4ee"/><rect x="118" y="214" width="98" height="12" rx="6" fill="#dbe4ee"/></svg></span><span><b>Apagones en casa</b><span>Estaciones EcoFlow DELTA</span></span></a><a class="eg-camino" href="#"><span class="eg-camino-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f26" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f7bd6"/><stop offset="1" stop-color="#053b70"/></linearGradient></defs><rect width="400" height="320" fill="url(#f26)"/><circle cx="322" cy="66" r="42" fill="#ffc233"/><g stroke="#ffc233" stroke-width="6" stroke-linecap="round" opacity=".85"><line x1="322" y1="4" x2="322" y2="16"/><line x1="380" y1="66" x2="392" y2="66"/><line x1="366" y1="24" x2="374" y2="16"/></g><g transform="rotate(-9 190 180)"><rect x="42" y="112" width="296" height="152" rx="10" fill="#0b2c50"/><rect x="52" y="122" width="276" height="132" rx="5" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="3" opacity=".75"><line x1="144" y1="122" x2="144" y2="254"/><line x1="236" y1="122" x2="236" y2="254"/><line x1="52" y1="166" x2="328" y2="166"/><line x1="52" y1="210" x2="328" y2="210"/></g></g></svg></span><span><b>Bajar la factura</b><span>Placas solares y kits de balcón</span></span></a><a class="eg-camino" href="#"><span class="eg-camino-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f27" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#37475a"/><stop offset="1" stop-color="#141d29"/></linearGradient></defs><rect width="400" height="320" fill="url(#f27)"/><path d="M40 88 C170 88 170 232 330 232" fill="none" stroke="#0c1219" stroke-width="26" stroke-linecap="round"/><path d="M40 88 C170 88 170 232 330 232" fill="none" stroke="#22303f" stroke-width="16" stroke-linecap="round"/><rect x="14" y="66" width="46" height="44" rx="10" fill="#ff5a1f"/><rect x="316" y="210" width="46" height="44" rx="10" fill="#8cc6f5"/></svg></span><span><b>El coche no arranca</b><span>Arrancadores Lokithor</span></span></a><a class="eg-camino" href="#"><span class="eg-camino-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f28" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset="1" stop-color="#c23a00"/></linearGradient></defs><rect width="400" height="320" fill="url(#f28)"/><circle cx="322" cy="252" r="130" fill="#ffffff" opacity=".08"/><circle cx="200" cy="58" r="26" fill="#1b2430"/><rect x="168" y="90" width="64" height="66" rx="18" fill="#232f3e"/><rect x="134" y="152" width="132" height="30" rx="15" fill="#0f1620"/><circle cx="152" cy="167" r="16" fill="#ffb547"/><circle cx="248" cy="167" r="16" fill="#ffb547"/><rect x="150" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="226" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="144" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="220" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="150" y="276" width="24" height="14" rx="6" fill="#0f1620"/><rect x="226" y="276" width="24" height="14" rx="6" fill="#0f1620"/></svg></span><span><b>Andar con menos esfuerzo</b><span>Exoesqueletos HyperShell</span></span></a></div>
     <div class="eg-hero-botones">
       <a class="eg-btn eg-btn-principal" href="#eg-comprar">Comprar ahora<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
-      <a class="eg-btn eg-btn-suave" href="#">Ver HyperShell<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
+      <a class="eg-btn eg-btn-suave" href="#eg-comprar">Ver lo más vendido<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
     </div>
   </div>
-  <div class="eg-hero-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f25" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset="1" stop-color="#c23a00"/></linearGradient></defs><rect width="400" height="320" fill="url(#f25)"/><circle cx="322" cy="252" r="130" fill="#ffffff" opacity=".08"/><circle cx="200" cy="58" r="26" fill="#1b2430"/><rect x="168" y="90" width="64" height="66" rx="18" fill="#232f3e"/><rect x="134" y="152" width="132" height="30" rx="15" fill="#0f1620"/><circle cx="152" cy="167" r="16" fill="#ffb547"/><circle cx="248" cy="167" r="16" fill="#ffb547"/><rect x="150" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="226" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="144" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="220" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="150" y="276" width="24" height="14" rx="6" fill="#0f1620"/><rect x="226" y="276" width="24" height="14" rx="6" fill="#0f1620"/></svg></div>
+  <article class="eg-destacado">
+  <a class="eg-destacado-foto" href="#" tabindex="-1" aria-hidden="true">
+    <span class="eg-destacado-etiq"><span class="eg-pill eg-pill-top">Lo más vendido</span></span>
+    <svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f29" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b4f88"/><stop offset="1" stop-color="#071f3c"/></linearGradient></defs><rect width="400" height="320" fill="url(#f29)"/><circle cx="330" cy="70" r="120" fill="#ffffff" opacity=".05"/><rect x="96" y="98" width="208" height="150" rx="18" fill="#f4f7fb"/><rect x="96" y="98" width="208" height="150" rx="18" fill="none" stroke="#ccd8e6" stroke-width="3"/><rect x="152" y="76" width="96" height="24" rx="11" fill="#1d2a38"/><rect x="118" y="120" width="96" height="52" rx="8" fill="#0d1a26"/><rect x="130" y="134" width="46" height="9" rx="4" fill="#37e08a"/><rect x="130" y="150" width="26" height="8" rx="4" fill="#5d6f80"/><circle cx="256" cy="146" r="25" fill="#e7edf4" stroke="#b7c6d6" stroke-width="3"/><rect x="248" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="260" y="136" width="5" height="12" rx="2.5" fill="#465768"/><rect x="118" y="192" width="160" height="12" rx="6" fill="#dbe4ee"/><rect x="118" y="214" width="98" height="12" rx="6" fill="#dbe4ee"/></svg>
+  </a>
+  <div class="eg-destacado-txt">
+    <p class="eg-destacado-marca">EcoFlow</p>
+    <a class="eg-destacado-nombre" href="#">EcoFlow DELTA 3 Classic (1024Wh)</a>
+    <div class="eg-destacado-precio">599,00&nbsp;€</div>
+    <p class="eg-destacado-stock">7 disponibles</p>
+    <a class="eg-btn eg-btn-principal" href="#"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 3h3l2 10h9l2-7H6"/><circle cx="9" cy="17" r="1.4"/><circle cx="16" cy="17" r="1.4"/></svg>Añadir al carrito</a>
+  </div>
+</article>
 </div></div>
 
 <div class="eg-ancho">
@@ -552,10 +614,10 @@ html, body { background: #fff; color: #4a5568; margin: 0;
     <span class="eg-pill eg-pill-nuevo">Novedad</span>
     <h2>HyperShell: el exoesqueleto que te quita peso de las piernas</h2>
     <p>Un motor te acompaña al andar y al subir. Para caminatas largas, montaña y para quien pasa el día de pie.</p>
-    <ul class="eg-banda-lista"><li>Se pone y se quita en segundos</li><li>Batería intercambiable</li><li>Distribuidor oficial en España</li></ul>
+    <ul class="eg-banda-lista"><li>Se pone y se quita en segundos</li><li>Batería intercambiable</li><li>Te asesoramos antes de que lo compres</li></ul>
     <a class="eg-btn eg-btn-linea" href="#">Ver los modelos<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
   </div>
-  <div class="eg-banda-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f26" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset="1" stop-color="#c23a00"/></linearGradient></defs><rect width="400" height="320" fill="url(#f26)"/><circle cx="322" cy="252" r="130" fill="#ffffff" opacity=".08"/><circle cx="200" cy="58" r="26" fill="#1b2430"/><rect x="168" y="90" width="64" height="66" rx="18" fill="#232f3e"/><rect x="134" y="152" width="132" height="30" rx="15" fill="#0f1620"/><circle cx="152" cy="167" r="16" fill="#ffb547"/><circle cx="248" cy="167" r="16" fill="#ffb547"/><rect x="150" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="226" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="144" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="220" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="150" y="276" width="24" height="14" rx="6" fill="#0f1620"/><rect x="226" y="276" width="24" height="14" rx="6" fill="#0f1620"/></svg></div>
+  <div class="eg-banda-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f30" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset="1" stop-color="#c23a00"/></linearGradient></defs><rect width="400" height="320" fill="url(#f30)"/><circle cx="322" cy="252" r="130" fill="#ffffff" opacity=".08"/><circle cx="200" cy="58" r="26" fill="#1b2430"/><rect x="168" y="90" width="64" height="66" rx="18" fill="#232f3e"/><rect x="134" y="152" width="132" height="30" rx="15" fill="#0f1620"/><circle cx="152" cy="167" r="16" fill="#ffb547"/><circle cx="248" cy="167" r="16" fill="#ffb547"/><rect x="150" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="226" y="182" width="24" height="94" rx="12" fill="#232f3e"/><rect x="144" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="220" y="224" width="36" height="16" rx="8" fill="#ffb547"/><rect x="150" y="276" width="24" height="14" rx="6" fill="#0f1620"/><rect x="226" y="276" width="24" height="14" rx="6" fill="#0f1620"/></svg></div>
 </div></section>
 
 <section class="eg-seccion"><div class="eg-banda eg-banda-clara">
@@ -566,20 +628,20 @@ html, body { background: #fff; color: #4a5568; margin: 0;
     <ul class="eg-banda-lista"><li>Sin obra y sin permisos de comunidad en la mayoría de casos</li><li>Se amplían después con más paneles o batería</li><li>Te calculamos el ahorro con tu factura delante</li></ul>
     <a class="eg-btn eg-btn-principal" href="#">Ver los kits<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
   </div>
-  <div class="eg-banda-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f27" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12a75f"/><stop offset="1" stop-color="#04603a"/></linearGradient></defs><rect width="400" height="320" fill="url(#f27)"/><circle cx="60" cy="52" r="90" fill="#ffffff" opacity=".07"/><path d="M70 168 L200 76 L330 168 Z" fill="#12304f"/><rect x="104" y="168" width="192" height="120" fill="#f5f8fc"/><rect x="104" y="168" width="192" height="120" fill="none" stroke="#c6d3e1" stroke-width="3"/><rect x="134" y="200" width="48" height="42" fill="#7fbdf0"/><rect x="214" y="200" width="50" height="88" fill="#12304f"/><circle cx="254" cy="248" r="4" fill="#ffc233"/><g transform="rotate(-27 236 122)"><rect x="192" y="94" width="104" height="60" rx="5" fill="#0b2c50"/><rect x="198" y="100" width="92" height="48" rx="3" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="2.5"><line x1="229" y1="100" x2="229" y2="148"/><line x1="259" y1="100" x2="259" y2="148"/><line x1="198" y1="124" x2="290" y2="124"/></g></g></svg></div>
+  <div class="eg-banda-foto"><svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true" style="width:100%;height:100%"><defs><linearGradient id="f31" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12a75f"/><stop offset="1" stop-color="#04603a"/></linearGradient></defs><rect width="400" height="320" fill="url(#f31)"/><circle cx="60" cy="52" r="90" fill="#ffffff" opacity=".07"/><path d="M70 168 L200 76 L330 168 Z" fill="#12304f"/><rect x="104" y="168" width="192" height="120" fill="#f5f8fc"/><rect x="104" y="168" width="192" height="120" fill="none" stroke="#c6d3e1" stroke-width="3"/><rect x="134" y="200" width="48" height="42" fill="#7fbdf0"/><rect x="214" y="200" width="50" height="88" fill="#12304f"/><circle cx="254" cy="248" r="4" fill="#ffc233"/><g transform="rotate(-27 236 122)"><rect x="192" y="94" width="104" height="60" rx="5" fill="#0b2c50"/><rect x="198" y="100" width="92" height="48" rx="3" fill="#1663ad"/><g stroke="#8cc6f5" stroke-width="2.5"><line x1="229" y1="100" x2="229" y2="148"/><line x1="259" y1="100" x2="259" y2="148"/><line x1="198" y1="124" x2="290" y2="124"/></g></g></svg></div>
 </div></section>
 
 <section class="eg-seccion" aria-labelledby="t4">
   <div class="eg-seccion-cab"><div><h2 id="t4">Nuestras marcas</h2>
-  <p>Somos distribuidor autorizado de las marcas que vendemos.</p></div></div>
+  <p>Trabajamos con estas marcas y las conocemos por dentro.</p></div></div>
   <div class="eg-marcas"><a class="eg-marca" href="#"><span>EcoFlow</span></a><a class="eg-marca" href="#"><span>HyperShell</span></a><a class="eg-marca" href="#"><span>Lokithor</span></a></div>
 </section>
 
-<section class="eg-seccion"><div class="eg-avales"><div class="eg-aval"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 5h10v9H2zM12 8h4l3 3v3h-7z"/><circle cx="6" cy="16" r="1.6"/><circle cx="15" cy="16" r="1.6"/></svg><div><b>Envío en 24-48 h</b><span>En los productos con stock confirmado.</span></div></div><div class="eg-aval"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 2l6 3v5c0 4-2.6 6.9-6 8-3.4-1.1-6-4-6-8V5z"/><path d="M7.5 10l1.8 1.8L13 8"/></svg><div><b>Garantía oficial</b><span>Distribuidor autorizado de EcoFlow, HyperShell y Lokithor.</span></div></div><div class="eg-aval"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12.5 3a4 4 0 00-3.6 5.7L3 14.6V17h2.4l5.9-5.9A4 4 0 1012.5 3z"/></svg><div><b>Servicio técnico propio</b><span>La incidencia la gestionamos nosotros.</span></div></div><div class="eg-aval"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 5h16v10H2z"/><path d="M2 8h16"/><path d="M5 12h3"/></svg><div><b>Pago a plazos</b><span>Financiación con SeQura al finalizar.</span></div></div></div></section>
+<section class="eg-seccion"><div class="eg-avales"><div class="eg-aval"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 5h10v9H2zM12 8h4l3 3v3h-7z"/><circle cx="6" cy="16" r="1.6"/><circle cx="15" cy="16" r="1.6"/></svg><div><b>Envío en 24-48 h</b><span>En los productos con stock confirmado.</span></div></div><div class="eg-aval"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 2l6 3v5c0 4-2.6 6.9-6 8-3.4-1.1-6-4-6-8V5z"/><path d="M7.5 10l1.8 1.8L13 8"/></svg><div><b>Garantía del fabricante</b><span>En todo lo que vendemos.</span></div></div><div class="eg-aval"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12.5 3a4 4 0 00-3.6 5.7L3 14.6V17h2.4l5.9-5.9A4 4 0 1012.5 3z"/></svg><div><b>Servicio técnico EcoFlow</b><span>Las incidencias de EcoFlow las gestionamos nosotros.</span></div></div><div class="eg-aval"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 5h16v10H2z"/><path d="M2 8h16"/><path d="M5 12h3"/></svg><div><b>Pago a plazos</b><span>Financiación con SeQura al finalizar.</span></div></div></div></section>
 
 <section class="eg-seccion"><details class="eg-texto">
   <h2>Una tienda especializada, no un marketplace</h2>
-  <p>Trabajamos con EcoFlow, HyperShell y Lokithor, y somos distribuidor autorizado de las tres. El equipo que compras aquí llega con la garantía del fabricante y con alguien detrás a quien puedes llamar.</p>
+  <p>Trabajamos con EcoFlow, HyperShell y Lokithor. El equipo que compras aquí llega con la garantía del fabricante y con alguien detrás a quien puedes llamar, que no es lo mismo que un formulario de contacto.</p>
   <p>Esa es la diferencia que más nos preguntan. Cuando compras en un marketplace y el equipo falla, empieza un ir y venir de correos entre el vendedor, la plataforma y el fabricante. Aquí la incidencia la abre y la sigue nuestro servicio técnico.</p>
   <summary>Leer más sobre lo que vendemos</summary>
   <h3>¿Qué necesitas?</h3>
@@ -591,7 +653,7 @@ html, body { background: #fff; color: #4a5568; margin: 0;
 
 <section class="eg-seccion" aria-labelledby="t5">
   <div class="eg-seccion-cab"><div><h2 id="t5">Preguntas frecuentes</h2></div></div>
-  <div class="eg-faq"><details open><summary>¿Sois distribuidor oficial?</summary><div class="eg-faq-cuerpo"><p>Sí. Somos distribuidor autorizado de EcoFlow, HyperShell y Lokithor, con servicio técnico propio. El producto sale con la garantía del fabricante.</p></div></details><details><summary>¿Qué es un exoesqueleto HyperShell?</summary><div class="eg-faq-cuerpo"><p>Es un soporte que se lleva en la cintura y las piernas y que, con un pequeño motor, te acompaña al andar y al subir. Se nota sobre todo en caminatas largas, en cuestas y si pasas el día de pie.</p></div></details><details><summary>¿Para qué sirve un arrancador Lokithor?</summary><div class="eg-faq-cuerpo"><p>Para arrancar el coche cuando la batería se queda sin carga, sin necesidad de otro vehículo. Los modelos con compresor además inflan ruedas, y muchos hacen de powerbank y de linterna.</p></div></details><details><summary>¿Cuánto tarda el envío?</summary><div class="eg-faq-cuerpo"><p>Los pedidos con stock confirmado salen en 24-48 horas laborables. En la ficha de cada producto ves si está disponible en ese momento.</p></div></details><details><summary>¿Qué pasa si el equipo falla?</summary><div class="eg-faq-cuerpo"><p>Abres la incidencia con nosotros, no con el fabricante. Nuestro servicio técnico la gestiona de principio a fin.</p></div></details><details><summary>¿Puedo pagar a plazos?</summary><div class="eg-faq-cuerpo"><p>Sí. Al finalizar la compra puedes elegir el pago fraccionado con SeQura.</p></div></details></div>
+  <div class="eg-faq"><details open><summary>¿El producto lleva garantía?</summary><div class="eg-faq-cuerpo"><p>Sí. Todo lo que vendemos sale con la garantía del fabricante. En el caso de EcoFlow, además, la incidencia la gestiona nuestro propio servicio técnico y no tienes que hablar con nadie más.</p></div></details><details><summary>¿Qué es un exoesqueleto HyperShell?</summary><div class="eg-faq-cuerpo"><p>Es un soporte que se lleva en la cintura y las piernas y que, con un pequeño motor, te acompaña al andar y al subir. Se nota sobre todo en caminatas largas, en cuestas y si pasas el día de pie.</p></div></details><details><summary>¿Para qué sirve un arrancador Lokithor?</summary><div class="eg-faq-cuerpo"><p>Para arrancar el coche cuando la batería se queda sin carga, sin necesidad de otro vehículo. Los modelos con compresor además inflan ruedas, y muchos hacen de powerbank y de linterna.</p></div></details><details><summary>¿Cuánto tarda el envío?</summary><div class="eg-faq-cuerpo"><p>Los pedidos con stock confirmado salen en 24-48 horas laborables. En la ficha de cada producto ves si está disponible en ese momento.</p></div></details><details><summary>¿Qué pasa si un EcoFlow falla?</summary><div class="eg-faq-cuerpo"><p>Abres la incidencia con nosotros, no con el fabricante. Nuestro servicio técnico la gestiona de principio a fin.</p></div></details><details><summary>¿Puedo pagar a plazos?</summary><div class="eg-faq-cuerpo"><p>Sí. Al finalizar la compra puedes elegir el pago fraccionado con SeQura.</p></div></details></div>
 </section>
 
 <section class="eg-seccion"><div class="eg-cierre">

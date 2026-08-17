@@ -103,6 +103,23 @@ function eg_portada_promos_cfg() {
 }
 
 /* ==========================================================================
+   CONFIGURACION 1b · Caminos de entrada de la portada
+   Los cuatro accesos de la mitad izquierda. Son enlaces internos con texto
+   descriptivo: sirven a quien no sabe que busca y a Google para entender
+   la estructura del catalogo.
+   array( slug, titulo, para que sirve )
+   ========================================================================== */
+
+function eg_portada_caminos_cfg() {
+	return array(
+		array( 'serie-delta',     'Apagones en casa',   'Estaciones EcoFlow DELTA' ),
+		array( 'paneles-solares', 'Bajar la factura',   'Placas solares y kits de balc&oacute;n' ),
+		array( 'arrancadores',    'El coche no arranca','Arrancadores Lokithor' ),
+		array( 'hypershell',      'Andar con menos esfuerzo', 'Exoesqueletos HyperShell' ),
+	);
+}
+
+/* ==========================================================================
    CONFIGURACION 2 · Circulos de categoria
    array( slug, rotulo )
    ========================================================================== */
@@ -137,7 +154,7 @@ function eg_portada_bandas_cfg() {
 			'puntos'   => array(
 				'Se pone y se quita en segundos',
 				'Bater&iacute;a intercambiable',
-				'Distribuidor oficial en Espa&ntilde;a',
+				'Te asesoramos antes de que lo compres',
 			),
 			'boton'    => 'Ver los modelos',
 		),
@@ -371,41 +388,112 @@ function eg_portada_html() {
 
 /* ==========================================================================
    Portada
+   Mitad izquierda: titular, cuatro caminos de entrada y botones.
+   Mitad derecha: una ficha de producto real, con su precio y su boton.
+   Una foto grande decorativa no vende; una ficha con precio si.
    ========================================================================== */
 
 function eg_portada_hero( $tienda ) {
 
-	$id   = (int) get_option( 'eg_portada_hero', 0 );
-	$foto = '';
+	// --- caminos de entrada ---
+	$caminos = '';
 
-	if ( $id ) {
-		// Sin lazy y con prioridad alta: es lo primero que se ve.
-		$foto = wp_get_attachment_image( $id, 'large', false, array(
-			'alt'           => '',
-			'aria-hidden'   => 'true',
-			'loading'       => 'eager',
-			'decoding'      => 'sync',
-			'fetchpriority' => 'high',
-		) );
+	foreach ( eg_portada_caminos_cfg() as $c ) {
+		$t = eg_portada_term( $c[0] );
+		if ( ! $t ) { continue; }
+		$caminos .= '<a class="eg-camino" href="' . esc_url( get_term_link( $t ) ) . '">'
+			. '<span class="eg-camino-foto">' . eg_portada_foto_term( $t, 'woocommerce_thumbnail', false ) . '</span>'
+			. '<span><b>' . $c[1] . '</b><span>' . $c[2] . '</span></span>'
+			. '</a>';
 	}
 
-	// El segundo boton lleva a la novedad de temporada. Si esa categoria no
-	// existe, lleva a los mas vendidos, que estan en la misma pagina.
-	$destacada = eg_portada_term( 'hypershell' );
-	$segundo   = $destacada
-		? '<a class="eg-btn eg-btn-linea" href="' . esc_url( get_term_link( $destacada ) ) . '">Ver Hypershell' . eg_portada_icono( 'flecha' ) . '</a>'
-		: '<a class="eg-btn eg-btn-linea" href="#eg-comprar">Ver lo m&aacute;s vendido' . eg_portada_icono( 'flecha' ) . '</a>';
+	$caminos = $caminos ? '<div class="eg-caminos">' . $caminos . '</div>' : '';
 
-	return '<div class="eg-hero"><div class="eg-hero-in"><div class="eg-hero-txt">'
-		. '<span class="eg-pill eg-pill-nuevo">Distribuidor oficial</span>'
-		. '<h1>Energ&iacute;a port&aacute;til, solar y movilidad, con servicio t&eacute;cnico en Espa&ntilde;a</h1>'
-		. '<p>EcoFlow, Hypershell y el resto de marcas que trabajamos. Te asesoramos antes de comprar y, si algo falla, lo resolvemos nosotros.</p>'
+	return '<div class="eg-hero"><div class="eg-hero-in">'
+		. '<div class="eg-hero-txt">'
+		. '<h1>Bater&iacute;as port&aacute;tiles, placas solares y arrancadores de coche</h1>'
+		. '<p>EcoFlow, HyperShell y Lokithor. Te decimos qu&eacute; equipo encaja antes de que lo compres.</p>'
+		. $caminos
 		. '<div class="eg-hero-botones">'
 		. '<a class="eg-btn eg-btn-principal" href="' . $tienda . '">Comprar ahora' . eg_portada_icono( 'flecha' ) . '</a>'
-		. $segundo
+		. '<a class="eg-btn eg-btn-suave" href="#eg-comprar">Ver lo m&aacute;s vendido' . eg_portada_icono( 'flecha' ) . '</a>'
 		. '</div></div>'
-		. ( $foto ? '<div class="eg-hero-foto">' . $foto . '</div>' : '' )
+		. eg_portada_destacado()
 		. '</div></div>';
+}
+
+/**
+ * Ficha destacada de la portada.
+ * Se puede fijar un producto concreto con la opcion "eg_portada_destacado".
+ * Si no hay ninguno fijado, sale el mas vendido con stock y con precio.
+ * Si no hay ni eso, no se pinta nada y la portada queda a una columna.
+ */
+function eg_portada_destacado() {
+
+	$id = (int) get_option( 'eg_portada_destacado', 0 );
+	$p  = $id ? wc_get_product( $id ) : false;
+
+	if ( ! $p || ! $p->is_in_stock() || '' === $p->get_price() ) {
+
+		$q = new WP_Query( array(
+			'post_type'           => 'product',
+			'posts_per_page'      => 1,
+			'no_found_rows'       => true,
+			'ignore_sticky_posts' => true,
+			'orderby'             => 'meta_value_num',
+			'meta_key'            => 'total_sales',
+			'order'               => 'DESC',
+			'meta_query'          => array(
+				array( 'key' => '_stock_status', 'value' => 'instock' ),
+				array( 'key' => '_price', 'value' => 0, 'compare' => '>', 'type' => 'NUMERIC' ),
+			),
+		) );
+
+		if ( ! $q->have_posts() ) {
+			wp_reset_postdata();
+			return '';
+		}
+
+		$q->the_post();
+		$p = wc_get_product( get_the_ID() );
+		wp_reset_postdata();
+
+		if ( ! $p ) { return ''; }
+	}
+
+	$url   = esc_url( get_permalink( $p->get_id() ) );
+	$marca = eg_portada_marca_de( $p->get_id() );
+	$stock = $p->get_stock_quantity();
+
+	$texto_stock = ( $stock && $stock > 0 )
+		? ( 1 === (int) $stock ? '1 disponible' : $stock . ' disponibles' )
+		: 'Disponible';
+
+	// Etiqueta: el descuento real si lo hay; si no, lo mas vendido.
+	$regular  = (float) $p->get_regular_price();
+	$actual   = (float) $p->get_price();
+	$pastilla = '<span class="eg-pill eg-pill-top">Lo m&aacute;s vendido</span>';
+
+	if ( $p->is_on_sale() && $regular > 0 && $actual > 0 && $actual < $regular ) {
+		$pc = (int) round( ( ( $regular - $actual ) / $regular ) * 100 );
+		if ( $pc >= 5 ) {
+			$pastilla = '<span class="eg-pill eg-pill-oferta">-' . $pc . '%</span>';
+		}
+	}
+
+	return '<article class="eg-destacado">'
+		. '<a class="eg-destacado-foto" href="' . $url . '" tabindex="-1" aria-hidden="true">'
+		. '<span class="eg-destacado-etiq">' . $pastilla . '</span>'
+		. $p->get_image( 'woocommerce_single', array( 'loading' => 'eager', 'fetchpriority' => 'high' ) )
+		. '</a>'
+		. '<div class="eg-destacado-txt">'
+		. ( $marca ? '<p class="eg-destacado-marca">' . esc_html( $marca ) . '</p>' : '' )
+		. '<a class="eg-destacado-nombre" href="' . $url . '">' . esc_html( $p->get_name() ) . '</a>'
+		. '<div class="eg-destacado-precio">' . wp_kses_post( $p->get_price_html() ) . '</div>'
+		. '<p class="eg-destacado-stock">' . esc_html( $texto_stock ) . '</p>'
+		. '<a class="eg-btn eg-btn-principal" href="' . esc_url( $p->add_to_cart_url() ) . '" rel="nofollow">'
+		. eg_portada_icono( 'carrito' ) . esc_html( $p->add_to_cart_text() ) . '</a>'
+		. '</div></article>';
 }
 
 /* ==========================================================================
@@ -536,7 +624,7 @@ function eg_portada_marcas() {
 
 	$h = '<section class="eg-seccion" aria-labelledby="eg-t-marcas">'
 		. '<div class="eg-seccion-cab"><div><h2 id="eg-t-marcas">Nuestras marcas</h2>'
-		. '<p>Somos distribuidor autorizado de las marcas que vendemos.</p></div></div>'
+		. '<p>Trabajamos con estas marcas y las conocemos por dentro.</p></div></div>'
 		. '<div class="eg-marcas">';
 
 	foreach ( $marcas as $m ) {
@@ -566,8 +654,8 @@ function eg_portada_avales() {
 	// almacen y no pasan por la tienda fisica.
 	$items = array(
 		array( 'camion',  'Env&iacute;o en 24-48 h',        'En los productos con stock confirmado.' ),
-		array( 'escudo',  'Garant&iacute;a oficial',        'Distribuidor autorizado de las marcas que vendemos.' ),
-		array( 'llave',   'Servicio t&eacute;cnico propio', 'La incidencia la gestionamos nosotros.' ),
+		array( 'escudo',  'Garant&iacute;a del fabricante', 'En todo lo que vendemos.' ),
+		array( 'llave',   'Servicio t&eacute;cnico EcoFlow', 'Las incidencias de EcoFlow las gestionamos nosotros.' ),
 		array( 'tarjeta', 'Pago a plazos',                  'Financiaci&oacute;n con SeQura al finalizar.' ),
 	);
 
@@ -588,7 +676,7 @@ function eg_portada_texto() {
 	// Google indexa el contenido igual, este abierto o cerrado.
 	return '<section class="eg-seccion"><details class="eg-texto">'
 		. '<h2>Una tienda especializada, no un marketplace</h2>'
-		. '<p>Trabajamos con marcas de energ&iacute;a port&aacute;til, solar y movilidad, y somos distribuidor oficial de las que vendemos. El equipo que compras aqu&iacute; llega con la garant&iacute;a del fabricante y con alguien detr&aacute;s a quien puedes llamar.</p>'
+		. '<p>Trabajamos con EcoFlow, HyperShell y Lokithor. El equipo que compras aqu&iacute; llega con la garant&iacute;a del fabricante y con alguien detr&aacute;s a quien puedes llamar, que no es lo mismo que un formulario de contacto.</p>'
 		. '<p>Esa es la diferencia que m&aacute;s nos preguntan. Cuando compras en un marketplace y el equipo falla, empieza un ir y venir de correos entre el vendedor, la plataforma y el fabricante. Aqu&iacute; la incidencia la abre y la sigue nuestro servicio t&eacute;cnico.</p>'
 		. '<summary>Leer m&aacute;s sobre lo que vendemos</summary>'
 		. '<h3>&iquest;Qu&eacute; necesitas?</h3>'
@@ -606,8 +694,8 @@ function eg_portada_texto() {
 function eg_portada_faq_datos() {
 	return array(
 		array(
-			'&iquest;Sois distribuidor oficial?',
-			'S&iacute;, de las marcas que vendemos, con tienda f&iacute;sica y servicio t&eacute;cnico propio. El producto sale de nuestro almac&eacute;n con la garant&iacute;a del fabricante.',
+			'&iquest;El producto lleva garant&iacute;a?',
+			'S&iacute;. Todo lo que vendemos sale con la garant&iacute;a del fabricante. En el caso de EcoFlow, adem&aacute;s, la incidencia la gestiona nuestro propio servicio t&eacute;cnico y no tienes que hablar con nadie m&aacute;s.',
 		),
 		array(
 			'&iquest;Qu&eacute; es un exoesqueleto Hypershell?',
@@ -618,7 +706,7 @@ function eg_portada_faq_datos() {
 			'Los pedidos con stock confirmado salen en 24-48 horas laborables. En la ficha de cada producto ves si est&aacute; disponible en ese momento. Si algo va a tardar m&aacute;s, te avisamos antes de cobrar.',
 		),
 		array(
-			'&iquest;Qu&eacute; pasa si el equipo falla?',
+			'&iquest;Qu&eacute; pasa si un EcoFlow falla?',
 			'Abres la incidencia con nosotros, no con el fabricante. Nuestro servicio t&eacute;cnico la gestiona de principio a fin y te vamos contando en qu&eacute; punto est&aacute;.',
 		),
 		array(

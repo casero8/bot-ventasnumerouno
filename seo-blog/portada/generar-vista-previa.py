@@ -68,21 +68,43 @@ CIRCULOS = "".join(f'<a class="eg-circulo" href="#"><span class="eg-circulo-foto
                ("Placas solares",D.panel()),("Powerbanks",D.powerbank()),("HyperShell",D.exo()),
                ("Kits hogar",D.casa()),("Arrancadores",D.cable()),("Generadores",D.generador())])
 
+CAMINOS = "".join(
+  f'<a class="eg-camino" href="#"><span class="eg-camino-foto">{f}</span>'
+  f'<span><b>{t}</b><span>{s}</span></span></a>'
+  for t, s, f in [("Apagones en casa","Estaciones EcoFlow DELTA",D.estacion()),
+                  ("Bajar la factura","Placas solares y kits de balcón",D.panel()),
+                  ("El coche no arranca","Arrancadores Lokithor",D.cable()),
+                  ("Andar con menos esfuerzo","Exoesqueletos HyperShell",D.exo())])
+
+DESTACADO = f'''<article class="eg-destacado">
+  <a class="eg-destacado-foto" href="#" tabindex="-1" aria-hidden="true">
+    <span class="eg-destacado-etiq"><span class="eg-pill eg-pill-top">Lo más vendido</span></span>
+    {D.estacion()}
+  </a>
+  <div class="eg-destacado-txt">
+    <p class="eg-destacado-marca">EcoFlow</p>
+    <a class="eg-destacado-nombre" href="#">EcoFlow DELTA 3 Classic (1024Wh)</a>
+    <div class="eg-destacado-precio">599,00&nbsp;€</div>
+    <p class="eg-destacado-stock">7 disponibles</p>
+    <a class="eg-btn eg-btn-principal" href="#">{ico("carrito")}Añadir al carrito</a>
+  </div>
+</article>'''
+
 MARCAS = "".join(f'<a class="eg-marca" href="#"><span>{m}</span></a>'
                  for m in ["EcoFlow", "HyperShell", "Lokithor"])
 
 AVALES = "".join(f'<div class="eg-aval">{ico(i)}<div><b>{t}</b><span>{d}</span></div></div>'
   for i, t, d in [("camion","Envío en 24-48 h","En los productos con stock confirmado."),
-                  ("escudo","Garantía oficial","Distribuidor autorizado de EcoFlow, HyperShell y Lokithor."),
-                  ("llave","Servicio técnico propio","La incidencia la gestionamos nosotros."),
+                  ("escudo","Garantía del fabricante","En todo lo que vendemos."),
+                  ("llave","Servicio técnico EcoFlow","Las incidencias de EcoFlow las gestionamos nosotros."),
                   ("tarjeta","Pago a plazos","Financiación con SeQura al finalizar.")])
 
 FAQ_L = [
- ("¿Sois distribuidor oficial?","Sí. Somos distribuidor autorizado de EcoFlow, HyperShell y Lokithor, con servicio técnico propio. El producto sale con la garantía del fabricante."),
+ ("¿El producto lleva garantía?","Sí. Todo lo que vendemos sale con la garantía del fabricante. En el caso de EcoFlow, además, la incidencia la gestiona nuestro propio servicio técnico y no tienes que hablar con nadie más."),
  ("¿Qué es un exoesqueleto HyperShell?","Es un soporte que se lleva en la cintura y las piernas y que, con un pequeño motor, te acompaña al andar y al subir. Se nota sobre todo en caminatas largas, en cuestas y si pasas el día de pie."),
  ("¿Para qué sirve un arrancador Lokithor?","Para arrancar el coche cuando la batería se queda sin carga, sin necesidad de otro vehículo. Los modelos con compresor además inflan ruedas, y muchos hacen de powerbank y de linterna."),
  ("¿Cuánto tarda el envío?","Los pedidos con stock confirmado salen en 24-48 horas laborables. En la ficha de cada producto ves si está disponible en ese momento."),
- ("¿Qué pasa si el equipo falla?","Abres la incidencia con nosotros, no con el fabricante. Nuestro servicio técnico la gestiona de principio a fin."),
+ ("¿Qué pasa si un EcoFlow falla?","Abres la incidencia con nosotros, no con el fabricante. Nuestro servicio técnico la gestiona de principio a fin."),
  ("¿Puedo pagar a plazos?","Sí. Al finalizar la compra puedes elegir el pago fraccionado con SeQura."),
 ]
 FAQ = "".join(f'<details{" open" if i==0 else ""}><summary>{q}</summary>'
@@ -106,7 +128,7 @@ html, body {{ background: #fff; color: #4a5568; margin: 0;
 
 <div class="pv-barra"><div class="pv-in">
   <b>Vista previa · portada nueva</b>
-  <span>Sin Elementor · animaciones en CSS · <em>~23 KB de CSS</em> · <em>0 KB de JavaScript</em></span>
+  <span>Sin Elementor · animaciones en CSS · <em>~26 KB de CSS</em> · <em>0 KB de JavaScript</em></span>
   <span>Las ilustraciones sustituyen a tus fotos; precios y stock salen de WooCommerce.</span>
 </div></div>
 
@@ -117,15 +139,15 @@ html, body {{ background: #fff; color: #4a5568; margin: 0;
 
 <div class="eg-hero"><div class="eg-hero-in">
   <div class="eg-hero-txt">
-    <span class="eg-pill eg-pill-nuevo">Distribuidor oficial</span>
-    <h1>Energía portátil, solar y movilidad</h1>
-    <p>EcoFlow, HyperShell y Lokithor. Con servicio técnico propio en España y asesoramiento antes de comprar.</p>
+    <h1>Baterías portátiles, placas solares y arrancadores de coche</h1>
+    <p>EcoFlow, HyperShell y Lokithor. Te decimos qué equipo encaja antes de que lo compres.</p>
+    <div class="eg-caminos">{CAMINOS}</div>
     <div class="eg-hero-botones">
       <a class="eg-btn eg-btn-principal" href="#eg-comprar">Comprar ahora{ico('flecha')}</a>
-      <a class="eg-btn eg-btn-suave" href="#">Ver HyperShell{ico('flecha')}</a>
+      <a class="eg-btn eg-btn-suave" href="#eg-comprar">Ver lo más vendido{ico('flecha')}</a>
     </div>
   </div>
-  <div class="eg-hero-foto">{D.exo()}</div>
+  {DESTACADO}
 </div></div>
 
 <div class="eg-ancho">
@@ -156,7 +178,7 @@ html, body {{ background: #fff; color: #4a5568; margin: 0;
     <span class="eg-pill eg-pill-nuevo">Novedad</span>
     <h2>HyperShell: el exoesqueleto que te quita peso de las piernas</h2>
     <p>Un motor te acompaña al andar y al subir. Para caminatas largas, montaña y para quien pasa el día de pie.</p>
-    <ul class="eg-banda-lista"><li>Se pone y se quita en segundos</li><li>Batería intercambiable</li><li>Distribuidor oficial en España</li></ul>
+    <ul class="eg-banda-lista"><li>Se pone y se quita en segundos</li><li>Batería intercambiable</li><li>Te asesoramos antes de que lo compres</li></ul>
     <a class="eg-btn eg-btn-linea" href="#">Ver los modelos{ico('flecha')}</a>
   </div>
   <div class="eg-banda-foto">{D.exo()}</div>
@@ -175,7 +197,7 @@ html, body {{ background: #fff; color: #4a5568; margin: 0;
 
 <section class="eg-seccion" aria-labelledby="t4">
   <div class="eg-seccion-cab"><div><h2 id="t4">Nuestras marcas</h2>
-  <p>Somos distribuidor autorizado de las marcas que vendemos.</p></div></div>
+  <p>Trabajamos con estas marcas y las conocemos por dentro.</p></div></div>
   <div class="eg-marcas">{MARCAS}</div>
 </section>
 
@@ -183,7 +205,7 @@ html, body {{ background: #fff; color: #4a5568; margin: 0;
 
 <section class="eg-seccion"><details class="eg-texto">
   <h2>Una tienda especializada, no un marketplace</h2>
-  <p>Trabajamos con EcoFlow, HyperShell y Lokithor, y somos distribuidor autorizado de las tres. El equipo que compras aquí llega con la garantía del fabricante y con alguien detrás a quien puedes llamar.</p>
+  <p>Trabajamos con EcoFlow, HyperShell y Lokithor. El equipo que compras aquí llega con la garantía del fabricante y con alguien detrás a quien puedes llamar, que no es lo mismo que un formulario de contacto.</p>
   <p>Esa es la diferencia que más nos preguntan. Cuando compras en un marketplace y el equipo falla, empieza un ir y venir de correos entre el vendedor, la plataforma y el fabricante. Aquí la incidencia la abre y la sigue nuestro servicio técnico.</p>
   <summary>Leer más sobre lo que vendemos</summary>
   <h3>¿Qué necesitas?</h3>
