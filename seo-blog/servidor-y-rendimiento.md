@@ -121,3 +121,38 @@ Orden: **mirar → copia → limpiar → verificar**. La copia ya está hecha, a
 4. Verificar portada, categoría, ficha, carrito, checkout y "mi cuenta" con códigos HTTP y tiempos.
 
 El prefijo de tablas se resuelve con `wp db prefix` en vez de asumir `wp_`.
+
+## Lote 3 — resultado (17/08/2026)
+
+Ruta real de WordPress: `/home/ecogadgetoficial/www`. Prefijo de tablas: `wp_`.
+
+| Acción | Resultado |
+|---|---|
+| Copia BD previa | 251 MB, `~/copias/antes-limpieza-20260817-1234.sql` |
+| Revisiones borradas | **3.714 → 0** |
+| Transitorios caducados | 37 |
+| Logs Action Scheduler +30 días | borrados |
+| Acciones Action Scheduler | 5.074 `complete`, 6 `failed`, 27 `pending` — todas de menos de 30 días, no hay nada viejo que limpiar |
+| `wp db optimize` | OK |
+| **Tamaño BD tras limpieza** | **81 MB** |
+
+Conclusión: **la base de datos no es el cuello de botella**. 81 MB es una BD sana para una tienda con 23 productos.
+
+Tiempos desde el propio servidor (curl, con caché de LiteSpeed en juego):
+
+| URL | Código | Tiempo |
+|---|---|---|
+| `/` | 200 | 3,84 s |
+| `/product-category/serie-delta/delta-3/` | 200 | 2,78 s |
+| `/product-category/paneles-solares/` | 200 | 2,51 s |
+| `/shop/` | 200 | 2,04 s |
+| `/cart/` | 200 | 2,17 s |
+| `/checkout/` | 302 | 1,13 s (redirección normal con carrito vacío) |
+| `/my-account/` | 200 | 2,16 s |
+
+Todo responde, nada roto tras la limpieza. Pero 2–4 s es lento: si la caché de página
+estuviera sirviendo, deberían ser décimas. Siguiente paso: mirar las cabeceras
+`x-litespeed-cache` para saber si hay HIT o MISS.
+
+`.php.ini` del docroot: ya tenía `max_execution_time = 3600`; se le añadió el bloque OPcache
+sin tocar lo anterior. Pendiente de confirmar con `eg-check-9f3a2.php` desde navegador.
