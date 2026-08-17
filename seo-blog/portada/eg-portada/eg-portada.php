@@ -2,7 +2,7 @@
 /**
  * Plugin Name: EG · Portada
  * Description: Portada de ecogadgetoficial.com en HTML y CSS puros, sin Elementor y sin JavaScript. Se pinta con el shortcode [eg_portada].
- * Version:     1.0
+ * Version:     1.1
  * Author:      EcoGadget
  * License:     GPL-2.0-or-later
  */
@@ -809,6 +809,56 @@ function eg_portada_css() {
   padding-bottom: 14px;
 }
 
+/* ==========================================================================
+   ARMADURA CONTRA EL TEMA
+   --------------------------------------------------------------------------
+   Esto va antes que nada. El contenido de una pagina vive dentro del
+   contenedor del tema, que suele traer:
+     - un ancho maximo estrecho para los hijos directos del contenido,
+     - margenes propios en p, h2, ul,
+     - box-sizing distinto, que descuadra cualquier rejilla con padding,
+     - reglas de Elementor sobre img, a y section.
+   Sin neutralizar todo eso, la portada se ve descuadrada aunque el CSS
+   propio sea correcto.
+   ========================================================================== */
+
+.eg-home, .eg-home *, .eg-home *::before, .eg-home *::after { box-sizing: border-box; }
+
+/* El contenedor del tema no debe estrechar ni centrar nuestros bloques */
+.eg-home {
+  max-width: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  float: none !important;
+  clear: both;
+  text-align: left;
+}
+.eg-home > *, .eg-home .eg-ancho > * { max-width: none; }
+
+/* Margenes y listas del tema */
+.eg-home p, .eg-home h1, .eg-home h2, .eg-home h3,
+.eg-home ul, .eg-home ol, .eg-home li, .eg-home figure { margin: 0; padding: 0; }
+.eg-home ul, .eg-home ol { list-style: none; }
+.eg-home article, .eg-home section, .eg-home nav, .eg-home details { margin: 0; }
+
+/* Enlaces e imagenes: algunos temas les meten subrayado, sombra o display */
+.eg-home a { box-shadow: none !important; text-decoration: none; }
+.eg-home img, .eg-home svg { display: block; max-width: 100%; height: auto; border: 0; }
+
+/* El tema deja un hueco enorme entre la cabecera del sitio y el contenido */
+body.page .eg-home { margin-top: 0 !important; }
+
+/* La portada a todo el ancho aunque este dentro de un contenedor estrecho.
+   calc(50% - 50vw) la saca del contenedor sin romper el flujo. */
+.eg-hero {
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+}
+
 .eg-saltar {
   position: absolute; left: -9999px; top: 0; z-index: 999;
   background: var(--grafito); color: #fff; padding: 12px 20px;
@@ -1299,6 +1349,36 @@ function eg_portada_css() {
   .eg-promo:hover .eg-promo-foto img, .eg-prod:hover .eg-prod-foto img,
   .eg-circulo:hover .eg-circulo-foto img { transform: none; }
 }
+
+
+/* ==========================================================================
+   Margenes propios, despues de la armadura
+   La armadura pone todo a cero; aqui se devuelve lo que si queremos.
+   ========================================================================== */
+
+.eg-home .eg-seccion { margin: 28px 0; }
+.eg-home .eg-seccion-cab { margin: 0 0 16px; }
+.eg-home .eg-seccion-cab p { margin: 4px 0 0; }
+.eg-home .eg-hero h1 { margin: 0 0 14px; }
+.eg-home .eg-hero p { margin: 0 0 24px; }
+.eg-home .eg-texto p { margin: 0 0 14px; }
+.eg-home .eg-texto p:last-child { margin: 0; }
+.eg-home .eg-texto h3 { margin: 26px 0 9px; }
+.eg-home .eg-texto h2 { margin: 0 0 14px; }
+.eg-home .eg-banda h2 { margin: 14px 0 12px; }
+.eg-home .eg-banda p { margin: 0 0 18px; }
+.eg-home .eg-banda-lista { margin: 0 0 26px; }
+.eg-home .eg-cierre h2 { margin: 0 0 6px; }
+.eg-home .eg-cierre p { margin: 0; }
+.eg-home .eg-prod-marca { margin: 0 0 5px; }
+.eg-home .eg-prod-precio { margin: auto 0 2px; }
+.eg-home .eg-prod-stock { margin: 6px 0 12px; }
+.eg-home .eg-destacado-marca { margin: 0 0 5px; }
+.eg-home .eg-destacado-stock { margin: 0 0 16px; }
+.eg-home .eg-caminos { margin: 0 0 24px; }
+.eg-home .eg-promo b { margin: 0 0 6px; }
+.eg-home .eg-faq-cuerpo p { margin: 0; }
+.eg-home .eg-aval b { margin: 0 0 3px; }
 CSS;
 }
 
