@@ -75,3 +75,40 @@ Sin JavaScript: es `overflow-x` y `scroll-snap-type`.
 - Nada de escasez falsa: el stock que se muestra es el real de WooCommerce.
 - Ningún "envío gratis" — no se menciona.
 - Sin cifras de capacidad ni de autonomía, para no afirmar nada inexacto.
+
+---
+
+## Instalación sin SSH (por el escritorio de WordPress)
+
+1. Descargar `eg-portada.zip` desde el repositorio (botón **Download raw file**).
+2. **Plugins → Añadir nuevo → Subir plugin** → elegir el zip → Instalar → **Activar**.
+3. **Páginas → Añadir nueva**. Título: `EcoGadget | Baterías portátiles, placas solares y arrancadores`.
+   Como **único** contenido, un bloque *Shortcode* con `[eg_portada]`.
+   **No abrir esa página con Elementor**: en cuanto se abre con el constructor vuelve a
+   cargarse todo su CSS y se pierde el motivo de haber hecho esto.
+4. Publicar y verla. **No tocar Ajustes → Lectura todavía.**
+5. Cuando esté aprobada: **Ajustes → Lectura → Página de inicio** → la nueva. La antigua se queda
+   como estaba; volver atrás es cambiar ese desplegable.
+
+Para actualizar tras un cambio: descargar el zip nuevo y volver a subirlo (WordPress pregunta si
+reemplaza el plugin existente; sí).
+
+Con SSH es más rápido — se instala como mu-plugin y se actualiza con un `curl`:
+
+```bash
+cd /home/ecogadgetoficial/www && mkdir -p wp-content/mu-plugins && \
+curl -s -o wp-content/mu-plugins/eg-portada.php \
+  https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/portada/snippet-portada-listo.php && \
+php -l wp-content/mu-plugins/eg-portada.php
+```
+
+## Qué mirar al verla con las fotos reales
+
+- **Los bloques del mosaico usan la imagen de la categoría**, no la del producto. La categoría que
+  no tenga imagen asignada saldrá con un tinte de color liso.
+- Las categorías que no existan **se saltan solas**, sin dejar hueco roto. Slugs esperados:
+  `serie-delta`, `serie-river`, `paneles-solares`, `serie-rapid`, `hypershell`, `arrancadores`,
+  `kits-para-el-hogar`, `stream-series`, `accesorios`, `generador-solar`.
+- La ficha destacada de la cabecera sale sola (el más vendido con stock y precio). Para fijar una
+  concreta: `wp option update eg_portada_destacado <ID del producto>`.
+- Imagen de fondo opcional para la cabecera: `wp option update eg_portada_hero <ID del adjunto>`.
