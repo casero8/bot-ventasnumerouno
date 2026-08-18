@@ -1166,3 +1166,38 @@ function eg_precio_desde( $atributos ) {
 
 	return $html;
 }
+
+/* ==========================================================================
+   Pagina de ofertas: fuera lo que no se puede comprar
+   --------------------------------------------------------------------------
+   El shortcode [products on_sale="true"] no mira el stock. Con 23 de 42
+   ofertas agotadas, mas de la mitad del escaparate no se podia comprar.
+
+   Se filtra SOLO el shortcode de ofertas. Las categorias no se tocan: ahi
+   un producto agotado sigue siendo contenido util que rankea, y ademas
+   eg_stock_primero ya los manda al final.
+
+   Se cura solo: en cuanto repongas stock, el producto vuelve a aparecer
+   sin que nadie tenga que tocar nada.
+   ========================================================================== */
+
+add_filter( 'woocommerce_shortcode_products_query', 'eg_ofertas_solo_con_stock', 10, 2 );
+
+function eg_ofertas_solo_con_stock( $args, $atts ) {
+
+	// Solo el shortcode que pide rebajados.
+	if ( empty( $atts['on_sale'] ) || 'true' !== (string) $atts['on_sale'] ) {
+		return $args;
+	}
+
+	if ( empty( $args['meta_query'] ) || ! is_array( $args['meta_query'] ) ) {
+		$args['meta_query'] = array();
+	}
+
+	$args['meta_query'][] = array(
+		'key'   => '_stock_status',
+		'value' => 'instock',
+	);
+
+	return $args;
+}
