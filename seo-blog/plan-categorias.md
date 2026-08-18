@@ -75,3 +75,55 @@ Por impresiones × productos comprables, no por tamaño del árbol:
 - Nada de texto de relleno para "alimentar a Google". Las 11 hojas llevan dos frases.
 - Nada de repetir en la hija lo que ya dice la madre. Se enlaza, no se duplica.
 - Nada de cifras que no estén en la ficha del producto.
+
+## Corrección del reparto con los datos de Search Console (16 meses)
+
+El reparto de arriba se hizo contando productos. Al cruzarlo con lo que la gente busca de
+verdad, tres categorías cambian de sitio. Las 47 categorías juntas suman **167 clics y
+13.600 impresiones**, el 3,5 % de los clics del sitio: hay recorrido.
+
+**Sube de hoja a guía: `accesorios-delta-3`**
+
+42 clics, 1.715 impresiones, CTR 2,4 %. Es la **segunda categoría con más clics de todo
+el sitio** y ahora mismo tiene 917 bytes de texto. Estaba clasificada como hoja por número
+de productos, y el número de productos era el criterio equivocado: la demanda ya está ahí.
+Pasa a nivel 1 con guía completa.
+
+**Entran en el plan dos categorías que no estaban: las de batería adicional**
+
+| Categoría | Impresiones | Estado |
+|---|---|---|
+| `bateria-adicional-delta-pro` | 2.271 | Sin texto, fuera del plan |
+| `bateria-adicional-delta-3` | 1.444 | Sin texto, fuera del plan |
+
+Entre las dos suman **3.715 impresiones**, más que ninguna otra categoría del sitio, y no
+figuraban en el reparto. Son intención de compra pura: quien busca "batería adicional
+DELTA Pro" ya tiene la estación y quiere ampliarla. Ambas a nivel 1.
+
+**El orden de trabajo queda así**
+
+1. `bateria-adicional-delta-pro` — 2.271 impresiones.
+2. `accesorios-delta-3` — 42 clics, 1.715 impresiones. Sustituye a su versión de hoja.
+3. `bateria-adicional-delta-3` — 1.444 impresiones.
+4. `stream-series` — 1.330 impresiones. *Sigue bloqueada por la descripción del Series
+   Standard.*
+5. `accesorios-delta-2-max` — 26 clics, 958 impresiones, CTR 2,7 %, 11 de 16 comprables.
+   Es la mejor de las que no tienen ningún impedimento.
+6. `delta-2` — 418 impresiones. *Bloqueada: la estación sin precio desde el 15/08.*
+7. `delta-pro` — 288 impresiones y 24 productos, pero **0 clics**, sus tres buques insignia
+   están agotados y sus fichas tienen tablas ausentes, copia y pega roto, inglés sin
+   traducir ("Make it a triple.") y cifras que se contradicen entre sí. Escribir la
+   categoría sin arreglar antes las fichas es mandar tráfico a un sitio del que se sale.
+8. El resto, por impresiones.
+
+## Ocho categorías tienen texto pero no tienen salida
+
+Estas ya llevan descripción y sin embargo **no enlazan ni a su madre ni a sus hermanas**.
+Quien llega ahí desde Google y no encuentra lo que buscaba, se va: no tiene a dónde ir
+dentro del sitio. Es el arreglo más barato del plan, dos líneas por categoría.
+
+`power-kits` · `baterias-adicionales` · `accesorios-power-kits` · `rapid-pro` ·
+`ecoflow-wave` · `arrancador-de-coche` · `stream-series` · `lokithor`
+
+`arrancador-de-coche` es el caso más claro: 10 KB de texto y 12 enlaces, **los doce a
+productos**, ninguno de vuelta al árbol.

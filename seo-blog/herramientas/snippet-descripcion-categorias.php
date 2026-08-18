@@ -1181,12 +1181,14 @@ function eg_precio_desde( $atributos ) {
    sin que nadie tenga que tocar nada.
    ========================================================================== */
 
-add_filter( 'woocommerce_shortcode_products_query', 'eg_ofertas_solo_con_stock', 10, 2 );
+add_filter( 'woocommerce_shortcode_products_query', 'eg_ofertas_solo_con_stock', 10, 3 );
 
-function eg_ofertas_solo_con_stock( $args, $atts ) {
+function eg_ofertas_solo_con_stock( $args, $atts, $type = '' ) {
 
-	// Solo el shortcode que pide rebajados.
-	if ( empty( $atts['on_sale'] ) || 'true' !== (string) $atts['on_sale'] ) {
+	// OJO: WooCommerce convierte [products on_sale="true"] en el tipo interno
+	// 'sale_products' y BORRA on_sale de $atts. Por eso hay que mirar $type,
+	// el tercer parametro del filtro, y no $atts.
+	if ( 'sale_products' !== $type ) {
 		return $args;
 	}
 
