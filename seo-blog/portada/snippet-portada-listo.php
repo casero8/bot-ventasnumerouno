@@ -180,6 +180,29 @@ function eg_portada_bandas_cfg() {
 }
 
 /* ==========================================================================
+   Periodo de vacaciones
+   --------------------------------------------------------------------------
+   Se define UNA vez aqui y de aqui beben la barra de garantias y las
+   preguntas frecuentes. El 29 de agosto la web se corrige sola: nadie
+   tiene que acordarse de quitar nada.
+
+   Para el ano que viene: cambiar estas tres constantes y listo.
+   ========================================================================== */
+
+define( 'EG_VACAS_INICIO', '2026-08-14' );
+define( 'EG_VACAS_FIN',    '2026-08-28' );   // ultimo dia de vacaciones
+define( 'EG_VACAS_SALIDA', '29 de agosto' ); // cuando vuelven a salir pedidos
+define( 'EG_VACAS_FIN_TEXTO', '28 de agosto' ); // como se escribe el fin en los textos
+
+function eg_estamos_de_vacaciones() {
+
+	// current_time respeta la zona horaria del sitio, no la del servidor.
+	$hoy = current_time( 'Y-m-d' );
+
+	return ( $hoy >= EG_VACAS_INICIO && $hoy <= EG_VACAS_FIN );
+}
+
+/* ==========================================================================
    Iconos
    SVG en linea, dibujados a mano: ni una peticion mas ni una fuente de
    iconos de 200 KB para pintar cuatro flechas.
@@ -657,8 +680,13 @@ function eg_portada_avales() {
 
 	// Nada de recogida en tienda: hay productos que salen directos de
 	// almacen y no pasan por la tienda fisica.
+	// Durante las vacaciones no se promete un plazo que no se puede cumplir.
+	$envio = eg_estamos_de_vacaciones()
+		? array( 'camion', 'Estamos de vacaciones', 'Compra ya: los pedidos salen el ' . EG_VACAS_SALIDA . '.' )
+		: array( 'camion', 'Env&iacute;o en 24-48 h', 'En los productos con stock confirmado.' );
+
 	$items = array(
-		array( 'camion',  'Env&iacute;o en 24-48 h',        'En los productos con stock confirmado.' ),
+		$envio,
 		array( 'escudo',  'Garant&iacute;a del fabricante', 'En todo lo que vendemos.' ),
 		array( 'llave',   'Servicio t&eacute;cnico EcoFlow', 'Las incidencias de EcoFlow las gestionamos nosotros.' ),
 		array( 'tarjeta', 'Pago a plazos',                  'Financiaci&oacute;n con SeQura al finalizar.' ),
@@ -708,7 +736,9 @@ function eg_portada_faq_datos() {
 		),
 		array(
 			'&iquest;Cu&aacute;nto tarda el env&iacute;o?',
-			'Los pedidos con stock confirmado salen en 24-48 horas laborables. En la ficha de cada producto ves si est&aacute; disponible en ese momento. Si algo va a tardar m&aacute;s, te avisamos antes de cobrar.',
+			eg_estamos_de_vacaciones()
+				? 'Estamos de vacaciones hasta el ' . EG_VACAS_FIN_TEXTO . '. Puedes comprar con normalidad: tu pedido queda reservado y sale el ' . EG_VACAS_SALIDA . '. Fuera de vacaciones, los pedidos con stock confirmado salen en 24-48 horas laborables.'
+				: 'Los pedidos con stock confirmado salen en 24-48 horas laborables. En la ficha de cada producto ves si est&aacute; disponible en ese momento. Si algo va a tardar m&aacute;s, te avisamos antes de cobrar.',
 		),
 		array(
 			'&iquest;Qu&eacute; pasa si un EcoFlow falla?',
