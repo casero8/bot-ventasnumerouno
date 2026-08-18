@@ -333,3 +333,38 @@ borrarla después, no sobre una que está publicada.
 - [ ] El filtro lateral solo ofrece categorías de la rama actual
 - [ ] En `/shop/` el filtro sigue mostrando el listado completo
 - [ ] Ninguna categoría ha quedado con HTML de prueba en su descripción
+
+---
+
+## Cómo se guarda una descripción (18/08/2026)
+
+**El formulario de la pantalla de categoría recorta el HTML en silencio.** Medido al aplicar
+`accesorios`: se pegaron 12.138 bytes y WordPress devolvió **10.796**. Se comió 1.342 bytes de
+etiquetas sin avisar de nada.
+
+**Método correcto:**
+
+1. Copiar el contenido actual del campo Descripción antes de tocarlo.
+2. Escribir la nueva descripción **por la API REST**, no por el formulario.
+3. **Comparar el tamaño después**: origen y guardado tienen que coincidir byte a byte.
+
+Si alguna vez hay que pegar a mano por el formulario, medir el resultado. El formulario no da
+ningún error: simplemente devuelve menos HTML del que se le dio.
+
+## Orden de los bloques en la página
+
+Todo cuelga de `woocommerce_before_shop_loop`, y el orden lo da la prioridad:
+
+| Prioridad | Bloque |
+|---|---|
+| 3 | `eg_categoria_cabecera` — migas de pan y número de productos |
+| 5 | `eg_categoria_texto_arriba` — introducción, regla y navegación |
+| 6 | `eg_disponibles_ahora` — franja de cuatro productos con stock |
+| — | rejilla de productos de WooCommerce |
+| 20 | `eg_categoria_texto_abajo` — tabla, consejos, FAQ y cierre |
+
+`eg_disponibles_ahora` estaba en prioridad **4** y salía *antes* de la introducción: quien llegaba
+de Google veía cuatro tarjetas sueltas antes de saber en qué página estaba. Corregido a 6.
+
+No es un módulo del tema Minimog, aunque lo parezca: está en el snippet
+`EG · Descripción de categorías`.

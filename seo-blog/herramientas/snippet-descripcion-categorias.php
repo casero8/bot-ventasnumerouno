@@ -993,7 +993,12 @@ function eg_boton_filtros_movil() {
  * No se muestra si no hay nada disponible, y tampoco en las subcategorias
  * pequeñas, donde la rejilla ya cabe entera en pantalla.
  */
-add_action( 'woocommerce_before_shop_loop', 'eg_disponibles_ahora', 4 );
+/* Prioridad 6, no 4. Orden en la pagina: migas (3) -> introduccion y regla
+   del texto de categoria (5) -> "Disponible ahora" (6) -> rejilla.
+   Estaba en 4 y la franja de productos salia ANTES de la introduccion:
+   quien llegaba de Google veia cuatro tarjetas sueltas antes de saber
+   en que pagina estaba. */
+add_action( 'woocommerce_before_shop_loop', 'eg_disponibles_ahora', 6 );
 
 function eg_disponibles_ahora() {
 
