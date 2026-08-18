@@ -2,7 +2,7 @@
 /**
  * Plugin Name: EG · Portada
  * Description: Portada de ecogadgetoficial.com en HTML y CSS puros, sin Elementor y sin JavaScript. Se pinta con el shortcode [eg_portada].
- * Version:     1.1
+ * Version:     1.2
  * Author:      EcoGadget
  * License:     GPL-2.0-or-later
  */
@@ -160,8 +160,13 @@ function eg_portada_bandas_cfg() {
 			'titulo'   => 'Hypershell: el exoesqueleto que te quita peso de las piernas',
 			'texto'    => 'Un motor te acompa&ntilde;a al andar y al subir. Para caminatas largas, monta&ntilde;a y para quien pasa el d&iacute;a de pie.',
 			'puntos'   => array(
-				'Se pone y se quita en segundos',
-				'Bater&iacute;a intercambiable',
+				// Verificado en las fichas de los tres modelos, apartado "Que incluye
+				// la caja": "Bateria Inteligente de Litio de Alta Capacidad Extraible",
+				// y la FAQ del X Ultra S: "se intercambia en cuestion de segundos".
+				'Bater&iacute;a extra&iacute;ble, se cambia en segundos',
+				// Autonomia de las fichas de X Max S y X Ultra S. El tiempo que se
+				// tarda en ponerselo NO aparece en ninguna ficha: no se afirma.
+				'Hasta 30 km de autonom&iacute;a seg&uacute;n modelo',
 				'Te asesoramos antes de que lo compres',
 			),
 			'boton'    => 'Ver los modelos',

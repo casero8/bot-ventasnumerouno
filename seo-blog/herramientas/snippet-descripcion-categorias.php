@@ -1007,29 +1007,58 @@ function eg_disponibles_ahora() {
 		return;
 	}
 
+	// Los accesorios fuera de esta fila. Ordenar por precio ascendente parecia
+	// buena idea -- entrar por lo mas barato de la gama -- pero en cuanto una
+	// categoria tiene subcategoria de accesorios, la fila se llena de cables y
+	// fundas. En HyperShell llego a salir primero un cinturon a 2,00 EUR.
+	// Ahora manda lo que mas se vende, que es lo que de verdad interesa ensenar.
+	$fuera = array();
+
+	foreach ( get_terms( array(
+		'taxonomy'   => 'product_cat',
+		'hide_empty' => false,
+		'child_of'   => $termino->term_id,
+		'fields'     => 'id=>slug',
+	) ) as $id => $slug ) {
+		if ( 0 === strpos( $slug, 'accesorios' ) ) {
+			$fuera[] = $id;
+		}
+	}
+
+	$taxonomia = array( array(
+		'taxonomy'         => 'product_cat',
+		'field'            => 'term_id',
+		'terms'            => $termino->term_id,
+			// Explicito: sin esto se quedaban fuera los productos que solo
+			// estan en una subcategoria, como la DELTA 3 Plus o el panel de
+			// 400 W, que son justamente de los pocos que hay disponibles.
+		'include_children' => true,
+	) );
+
+	if ( $fuera ) {
+		$taxonomia['relation'] = 'AND';
+		$taxonomia[] = array(
+			'taxonomy' => 'product_cat',
+			'field'    => 'term_id',
+			'terms'    => $fuera,
+			'operator' => 'NOT IN',
+		);
+	}
+
 	$consulta = new WP_Query( array(
 		'post_type'           => 'product',
 		'posts_per_page'      => 4,
 		'no_found_rows'       => true,
 		'ignore_sticky_posts' => true,
-		// De menor a mayor precio: la primera tarjeta es la puerta de entrada
-		// mas accesible de la gama, no la mas cara.
 		'orderby'             => 'meta_value_num',
-		'meta_key'            => '_price',
-		'order'               => 'ASC',
-		'tax_query'           => array( array(
-			'taxonomy'         => 'product_cat',
-			'field'            => 'term_id',
-			'terms'            => $termino->term_id,
-			// Explicito: sin esto se quedaban fuera los productos que solo
-			// estan en una subcategoria, como la DELTA 3 Plus o el panel de
-			// 400 W, que son justamente de los pocos que hay disponibles.
-			'include_children' => true,
-		) ),
-		'meta_query'          => array( array(
-			'key'   => '_stock_status',
-			'value' => 'instock',
-		) ),
+		'meta_key'            => 'total_sales',
+		'order'               => 'DESC',
+		'tax_query'           => $taxonomia,
+		'meta_query'          => array(
+			array( 'key' => '_stock_status', 'value' => 'instock' ),
+			// Con precio: sin esto se cuelan los productos a 0 EUR.
+			array( 'key' => '_price', 'value' => 0, 'compare' => '>', 'type' => 'NUMERIC' ),
+		),
 	) );
 
 	if ( ! $consulta->have_posts() ) {
