@@ -1,0 +1,42 @@
+POST 10 · NUEVO
+
+SLUG:   que-es-un-exoesqueleto
+URL:    https://ecogadgetoficial.com/que-es-un-exoesqueleto/
+
+TÍTULO SEO (57 caracteres):
+Qué es un exoesqueleto y cómo ayuda al caminar
+
+META DESCRIPCIÓN (149 caracteres):
+Qué es un exoesqueleto, cómo asiste cada paso, cuánto esfuerzo ahorra de verdad, para quién sirve y para quién no, y qué mirar antes de comprar uno.
+
+TÍTULO DE LA ENTRADA (el H1 que ve el lector):
+Qué es un exoesqueleto y cómo ayuda de verdad al caminar
+
+AUTOR:      EcoGadget
+CATEGORÍA:  la que use el blog para guías (la misma que los otros nueve posts)
+IMAGEN DESTACADA:  ninguna, como el resto del blog
+
+ETIQUETAS: no añadir ninguna. Las etiquetas del blog se borraron en su día
+por generar archivos vacíos indexables (ver etiquetas-borradas-backup.md).
+
+PALABRA CLAVE PRINCIPAL:  qué es un exoesqueleto
+SECUNDARIAS:  exoesqueleto para caminar · exoesqueleto senderismo ·
+exoesqueleto personas mayores · cómo funciona un exoesqueleto ·
+exoesqueleto precio España · probar exoesqueleto Madrid
+
+ENLACES QUE ENTRAN (hay que crearlos, sin ellos la entrada nace huérfana):
+· categoría /product-category/hypershell/ · bloque de entrada arriba del texto SEO
+· las 3 fichas de exoesqueleto con stock · una línea al final de la descripción
+· fragmento #38 (guía de uso Hypershell) · un enlace al final del bloque
+
+ENLACES QUE SALEN (ya están dentro del HTML, 6):
+/product-category/hypershell/ · /contacto/ (×2) ·
+/servicio-tecnico-ecogadget/ (×2) · /man/
+
+COMPROBAR ANTES DE PUBLICAR:
+1. Que no queda ninguna marca [[VERIFICAR: ...]]  →  buscar "VERIFICAR" en el
+   contenido. Si aparece una sola, no se publica.
+2. Que las 6 miniaturas apuntan a la biblioteca de medios propia y NO a
+   i.ytimg.com.
+3. Que ninguno de los 6 enlaces internos devuelve un 301.
+4. Que /que-es-un-exoesqueleto/ no chocaba con nada anterior.
