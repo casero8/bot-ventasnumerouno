@@ -29,14 +29,18 @@ ENLACES QUE ENTRAN (hay que crearlos, sin ellos la entrada nace huérfana):
 · las 3 fichas de exoesqueleto con stock · una línea al final de la descripción
 · fragmento #38 (guía de uso Hypershell) · un enlace al final del bloque
 
-ENLACES QUE SALEN (ya están dentro del HTML, 6):
-/product-category/hypershell/ · /contacto/ (×2) ·
-/servicio-tecnico-ecogadget/ (×2) · /man/
+ENLACES QUE SALEN (ya están dentro del HTML, 5):
+/product-category/hypershell/ · /product-category/accesorios-hypershell/ ·
+/contacto/ (×2) · /man/
+
+NO se enlaza /servicio-tecnico-ecogadget/. El servicio técnico propio es solo de
+EcoFlow. En Hypershell la garantía es DEL FABRICANTE, 24 meses, y lo único que
+podemos decir es que el trámite lo abrimos nosotros por ser distribuidor oficial.
 
 COMPROBAR ANTES DE PUBLICAR:
 1. Que no queda ninguna marca [[VERIFICAR: ...]]  →  buscar "VERIFICAR" en el
    contenido. Si aparece una sola, no se publica.
 2. Que las 6 miniaturas apuntan a la biblioteca de medios propia y NO a
    i.ytimg.com.
-3. Que ninguno de los 6 enlaces internos devuelve un 301.
+3. Que ninguno de los 5 enlaces internos devuelve un 301.
 4. Que /que-es-un-exoesqueleto/ no chocaba con nada anterior.
