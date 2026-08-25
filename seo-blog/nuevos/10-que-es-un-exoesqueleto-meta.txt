@@ -30,7 +30,8 @@ ENLACES QUE ENTRAN (hay que crearlos, sin ellos la entrada nace huérfana):
 · fragmento #38 (guía de uso Hypershell) · un enlace al final del bloque
 
 ENLACES QUE SALEN (ya están dentro del HTML, 5):
-/product-category/hypershell/ · /product-category/accesorios-hypershell/ ·
+/product-category/hypershell/ ·
+/product-category/hypershell/accesorios-hypershell/ (ruta anidada: la plana da 301) ·
 /contacto/ (×2) · /man/
 
 NO se enlaza /servicio-tecnico-ecogadget/. El servicio técnico propio es solo de
@@ -40,7 +41,7 @@ podemos decir es que el trámite lo abrimos nosotros por ser distribuidor oficia
 COMPROBAR ANTES DE PUBLICAR:
 1. Que no queda ninguna marca [[VERIFICAR: ...]]  →  buscar "VERIFICAR" en el
    contenido. Si aparece una sola, no se publica.
-2. Que las 6 miniaturas apuntan a la biblioteca de medios propia y NO a
+2. Que las 9 miniaturas apuntan a la biblioteca de medios propia y NO a
    i.ytimg.com.
 3. Que ninguno de los 5 enlaces internos devuelve un 301.
 4. Que /que-es-un-exoesqueleto/ no chocaba con nada anterior.
