@@ -74,8 +74,13 @@
 
     var marco = document.createElement('iframe');
     marco.className = 'eg-video-iframe';
+    // rel=0 ya no quita los relacionados, pero si los limita al mismo canal
+    // del video reproducido. Como los doce son del canal oficial, al terminar
+    // solo se ofrecen mas videos de Hypershell. Por eso se queda.
+    // modestbranding esta obsoleto y no hace nada: quitado para que no parezca
+    // que hace algo.
     marco.src = 'https://www.youtube-nocookie.com/embed/' + id +
-                '?autoplay=1&rel=0&modestbranding=1&playsinline=1&hl=es';
+                '?autoplay=1&rel=0&playsinline=1&hl=es';
     marco.title = fachada.getAttribute('aria-label') || 'Vídeo';
     marco.setAttribute('allow',
       'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
