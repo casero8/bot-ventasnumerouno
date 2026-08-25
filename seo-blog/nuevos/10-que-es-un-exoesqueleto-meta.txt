@@ -14,7 +14,18 @@ Qué es un exoesqueleto y cómo ayuda de verdad al caminar
 
 AUTOR:      EcoGadget
 CATEGORÍA:  la que use el blog para guías (la misma que los otros nueve posts)
-IMAGEN DESTACADA:  ninguna, como el resto del blog
+IMAGEN DESTACADA:  exoesqueleto-que-hace.webp (adjunto 9147)
+
+  Corrección: la versión anterior de este archivo decía «ninguna, como el resto
+  del blog». Era falso, y lo detectó el informe del 25/08: las 24 entradas
+  publicadas llevan imagen destacada, y el CSS del blog la pinta a 980 px con
+  borde redondeado. Una entrada sin ella se ve rota en el listado y distinta a
+  las otras 24.
+
+  Se usa la misma imagen que abre el artículo, que ya está en la biblioteca a
+  1.280 x 720. Aparte, queda anotado que en su día se pidió quitar las fotos de
+  portada del blog y eso no llegó a aplicarse: si se quiere, es un cambio de
+  las 25 entradas a la vez, no de ésta sola.
 
 ETIQUETAS: no añadir ninguna. Las etiquetas del blog se borraron en su día
 por generar archivos vacíos indexables (ver etiquetas-borradas-backup.md).
