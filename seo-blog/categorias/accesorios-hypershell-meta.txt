@@ -1,0 +1,43 @@
+CATEGORÍA accesorios-hypershell
+
+URL:  https://ecogadgetoficial.com/product-category/hypershell/accesorios-hypershell/
+      (ruta ANIDADA: la plana devuelve 301)
+
+TÍTULO SEO (58):
+Accesorios Hypershell | Baterías y recambios oficiales
+
+META DESCRIPCIÓN (149):
+Baterías, cargadores y recambios para exoesqueletos Hypershell. Te confirmamos la compatibilidad con tu modelo antes de que pagues. Distribuidor oficial.
+
+PALABRA CLAVE PRINCIPAL:  accesorios Hypershell
+SECUNDARIAS:  batería Hypershell · batería exoesqueleto · recambios Hypershell ·
+cargador Hypershell
+
+NIVEL: 2 según plan-categorias.md (6 productos). Sale algo más larga de los
+2-4 KB del nivel 2 —unos 8 KB— y hay un motivo: es la única página de la marca
+donde se puede avisar de las DOS GENERACIONES antes de que alguien compre una
+batería que no encaja. Ese aviso es lo que evita devoluciones, y por eso ocupa.
+
+ENLACES QUE SALEN (8, todos directos):
+/product-category/hypershell/ · /que-es-un-exoesqueleto/ · /man/ ·
+/contacto/ (×5)
+
+NO ENLAZA A NINGÚN PRODUCTO CONCRETO, y es deliberado: los seis productos de la
+categoría todavía no están revisados uno a uno, así que enlazar a ciegas sería
+arriesgarse a mandar a alguien a una ficha agotada (norma 9). La rejilla ya los
+enseña. Cuando lleguen los datos de los nueve productos, se añaden los enlaces.
+
+LO QUE NO LLEVA, Y ES DELIBERADO:
+· Ni un precio. Congelados hasta el inventario con los EAN.
+· Sin FAQPage y sin VideoObject.
+· Sin vídeos: aquí no aportan. Quien llega a esta página ya tiene el aparato.
+· Ninguna cifra de capacidad, ni mAh ni Wh: la ficha de la batería da 5.000 mAh
+  sin voltaje, así que no hay Wh que publicar. Se dice dónde mirarlo.
+· Nunca «servicio técnico propio»: es garantía DEL FABRICANTE.
+
+COMPROBAR ANTES DE APLICAR:
+1. Que se aplica por REST comparando bytes y sin tocar <!--eg-corte-->.
+2. Que ninguno de los ocho enlaces devuelve un 301.
+3. Que después de tocar el Yoast del término se reaplica por REST (norma 5).
+4. Que la fila de pastillas sigue saliendo: esta categoría tenía 3 pastillas y
+   2 destinos en el barrido del 25/08.
