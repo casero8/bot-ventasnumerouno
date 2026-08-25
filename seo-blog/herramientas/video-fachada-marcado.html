@@ -1,0 +1,30 @@
+<!--
+MARCADO DE LA FACHADA DE VÍDEO · plantilla
+
+No hay ninguna página en vivo de donde copiarlo: el CSS del 20 de agosto se
+puso y nunca llegó a usarse. Así que esta es la plantilla, escrita para encajar
+con las seis clases que ese CSS ya define.
+
+ANTES DE USARLA: pásame las seis reglas del CSS (.eg-video, .eg-video-fachada,
+.eg-video-img, .eg-video-play, .eg-video-iframe, .eg-video-pie) tal y como están
+en el Personalizador. Si alguna espera otra etiqueta —por ejemplo que
+.eg-video-fachada sea un <a> o un <div> en vez de un <button>, o que
+.eg-video-img sea un fondo en vez de una <img>— lo ajusto y no se toca nada
+hasta entonces.
+
+Se cambian CUATRO cosas por vídeo, y solo cuatro:
+  1. data-yt          el ID del vídeo
+  2. src del <img>    la URL de la miniatura ya subida a la biblioteca
+  3. alt del <img>    el texto que va escrito en el marcador del artículo
+  4. el <figcaption>  el pie, también escrito en el marcador
+
+El <figcaption> NO se quita nunca: es la atribución al fabricante.
+-->
+
+<figure class="eg-video" data-yt="AbWq1d1Tdxc">
+<button class="eg-video-fachada" type="button" aria-label="Reproducir el vídeo: el exoesqueleto levantando la pierna por sí solo">
+<img class="eg-video-img" src="RUTA-DE-LA-MINIATURA.webp" alt="El exoesqueleto acompañando el movimiento de la pierna" loading="lazy" width="480" height="270">
+<span class="eg-video-play" aria-hidden="true"></span>
+</button>
+<figcaption class="eg-video-pie">Cuarenta segundos: qué hace el aparato cuando lo enciendes. Vídeo del fabricante.</figcaption>
+</figure>
