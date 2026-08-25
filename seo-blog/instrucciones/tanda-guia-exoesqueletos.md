@@ -1,7 +1,16 @@
-# Tanda 10 · «Que se vean funcionando» · revisión C
+# Tanda 10 · «Que se vean funcionando» · revisión D
 
-**25 de agosto de 2026.** Sustituye a las revisiones A y B. Los frenos 4, 5 y 6 del punto
-de control 1 eran correctos y **están cerrados en el archivo**, no discutidos aquí.
+**25 de agosto de 2026.** Sustituye a las revisiones A, B y C. Los frenos 4, 5 y 6 están
+cerrados en el archivo. **Y el hallazgo del JS es correcto: matar el paso 3 fue un error
+mío**, tomado de tu informe anterior. El CSS está; el JS no. Se restituye abajo.
+
+Dos cosas tuyas que se aceptan sin discusión:
+
+- **Los vídeos no van en la categoría.** Tu razón es mejor que la norma: quien llega al
+  texto de la categoría ya está eligiendo producto y lo que necesita es pinchar, no una
+  cuarta salida. Cerrado.
+- **Las tres fichas no llevan ni un `[eg_precio]`.** Se editan igual por el bruto y
+  comparando bytes, pero el desastre del 24 no se puede repetir ahí.
 
 ## Lo que ha cambiado de encargo
 
@@ -17,13 +26,9 @@ Traducido a trabajo, y por orden de lo que más vende:
 | **B** | La **guía** `/que-es-un-exoesqueleto/` | 9 vídeos | Capta la búsqueda de quien aún no sabe qué es esto |
 | **C** | La **categoría** `/product-category/hypershell/` | El enlace a la guía, sin vídeo | Ver más abajo: choca con la norma 10 |
 
-**Sobre la C.** El dueño dijo «una página **o** en la categoría». En la categoría no
-podemos meter los vídeos: la **norma 10** dice «nunca precios ni imágenes dentro del texto
-de categoría», y una miniatura es una imagen. Así que la categoría recibe el bloque de
-texto que enlaza a la guía, y los vídeos van a las fichas y a la guía, que es además donde
-sirven de más: en la ficha, junto al precio y al botón. **Si el dueño quiere saltarse su
-propia norma para esta categoría, que lo diga y se hace en dos minutos — pero que sea una
-decisión suya, no un descuido.**
+**Sobre la C.** Zanjado: sin vídeos. Lo dice la norma 10 y, sobre todo, lo dice el motivo
+que hay debajo de la norma — quien llega al texto de la categoría ya está eligiendo
+producto y necesita pinchar, no una cuarta salida.
 
 ---
 
@@ -34,14 +39,16 @@ Repositorio público, se abren en una pestaña:
 - `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/nuevos/10-que-es-un-exoesqueleto.html`
 - `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/nuevos/10-que-es-un-exoesqueleto-meta.txt`
 
-No hay más archivos. `diseno-video.css` y `video-fachada.js` siguen borrados a propósito.
+Y los dos del paso 1, que **vuelven** (`video-fachada.js` estaba borrado por mi error de
+ayer; `diseno-video.css` sigue borrado y con razón, porque el CSS ya está puesto).
 
 ---
 
 ## Reglas
 
-- **No se toca el CSS del Personalizador ni Opciones De Tema.** En ningún paso de esta
-  tanda. La fachada de vídeo ya existe desde el 20 de agosto y se usa tal cual.
+- **No se toca el CSS del Personalizador ni Opciones De Tema.** El CSS de la fachada ya
+  está y no hay que añadirle ni una regla. El JS que falta va al **pie de Head & Footer
+  Code**, donde ya escribiste esta mañana sin problema, no a Opciones De Tema.
 - **Ningún vídeo anterior al 15 de mayo de 2026.** Los doce IDs de esta tanda están
   verificados contra su fecha de publicación. **No añadas ni sustituyas ninguno.**
 - **No copies nada de `eu.hypershell.tech`.** Ni texto, ni titulares, ni sus testimonios.
@@ -53,7 +60,44 @@ No hay más archivos. `diseno-video.css` y `video-fachada.js` siguen borrados a 
 
 ---
 
-## Paso 1 · Las miniaturas (primero, todo depende de esto)
+## Paso 1 · El JS de la fachada (antes que todo lo demás)
+
+Tenías razón, y es el hallazgo más importante de la tanda. El CSS del 20 de agosto se puso
+y **el JS nunca se instaló**: lo que aparecía en el HTML era el propio CSS anunciando en un
+comentario un JS que no existe. Publicar sin él serían doce botones de play que no hacen
+nada, tres de ellos justo encima del botón de comprar.
+
+Recuperado del historial y **reescrito para las clases que sí están vivas** —escuchaba
+`.eg-vid`, que me había inventado yo; ahora escucha `.eg-video` / `.eg-video-fachada` y le
+pone `.eg-video-iframe` al iframe que crea:
+
+- `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/herramientas/video-fachada.js`
+
+Va al **final del pie de Herramientas → Head & Footer Code**, envuelto en etiquetas
+`script`. Tu propuesta, y es la buena: hace el mismo trabajo que Opciones De Tema sin
+reescribir los 1.904 campos. Recuerda que ese campo lleva **CodeMirror** encima —escribir
+en `textarea.value` no sirve— y que después hay que **recargar entera y releer del
+servidor** (norma 7).
+
+### Y el marcado, porque tampoco hay de dónde copiarlo
+
+Segunda consecuencia del mismo hallazgo: el paso que decía «copia el bloque de una página
+en vivo» no se puede cumplir, porque no hay ninguna. La plantilla está aquí:
+
+- `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/herramientas/video-fachada-marcado.html`
+
+**Antes de aplicarla, pásame las seis reglas del CSS** (`.eg-video`, `.eg-video-fachada`,
+`.eg-video-img`, `.eg-video-play`, `.eg-video-iframe`, `.eg-video-pie`) tal y como están
+en el Personalizador. La plantilla usa `button`, `img` y `figcaption`; si alguna regla
+espera otra etiqueta, la ajusto yo. **No montes doce vídeos sobre un marcado sin
+confirmar.**
+
+> **Punto de control 0.** Las seis reglas del CSS, y el JS ya guardado y releído del
+> servidor. Con eso te confirmo el marcado y sigues.
+
+---
+
+## Paso 2 · Las miniaturas
 
 **Doce vídeos en total**: nueve para la guía y tres para las fichas. Las miniaturas **no
 pueden servirse desde `i.ytimg.com`** — la auditoría de cookies dejó comprobado que la web
@@ -87,11 +131,20 @@ ancho** y sube con este nombre:
 **Norma 3:** WordPress añade sufijos al subir. **Copia la URL real de cada ficha de medio,
 no la escribas a ojo.** Ya rompimos dos fichas así.
 
+**Sobre las fechas que no pudiste verificar.** El 429 de YouTube es real y desde ahí no lo
+saltas, así que lo dejo por escrito para que quede auditable: los doce IDs y sus fechas
+salen del listado de vídeos del canal `UCi_hZIiaByu5LjLyuuKcnjw` (`@Hypershell_Tech`), con
+la fecha de publicación de cada uno. Los doce son del 15 de mayo de 2026 en adelante. Los
+tutoriales de la generación anterior que hay en ese mismo canal —`W4omUaf5nRw` de enero de
+2025 y `ZPTJxNbKiFY` de septiembre de 2025— están deliberadamente fuera de la lista.
+**Si algún vídeo, al abrirlo, enseña un aparato que no es la serie X actual, para y
+dímelo.** Ésa sí es una comprobación que puedes hacer.
+
 > **Punto de control 1.** Las doce URL finales.
 
 ---
 
-## Paso 2 · A · Los vídeos en las tres fichas
+## Paso 3 · A · Los vídeos en las tres fichas
 
 **Es el paso que más vende y por eso va antes que la guía.** Dos vídeos por ficha, al final
 de la descripción larga, antes de la línea que enlaza a la guía.
@@ -119,7 +172,7 @@ por `wc/v3`**. La API devuelve los shortcodes resueltos y guardarlos así destru
 
 ---
 
-## Paso 3 · B · La guía
+## Paso 4 · B · La guía
 
 Entrada del blog, slug `que-es-un-exoesqueleto` (comprobado: 404, libre). **No** como
 página: el diseño del blog cuelga de `.single-post`.
@@ -128,11 +181,10 @@ página: el diseño del blog cuelga de `.single-post`.
 2. **Sin imagen destacada** y **sin etiquetas.**
 3. Se pega **en modo HTML**, nunca en el visual: se come los `<details>`.
 4. **El comentario `<!-- ... -->` de cabecera NO se pega.** Empieza en `<div class="eg-desc">`.
-5. Los **nueve marcadores de vídeo**: se rellenan copiando el bloque `.eg-video` de una
-   página en vivo y cambiando solo cuatro cosas —ID, URL de la miniatura, `alt` y pie—,
-   que van escritas dentro del propio marcador. Si el bloque de la web **no admite pie**,
-   dímelo antes de inventarte nada: los pies dicen «Vídeo del fabricante» y **esa
-   atribución no se puede perder**.
+5. Los **nueve marcadores de vídeo**: se rellenan con la plantilla del paso 1, ya
+   confirmada, cambiando solo cuatro cosas —ID, URL de la miniatura, `alt` y pie—, que van
+   escritas dentro del propio marcador. **El `figcaption` no se quita nunca:** es la
+   atribución al fabricante.
 6. Los tres primeros (A, B y C) van apilados y a todo ancho, sin envoltorio. Es
    deliberado: para un aparato que hay que ver, tres vídeos grandes valen más que tres
    miniaturas pequeñas. Ponerlos en fila es un trabajo de CSS para otra tanda.
@@ -158,7 +210,7 @@ Todo lo demás está cerrado con lo que dijiste:
 
 ---
 
-## Paso 4 · C · La categoría
+## Paso 5 · C · La categoría
 
 Solo el bloque de texto, **sin vídeo** (ver arriba el porqué). Al principio del texto SEO,
 que va **debajo de la rejilla**. Por REST comparando bytes y sin tocar el
@@ -180,34 +232,36 @@ sanitario se queda en los dos**.
 
 ---
 
-## Paso 5 · Comprobar
+## Paso 6 · Comprobar
 
 Todo con `?nc=1` (norma 11):
 
-1. La guía se ve maquetada. Si sale texto plano, el CSS de `.single-post` no la alcanza.
-2. **Los doce vídeos:** con Red abierta y filtro `youtube`, cargar la guía y cargar cada
+1. **Pulsa un vídeo y comprueba que se abre.** Es la comprobación número uno: sin el JS
+   del paso 1, todo lo demás es decorado.
+2. La guía se ve maquetada. Si sale texto plano, el CSS de `.single-post` no la alcanza.
+3. **Los doce vídeos:** con Red abierta y filtro `youtube`, cargar la guía y cargar cada
    ficha **no genera ni una petición**. Al pulsar uno aparece la de `youtube-nocookie.com`
    y arranca solo.
-3. Dos vídeos abiertos a la vez en la misma página deben convivir.
-4. En móvil, que los vídeos no se salgan del ancho y las tablas se deslicen.
-5. **En las tres fichas, el recuento de `[eg_precio]` es el mismo que antes de empezar.**
-6. Los cuatro enlaces internos de la guía, ninguno con 301:
+4. Dos vídeos abiertos a la vez en la misma página deben convivir.
+5. En móvil, que los vídeos no se salgan del ancho y las tablas se deslicen.
+6. **En las tres fichas, el recuento de `[eg_precio]` es el mismo que antes de empezar.**
+7. Los cuatro enlaces internos de la guía, ninguno con 301:
    `/product-category/hypershell/`, `/product-category/hypershell/accesorios-hypershell/`,
    `/contacto/` (×2) y `/man/`.
-7. `/que-es-un-exoesqueleto/` responde 200, con el título y la meta de Yoast sin recortar.
-8. **Barrido de rastros de IA** (norma 8) en la guía, la categoría y las tres fichas. Falso
+8. `/que-es-un-exoesqueleto/` responde 200, con el título y la meta de Yoast sin recortar.
+9. **Barrido de rastros de IA** (norma 8) en la guía, la categoría y las tres fichas. Falso
    positivo conocido: «Inteligencia Artificial» es la HyperIntuition™ y **se queda**.
-9. `VERIFICAR` en el HTML del front: cero.
-10. Vaciar LiteSpeed y WP Super Cache.
+10. `VERIFICAR` en el HTML del front: cero.
+11. Vaciar LiteSpeed y WP Super Cache.
 
-> **Punto de control 3.** Los diez puntos, y una captura del panel de Red antes y después
+> **Punto de control 3.** Los once puntos, y una captura del panel de Red antes y después
 > de pulsar el primer vídeo de una ficha.
 
 ---
 
 ## Lo que NO se hace
 
-- **Ni Personalizador ni Opciones De Tema.** En ningún paso.
+- **Ni Personalizador ni Opciones De Tema.** El JS va al pie de Head & Footer Code.
 - **Ningún vídeo dentro del texto de la categoría** mientras el dueño no levante su norma 10.
 - No crear categorías ni cambiar el padre de ninguna.
 - **La guía no entra en el menú principal todavía.** Primero que Google la indexe.
