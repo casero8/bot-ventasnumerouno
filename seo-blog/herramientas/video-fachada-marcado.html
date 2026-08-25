@@ -1,30 +1,31 @@
 <!--
-MARCADO DE LA FACHADA DE VÍDEO · plantilla
+MARCADO DE LA FACHADA DE VÍDEO · plantilla confirmada
 
-No hay ninguna página en vivo de donde copiarlo: el CSS del 20 de agosto se
-puso y nunca llegó a usarse. Así que esta es la plantilla, escrita para encajar
-con las seis clases que ese CSS ya define.
+La etiqueta del disparador es <a>, NO <button>. Medido en vivo sobre
+/producto/hypershell-x-pro-s/: con <button> la fachada se queda en 45 px de alto
+en vez de 321, porque el tema le impone su propio padding y su propia altura, y
+el CSS de la fachada no lo neutraliza. Con <a> sale limpio: 321 px, imagen a
+568x319, sin nada que el tema le meta por debajo.
 
-ANTES DE USARLA: pásame las seis reglas del CSS (.eg-video, .eg-video-fachada,
-.eg-video-img, .eg-video-play, .eg-video-iframe, .eg-video-pie) tal y como están
-en el Personalizador. Si alguna espera otra etiqueta —por ejemplo que
-.eg-video-fachada sea un <a> o un <div> en vez de un <button>, o que
-.eg-video-img sea un fondo en vez de una <img>— lo ajusto y no se toca nada
-hasta entonces.
+Y el href apunta al vídeo de verdad, así que si el JS faltara, la fachada sigue
+funcionando: abre el vídeo en YouTube. Después del susto de hoy, esa es la
+propiedad que más vale.
 
 Se cambian CUATRO cosas por vídeo, y solo cuatro:
-  1. data-yt          el ID del vídeo
+  1. el ID, en href y en data-yt
   2. src del <img>    la URL de la miniatura ya subida a la biblioteca
-  3. alt del <img>    el texto que va escrito en el marcador del artículo
-  4. el <figcaption>  el pie, también escrito en el marcador
+  3. alt del <img>    el texto escrito en cada marcador
+  4. el <figcaption>  el pie, también escrito en cada marcador
 
 El <figcaption> NO se quita nunca: es la atribución al fabricante.
+La miniatura tiene que salir de maxresdefault (1280x720, ya 16:9). Con
+hqdefault (480x360) las bandas negras se colarían en el recorte de object-fit.
 -->
 
-<figure class="eg-video" data-yt="AbWq1d1Tdxc">
-<button class="eg-video-fachada" type="button" aria-label="Reproducir el vídeo: el exoesqueleto levantando la pierna por sí solo">
-<img class="eg-video-img" src="RUTA-DE-LA-MINIATURA.webp" alt="El exoesqueleto acompañando el movimiento de la pierna" loading="lazy" width="480" height="270">
+<figure class="eg-video">
+<a class="eg-video-fachada" href="https://www.youtube.com/watch?v=AbWq1d1Tdxc" target="_blank" rel="noopener" data-yt="AbWq1d1Tdxc" aria-label="Reproducir el vídeo: el exoesqueleto levantando la pierna por sí solo">
+<img class="eg-video-img" src="RUTA-DE-LA-MINIATURA.webp" alt="El exoesqueleto acompañando el movimiento de la pierna" width="480" height="270" loading="lazy">
 <span class="eg-video-play" aria-hidden="true"></span>
-</button>
-<figcaption class="eg-video-pie">Cuarenta segundos: qué hace el aparato cuando lo enciendes. Vídeo del fabricante.</figcaption>
+</a>
+<figcaption class="eg-video-pie">Cuarenta segundos: qué hace el aparato cuando lo enciendes. Vídeo del fabricante, Hypershell.</figcaption>
 </figure>

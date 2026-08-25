@@ -1,220 +1,131 @@
-# Tanda 10 · «Que se vean funcionando» · revisión D
+# Tanda 10 · revisión E · esto ya es para aplicar
 
-**25 de agosto de 2026.** Sustituye a las revisiones A, B y C. Los frenos 4, 5 y 6 están
-cerrados en el archivo. **Y el hallazgo del JS es correcto: matar el paso 3 fue un error
-mío**, tomado de tu informe anterior. El CSS está; el JS no. Se restituye abajo.
+**25 de agosto de 2026.** Tu punto de control 0 está contestado y **todo lo que
+preguntabas está resuelto en los archivos**. Ya no hay nada que confirmar antes de tocar:
+esta revisión es de ejecución.
 
-Dos cosas tuyas que se aceptan sin discusión:
+## Lo que cambia respecto a la D
 
-- **Los vídeos no van en la categoría.** Tu razón es mejor que la norma: quien llega al
-  texto de la categoría ya está eligiendo producto y lo que necesita es pinchar, no una
-  cuarta salida. Cerrado.
-- **Las tres fichas no llevan ni un `[eg_precio]`.** Se editan igual por el bruto y
-  comparando bytes, pero el desastre del 24 no se puede repetir ahí.
+- **La etiqueta es `<a>`, no `<button>`.** Tu medición manda: 321 px frente a 45. Y tu
+  argumento del `href` real es mejor que el mío — si el JS falta, la fachada abre el vídeo
+  en YouTube en vez de no hacer nada. Adoptado tal cual, con `target="_blank"`,
+  `rel="noopener"` y `data-yt`.
+- **El JS ya no intercepta los clics con Ctrl, Cmd, Shift, Alt ni con el botón central.**
+  Eso es «ábrelo en otra pestaña», y como el `href` es de verdad, se deja pasar.
+- **Los nueve marcadores del artículo ya son marcado real.** No hay que montar nada a
+  mano: solo sustituir la URL de la miniatura.
+- **Las tres fichas están escritas enteras**, cortas y largas. Es lo que el dueño pedía
+  desde hace cuatro rondas y lo que faltaba de verdad.
 
-## Lo que ha cambiado de encargo
-
-El dueño lo ha dicho claro: *«son aparatos que necesitan verse bien para que puedan
-comprar»*. Eso reordena la tanda. **El objetivo ya no es un artículo con vídeos: es que
-se vean funcionando, y que se vean donde está el botón de comprar.**
-
-Traducido a trabajo, y por orden de lo que más vende:
-
-| | Dónde | Qué lleva | Por qué |
-|---|---|---|---|
-| **A** | Las **tres fichas** | 2 vídeos cada una | Ahí está el botón de comprar. Es lo que más mueve la aguja |
-| **B** | La **guía** `/que-es-un-exoesqueleto/` | 9 vídeos | Capta la búsqueda de quien aún no sabe qué es esto |
-| **C** | La **categoría** `/product-category/hypershell/` | El enlace a la guía, sin vídeo | Ver más abajo: choca con la norma 10 |
-
-**Sobre la C.** Zanjado: sin vídeos. Lo dice la norma 10 y, sobre todo, lo dice el motivo
-que hay debajo de la norma — quien llega al texto de la categoría ya está eligiendo
-producto y necesita pinchar, no una cuarta salida.
-
----
-
-## Paso 0 · Los archivos
+## Los archivos
 
 Repositorio público, se abren en una pestaña:
 
-- `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/nuevos/10-que-es-un-exoesqueleto.html`
-- `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/nuevos/10-que-es-un-exoesqueleto-meta.txt`
-
-Y los dos del paso 1, que **vuelven** (`video-fachada.js` estaba borrado por mi error de
-ayer; `diseno-video.css` sigue borrado y con razón, porque el CSS ya está puesto).
-
----
-
-## Reglas
-
-- **No se toca el CSS del Personalizador ni Opciones De Tema.** El CSS de la fachada ya
-  está y no hay que añadirle ni una regla. El JS que falta va al **pie de Head & Footer
-  Code**, donde ya escribiste esta mañana sin problema, no a Opciones De Tema.
-- **Ningún vídeo anterior al 15 de mayo de 2026.** Los doce IDs de esta tanda están
-  verificados contra su fecha de publicación. **No añadas ni sustituyas ninguno.**
-- **No copies nada de `eu.hypershell.tech`.** Ni texto, ni titulares, ni sus testimonios.
-- **Ni un precio.** Congelados hasta el inventario con los EAN.
-- **Garantía (norma 10):** «garantía del fabricante, 24 meses». Nunca «servicio técnico
-  propio», que es solo de EcoFlow, ni enlace a `/servicio-tecnico-ecogadget/`.
-- **Nada de `FAQPage` ni de `VideoObject`.**
-- **Para en los tres puntos de control.**
+| Qué | Ruta |
+|---|---|
+| JS de la fachada | `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/herramientas/video-fachada.js` |
+| Plantilla del marcado | `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/herramientas/video-fachada-marcado.html` |
+| **Ficha X Pro S** · larga | `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/fichas/hypershell-x-pro-s-larga.html` |
+| **Ficha X Pro S** · corta | `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/fichas/hypershell-x-pro-s-corta.html` |
+| **Ficha X Max S** · larga | `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/fichas/hypershell-x-max-s-larga.html` |
+| **Ficha X Max S** · corta | `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/fichas/hypershell-x-max-s-corta.html` |
+| **Ficha X Ultra S** · larga | `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/fichas/hypershell-x-ultra-s-larga.html` |
+| **Ficha X Ultra S** · corta | `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/fichas/hypershell-x-ultra-s-corta.html` |
+| Guía del blog | `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/nuevos/10-que-es-un-exoesqueleto.html` |
+| Título, meta y slug de la guía | `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/nuevos/10-que-es-un-exoesqueleto-meta.txt` |
 
 ---
 
-## Paso 1 · El JS de la fachada (antes que todo lo demás)
+## Paso 1 · El JS
 
-Tenías razón, y es el hallazgo más importante de la tanda. El CSS del 20 de agosto se puso
-y **el JS nunca se instaló**: lo que aparecía en el HTML era el propio CSS anunciando en un
-comentario un JS que no existe. Publicar sin él serían doce botones de play que no hacen
-nada, tres de ellos justo encima del botón de comprar.
-
-Recuperado del historial y **reescrito para las clases que sí están vivas** —escuchaba
-`.eg-vid`, que me había inventado yo; ahora escucha `.eg-video` / `.eg-video-fachada` y le
-pone `.eg-video-iframe` al iframe que crea:
-
-- `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/herramientas/video-fachada.js`
-
-Va al **final del pie de Herramientas → Head & Footer Code**, envuelto en etiquetas
-`script`. Tu propuesta, y es la buena: hace el mismo trabajo que Opciones De Tema sin
-reescribir los 1.904 campos. Recuerda que ese campo lleva **CodeMirror** encima —escribir
-en `textarea.value` no sirve— y que después hay que **recargar entera y releer del
-servidor** (norma 7).
-
-### Y el marcado, porque tampoco hay de dónde copiarlo
-
-Segunda consecuencia del mismo hallazgo: el paso que decía «copia el bloque de una página
-en vivo» no se puede cumplir, porque no hay ninguna. La plantilla está aquí:
-
-- `https://raw.githubusercontent.com/casero8/bot-ventasnumerouno/claude/blog-seo-optimization-zyoa2k/seo-blog/herramientas/video-fachada-marcado.html`
-
-**Antes de aplicarla, pásame las seis reglas del CSS** (`.eg-video`, `.eg-video-fachada`,
-`.eg-video-img`, `.eg-video-play`, `.eg-video-iframe`, `.eg-video-pie`) tal y como están
-en el Personalizador. La plantilla usa `button`, `img` y `figcaption`; si alguna regla
-espera otra etiqueta, la ajusto yo. **No montes doce vídeos sobre un marcado sin
-confirmar.**
-
-> **Punto de control 0.** Las seis reglas del CSS, y el JS ya guardado y releído del
-> servidor. Con eso te confirmo el marcado y sigues.
+Al final del **pie de Herramientas → Head & Footer Code**, entre etiquetas `script`.
+CodeMirror encima: escribir en `textarea.value` no sirve. Guardar, **recargar entera y
+releer del servidor** (norma 7).
 
 ---
 
-## Paso 2 · Las miniaturas
+## Paso 2 · Las once miniaturas
 
-**Doce vídeos en total**: nueve para la guía y tres para las fichas. Las miniaturas **no
-pueden servirse desde `i.ytimg.com`** — la auditoría de cookies dejó comprobado que la web
-no llama a terceros antes de aceptar, y una imagen de un servidor de Google filtra la IP.
+Descarga `https://i.ytimg.com/vi/<ID>/maxresdefault.jpg` —**maxresdefault, no
+hqdefault**: con 480×360 las bandas negras se colarían en el recorte de `object-fit`—,
+convierte a **WebP de 480 px de ancho** y sube con este nombre exacto:
 
-Descarga `https://i.ytimg.com/vi/<ID>/maxresdefault.jpg`, convierte a **WebP de 480 px de
-ancho** y sube con este nombre:
-
-**Para la guía (9):**
-
-| Marca en el HTML | ID | Publicado | Nombre del archivo |
+| ID | Publicado | Nombre del archivo | Dónde se usa |
 |---|---|---|---|
-| VÍDEO A | `AbWq1d1Tdxc` | 18/05/2026 | `exoesqueleto-que-hace.webp` |
-| VÍDEO B | `4VxAobnf6Z4` | 26/05/2026 | `exoesqueleto-estabilidad.webp` |
-| VÍDEO C | `gIezj5rhFBc` | 24/05/2026 | `exoesqueleto-subida.webp` |
-| VÍDEO 1 | `8OypUvpzQ80` | 01/06/2026 | `exoesqueleto-hypershell-serie-x.webp` |
-| VÍDEO 2 | `V_t5wTvyPEM` | 10/06/2026 | `exoesqueleto-asistencia-cadera.webp` |
-| VÍDEO 3 | `NTQiukEf5kM` | 25/05/2026 | `exoesqueleto-como-se-pone.webp` |
-| VÍDEO 4 | `mhwxMT_LyYo` | 29/05/2026 | `exoesqueleto-pruebas-laboratorio.webp` |
-| VÍDEO 5 | `Hm3GWR9kiXE` | 23/05/2026 | `exoesqueleto-uso-diario.webp` |
-| VÍDEO 6 | `YKl0EP_xqoQ` | 23/06/2026 | `exoesqueleto-alta-montana.webp` |
+| `AbWq1d1Tdxc` | 18/05/2026 | `exoesqueleto-que-hace.webp` | Guía + ficha Pro S |
+| `qou6ih-ezfs` | 27/05/2026 | `exoesqueleto-paso-estable.webp` | Ficha Pro S |
+| `NTQiukEf5kM` | 25/05/2026 | `exoesqueleto-como-se-pone.webp` | Guía + ficha Max S |
+| `gIezj5rhFBc` | 24/05/2026 | `exoesqueleto-subida.webp` | Guía + ficha Max S |
+| `8OypUvpzQ80` | 01/06/2026 | `exoesqueleto-hypershell-serie-x.webp` | Guía + ficha Ultra S |
+| `utmvvQ2F5S8` | 22/05/2026 | `exoesqueleto-everest-corto.webp` | Ficha Ultra S |
+| `4VxAobnf6Z4` | 26/05/2026 | `exoesqueleto-estabilidad.webp` | Guía |
+| `V_t5wTvyPEM` | 10/06/2026 | `exoesqueleto-asistencia-cadera.webp` | Guía |
+| `mhwxMT_LyYo` | 29/05/2026 | `exoesqueleto-pruebas-laboratorio.webp` | Guía |
+| `Hm3GWR9kiXE` | 23/05/2026 | `exoesqueleto-uso-diario.webp` | Guía |
+| `YKl0EP_xqoQ` | 23/06/2026 | `exoesqueleto-alta-montana.webp` | Guía |
 
-**Para las fichas (3 más):**
+**Norma 3:** WordPress añade sufijos. **Copia la URL real de cada ficha de medio.**
 
-| ID | Publicado | Nombre del archivo |
-|---|---|---|
-| `qou6ih-ezfs` | 27/05/2026 | `exoesqueleto-paso-estable.webp` |
-| `utmvvQ2F5S8` | 22/05/2026 | `exoesqueleto-everest-corto.webp` |
-| `DjntSqn7X7o` | 04/08/2026 | `exoesqueleto-larga-distancia.webp` |
-
-**Norma 3:** WordPress añade sufijos al subir. **Copia la URL real de cada ficha de medio,
-no la escribas a ojo.** Ya rompimos dos fichas así.
-
-**Sobre las fechas que no pudiste verificar.** El 429 de YouTube es real y desde ahí no lo
-saltas, así que lo dejo por escrito para que quede auditable: los doce IDs y sus fechas
-salen del listado de vídeos del canal `UCi_hZIiaByu5LjLyuuKcnjw` (`@Hypershell_Tech`), con
-la fecha de publicación de cada uno. Los doce son del 15 de mayo de 2026 en adelante. Los
-tutoriales de la generación anterior que hay en ese mismo canal —`W4omUaf5nRw` de enero de
-2025 y `ZPTJxNbKiFY` de septiembre de 2025— están deliberadamente fuera de la lista.
-**Si algún vídeo, al abrirlo, enseña un aparato que no es la serie X actual, para y
-dímelo.** Ésa sí es una comprobación que puedes hacer.
-
-> **Punto de control 1.** Las doce URL finales.
+Luego, en cada archivo, sustituye `[[VERIFICAR: URL de <nombre>.webp]]` por la URL real.
+El nombre del archivo va escrito dentro de cada marca, así que no hay que adivinar cuál va
+dónde.
 
 ---
 
-## Paso 3 · A · Los vídeos en las tres fichas
+## Paso 3 · Las tres fichas
 
-**Es el paso que más vende y por eso va antes que la guía.** Dos vídeos por ficha, al final
-de la descripción larga, antes de la línea que enlaza a la guía.
+Este es el paso que importa. **Sustituyen la descripción entera**, corta y larga.
 
-| Ficha | Vídeo 1 | Vídeo 2 |
-|---|---|---|
-| **X Pro S** (8331) | `AbWq1d1Tdxc` qué hace | `qou6ih-ezfs` paso estable |
-| **X Max S** (8317) | `NTQiukEf5kM` cómo se pone | `gIezj5rhFBc` subiendo |
-| **X Ultra S** (8300) | `8OypUvpzQ80` la serie X | `utmvvQ2F5S8` alta montaña |
+| ID | Producto | Corta | Larga |
+|---|---|---|---|
+| 8331 | X Pro S | 759 B | 15,3 KB · 2.014 palabras |
+| 8317 | X Max S | 821 B | 13,8 KB · 1.764 palabras |
+| 8300 | X Ultra S | 885 B | 14,1 KB · 1.807 palabras |
 
-Reparto pensado: al de entrada se le enseña **qué hace**, al de en medio **cómo se usa**, y
-al de arriba **hasta dónde llega**. Ninguno repite vídeo con otro.
+Cada una lleva: barra de datos, dos vídeos, cómo funciona paso a paso, cuánto ahorra con
+la cifra atribuida al fabricante, para quién **no** es, modos y aplicación, contenido de la
+caja, comparativa con los otros dos, seis o siete preguntas frecuentes, aviso de que no es
+producto sanitario, y el bloque de por qué comprarlo aquí con la tienda de Rivas.
 
-Antes de cada pareja, una frase de entrada distinta en cada ficha —nunca la misma en las
-tres— del tipo «Así se ve funcionando» / «Cómo se pone y cómo se nota» / «Hasta dónde
-llega».
+Están escritas con **ángulos distintos a propósito** —el Pro S es la entrada, el Max S es
+el de las rutas de verdad, el Ultra S es el ligero para varios días—, no son la misma ficha
+con los números cambiados. Tres URLs con el mismo texto es contenido duplicado.
 
-**Norma 2, la que más duele:** lee el bruto desde `post.php?post=ID&action=edit`, **nunca
-por `wc/v3`**. La API devuelve los shortcodes resueltos y guardarlos así destruye los
-`[eg_precio]` de la ficha. Ya pasó el 24 de agosto en dos fichas.
-**Cuenta los shortcodes antes y después de cada guardado.** Si el recuento baja, para.
+**Antes de guardar cada una, tres cosas:**
 
-> **Punto de control 2.** La primera ficha terminada, con el recuento de shortcodes antes
-> y después, antes de tocar las otras dos.
+1. **Lee el bruto** desde `post.php?post=ID&action=edit`, nunca por `wc/v3` (norma 2).
+   Guarda una copia del texto anterior.
+2. **Compara la vieja con la nueva y rescata lo que se pierda.** Están escritas con los
+   datos que confirmaste —potencia, par, kilómetros, materiales— pero si la descripción
+   antigua tiene alguna especificación que no esté en la nueva, **avísame antes de
+   guardar**; no la tires.
+3. **Comprueba el contenido de la caja contra el manual en PDF** de `/man/`. La lista sale
+   de la documentación del fabricante; si el manual dice otra cosa, manda la corrección.
 
----
+Los tres productos tienen **cero shortcodes**, como comprobaste, así que aquí no hay
+`[eg_precio]` que perder. Aun así, compara bytes antes y después.
 
-## Paso 4 · B · La guía
-
-Entrada del blog, slug `que-es-un-exoesqueleto` (comprobado: 404, libre). **No** como
-página: el diseño del blog cuelga de `.single-post`.
-
-1. Título, meta y autor en el `-meta.txt`. **Autor: EcoGadget**, nunca David.
-2. **Sin imagen destacada** y **sin etiquetas.**
-3. Se pega **en modo HTML**, nunca en el visual: se come los `<details>`.
-4. **El comentario `<!-- ... -->` de cabecera NO se pega.** Empieza en `<div class="eg-desc">`.
-5. Los **nueve marcadores de vídeo**: se rellenan con la plantilla del paso 1, ya
-   confirmada, cambiando solo cuatro cosas —ID, URL de la miniatura, `alt` y pie—, que van
-   escritas dentro del propio marcador. **El `figcaption` no se quita nunca:** es la
-   atribución al fabricante.
-6. Los tres primeros (A, B y C) van apilados y a todo ancho, sin envoltorio. Es
-   deliberado: para un aparato que hay que ver, tres vídeos grandes valen más que tres
-   miniaturas pequeñas. Ponerlos en fila es un trabajo de CSS para otra tanda.
-7. Busca `VERIFICAR` en lo pegado. **Si aparece una sola vez, no publiques.**
-
-### Lo que queda por rellenar en el texto
-
-Ya solo **una casilla**: el **par motor del X Ultra S**, en la tabla comparativa. Si no
-está en su ficha, borra la fila del par entera y dímelo.
-
-Todo lo demás está cerrado con lo que dijiste:
-
-- **PPA fuera.** La fila se llama ahora «Materiales» y dice lo que dicen las fichas:
-  aleación aeroespacial (Pro S), aleación de magnesio y aluminio aeroespacial (Max S),
-  materiales aeroespaciales y fibra de carbono (Ultra S).
-- **Los Wh fuera.** Adoptada tu redacción: «su capacidad viene impresa en la propia
-  batería». Resuelve la duda del avión sin afirmar una cifra que no tenemos.
-- **La fila del peso, borrada.** Tenías razón: que el mapeo del #38 sea sólido no
-  convierte la cifra en dato. Queda el «~2,5 kg» del Ultra S en el texto, que sí sale de
-  su ficha.
-- **`eg-toc`** ahora es `class="eg-note eg-toc"`, para que se apoye en un estilo que
-  existe. `eg-consulta`, `.si` y `.no` se quedan en texto plano, como dijiste.
+> **Punto de control 1.** La ficha del X Pro S terminada y vista en el front, antes de
+> tocar las otras dos. Si algo del diseño no encaja, se arregla una vez y no tres.
 
 ---
 
-## Paso 5 · C · La categoría
+## Paso 4 · La guía del blog
 
-Solo el bloque de texto, **sin vídeo** (ver arriba el porqué). Al principio del texto SEO,
-que va **debajo de la rejilla**. Por REST comparando bytes y sin tocar el
-`<!--eg-corte-->` (norma 4):
+Entrada nueva, slug `que-es-un-exoesqueleto`. Autor **EcoGadget**, sin imagen destacada,
+sin etiquetas, pegada **en modo HTML**. El comentario `<!-- ... -->` de cabecera **no se
+pega**: empieza en `<div class="eg-desc">`.
+
+Queda **una casilla** por rellenar en todo el texto: el **par motor del X Ultra S**, en la
+tabla comparativa. Si no está en su ficha, **borra la fila del par** y dímelo. Esa misma
+fila aparece en las tres fichas: si la borras en una, bórrala en las cuatro.
+
+---
+
+## Paso 5 · La categoría
+
+Solo el bloque de enlace, sin vídeo, como quedó zanjado. Al principio del texto SEO, que va
+debajo de la rejilla. Por REST comparando bytes y sin tocar `<!--eg-corte-->` (norma 4):
 
 ```html
 <div class="eg-regla">
@@ -223,10 +134,7 @@ que va **debajo de la rejilla**. Por REST comparando bytes y sin tocar el
 </div>
 ```
 
-Si después tocas el Yoast de la categoría, **vuelve a aplicar la descripción por REST y
-comprueba los bytes** (norma 5).
-
-**Y el fragmento #38:** un enlace a la guía al final del bloque. Quita lo que se solape
+Y en el **fragmento #38**, un enlace a la guía al final del bloque. Quita lo que se solape
 —si repite el 63 % y el 20 %, déjalo en un sitio—, pero **el aviso de que no es producto
 sanitario se queda en los dos**.
 
@@ -234,51 +142,49 @@ sanitario se queda en los dos**.
 
 ## Paso 6 · Comprobar
 
-Todo con `?nc=1` (norma 11):
+Con `?nc=1` detrás (norma 11):
 
-1. **Pulsa un vídeo y comprueba que se abre.** Es la comprobación número uno: sin el JS
-   del paso 1, todo lo demás es decorado.
-2. La guía se ve maquetada. Si sale texto plano, el CSS de `.single-post` no la alcanza.
-3. **Los doce vídeos:** con Red abierta y filtro `youtube`, cargar la guía y cargar cada
-   ficha **no genera ni una petición**. Al pulsar uno aparece la de `youtube-nocookie.com`
-   y arranca solo.
-4. Dos vídeos abiertos a la vez en la misma página deben convivir.
+1. **Pulsa un vídeo en una ficha y comprueba que se abre incrustado.** Es la comprobación
+   número uno.
+2. **Pulsa uno con Ctrl (o Cmd).** Debe abrir YouTube en otra pestaña, no incrustarse.
+3. **Con Red abierta y filtro `youtube`:** cargar cualquiera de las cuatro páginas **no
+   genera ni una petición**. Solo aparece al pulsar.
+4. Las tres fichas se ven maquetadas, con la fachada a 16:9 y sin aplastar.
 5. En móvil, que los vídeos no se salgan del ancho y las tablas se deslicen.
-6. **En las tres fichas, el recuento de `[eg_precio]` es el mismo que antes de empezar.**
-7. Los cuatro enlaces internos de la guía, ninguno con 301:
-   `/product-category/hypershell/`, `/product-category/hypershell/accesorios-hypershell/`,
-   `/contacto/` (×2) y `/man/`.
-8. `/que-es-un-exoesqueleto/` responde 200, con el título y la meta de Yoast sin recortar.
-9. **Barrido de rastros de IA** (norma 8) en la guía, la categoría y las tres fichas. Falso
-   positivo conocido: «Inteligencia Artificial» es la HyperIntuition™ y **se queda**.
+6. La guía se ve maquetada. Si sale texto plano, el CSS de `.single-post` no la alcanza.
+7. Enlaces internos, ninguno con 301 (norma 9): `/product-category/hypershell/`,
+   `/product-category/hypershell/accesorios-hypershell/`, `/producto/hypershell-x-max-s/`,
+   `/que-es-un-exoesqueleto/`, `/contacto/` y `/man/`.
+8. `/que-es-un-exoesqueleto/` responde 200, con título y meta de Yoast sin recortar.
+9. **Barrido de rastros de IA** (norma 8) en las tres fichas, la guía y la categoría.
+   Falso positivo conocido: «Inteligencia Artificial» es la HyperIntuition™ y **se queda**.
 10. `VERIFICAR` en el HTML del front: cero.
 11. Vaciar LiteSpeed y WP Super Cache.
-
-> **Punto de control 3.** Los once puntos, y una captura del panel de Red antes y después
-> de pulsar el primer vídeo de una ficha.
 
 ---
 
 ## Lo que NO se hace
 
 - **Ni Personalizador ni Opciones De Tema.** El JS va al pie de Head & Footer Code.
-- **Ningún vídeo dentro del texto de la categoría** mientras el dueño no levante su norma 10.
-- No crear categorías ni cambiar el padre de ninguna.
-- **La guía no entra en el menú principal todavía.** Primero que Google la indexe.
-- Nada de Elementor. No mandar la URL a indexar más de una vez.
+- **Ni un precio**, en ninguna parte. Congelados hasta el inventario con los EAN.
+- **Nunca «servicio técnico propio»** en Hypershell: es garantía del fabricante, 24 meses.
+- Sin `FAQPage` ni `VideoObject`. Las preguntas van en `details` pelado, sin schema: las
+  fichas viejas de EcoFlow sí lo llevan, pero eso es anterior a la norma 10.
+- **Los vídeos no entran en la categoría.**
+- La guía no entra en el menú principal todavía.
+- Nada de Elementor.
 
 ---
 
 ## Para la lista del inventario con los EAN
 
-Lo que levantaste y no se cierra hoy: **el fragmento #38 está publicando ahora mismo
-2.585 g y 2.571 g** en las fichas del Pro S y del Max S, y esas cifras no salen de ninguna
-ficha ni de ninguna fuente entregada. Cuando llegue la ficha técnica del fabricante hay
-que confirmarlas o quitarlas de la web. Anotado.
+- El **fragmento #38 publica ahora mismo 2.585 g y 2.571 g** para el Pro S y el Max S, y
+  esas cifras no salen de ninguna ficha. Confirmar o quitar cuando llegue la ficha técnica.
+- El **par del X Ultra S** y el **peso del Pro S y del Max S**, que hoy faltan.
+- La **capacidad en Wh** de la batería: la ficha da 5.000 mAh y no da voltaje.
 
 ## Pendiente del dueño
 
-- **Dos fotos del taller de Rivas.** «Pruébatelo antes de decidir» es lo único que el
-  fabricante no puede copiar —no tienen dónde probarlo en España— y va sin una foto.
-- **El horario de la tienda.** El texto dice «sin cita» pero no dice cuándo se puede ir.
-- **Si quiere vídeo en la categoría**, saltándose su norma 10.
+- **Dos fotos del taller de Rivas.** Las tres fichas y la guía venden la prueba en tienda
+  —lo único que el fabricante no puede copiar— y va sin una sola foto.
+- **El horario de la tienda.** Dice «avísanos antes de venir» pero no dice cuándo se abre.

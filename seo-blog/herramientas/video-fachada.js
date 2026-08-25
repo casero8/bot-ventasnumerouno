@@ -11,10 +11,19 @@
    Sin esto, una fachada es un botón de play que no hace nada.
 
    DÓNDE VA: al final del PIE de Herramientas -> Head & Footer
-   Code, dentro de <script>...</script>. No en Opciones De Tema:
-   ese formulario reescribe los 1.904 campos al guardar y falla
-   una de cada dos veces. El pie de Head & Footer Code hace el
-   mismo trabajo sin ese riesgo.
+   Code, dentro de etiquetas script. No en Opciones De Tema: ese
+   formulario reescribe los 1.904 campos al guardar y falla una
+   de cada dos veces. El pie de Head & Footer Code hace el mismo
+   trabajo sin ese riesgo.
+
+   EL DISPARADOR ES UN <a>, NO UN <button>. Medido en vivo: el
+   tema le impone al boton su propio padding y su propia altura,
+   y la fachada se queda en 45 px en vez de 321. El <a> sale
+   limpio. Y tiene una ventaja que hoy vale mas que ninguna: su
+   href apunta al video en YouTube, asi que SI ESTE JS FALTA,
+   SE PIERDE O UN OPTIMIZADOR LO TIRA, la fachada sigue
+   funcionando y abre el video. Nunca vuelve a haber un boton de
+   play que no hace nada.
 
    Un solo listener delegado para toda la web. No hay que
    registrar nada por vídeo, no toca el DOM al cargar y no hace
@@ -43,6 +52,11 @@
   document.addEventListener('click', function (e) {
     var t = e.target;
     if (!t || typeof t.closest !== 'function') { return; }
+
+    // Clic con Ctrl, Cmd, Shift, Alt o con el boton central: eso es
+    // "abrelo en otra pestaña", y como el href apunta al video en
+    // YouTube, se deja pasar. Solo se intercepta el clic normal.
+    if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) { return; }
 
     var caja = t.closest('.eg-video');
     if (!caja) { return; }
