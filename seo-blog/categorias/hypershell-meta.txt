@@ -1,0 +1,43 @@
+CATEGORÍA hypershell
+
+URL:  https://ecogadgetoficial.com/product-category/hypershell/
+
+TÍTULO SEO (56):
+Exoesqueletos Hypershell | Distribuidor oficial España
+
+META DESCRIPCIÓN (150):
+Exoesqueletos Hypershell de la serie X, con vídeos de cómo funcionan, para quién sirven y cuál elegir. Distribuidor oficial y tienda para probártelo en Madrid.
+
+PALABRA CLAVE PRINCIPAL:  exoesqueleto Hypershell
+SECUNDARIAS:  comprar exoesqueleto España · exoesqueleto para caminar ·
+Hypershell X Pro S / X Max S / X Ultra S · exoesqueleto senderismo ·
+probar exoesqueleto Madrid
+
+ENLACES QUE SALEN (10, todos directos y a producto en stock):
+/producto/hypershell-x-pro-s/ · /producto/hypershell-x-max-s/ ·
+/producto/hypershell-x-ultra-s/ ·
+/product-category/hypershell/accesorios-hypershell/ (×2) ·
+/que-es-un-exoesqueleto/ (×2) · /contacto/ (×4) · /man/ (×2)
+
+VÍDEOS: 3, con las miniaturas ya subidas (adjuntos 9147, 9154, 9151).
+Marcado .eg-video, el mismo que las fichas.
+
+LO QUE NO LLEVA, Y ES DELIBERADO:
+· Ni un precio. Congelados hasta el inventario con los EAN.
+· Sin marcado FAQPage: Google lo restringió a organismos públicos y sanitarios.
+· Sin VideoObject: los vídeos son del fabricante, no nuestros.
+· Ni una cifra de peso. No están publicadas por el fabricante.
+· El par del X Ultra S va con un guion: su ficha no da la cifra.
+· Nunca «servicio técnico propio»: en Hypershell es garantía DEL FABRICANTE.
+
+EXCEPCIÓN A LA NORMA 10, PEDIDA POR EL DUEÑO EL 25/08/2026:
+La norma dice «nunca precios ni imágenes dentro del texto de categoría». Aquí
+van tres vídeos, y por tanto tres miniaturas, porque el dueño lo pidió
+expresamente: «metele videos de como funciona». Los precios siguen fuera.
+
+COMPROBAR ANTES DE APLICAR:
+1. Que las tres fichas están en stock. Si alguna se agota, quita su enlace.
+2. Que ninguno de los diez enlaces devuelve un 301.
+3. Que se aplica por REST comparando bytes y sin tocar <!--eg-corte-->.
+4. Que después de tocar el Yoast del término se reaplica la descripción por REST
+   y los bytes coinciden.
