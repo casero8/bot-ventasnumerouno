@@ -41,22 +41,26 @@ dudas en un minuto. Si no hubiera cartel, entonces `EcoGadget`.
 
 ### 2 · La descripción. Hoy también, a mano
 
-Pégala tal cual. Son 736 caracteres, por debajo del límite de 750:
+**Versión corregida, 669 caracteres.** Las dos frases que quitaste tenían que salir, y la
+segunda era la peligrosa:
 
 > EcoGadget es la tienda de Sistemas Aplicados Sonido y Seguridad S.L. en Rivas-Vaciamadrid, distribuidor oficial en España de EcoFlow, Hypershell y Lokithor.
 >
-> Vendemos estaciones de energía portátil, baterías, placas solares, exoesqueletos de asistencia a la marcha y arrancadores de batería. Tenemos tienda física y almacén propio en el polígono, con producto para llevar en el día.
+> Vendemos estaciones de energía portátil, baterías, placas solares, exoesqueletos de asistencia a la marcha y arrancadores de batería. Tenemos tienda física y almacén propio en el polígono.
 >
-> Contamos con servicio técnico propio de EcoFlow: las reparaciones y las garantías de la marca se tramitan aquí, en español, sin que el equipo salga de España. Del resto de marcas gestionamos nosotros el trámite con el fabricante.
+> Contamos con servicio técnico propio de EcoFlow: las reparaciones y las garantías de la marca las tramitamos nosotros, en español. Del resto de marcas gestionamos el trámite con el fabricante.
 >
 > Puedes venir a ver y probar el producto antes de comprarlo, incluidos los exoesqueletos, de los que tenemos unidades de prueba.
 
-Tres cosas de esa descripción, por si hay que retocarla:
+**«Sin que el equipo salga de España»** era una promesa que la web nunca ha hecho y que el
+propio flujo de RMA —que pasa por `rma.ecogadget@sassl.es`— no permite garantizar.
 
-- **«Servicio técnico propio» solo se dice de EcoFlow.** De Hypershell y Lokithor es
-  garantía del fabricante. Es la norma 10 y también es la verdad.
-- **Sin URLs.** Google las quita o rechaza la descripción entera.
-- **Sin precios ni ofertas.** Ni ahí ni en ningún sitio hasta el inventario con los EAN.
+**«Con producto para llevar en el día»**, con 84 de 158 productos agotados, es literalmente
+la frase que fabrica la siguiente reseña de una estrella. Y se iba a publicar justo encima
+de la que hay que contestar.
+
+Lo demás se queda: sin URLs, sin precios, y «servicio técnico propio» dicho solo de
+EcoFlow.
 
 ### 3 · El Facebook de otra marca. Hoy
 
@@ -106,11 +110,14 @@ la de 72 reseñas de GADGET IBERIA **no se toca ni se puede tocar desde esta cue
 
 **La fecha de apertura de enero de 1997 se queda.**
 
-Chirría en una ficha de distribuidor de EcoFlow, sí. Pero probablemente sea la fecha real
-de la sociedad en esa nave, y ahí lleva desde entonces. Sobre todo: **la fecha de apertura
-no influye en el posicionamiento local**, y cambiar un dato identificativo en una ficha
-recién verificada sí puede devolverla a revisión. Es asumir un riesgo real a cambio de
+Y tienes razón en el motivo: el mío era una suposición y no hacía falta. El argumento bueno
+es el tuyo. **La ficha acaba de pasar la verificación con esa fecha puesta**, así que queda
+demostrado que no era el problema, y cambiar un dato identificativo en una ficha recién
+verificada, sin ninguna ganancia en posicionamiento local, es asumir riesgo a cambio de
 nada.
+
+Queda escrito como dices: **se queda porque no sabemos si es correcta y no compensa
+averiguarlo tocando la ficha**, no porque creamos que lo es.
 
 Si el dueño sabe la fecha exacta en que abrió **esta** actividad y quiere corregirla, que
 sea el último cambio de todos, cuando la ficha lleve semanas estable.
