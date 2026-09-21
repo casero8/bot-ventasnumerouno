@@ -23,6 +23,20 @@ verificado con su propia experiencia.
 
 El fracaso medido hace lo contrario: anuncia lo que va a contar y luego lo cuenta.
 
+### Condición importante: de quién es la escena
+
+Esta mecánica funciona cuando la escena simulada es **del propio espectador** (una compra
+que encadena otra compra, una conversación que ha tenido). Ahí la simulación le obliga a
+reconocerse.
+
+**No** se aplica cuando el vehículo es externo y potente: un experimento, un personaje, un
+caso histórico. Ahí el vehículo va primero, en su momento más cargado, porque el vehículo
+*es* la carga. Abrir con una simulación tibia para "preparar el terreno" entierra el único
+activo que tenías.
+
+Regla práctica: si el vehículo provoca reacción por sí solo, abre con él. Si el patrón solo
+se reconoce viviéndolo, abre simulando.
+
 ## 2. El mecanismo necesita nombre propio
 
 Ambos ganadores bautizan el mecanismo: uno usa un efecto psicológico documentado con
