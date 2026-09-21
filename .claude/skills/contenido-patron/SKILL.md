@@ -136,6 +136,10 @@ Cárgalo siempre que escribas un guion, no solo un titular.
 
 ## Cómo trabajar
 
+**Antes de nada:** lee `references/calibracion-canal-propio.md`. Contiene los datos del
+canal del usuario y su audiencia objetivo. Cuando contradiga al dataset general, manda la
+calibración propia.
+
 ### Al escribir un gancho o un guion
 1. Pide o elige el **patrón** (el mecanismo que atrapa) y el **vehículo** (lo que ya le
    importa al espectador). Si el usuario solo trae patrón, tu primer trabajo es proponerle
