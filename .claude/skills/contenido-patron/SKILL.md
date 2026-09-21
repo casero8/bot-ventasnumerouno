@@ -115,6 +115,25 @@ De ahí se derivan dos ejecuciones distintas de las mismas cuatro leyes:
 
 Carga solo el archivo del formato que estés escribiendo.
 
+### 6. El clic y la permanencia son dos trabajos distintos
+Las cinco leyes anteriores explican por qué alguien **entra**. No explican por qué se
+queda, y son problemas distintos: el titular lo resuelve el gancho, la permanencia la
+resuelve la estructura del guion.
+
+Tres mecánicas dominan, extraídas de guiones completos de vídeos en x35.6 y x32.1
+contrastados contra un x0.20 del mismo creador:
+
+- **Simulación antes que explicación.** Mete al espectador en una escena en segunda
+  persona y deja que llegue solo al patrón. Nombrarlo antes mata el trabajo cognitivo,
+  que es justamente lo que hace que piense en vez de consumir.
+- **El mecanismo necesita nombre propio.** Con nombre, se lo lleva y lo usa sin ti: eso
+  es dar una habilidad. Sin nombre, se olvida en el siguiente scroll.
+- **Absolución antes de profundizar.** Retira la culpa explícitamente y pronto, o el
+  espectador se defiende y deja de procesar.
+
+Las diez mecánicas completas, con su checklist: `references/mecanicas-retencion.md`.
+Cárgalo siempre que escribas un guion, no solo un titular.
+
 ## Cómo trabajar
 
 ### Al escribir un gancho o un guion
@@ -124,7 +143,8 @@ Carga solo el archivo del formato que estés escribiendo.
 2. Escribe el gancho pasando las 4 leyes. Comprueba: ¿sujeto "tú"? ¿hay salida? ¿hay
    agente externo? ¿el vehículo tiene carga sin mi mensaje?
 3. Titular: `references/formulas-titular.md`. Estructura: `arquitectura-corto.md` o
-   `arquitectura-largo.md` según el formato. Son andamios, no plantillas a rellenar.
+   `arquitectura-largo.md` según el formato. Guion: `mecanicas-retencion.md`, siempre.
+   Son andamios, no plantillas a rellenar.
 4. Pasa el resultado por `references/guardrails.md` antes de entregar.
 
 ### Al analizar un canal (propio o de referencia)
@@ -146,6 +166,8 @@ así que para texto de guiones usa las herramientas de vidIQ (`vidiq_video_trans
 - **No arranques con el patrón abstracto.** Es el error medido más caro (x0.25).
 - **No abras hablando de ti.** Tu historia entra como prueba, en el minuto 2, no en el
   segundo 3.
+- **No entregues un mecanismo sin nombre.** Sin nombre no es una habilidad, es una
+  anécdota.
 - **No dejes un patrón sin salida.** Diagnóstico sin procedimiento = ansiedad, no
   conversión.
 - **No apliques reglas de un formato al otro.** Es el error del tema que transfiere mal
