@@ -1,0 +1,14 @@
+Guiones de la primera versión de la serie.
+
+Se retiran del set principal por dos motivos:
+- Los cinco compartían la misma arquitectura, lo que hace predecible la serie.
+- El bloque de ventas se dirigía a vendedores ("por qué no cierras"), cuando
+  el espectador objetivo es alguien atascado y el closing es la oferta, no su
+  problema.
+
+El material de investigación sigue siendo válido y reutilizable: el
+experimento de las tazas (aversión a la pérdida), la réplica del malvavisco y
+el estudio sobre fiabilidad del entorno, el experimento de las líneas de Asch
+y el del dólar frente a los veinte dólares.
+
+Para reutilizarlos hay que cambiarles el formato y reescribir el bloque final.
