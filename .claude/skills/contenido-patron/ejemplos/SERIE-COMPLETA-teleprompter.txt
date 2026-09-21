@@ -4,45 +4,63 @@
    (esta pagina no se lee en camara)
 
    Publico: gente atascada que no cambia.
-   No son videos para vendedores.
-   El closing aparece como la salida, no como el tema.
+   El closing es la salida, no el tema.
 
-   Cada video usa una forma distinta a proposito:
-   quien vea dos no puede adivinar el tercero.
+   Cada video usa una forma distinta,
+   y cada uno arranca DENTRO de algo concreto:
+   una escena, una frase literal, una pregunta.
+   Ninguno anuncia de que va.
 
-   VIDEO 1  ·  FORMATO: EXPERIMENTO
-      Los que se rindieron no eran los debiles
-      2200 palabras  ~17 min
+   VIDEO 1  ·  EXPERIMENTO
+      La valla mide treinta centimetros
+      2243 palabras  ~17 min
 
-   VIDEO 2  ·  FORMATO: LISTA FRACTAL
-      7 frases que dice la gente que no va a cambiar nunca
-      1420 palabras  ~11 min
+   VIDEO 2  ·  LISTA FRACTAL
+      7 frases que dice quien no va a cambiar nunca
+      1444 palabras  ~11 min
 
-   VIDEO 3  ·  FORMATO: SIMULACION
+   VIDEO 3  ·  SIMULACION
       Un martes cualquiera, dentro de cinco anos
-      1137 palabras  ~9 min
+      1200 palabras  ~9 min
 
-   VIDEO 4  ·  FORMATO: TEST
+   VIDEO 4  ·  TEST
       5 preguntas. La mayoria falla la cuarta
-      1098 palabras  ~8 min
+      1109 palabras  ~9 min
 
-   VIDEO 5  ·  FORMATO: DIALOGO
+   VIDEO 5  ·  DIALOGO
       La conversacion que nadie ha tenido contigo
-      1053 palabras  ~8 min
+      973 palabras  ~7 min
 
-   TOTAL: 6908 palabras  ~53 min
+   TOTAL: 6969 palabras  ~54 min
 
 
 
 
 ================================================
-   VIDEO 1  ·  FORMATO: EXPERIMENTO
-   Los que se rindieron no eran los debiles
+   VIDEO 1  ·  EXPERIMENTO
+   La valla mide treinta centimetros
 ================================================
    (no leer esta cabecera)
 
 
-Los que se rindieron
+La valla mide treinta centímetros.
+
+El perro no salta.
+
+Se tumba encima de la descarga
+y aguanta.
+
+Y ese perro,
+una semana antes,
+saltaba.
+
+Lo que le pasó en esa semana
+te está pasando a ti
+ahora mismo.
+
+Y lo peor es esto:
+
+los que se rindieron
 no eran los débiles.
 
 Eran los que más lo habían intentado.
@@ -838,19 +856,31 @@ es que dejaste de mirarla.
 
 
 ================================================
-   VIDEO 2  ·  FORMATO: LISTA FRACTAL
-   7 frases que dice la gente que no va a cambiar nunca
+   VIDEO 2  ·  LISTA FRACTAL
+   7 frases que dice quien no va a cambiar nunca
 ================================================
    (no leer esta cabecera)
 
 
-Hay siete frases
+"Cuando tenga un poco más de tiempo."
+
+Llevas diciendo eso
+desde hace por lo menos dos años.
+
+Y no estás mintiendo.
+
+Es que esa frase
+no significa lo que tú crees.
+
+Es una de siete.
+
+Siete frases
 que dice la gente
 que no va a cambiar nunca.
 
-Y no son frases de vagos.
+Y ninguna suena a excusa.
 
-Son frases que suenan sensatas.
+Suenan sensatas.
 Maduras.
 De alguien con los pies en el suelo.
 
@@ -858,15 +888,12 @@ Por eso funcionan tan bien.
 
 Yo las he dicho todas.
 
-Y probablemente
-tú has dicho tres esta semana.
-
-Vamos con la primera.
+Y tú has dicho tres esta semana.
 
 
 FRASE NÚMERO UNO.
 
-"Cuando tenga un poco más de tiempo."
+Esa con la que hemos empezado.
 
 Lo que tú crees que significa:
 que ahora mismo vas apretado
@@ -1386,10 +1413,29 @@ dejan de hacer su trabajo.
 
 
 ================================================
-   VIDEO 3  ·  FORMATO: SIMULACION
+   VIDEO 3  ·  SIMULACION
    Un martes cualquiera, dentro de cinco anos
 ================================================
    (no leer esta cabecera)
+
+
+Dentro de cinco años,
+un martes por la mañana,
+vas a levantar la vista
+
+y te vas a acordar
+de algo que ibas a hacer.
+
+Va a durar dos segundos.
+
+Y se te va a pasar,
+porque va a entrar un correo.
+
+Te voy a enseñar ese martes entero.
+
+Y quiero que me digas al final
+en qué se diferencia
+del de hoy.
 
 
 Son las siete y diez
@@ -1816,45 +1862,45 @@ Ese es el problema.
 
 
 ================================================
-   VIDEO 4  ·  FORMATO: TEST
+   VIDEO 4  ·  TEST
    5 preguntas. La mayoria falla la cuarta
 ================================================
    (no leer esta cabecera)
 
 
-Te voy a hacer cinco preguntas.
+¿Cuándo fue la última vez
+que hiciste algo por primera vez?
 
-No hace falta que contestes
-en los comentarios.
+Para el vídeo
+y piensa la fecha.
+
+En serio, para.
+
+Si has tenido que irte
+más de un año atrás,
+quédate.
+
+Porque tengo cuatro preguntas más,
+la cuarta la falla casi todo el mundo,
+y al final te digo
+qué significa tu resultado.
 
 Contéstalas en tu cabeza
 y sé honesto,
 porque si te mientes aquí
-el vídeo no sirve de nada.
-
-Al final te digo
-qué significa tu resultado.
-
-Y te aviso de una cosa.
-
-La mayoría de la gente
-falla la cuarta.
-
-Vamos.
+esto no sirve de nada.
 
 
 PRIMERA PREGUNTA.
 
-¿Cuándo fue la última vez
-que hiciste algo por primera vez?
+La que acabo de hacerte.
 
-No un sitio nuevo.
-No una serie nueva.
+Y ojo,
+que no vale un sitio nuevo
+ni una serie nueva.
 
 Algo que no sabías hacer
 y que aprendiste.
-
-Piensa la fecha.
 
 Si has tenido que irte
 más de un año atrás,
@@ -2239,48 +2285,19 @@ Y a ver cuánto aguantas.
 
 
 ================================================
-   VIDEO 5  ·  FORMATO: DIALOGO
+   VIDEO 5  ·  DIALOGO
    La conversacion que nadie ha tenido contigo
 ================================================
    (no leer esta cabecera)
 
 
-Voy a tener contigo
-una conversación
-que probablemente
-no ha tenido nadie.
-
-Porque la gente que te quiere
-te dice que estás bien.
-
-Y es lo que hay que decir.
-
-Pero yo no te conozco,
-así que puedo decirte otra cosa.
-
-Te voy a poner
-todo lo que vas a pensar
-mientras ves esto.
-
-Una por una.
-
-Y te lo voy a contestar.
-
-Si llegas al final
-y sigues igual,
-por lo menos habrá sido honesto.
-
-
-Empiezo.
-
 "Es que yo no estoy tan mal."
 
-Correcto.
+Exacto.
 
 No estás mal.
 
-Y ese es exactamente el problema,
-aunque suene raro.
+Y ese es justo el problema.
 
 Porque la gente que está mal de verdad
 se mueve.

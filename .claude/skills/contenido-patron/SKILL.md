@@ -174,6 +174,9 @@ así que para texto de guiones usa las herramientas de vidIQ (`vidiq_video_trans
   anécdota.
 - **No dejes un patrón sin salida.** Diagnóstico sin procedimiento = ansiedad, no
   conversión.
+- **No anuncies el vídeo en su primer segundo.** "Te voy a hacer cinco preguntas" o
+  "hay siete frases" describe la pieza en vez de empezarla. Arranca dentro del elemento
+  más concreto que tengas.
 - **No apliques reglas de un formato al otro.** Es el error del tema que transfiere mal
   (x33.5 → x0.17 en el mismo creador).
 - **No inventes cifras de rendimiento.** Si citas un dato, sale del dataset o de una

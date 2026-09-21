@@ -33,6 +33,14 @@ x0.33 Heras). Como **prueba** de un mecanismo ya explicado, funciona.
 ## Estructura, bloque a bloque
 
 1. **Frío** (0–30 s): el momento más cargado del vehículo. Nada de intro ni presentación.
+   **Empieza dentro de la cosa, no anunciándola.** Un frío que dice "te voy a hacer cinco
+   preguntas", "hay siete frases" o "vamos a hablar de X" es un índice, no un gancho:
+   describe el vídeo en vez de arrancarlo, y no da nada concreto que agarrar.
+   El arreglo es siempre el mismo: coge el elemento más concreto que aparece más adelante
+   —la primera frase literal, la pregunta más dura, la escena, la cifra— y ponlo en el
+   segundo cero. La estructura anunciada (que son siete, que son cinco) va después, cuando
+   ya hay algo en juego. Es la misma regla de literal-sobre-placeholder que gobierna el
+   formato corto: "siete frases" es el placeholder, la frase es lo literal.
 2. **Contrato** (30–60 s): qué va a entender al final, explícito.
 3. **Caso** (1–4 min): el vehículo desarrollado. Aquí se gana la retención.
 4. **Giro** (4–6 min): deja de ser sobre el personaje y pasa a ser sobre él.
