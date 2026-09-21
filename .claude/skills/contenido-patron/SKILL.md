@@ -8,8 +8,8 @@ description: Crea contenido viral de ventas, psicología y desarrollo personal q
 Construye contenido que le enseña a alguien el mecanismo que le tiene atrapado, en un
 formato que la gente realmente termina de ver.
 
-Esta skill no opina sobre qué funciona. Está calibrada contra un dataset de 706 vídeos
-reales de 6 canales hispanos del nicho, comparando cada vídeo contra la mediana de su
+Esta skill no opina sobre qué funciona. Está calibrada contra un dataset de 1.181 vídeos
+reales de 8 canales (941 largos y 240 shorts), comparando cada vídeo contra la mediana de su
 propio canal. Los números que cita son medidos, no estimados. Metodología y datos en
 `references/hallazgos-dataset.md`.
 
@@ -97,6 +97,24 @@ es la que permite compartir el vídeo sin quedar mal.
 Sus flops confirman el reverso: entrevistas a terceros famosos (x0.11–x0.21) y el anuncio
 de su propia gira (x0.11). Contenido donde el protagonista no es el espectador.
 
+### 5. El formato manda sobre el tema
+El mismo tema puede ser tu mejor vídeo largo y tu peor short. En Jordi Segués (115 largos
++ 120 shorts), "marca personal" hace **x33.5** en formato largo y **x0.17–x0.28** en
+shorts. Mismo creador, misma audiencia.
+
+La causa: en largo existe intención de búsqueda (alguien escribe "marca personal" en el
+buscador); en el scroll no existe intención, solo reconocimiento.
+
+De ahí se derivan dos ejecuciones distintas de las mismas cuatro leyes:
+
+- **Corto** → `references/arquitectura-corto.md`. Regla dominante: **literal, nunca
+  placeholder**. Nombrar la frase exacta rinde ~10x sobre el hueco de curiosidad
+  ("solo dime el precio" x5.6 vs "estas frases te cuestan tratos" x0.46, mismo creador).
+- **Largo** → `references/arquitectura-largo.md`. Aquí conviven dos motores: utilidad
+  buscada (no necesita vehículo) y contenido de patrón (lo necesita siempre).
+
+Carga solo el archivo del formato que estés escribiendo.
+
 ## Cómo trabajar
 
 ### Al escribir un gancho o un guion
@@ -105,8 +123,8 @@ de su propia gira (x0.11). Contenido donde el protagonista no es el espectador.
    3 vehículos con carga alta. No escribas hasta tener vehículo.
 2. Escribe el gancho pasando las 4 leyes. Comprueba: ¿sujeto "tú"? ¿hay salida? ¿hay
    agente externo? ¿el vehículo tiene carga sin mi mensaje?
-3. Estructura en `references/formulas-gancho.md`. Úsala como andamio, no como plantilla
-   a rellenar literalmente.
+3. Titular: `references/formulas-titular.md`. Estructura: `arquitectura-corto.md` o
+   `arquitectura-largo.md` según el formato. Son andamios, no plantillas a rellenar.
 4. Pasa el resultado por `references/guardrails.md` antes de entregar.
 
 ### Al analizar un canal (propio o de referencia)
@@ -130,6 +148,8 @@ así que para texto de guiones usa las herramientas de vidIQ (`vidiq_video_trans
   segundo 3.
 - **No dejes un patrón sin salida.** Diagnóstico sin procedimiento = ansiedad, no
   conversión.
+- **No apliques reglas de un formato al otro.** Es el error del tema que transfiere mal
+  (x33.5 → x0.17 en el mismo creador).
 - **No inventes cifras de rendimiento.** Si citas un dato, sale del dataset o de una
   consulta real. Cuando estimes, dilo.
 - **No copies guiones ajenos.** Se replica la arquitectura (orden, función de cada bloque),

@@ -2,8 +2,8 @@
 
 ## Metodología
 
-**Qué se midió:** 706 vídeos de 6 canales hispanos, extraídos de los catálogos públicos
-de YouTube el 2026-09-21.
+**Qué se midió:** 1.181 vídeos de 8 canales (941 en formato largo, 240 shorts),
+extraídos de los catálogos públicos de YouTube el 2026-09-21.
 
 **Métrica:** múltiplo sobre la mediana del **propio canal** (`views / mediana_del_canal`).
 
@@ -25,6 +25,10 @@ predictivo es siempre intra-canal, entre el mismo creador consigo mismo.
 | Chris Núñez | 108 | 14.500 | Psicología clínica divulgada | x310 |
 | Víctor Heras | 120 | 14.500 | Crecimiento en redes (meta) | x7.4 |
 | Xavier Pirla | 120 | 1.800 | Persuasión / PNL | x312 |
+| Jordi Segués (largos) | 115 | 18.000 | Negocio y desarrollo personal | x50.9 |
+| Jordi Segués (shorts) | 120 | 35.500 | ídem, formato corto | x67.6 |
+| Jeremy Miner (largos) | 120 | 18.000 | Ventas high-ticket (EN) | x35.6 |
+| Jeremy Miner (shorts) | 120 | 13.500 | ídem, formato corto | x10.1 |
 
 Nota sobre dispersión: los canales con mediana baja muestran múltiplos extremos (x310) en
 parte por efecto aritmético del denominador pequeño. El múltiplo ordena bien dentro de un
@@ -99,6 +103,50 @@ No mezcles las reglas de uno con las del otro.
 Su serie de formato entretenimiento ("De 0 a 100K", Ep. 7 y 8) rinde x0.42 y x0.18,
 confirmando que el formato serie sin promesa de utilidad no sostiene a un canal educativo.
 
+## Hallazgo 6 — El tema no transfiere entre formatos: se invierte (Jordi Segués)
+
+Mismo creador, 115 largos y 120 shorts medidos por separado:
+
+| Tema "marca personal" | Formato | Múltiplo |
+|---|---|---|
+| Guía completa (67 min) | largo | **x33.5** |
+| "El poder de la marca personal" | short | x0.24 |
+| "Alinea tu marca personal" | short | **x0.17** |
+
+Su mejor tema en largo es su peor tema en corto. Mecanismo: el formato largo capta
+intención de búsqueda existente; el scroll no tiene intención, solo reconocimiento.
+
+Sus mayores outliers en shorts tienen todos un ancla concreta: un consejo atribuido a una
+persona nombrada (x67.6), una fábula con dos animales (x45.1), un grupo tribal específico
+(x27.1), una prohibición explícita (x21.0).
+
+## Hallazgo 7 — Literal vence a hueco de curiosidad en corto (Jeremy Miner)
+
+120 shorts, mediana 13.500. Mismo creador, mismo tema (objeciones de venta), misma
+duración. La única variable que cambia es si el título nombra la cosa o la esconde:
+
+| Nombra la frase exacta | Usa placeholder |
+|---|---|
+| "Objeción: solo dime el precio" → x5.6 | "Estas frases te cuestan tratos" → x0.46 |
+| "Deja de decir gracias" → x3.8 | "Evita estas palabras en ventas" → x0.39 |
+| "Manejo en vivo: más barato" → x3.3 | "Deja de perder ventas con esta frase" → x0.47 |
+
+Diferencial ~10x. Contradice el consejo habitual de mantener abierto el hueco de
+curiosidad. El hueco funciona donde ya hay intención (búsqueda) y falla donde no la hay
+(scroll), porque no activa reconocimiento.
+
+## Hallazgo 8 — El nicho declarado no es el nicho viral (Jeremy Miner)
+
+Canal de ventas high-ticket. Sus dos mayores outliers no son de ventas, son de psicología
+del estatus: "7 comportamientos sutiles que te hacen parecer débil" (**x35.6**) y "10
+cosas que bajan tu estatus al instante" (x23.6). Sus vídeos de ventas puros llegan a x17.7.
+
+Implicación: el contenido de patrón psicológico supera al contenido técnico de oficio
+incluso en un canal cuya audiencia vino por el oficio.
+
+Confirmación adicional de la ley 2 en este canal: su anécdota autobiográfica de puerta
+fría rinde **x0.20**, y sus entrevistas con invitados x0.23–x0.29.
+
 ## Limitaciones (leer antes de citar estos datos)
 
 - **Sin transcripciones.** YouTube bloquea por IP desde datacenter (HTTP 429 y "confirma
@@ -112,9 +160,12 @@ confirmando que el formato serie sin promesa de utilidad no sostiene a un canal 
 - **Visitas redondeadas** por la fuente (ej. 20.000, 2,2M). Los múltiplos son aproximados.
 - **Correlación, no causalidad.** Los patrones son consistentes en 6 canales y 706 vídeos,
   lo que es señal fuerte, pero no son un experimento controlado.
-- **Sin shorts.** El canal de Víctor Heras no publica shorts en YouTube; el resto no se
-  muestreó en formato corto. Las conclusiones aplican a formato largo y a la lógica de
-  titulación, que sí transfiere parcialmente a formato corto.
+- **Shorts solo de dos canales** (Segués y Miner, 240 piezas). Los hallazgos 6 y 7 son
+  consistentes y de diferencial alto, pero la base es más estrecha que la de formato largo.
+- **Sin datos de Instagram ni TikTok.** Instagram exige autenticación para cualquier
+  extracción. Las reglas de formato corto se infieren de shorts de YouTube. La mecánica de
+  scroll es comparable, pero la distribución no es idéntica: verifícalas antes de darlas
+  por ciertas en IG.
 
 ## Reproducir o ampliar
 
