@@ -66,6 +66,55 @@ separar. Para distinguirlas hace falta la columna **Impresiones** de YouTube Stu
 
 Hasta tener ese dato, no atribuyas los 21 vídeos muertos a la calidad del titular.
 
+## Retención alta no es conversión (datos de propietario)
+
+YouTube Analytics del canal, marzo–septiembre 2026, 24 vídeos con más visitas:
+
+| Franja de retención | n | Suscriptores ganados por vídeo |
+|---|---|---|
+| 75 % o más | 4 | **1,2** |
+| 58–75 % | 11 | **4,8** |
+
+Cuatro veces más conversión con **menos** retención. Los casos extremos:
+
+- Vídeo con **91,8 %** de retención → **1 suscriptor**.
+- Vídeo con **62,2 %** de retención → **9 suscriptores**.
+
+La diferencia no es la calidad: es qué se lleva el espectador.
+
+**Los de retención altísima son contenido cerrado.** Una curiosidad, una anécdota, un truco
+atribuido a un famoso. Se consumen enteros y se acaban ahí. El espectador queda satisfecho
+y no tiene ningún motivo para seguir al canal: ya tiene lo que vino a buscar.
+
+**Los que convierten prometen un método.** Cómo resolver objeciones, el mejor método para
+cerrar, qué hacer y qué no. Una habilidad transferible no cabe en 95 segundos, así que el
+espectador se suscribe para conseguir el resto.
+
+### Corolario que corrige la ley 1
+
+El vehículo con carga alta (un político que polariza, un actor famoso) sigue trayendo las
+visitas y la retención más altas del canal — la ley 1 se cumple. Pero si el vehículo **es**
+el contenido, el espectador se va con el vehículo y no con el creador.
+
+El vehículo tiene que ser la puerta, no la habitación. La prueba operativa de que lo estás
+usando bien es que el mecanismo que hay dentro tenga nombre propio y sirva sin ti
+(ver `mecanicas-retencion.md` §2).
+
+### Zona operativa medida en este canal
+
+| | Duración | Retención |
+|---|---|---|
+| Convierten | 76–114 s | 58–68 % |
+| Se consumen y no convierten | 63–114 s | 76–92 % |
+| Fallan el gancho | 35–53 s | 42–45 % |
+
+Los shorts por debajo de 55 s son los de peor retención del canal: pierden al espectador
+antes del segundo 20. Los que peor arrancan restringen la audiencia en la primera frase
+(si te dedicas a X, escucha esto), el mismo error que el fracaso medido de Jeremy Miner.
+
+**Objetivo al escribir para este canal: 80–115 segundos, y algo sin cerrar al final.**
+Perseguir el 90 % de retención es perseguir la métrica equivocada.
+
 ## Audiencia objetivo
 
 Dos, y son secuenciales, no paralelas:
