@@ -48,12 +48,16 @@ segunda era la peligrosa:
 >
 > Vendemos estaciones de energía portátil, baterías, placas solares, exoesqueletos de asistencia a la marcha y arrancadores de batería. Tenemos tienda física y almacén propio en el polígono.
 >
-> Contamos con servicio técnico propio de EcoFlow: las reparaciones y las garantías de la marca las tramitamos nosotros, en español. Del resto de marcas gestionamos el trámite con el fabricante.
+> Si compras aquí, la garantía la gestionamos nosotros: abres la incidencia con tu número de pedido y nos entendemos con el fabricante por ti, en español. No somos un taller de reparación.
 >
 > Puedes venir a ver y probar el producto antes de comprarlo, incluidos los exoesqueletos, de los que tenemos unidades de prueba.
 
 **«Sin que el equipo salga de España»** era una promesa que la web nunca ha hecho y que el
 propio flujo de RMA —que pasa por `rma.ecogadget@sassl.es`— no permite garantizar.
+
+**Y el párrafo del servicio técnico está reescrito desde cero (9/10/2026): ya no son
+servicio técnico oficial de EcoFlow.** Lo único que se puede decir es que gestionan la
+garantía de lo que venden, como cualquier vendedor. Ver `servicio-tecnico-retirado.md`.
 
 **«Con producto para llevar en el día»**, con 84 de 158 productos agotados, es literalmente
 la frase que fabrica la siguiente reseña de una estrella. Y se iba a publicar justo encima

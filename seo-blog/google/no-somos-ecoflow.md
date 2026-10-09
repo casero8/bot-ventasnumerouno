@@ -19,10 +19,10 @@ la marca, no a una tienda.
 dice «tienda»: dice *oficina de EcoFlow en España*. Quien tiene un problema con un equipo
 comprado en cualquier sitio aterriza ahí convencido de que está reclamando al fabricante.
 
-**3 · «Servicio Técnico Oficial de EcoFlow» es verdad, y por eso funciona la confusión.**
-Lo somos. Pero el cliente lee «oficial» y entiende «esto es EcoFlow», no «esto es una
-tienda que además repara». Y entonces llega pidiendo una garantía de una compra que hizo
-en Amazon.
+**3 · «Servicio Técnico Oficial de EcoFlow» se dijo durante meses, y ahí nació la mitad de
+la confusión.** Desde octubre de 2026 **ya no lo son**, y el reclamo ha salido de toda la
+web. Pero sigue indexado en Google y en la cabeza de quien lo leyó, así que seguirá
+llegando gente que compró en Amazon pidiendo una garantía que no nos toca.
 
 **El resultado no es un cliente insatisfecho: es alguien que nunca nos compró nada,
 enfadado con el fabricante, dejando su enfado en nuestra ficha.**
@@ -72,15 +72,17 @@ enlazada desde Servicio Técnico. Texto propuesto:
 > | Dónde lo compraste | Quién responde de la garantía | Qué hacemos nosotros |
 > |---|---|---|
 > | Aquí | Nosotros, de principio a fin | Lo tramitamos todo con tu número de pedido |
-> | Amazon, otra tienda o la web del fabricante | Quien te lo vendió. Es la ley, y es a quien tienes que reclamar | Te lo reparamos igualmente como servicio técnico oficial, con presupuesto previo y sin compromiso |
-> | Fuera de la Unión Europea | Depende del vendedor, y en la práctica suele ser complicado | Te decimos si tiene arreglo y cuánto cuesta antes de tocar nada |
+> | Amazon, otra tienda o la web del fabricante | Quien te lo vendió. Es la ley, y es a quien tienes que reclamar | Te decimos qué le pasa y a quién tienes que acudir. No somos un taller de reparación |
+> | Fuera de la Unión Europea | Depende del vendedor, y en la práctica suele ser complicado | Te orientamos, pero ahí poco se puede hacer y preferimos decírtelo claro |
 >
-> **Lo que no podemos hacer:** aplicar una garantía gratuita a una compra que no es
-> nuestra. No es que no queramos: la garantía la responde legalmente el vendedor, y ése no
-> somos nosotros. Si te decimos que sí y luego no se puede, te hacemos perder semanas.
+> **Lo que no podemos hacer:** aplicar una garantía a una compra que no es nuestra, ni
+> repararte el equipo. No somos un taller de reparación. La garantía la responde
+> legalmente quien te lo vendió, y ése no somos nosotros. Si te decimos que sí y luego no
+> se puede, te hacemos perder semanas.
 >
-> **Lo que sí:** verlo, diagnosticarlo, decirte qué tiene y cuánto cuesta arreglarlo, y
-> hacerlo aquí, en español y sin que tengas que entenderte con nadie fuera.
+> **Lo que sí:** decirte qué le pasa, si merece la pena arreglarlo y a quién tienes que
+> acudir. Y si acabas comprando aquí, que la próxima garantía la gestiones con nosotros,
+> con tu número de pedido y en español.
 >
 > [Escríbenos con el modelo y qué le pasa](/contacto/)
 
@@ -88,10 +90,11 @@ enlazada desde Servicio Técnico. Texto propuesto:
 
 Arriba del todo, antes de nada:
 
-> **Somos servicio técnico oficial de EcoFlow, no somos EcoFlow.** El fabricante es una
-> empresa china sin oficinas en España; nosotros somos su distribuidor y su taller
-> autorizado, en Rivas-Vaciamadrid. Si compraste tu equipo aquí, la garantía la tramitamos
-> nosotros enteros. Si lo compraste en otro sitio, [mira esto primero](/compre-en-otro-sitio/).
+> **Somos distribuidor oficial de EcoFlow, no somos EcoFlow.** El fabricante es una
+> empresa china sin oficinas en España; nosotros somos una tienda de Rivas-Vaciamadrid que
+> vende su producto. Si compraste tu equipo aquí, la garantía la gestionamos nosotros con
+> tu número de pedido. Si lo compraste en otro sitio,
+> [mira esto primero](/compre-en-otro-sitio/).
 
 ### 3 · Una línea en la descripción de Google
 
@@ -122,10 +125,10 @@ ahí es donde se recupera lo perdido. Molde para este caso concreto:
 
 > Hola [nombre]. Sentimos el problema con tu equipo. Solo una aclaración, porque nos pasa a
 > menudo y entendemos la confusión: **no somos EcoFlow**, somos una tienda y el servicio
-> técnico oficial de la marca en Rivas-Vaciamadrid. No tenemos constancia de una compra
-> tuya con nosotros, así que la garantía te la tiene que atender quien te vendió el equipo.
-> Dicho eso, si quieres te lo miramos igual: llámanos al 916 66 95 29 o escríbenos y te
-> decimos qué tiene y qué costaría arreglarlo.
+> distribuidor oficial de la marca en Rivas-Vaciamadrid. No tenemos constancia de una
+> compra tuya con nosotros, así que la garantía te la tiene que atender quien te vendió el
+> equipo. Dicho eso, llámanos al 916 66 95 29 y te orientamos sobre qué le pasa y a quién
+> acudir.
 
 Cuatro cosas de ese molde, que son las que lo hacen funcionar:
 
