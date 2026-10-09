@@ -318,3 +318,57 @@ trabajamos · ECOFLOW STREAM · Microinversor STREAM + STREAM CA Pro · Solucion
 Servicio oficial EcoFlow España · Generadores solares para balcones · EcoFlow España y SeQura ·
 Kit solar para balcón · DELTA 3 · Serie Rapid · Control a Distancia · Soluciones para casa ·
 Independencia Energética.
+
+---
+
+## Elementor: el bloqueo no es la portada, es el pie (9/10/2026)
+
+Leído en vivo en `/producto/ecoflow-river-3-max-plus/`, con el hosting ya accesible.
+
+**El pie de la web está hecho con Elementor.** La plantilla es la **3082**, con
+`elementor-location-footer`, y eso significa que el marcado de Elementor se pinta **en las
+326 URLs del sitio**, no solo en la portada.
+
+| Qué se buscó | Resultado |
+|---|---|
+| Plantillas de Elementor en una ficha de producto | **1** — id 3082, `location footer` |
+| Clases `elementor-*` en el HTML | **48 distintas** |
+| Hojas de estilo `*elementor*.css` cargadas | **0** |
+| Scripts `*elementor*.js` cargados | **0** |
+
+**El matiz importa, y corrige lo que habría supuesto:** Elementor **genera el marcado** pero
+sus archivos de CSS y JS **no se cargan por separado** en la ficha. Están combinados o
+incrustados, probablemente por la optimización de LiteSpeed. Así que **quitar Elementor no
+va a ahorrar los cientos de kilobytes** que uno esperaría de un constructor visual: en las
+fichas de producto, hoy, no está pesando en archivos aparte.
+
+**Dónde está el verdadero bloqueo:** mientras el pie sea una plantilla de Elementor,
+**Elementor no se puede desinstalar**, porque el sitio se queda sin pie. El orden correcto
+para el encargo de «ir quitando Elementor» es:
+
+1. **Rehacer el pie** sin Elementor —en el tema hijo o como bloque de código—, que es la
+   pieza que lo ata a todas las páginas.
+2. Después la portada y `/ofertas/`, que son las otras dos que lo usan y que **no se abren
+   con Elementor** (norma 6).
+3. Y solo entonces desinstalar.
+
+Hacerlo al revés deja la web sin pie en las 326 URLs a la vez.
+
+## AI Engine: activo, pero no pinta nada en el front (9/10/2026)
+
+El plugin **AI Engine** (`mwai`) aparece en los namespaces de la API REST, así que está
+instalado y activo. **Pero en el HTML servido de una ficha de producto no deja ni una
+marca:** cero coincidencias de `mwai` y cero de `ai-engine` en el front.
+
+Para el encargo de «quitar de la web cualquier indicio de que esto se hace con IA», esto es
+**una buena noticia: no hay nada visible que quitar.** Lo que queda es una decisión de
+mantenimiento, no de imagen: un plugin activo que no se usa sigue cargando en el escritorio,
+sigue exponiendo rutas REST y sigue habiendo que actualizarlo. Si no se está usando,
+desactivarlo. **Antes de tocarlo hay que preguntar al dueño si lo usa para algo**, porque
+desde fuera no se puede saber.
+
+## Confirmado: el umbral del envío gratis son 2.000 € (9/10/2026)
+
+La barra del carrito dice literalmente «**2.000,00 € más para disfrutar de Envío GRATIS**».
+Está bien configurado y coincide con lo que dijo el dueño. **No hay nada que corregir ahí**,
+y queda descartada la sospecha de que el «Envío gratis» del front fuera una afirmación falsa.
