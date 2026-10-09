@@ -1,0 +1,60 @@
+CATEGORÍA stream-series
+
+URL:  https://ecogadgetoficial.com/product-category/stream-series/
+
+TÍTULO SEO (57):
+EcoFlow STREAM: microinversor y baterías para balcón
+
+META DESCRIPCIÓN (150):
+La gama EcoFlow STREAM completa: microinversor, STREAM AC Pro, Ultra y Ultra X. Qué hace cada pieza y cuál necesitas. Se enchufa, sin obra ni electricista.
+
+NOMBRE ACTUAL DE LA CATEGORÍA: «Batería para casa y balcón STREAM».
+Cambiar el H1 a «EcoFlow STREAM», que es como se busca: `ecoflow stream series`
+tiene 386 impresiones en posición 9,0 y la cadena «stream» aparece en 91
+consultas. «Batería para casa y balcón» no lo busca nadie con esas palabras.
+NO cambiar el slug: `stream-series` ya es el que coincide con la búsqueda.
+
+PALABRA CLAVE PRINCIPAL:  ecoflow stream
+SECUNDARIAS:  ecoflow stream ultra x (1.290 impr) · ecoflow stream ultra (1.107) ·
+ecoflow stream series (386) · stream ultra x (282) · ecoflow stream ca pro (180) ·
+microinversor ecoflow · powerstream (descontinuado, 624 impr en el racimo)
+
+POR QUÉ ES NIVEL 1:  el racimo STREAM + balcón + autoconsumo son
+8.456 impresiones y 127 clics en 16 meses. Es la segunda bolsa de impresiones
+del sitio después del solar genérico.
+
+ENLACES QUE SALEN (16, todos directos):
+/kits-para-balcones/ (×3) · /product-category/paneles-solares/ (×2) ·
+/product-category/serie-delta/ (×2) · /man/ (×3) · /contacto/ (×6)
+
+NO ENLAZA A NINGÚN PRODUCTO CONCRETO, y es deliberado: los 6 productos de la
+categoría no están revisados uno a uno y hay 2 agotados en `/ecoflow-stream/`.
+La rejilla ya los enseña. Cuando lleguen los datos, se añaden.
+
+LO QUE NO LLEVA, Y ES DELIBERADO:
+· Ni un precio. Congelados hasta el inventario con los EAN.
+· Sin FAQPage y sin VideoObject.
+· NINGUNA CIFRA DE AHORRO. La FAQ lo dice y explica por qué: un ahorro sin el
+  consumo del cliente delante es un número inventado. Las cifras de 1.039 kWh/año
+  y 415 € viven en /kits-para-balcones/, que es donde está la cuenta a la vista.
+· NINGUNA CIFRA DE CAPACIDAD NI DE SALIDA por modelo. Cambian entre versiones y
+  no están verificadas una a una: se manda a la ficha de cada uno.
+· NINGUNA AFIRMACIÓN SOBRE PERMISOS DE AUTOCONSUMO. La normativa depende de la
+  potencia y de la comunidad autónoma. La FAQ dice que lo confirme su
+  comercializadora o su ayuntamiento, no nosotros.
+· Nunca «servicio técnico»: es garantía del fabricante, gestionada aquí.
+
+DICE EXPRESAMENTE QUE NO SE INSTALA:
+Hay un bloque `eg-regla` con el aviso: «vendemos el equipo, no lo instalamos».
+Es lo que pidió el dueño el 9/10/2026 y evita atraer a quien busca un instalador.
+Y encaja con el argumento de venta, porque esta gama va a un enchufe.
+
+COMPROBAR ANTES DE APLICAR:
+1. Que el 301 de /ecoflow-stream/ a /stream-series/ está hecho ANTES de aplicar
+   este texto. Si no, las dos categorías siguen partiéndose la señal.
+2. Que se aplica por REST comparando bytes y sin tocar <!--eg-corte-->.
+3. Que ninguno de los 16 enlaces devuelve un 301, en especial
+   /kits-para-balcones/ y /product-category/paneles-solares/.
+4. Que después de tocar el Yoast del término se reaplica por REST (norma 5).
+5. Que la fila de pastillas sale. Si la categoría no tiene hermanas con stock,
+   hay que escribirle lista manual en el meta `eg_pastillas` (norma 14).
