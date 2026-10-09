@@ -1,126 +1,128 @@
-# URGENTE · Ya no somos servicio técnico de EcoFlow
+# URGENTE · Ya no somos servicio técnico de EcoFlow · quitar y redirigir
 
-**9 de octubre de 2026.** EcoFlow les ha retirado la condición de servicio técnico. A
-partir de ahora **solo tramitan la garantía de lo que venden, como cualquier vendedor**.
+**9 de octubre de 2026.** EcoFlow les ha retirado la condición de servicio técnico.
+**Decisión del dueño, tomada:** se quita todo de la web y la página se **redirige a los
+productos de EcoFlow**.
 
-Esto deja de ser un cambio de redacción y pasa a ser **publicidad engañosa publicada en
-toda la web**. Va primero, antes que la tanda 12 y antes que cualquier otra cosa.
-
----
-
-## Por qué es urgente y no puede esperar
-
-Decir «servicio técnico oficial de EcoFlow» sin serlo es una **afirmación comercial falsa**.
-Es la misma familia que el «Envío Gratis Y Devoluciones» que aparecía en las 158 fichas en
-agosto y que se quitó por lo mismo: se puede denunciar, se puede sancionar, y aquí hay un
-agravante — **lo que se atribuye es una autorización de un tercero que ya no existe**.
-
-Y hay un segundo motivo, más práctico: **mientras lo siga diciendo, seguirá llegando gente
-que compró en Amazon pidiendo una reparación en garantía que no se le puede dar.** Eso es
-exactamente lo que está produciendo las reseñas de una estrella.
+Esto va **antes** que la tanda 12 y antes que cualquier otra cosa pendiente.
 
 ---
 
-## Lo que ya está hecho en el repositorio
+## Por qué es lo primero
 
-**Veinte archivos. Cero afirmaciones de servicio técnico o de reparación** en
-`categorias/`, `fichas/`, `nuevos/`, `google/` y `correos/`. Comprobado con un barrido.
+Decir «servicio técnico oficial de EcoFlow» sin serlo es una **afirmación comercial falsa**,
+y encima atribuyéndose una autorización de un tercero que ya no existe. Misma familia que
+el «Envío Gratis Y Devoluciones» que se quitó de las 158 fichas en agosto, con el agravante.
+
+Y hay un motivo práctico: mientras lo siga diciendo, seguirá llegando gente que compró en
+Amazon pidiendo una reparación en garantía que no se le puede dar. Eso es lo que está
+produciendo las reseñas de una estrella.
+
+---
+
+## Ya hecho en el repositorio · 23 archivos, cero menciones
+
+Comprobado con un barrido: **cero** apariciones de «servicio técnico», «servicio posventa»,
+«taller propio», «reparamos» o enlaces a `/servicio-tecnico-ecogadget/` en `categorias/`,
+`fichas/`, `nuevos/`, `google/` y `correos/`.
 
 | Qué decía | Qué dice ahora |
 |---|---|
-| Pastilla «Servicio técnico propio · La garantía la tramitamos nosotros» (11 archivos) | **«Garantía gestionada aquí · Con tu número de pedido, en español»** |
+| Pastilla «Servicio técnico propio» (11 archivos) | **«Garantía gestionada aquí · Con tu número de pedido, en español»** |
 | Azulejo «Servicio técnico · Reparamos aquí, sin intermediarios» | **«Tramitar garantía · Con tu número de pedido»** |
-| «con tienda física y servicio técnico propio… si hay avería la reparamos nosotros» | «con tienda física en Rivas-Vaciamadrid… si algo falla, abres la incidencia con nosotros y con tu número de pedido, en español, en vez de pelearte con un formulario del fabricante» |
-| «como servicio técnico oficial de EcoFlow te reparamos cualquier equipo de la marca, con presupuesto previo» | «la garantía la responde quien te lo vendió: es la ley y es a quien tienes que reclamar. **Nosotros no somos un taller de reparación**» |
-| Descripción de Google: «Contamos con servicio técnico propio de EcoFlow» | «Si compras aquí, la garantía la gestionamos nosotros… **No somos un taller de reparación**» |
+| «con tienda física y servicio técnico propio… la reparamos nosotros» | «con tienda física en Rivas-Vaciamadrid… abres la incidencia con nosotros y con tu número de pedido, en vez de pelearte con un formulario del fabricante» |
+| «como servicio técnico oficial te reparamos cualquier equipo de la marca» | «la garantía la responde quien te lo vendió: es la ley. **Nosotros no somos un taller de reparación**» |
+| Las 3 FAQ de categoría que decían «Somos servicio técnico oficial de EcoFlow» | Reescritas: garantía legal de tres años, gestionada aquí con el número de pedido |
 
-**El argumento nuevo, que sigue siendo bueno:** lo que el cliente compra al comprar aquí no
-era nunca el taller. Es **no tener que entenderse con el fabricante**. Factura en España,
+**El argumento de venta no se ha perdido, se ha corregido.** Lo que el cliente compraba
+nunca fue el taller: era **no tener que entenderse con el fabricante**. Factura en España,
 garantía legal de tres años, la comercial del fabricante cuando es más larga, y una
-incidencia que se abre con un número de pedido y en español. Eso es verdad, se puede
-sostener, y es lo que de verdad diferencia de un marketplace.
+incidencia que se abre con un número de pedido y en español. Eso es verdad y sigue siendo
+la diferencia frente a un marketplace.
 
 ---
 
-## Lo que hay que hacer en la web, por orden
+## La redirección
 
-### Bloque A · Hoy, porque es lo que está publicado y es falso
+**301, nunca 302** (norma 9). Se añade al fragmento #6, `EG · SEO · Redirecciones de URLs
+muertas`, que es donde viven las demás.
 
-1. **La página `/servicio-tecnico-ecogadget/`.** Es el problema más grande y necesita
-   decisión del dueño, así que está abajo en su propio apartado.
-2. **Las 158 descripciones de producto.** Busca por REST, en `post_content` y en
-   `post_excerpt`, estas cadenas: `servicio técnico`, `servicio tecnico`, `taller propio`,
-   `reparamos`, `SAT`, `reparación`. Mándame la lista antes de tocar nada: quiero ver
-   cuántas son y en qué contexto.
-3. **Las 20 categorías con texto.** Lo mismo. Las que están en el repositorio ya vienen
-   corregidas; las demás hay que mirarlas una a una.
-4. **El pie de página, la portada y cualquier pastilla de confianza del tema.** Ahí suele
-   estar repetido en todas las páginas a la vez.
-5. **El fragmento #38** y cualquier otro fragmento que lo mencione.
+```
+/servicio-tecnico-ecogadget/   →   301   →   [destino, ver abajo]
+```
+
+### El destino
+
+El dueño ha dicho «a los productos de EcoFlow». **Comprueba primero qué existe**, en este
+orden de preferencia:
+
+1. Si hay una **categoría o página de marca de EcoFlow** que agrupe toda la gama, ésa.
+2. Si no, **`/product-category/serie-delta/`**: es la gama principal, la que tiene stock y
+   la que más tráfico recibe.
+
+**Dime cuál has elegido antes de activarla.** Y comprueba que el destino responde **200
+directo**, no otro 301: una redirección que apunta a una redirección es un salto doble y
+los buscadores lo penalizan.
+
+### Lo que hay que hacer con la redirección puesta
+
+1. **Borrar la página, no dejarla publicada.** Si se queda publicada *y* redirigida, según
+   cómo esté montado el redirector puede seguir siendo accesible por otra ruta. A
+   **borrador**, nunca a la papelera (norma 11).
+2. **Quitarla del sitemap** y comprobar que no queda en `wp-sitemap` ni en el de Yoast.
+3. **Los enlaces internos ya están quitados** en el repositorio. En la web hay que barrer
+   los que haya en el menú, el pie, la portada y los fragmentos: **ningún enlace interno
+   debe pasar por el 301** (norma 9). Que funcione no basta: diluye y ralentiza el rastreo.
+4. **El formulario de garantía (3446)** y su página de destino: revisar que no mencionen
+   reparación, y que digan que es para compras hechas aquí, con número de pedido.
+
+### Qué va a pasar, para que no sorprenda
+
+Las **1.384 impresiones en posición 1-3** de «servicio técnico ecoflow» **se van a perder**,
+y conviene saberlo por adelantado en vez de descubrirlo en Search Console dentro de un mes.
+Un 301 traslada autoridad, pero cuando el destino no responde a la búsqueda, Google acaba
+dejando de enseñarlo para esa consulta. Era el 3,7 % de los clics del sitio.
+
+No es un error de la decisión: **es el coste de haber perdido el servicio técnico**, y no
+hay forma de posicionarse para un servicio que no se presta. Lo que sí evita el 301 es
+perder además la autoridad acumulada de la URL, y eso es justo lo que se gana.
+
+**Mitigación barata, y es una línea:** quien llegue desde esa búsqueda va a aterrizar en una
+rejilla de productos sin respuesta a su pregunta. Publicar
+**«Compré mi EcoFlow en otro sitio»** —ya escrita en `google/no-somos-ecoflow.md`— y
+enlazarla desde arriba de la categoría de destino recoge a esa gente en vez de dejarla
+rebotar. Antes era recomendable; ahora es lo que evita la siguiente reseña.
+
+---
+
+## El barrido en la web · lo que falta
+
+1. **Las 158 descripciones de producto.** Por REST, en `post_content` y `post_excerpt`,
+   buscando: `servicio técnico`, `servicio tecnico`, `taller`, `reparamos`, `reparación`,
+   `SAT`. **Mándame la lista antes de tocar nada**, para ver cuántas son y en qué contexto.
+2. **Las 20 categorías con texto.** Las que están en el repositorio ya vienen corregidas;
+   las demás, una a una.
+3. **El pie, la portada y las pastillas de confianza del tema.** Ahí está repetido en todas
+   las páginas a la vez, así que es el cambio que más superficie limpia de golpe.
+4. **El fragmento #38** y cualquier otro que lo mencione.
+5. **Los correos automáticos** de pedido y de garantía, y la firma.
 6. **La ficha de Google:** la descripción nueva está en `google/ficha-google.md`, ya
-   reescrita. Y hay que revisar las **categorías de la ficha**: «Servicio de reparación de
-   electrónica», que en la tanda 11 se iba a añadir, **ya no se puede añadir**.
-7. **Los correos automáticos** de pedido y de garantía, y la firma del correo, si lo dicen.
-
-### Bloque B · Esta semana
-
-8. **El formulario de garantía (3446)** y los textos que lo acompañan: tienen que decir que
-   es para compras hechas aquí, con número de pedido.
-9. **Publicar «Compré mi EcoFlow en otro sitio»**, ya reescrita en
-   `google/no-somos-ecoflow.md`. Antes era recomendable; ahora es **necesaria**, porque es
-   la página que recoge a toda la gente que va a seguir llegando con la expectativa vieja.
+   reescrita. Y la categoría **«Servicio de reparación de electrónica» que la tanda 11
+   mandaba añadir, ya NO se puede añadir.** Si se añadió, quitarla.
 
 ---
 
-## La página `/servicio-tecnico-ecogadget/` · tres opciones y mi recomendación
+## Una pregunta que hay que hacerle al dueño antes de aplicar nada
 
-Esto es lo que hay que decidir, y conviene saber lo que se está decidiendo:
+**¿Sigue en pie la condición de distribuidor oficial de EcoFlow?**
 
-| Consulta | Impresiones | Posición | Clics |
-|---|---:|---:|---:|
-| `servicio tecnico ecoflow españa` | 545 | **1,2** | 27 |
-| `servicio tecnico ecoflow` | 511 | **2,2** | 22 |
-| `servicio tecnico oficial ecoflow` | 328 | **2,0** | 0 |
+Ha dicho que les han quitado el servicio técnico, y **todo lo reescrito da por hecho que
+«distribuidor oficial de EcoFlow en España» sigue siendo cierto**. Aparece en las veinte
+páginas corregidas y es ahora el argumento principal del sitio. Si eso también ha caído,
+hay que rehacerlo otra vez y la propuesta de valor cambia de arriba abajo.
 
-**1.384 impresiones en posición 1-3 y 49 clics: el 3,7 % de todos los clics del sitio.** Es
-una de las dos únicas cosas por las que esta web sale primera en Google. Y ahora **ese
-tráfico llega buscando algo que ya no se ofrece**.
-
-**Opción 1 · Borrar la página.** Honesto y rápido. Se pierden las 1.384 impresiones y los
-49 clics, y se queda un 404 o un 301 a la portada. Es tirar el activo.
-
-**Opción 2 · Reescribirla como «Garantías y posventa».** Misma URL, mismo contenido
-reconvertido: cómo se tramita una garantía comprada aquí, qué cubre la ley, qué plazos, y
-qué hacer si compraste en otro sitio. Se pierde posición en «servicio técnico» —
-inevitable, porque ya no se puede competir ahí— pero **se retiene la URL, los enlaces
-internos y parte de la autoridad**, y se gana una página que resuelve dudas reales de
-compradores reales.
-
-**Opción 3 · Mantener la palabra «servicio técnico» en la página explicando que no lo
-son.** Ni se te ocurra. Google la seguiría enseñando para esa búsqueda y el usuario
-llegaría a una página que le dice que no, lo que produce exactamente la reseña de una
-estrella que estamos intentando evitar.
-
-**Recomiendo la 2.** Es la única que no tira el activo y la única que convierte el problema
-en algo útil: la gente que busca «garantía EcoFlow» o «cómo reclamar mi EcoFlow» es la
-misma que luego compra el recambio.
-
-> **Punto de control, y es el único de esta tanda.** No toques esa página hasta que el
-> dueño elija. Lo demás del bloque A se puede ir haciendo ya.
-
----
-
-## Dos cosas que hay que confirmar antes de seguir
-
-1. **¿Sigue en pie la condición de distribuidor oficial?** David ha dicho que les han
-   quitado el servicio técnico, no la distribución, y todo lo reescrito **da por hecho que
-   «distribuidor oficial de EcoFlow en España» sigue siendo cierto**. Si eso también ha
-   caído, hay que rehacer otra vez las mismas veinte páginas, y entonces la propuesta de
-   valor del sitio cambia de arriba abajo. **Hay que preguntárselo antes de aplicar nada.**
-
-2. **¿Y Hypershell y Lokithor?** De esas dos nunca se dijo «servicio técnico propio» —
-   siempre «garantía del fabricante»—, así que ahí no hay nada que corregir. Es el único
-   sitio donde la norma 10 nos salvó de tener que rehacer el trabajo.
+De **Hypershell y Lokithor no hay nada que corregir**: de esas dos siempre se dijo
+«garantía del fabricante», nunca servicio técnico propio.
 
 ---
 
@@ -128,8 +130,8 @@ misma que luego compra el recambio.
 
 El racimo «servicio técnico EcoFlow» **sale del plan de 90 días**. Era el punto 1 de la
 semana 1 —«posición 2 con cero clics es lo más urgente del sitio»— y ya no se puede
-trabajar: no es un problema de título, es que no tenemos el producto.
+trabajar: no era un problema de título, es que no tenemos el producto.
 
-Eso deja el plan de la semana 1 en tres puntos en vez de cuatro, y **sube el racimo de
-placas solares a lo más importante de la auditoría**: 10.336 impresiones en posición media
-18,9. Era el segundo; ahora es el primero.
+Eso **sube las placas solares al primer puesto de la auditoría**: 10.336 impresiones en
+posición media 18,9 con 47 clics. Pasarlas a la primera página son 38-71 clics al mes, y
+ahora es lo más importante que hay en la lista.
