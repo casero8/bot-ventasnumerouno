@@ -66,38 +66,35 @@ portátil»** en singular y plural si cabe, no «paneles solares» a secas.
 
 ---
 
-## Causa nº 2 · El racimo de balcón no tiene página, y es el hallazgo nuevo
+## Causa nº 2 · El balcón sí tiene página, y me equivoqué al decir que no
 
-Esto no estaba en la auditoría y es lo que más me ha sorprendido del análisis:
+**Corrección mía, antes de que nadie actúe sobre la versión anterior de este parte.** Dije
+que el racimo de balcón no tenía página. **La tiene: `/kits-para-balcones/`, y es una de
+las más grandes del sitio** — 6.734 impresiones en posición 12,11, con 82 clics.
 
-| Consulta | Impresiones | Posición |
-|---|---:|---:|
-| `generador solar para balcones` | 189 | 13,4 |
-| `generadores solares para balcones` | 179 | 22,0 |
-| `kit solar para balcón ecoflow 880 w` | 154 | 10,2 |
-| `paneles solares portatiles para balcones` | 136 | 16,3 |
-| `kit solar balcon` | 123 | 15,8 |
-| `placa solar balcón` | 96 | **72,5** |
-| `kit solar balcón con batería` | 71 | 13,2 |
-| `kit solar balcon ecoflow` | 57 | 5,9 |
+Lo que vi en las consultas —posiciones del 5,9 al 72,5— no era «no hay página». Era que
+**las consultas de balcón se reparten entre esa página, la categoría `stream-series` y las
+fichas**, que es la misma enfermedad de la causa nº 1 con otro nombre.
 
-**Mil impresiones y las posiciones van del 5,9 al 72,5.** Ese baile es la firma de que
-Google no encuentra una página para esto y va probando la que le parece. Cuatro clics.
+Y el plan de migración ya decidió, con criterio, que **esa página no se toca**: «es una
+página de caso de uso, no una gama». Eso sigue siendo correcto. Una categoría enseña
+productos; una página de caso de uso explica si te sirve para tu balcón y qué piezas
+necesitas. No se duplican.
 
-**El solar de balcón enchufable es una de las categorías que más está creciendo en España**,
-y hay producto para venderlo: el **microinversor STREAM**, que sustituyó al PowerStream.
-La categoría `stream-series` tiene **7 productos y 1.330 impresiones**, está en la lista de
-nivel 1 del plan y **sigue sin texto escrito**.
+### Lo que hay que hacer entonces, que no es escribir una página nueva
 
-**Propuesta:** el racimo de balcón apunta a `stream-series`, no a `paneles-solares`. Son
-intenciones distintas —un kit enchufable para un balcón no es un panel portátil para el
-campo— y mezclarlas es repetir el error de las tres URLs.
-
-Si el dueño da el visto bueno, **escribo la categoría `stream-series` atacando «kit solar
-balcón»** y queda cubierto. Es una categoría de nivel 1 que había que escribir de todas
-formas.
-
----
+1. **El título SEO y la meta de `/kits-para-balcones/`.** Está en posición 12 con 6.734
+   impresiones: es exactamente el mismo problema de CTR que el resto de la auditoría, y se
+   arregla en dos campos. Las consultas reales son `kit solar balcon`, `generador solar para
+   balcones`, `kit solar balcón con batería`, `placa solar balcón`.
+2. **Escribir la categoría `stream-series`** — pero **como gama de producto, no como página
+   de balcón**. Es nivel 1 del plan (6-7 productos, 1.288 impresiones) y sigue sin texto.
+   Su trabajo es enseñar el microinversor y la batería; el de convencer para un balcón es de
+   `/kits-para-balcones/`. **Las dos se enlazan, no compiten.**
+3. **Arreglar el desdoble de STREAM**, que es lo que parte la señal: hay **dos categorías**,
+   `/stream-series/` (6 productos, 1.288 impresiones) y `/ecoflow-stream/` (2 productos,
+   agotados). La segunda sobra: 301 a la primera. Está anotado en
+   `analisis-categorias-2026-08.md` y nunca se hizo.
 
 ## Causa nº 3 · Rivas, con la nave en Rivas
 
@@ -122,16 +119,27 @@ Esto se arregla con dos cosas, y ninguna es contenido nuevo largo:
    recoger sin portes. **Y para eso hacen falta las dos fotos del taller, que sigo
    esperando desde hace semanas.**
 
-**Dos avisos sobre lo local:**
+**Tres avisos sobre lo local, y el primero ya está contestado por el dueño:**
 
-- **Las de «instalación» hay que pensarlas antes de perseguirlas.** `instalacion placas
-  solares rivas` e `instalar placas solares rivas` son de alguien que busca un instalador,
-  no una tienda. Si no se ofrece instalación, atraer esa búsqueda es fabricar la siguiente
-  reseña de una estrella, igual que pasó con el servicio técnico. **Hay que preguntarle al
-  dueño si se ofrece instalación o no**, y si no, no se toca.
+- **NO se ofrece instalación. Solo venta de placas solares de EcoFlow.** Así que
+  `instalacion placas solares rivas-vaciamadrid` (56 impr) e `instalar placas solares
+  rivas-vaciamadrid` (40) **no se persiguen, y hay que asegurarse de no atraerlas sin
+  querer**. Es el mismo error que acabamos de pagar con el servicio técnico: traer a alguien
+  buscando un servicio que no se presta produce una reseña de una estrella, no una venta.
+  Las que sí se trabajan son `placas solares rivas-vaciamadrid` (256) y `placas solares en
+  rivas-vaciamadrid` (52), que son de compra.
+- **Y hay que decirlo en la web, no solo evitarlo.** Una línea en la categoría
+  `paneles-solares`: «Vendemos el panel; la instalación en tejado no la hacemos nosotros.»
+  Dicho así ahorra la llamada, la decepción y la reseña. Es lo mismo que hace la tabla de
+  «para quién no es» de Hypershell, y funciona por el mismo motivo.
 - **Málaga no se persigue.** `paneles solares portatiles malaga` (350 impr, posición 33) y
   su variante (282, posición 53) son la misma búsqueda dos veces, y en posición 33 y 53 no
-  hay nada que rascar sin una presencia real allí.
+  hay nada que rascar sin presencia real allí.
+
+**Comprobado de paso, y está bien:** la categoría `paneles-solares` **no promete
+instalación** en ningún sitio. Lo de «se monta en un minuto» se refiere al soporte del
+propio panel plegable, que es cierto. No hay nada que corregir ahí, solo que añadir la
+línea que lo deja claro.
 
 ---
 
@@ -152,9 +160,11 @@ Google crea que esta web tiene algo que ver con Arduino, sigue sin tenerla clasi
 | **1** | Aplicar la categoría `paneles-solares` si no está | — | Un guardado |
 | **2** | Los dos 301 y los enlaces internos | **11.008** | Media hora |
 | **3** | Título SEO de la categoría con «panel solar portátil» | incluido arriba | Dos campos |
-| **4** | Escribir `stream-series` atacando «kit solar balcón» | ~2.300 | Lo escribo yo |
-| **5** | La ficha de Google, ya escrita | ~400 locales | Está en `google/` |
-| **6** | Sección local en `paneles-solares` | incluido arriba | Falta la foto |
+| **4** | Título y meta de `/kits-para-balcones/` | **6.734** | Dos campos |
+| **5** | 301 de `/ecoflow-stream/` a `/stream-series/` | — | Diez minutos |
+| **6** | Escribir `stream-series` como gama de producto | 1.288 | Lo escribo yo |
+| **7** | La ficha de Google, ya escrita | ~400 locales | Está en `google/` |
+| **8** | Sección local en `paneles-solares`, con la línea de «no instalamos» | incluido arriba | Falta la foto |
 
 **Lo que vale el racimo si llega a primera página**, con la fórmula delante:
 
@@ -171,9 +181,9 @@ Hoy son 55 clics en 16 meses. **Tres al mes.**
 
 ## Lo que necesito del dueño
 
-1. **¿Escribo `stream-series` atacando el balcón?** Es el hueco más limpio que hay y no
-   tiene página nadie.
-2. **¿Se ofrece instalación de placas solares o no?** Decide si se persiguen esas búsquedas
-   o se dejan correr. Si no se ofrece, no se tocan.
-3. **Las dos fotos del taller de Rivas** y **el horario**. Van ya por el tercer frente que
-   bloquean: las fichas de Hypershell, la ficha de Google y ahora lo local del solar.
+**Contestado ya:** no se ofrece instalación, solo venta de placas solares de EcoFlow.
+Recogido arriba, y además se va a decir en la web para no atraer esa búsqueda por error.
+
+**Queda una sola cosa: las dos fotos del taller de Rivas y el horario.** Van por el tercer
+frente que bloquean —las fichas de Hypershell, la ficha de Google y ahora lo local del
+solar—, y es lo único que impide cerrar los tres.
