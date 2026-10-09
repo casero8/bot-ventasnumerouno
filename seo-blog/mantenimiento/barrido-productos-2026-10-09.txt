@@ -1,0 +1,48 @@
+  40/149
+  80/149
+  120/149
+ok 149, fallos 0
+
+=== CADENAS EXCLUSIVAS DE LA DESCRIPCION DEL PRODUCTO ===
+  eg-trust «sin dar explicaciones»        29 de 149 productos
+  eg-taxline con «14 dias»                16 de 149 productos
+  Bizum                                   10 de 149 productos
+  eg-trust «servicio tecnico propio»       7 de 149 productos
+  larga «servicio tecnico propio»          5 de 149 productos
+  larga «la reparamos nosotros»            4 de 149 productos
+
+productos con AL MENOS una: 30 de 149
+
+=== LOS AFECTADOS, con lo que lleva cada uno ===
+  banda-de-hombro-aeroflex-hypershell            eg-trust «sin dar explicaciones»
+  bater-a-inteligente-hypershell                 eg-trust «sin dar explicaciones»
+  bateria-adicional-delta-3-max-plus             eg-taxline con «14 dias», eg-trust «sin dar explicaciones», Bizum
+  cargador-m-ltiple-4-en-1-gan-65w-hypershell-c  eg-trust «sin dar explicaciones»
+  cinturon-pelvico-aeroflex-de-hypershell        eg-trust «sin dar explicaciones»
+  ecoflow-delta-3-classic-1024wh                 eg-taxline con «14 dias», eg-trust «sin dar explicaciones», eg-trust «servicio tecnico propio», larga «la reparamos nosotros», larga «servicio tecnico propio», Bizum
+  ecoflow-delta-max-ultra                        eg-taxline con «14 dias», eg-trust «sin dar explicaciones», eg-trust «servicio tecnico propio», Bizum
+  ecoflow-river-3-max-plus                       eg-taxline con «14 dias», eg-trust «sin dar explicaciones», eg-trust «servicio tecnico propio», larga «la reparamos nosotros», larga «servicio tecnico propio», Bizum
+  ecoflow-smart-plug                             eg-taxline con «14 dias», eg-trust «sin dar explicaciones», Bizum
+  ecoflow-stream-ca-pro                          eg-taxline con «14 dias», eg-trust «sin dar explicaciones», eg-trust «servicio tecnico propio», larga «la reparamos nosotros», larga «servicio tecnico propio», Bizum
+  ecoflow-stream-ultra-x                         eg-taxline con «14 dias», eg-trust «sin dar explicaciones», eg-trust «servicio tecnico propio», Bizum
+  estacion-de-energia-portatil-ecoflow-delta-pr  eg-taxline con «14 dias», eg-trust «sin dar explicaciones», Bizum
+  estacion-de-energia-portatil-ecoflow-river-3   eg-taxline con «14 dias», eg-trust «sin dar explicaciones», eg-trust «servicio tecnico propio»
+  estacion-energia-portatil-ecoflow-delta-3-plu  eg-taxline con «14 dias», eg-trust «sin dar explicaciones», eg-trust «servicio tecnico propio», larga «la reparamos nosotros», larga «servicio tecnico propio», Bizum
+  hub-de-carga-inteligente-de-4-puertos-hypersh  eg-trust «sin dar explicaciones»
+  hypershell-x-carbon                            eg-trust «sin dar explicaciones»
+  hypershell-x-go                                eg-trust «sin dar explicaciones»
+  hypershell-x-max-s                             eg-trust «sin dar explicaciones»
+  hypershell-x-pro-s                             eg-trust «sin dar explicaciones»
+  hypershell-x-pro                               eg-trust «sin dar explicaciones»
+  hypershell-x-ultra-s                           eg-trust «sin dar explicaciones»
+  hypershell-x-ultra                             eg-trust «sin dar explicaciones»
+  inversor-ecoflow-powerstream                   larga «servicio tecnico propio»
+  kit-hypershell-aeroflex                        eg-trust «sin dar explicaciones»
+  lokithor-j1350-pro                             eg-taxline con «14 dias», eg-trust «sin dar explicaciones»
+  lokithor-j2250-pro                             eg-taxline con «14 dias», eg-trust «sin dar explicaciones»
+  lokithor-j402-pro                              eg-taxline con «14 dias», eg-trust «sin dar explicaciones»
+  lokithor-j701hd                                eg-taxline con «14 dias», eg-trust «sin dar explicaciones»
+  lokithor-ja3000-pro                            eg-taxline con «14 dias», eg-trust «sin dar explicaciones»
+  panel-solar-portatil-ecoflow-de-400w           eg-taxline con «14 dias», eg-trust «sin dar explicaciones», Bizum
+
+[exited with code 0]
