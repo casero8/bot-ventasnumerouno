@@ -59,9 +59,10 @@ Lo que hay hecho cubre **tres productos de nueve**, la categoría madre y la gu�
 
 - Los **seis productos restantes** de la marca (accesorios y recambios).
 - La categoría **`accesorios-hypershell`**, que hoy no tiene texto propio.
-- Las **cuatro fichas de la generación anterior** —X Ultra, X Carbon, X Pro y X Go—, que
-  no existen. Hay **82 unidades en el almacén sin una sola página** que las venda. Es lo
-  que más dinero parado tiene de todo esto.
+- **CORREGIDO EL 9/10/2026:** las cuatro fichas de la generación anterior —X Ultra 1.799 €,
+  X Carbon 1.299 €, X Pro 899 €, X Go 699 €— **existen y están marcadas como agotadas**.
+  Las 82 unidades no están sin página: están escondidas por un desplegable de stock. Es lo
+  que más dinero parado tiene de todo esto, y se arregla en minutos, no escribiendo fichas.
 
 ### Lo que necesito para escribirlo, y es una sola cosa
 

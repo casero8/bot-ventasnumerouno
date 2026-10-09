@@ -271,8 +271,11 @@ Techo: **38–71 clics al mes.**
 ### Semanas 8 a 12 — lo que queda de la marca
 
 11. Las **27 categorías sin texto** del plan.
-12. Las **cuatro fichas de la generación anterior de Hypershell** — 82 unidades en el
-    almacén sin página.
+12. **Poner el stock de los cuatro HyperShell de la generación anterior.** Corregido el
+    9/10/2026 leyendo la web en vivo: las fichas **existen** —X Ultra 1.799 €, X Carbon
+    1.299 €, X Pro 899 €, X Go 699 €— y están **marcadas como agotadas**. Las 82 unidades no
+    están sin página: están escondidas por un desplegable. Es lo de más valor por minuto de
+    toda esta auditoría y no es trabajo de SEO.
 13. Los **seis accesorios Hypershell** que faltan.
 
 ---

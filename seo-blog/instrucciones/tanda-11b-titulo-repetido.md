@@ -52,4 +52,6 @@ están aplicadas, así que entran ya con el nombre corregido.
   agotada.
 - **La lista de los nueve productos Hypershell** con ID, slug, `price`, `stock_status`,
   bytes y shortcodes. Es lo único que bloquea escribir los seis accesorios y las cuatro
-  fichas de la generación anterior —las de las **82 unidades sin página**—.
+  fichas de la generación anterior. **Corregido el 9/10: esas cuatro fichas existen y están
+  marcadas como agotadas.** Las 82 unidades no están sin página, están escondidas por un
+  desplegable de stock.
