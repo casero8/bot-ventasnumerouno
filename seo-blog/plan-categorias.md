@@ -1,6 +1,8 @@
 # Plan de las 47 categorías
 
-Escritas: **10**. Pendientes: **37**.
+Escritas: **15**. Pendientes: **32**.
+
+**Al día del 9/10/2026:** `accesorios` · `accesorios-delta-2` · `accesorios-delta-2-max` · `accesorios-delta-3` · `accesorios-delta-pro` · `accesorios-hypershell` · `delta-2-max` · `delta-3` · `delta-pro` · `hypershell` · `paneles-solares` · `serie-delta` · `serie-rapid` · `serie-river` · `stream-series`.
 
 ## El criterio, y por qué no todas llevan lo mismo
 

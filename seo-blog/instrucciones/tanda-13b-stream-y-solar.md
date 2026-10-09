@@ -114,9 +114,18 @@ Lo del parte anterior, que es lo más grande de la auditoría:
    página del sitio) **→ categoría `paneles-solares`**.
 3. **301 de `/placas-solares-ecoflow/`** (1.614 impresiones) **→ la misma categoría**.
 4. Enlaces internos actualizados, páginas viejas a borrador, fuera del sitemap.
-5. **El título SEO de la categoría tiene que llevar «panel solar portátil»**, en singular y
-   plural si cabe. Las consultas son `placa solar portatil` (924), `panel solar portatil`
-   (845), `placas solares portatiles` (471), `paneles solares portatiles` (367).
+5. **El título SEO y la meta de la categoría, ya escritos** en
+   `categorias/paneles-solares-meta.txt`:
+
+   **Título (59):** `Panel solar portátil y plegable EcoFlow | Distribuidor`
+   **Meta (151):** `Paneles solares portátiles, plegables y rígidos de EcoFlow. Qué panel le va a tu estación y cuántos vatios admite cada una. Distribuidor oficial en España.`
+
+   **La palabra que manda es «portátil», no «solar» a secas.** Las cuatro consultas del
+   racimo son `placa solar portatil` (924), `panel solar portatil` (845), `placas solares
+   portatiles` (471) y `paneles solares portatiles` (367): lo que las une es *portátil*. Un
+   título que diga solo «paneles solares» compite con el término más genérico del sector,
+   donde no hay nada que rascar. «Placa» y «panel» son la misma búsqueda para Google, así
+   que basta poner la que mejor lee una persona.
 
 ---
 

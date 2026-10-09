@@ -1,0 +1,72 @@
+CATEGORÍA paneles-solares
+
+URL:  https://ecogadgetoficial.com/product-category/paneles-solares/
+
+TÍTULO SEO (59):
+Panel solar portátil y plegable EcoFlow | Distribuidor
+
+META DESCRIPCIÓN (151):
+Paneles solares portátiles, plegables y rígidos de EcoFlow. Qué panel le va a tu estación y cuántos vatios admite cada una. Distribuidor oficial en España.
+
+POR QUÉ ESE TÍTULO, Y NO «PANELES SOLARES»
+Las cuatro consultas que mandan en este racimo son, con sus impresiones:
+
+  placa solar portatil        924 impr   posición 17,5   0 clics
+  panel solar portatil        845 impr   posición 17,8   1 clic
+  placas solares portatiles   471 impr   posición 16,0   0 clics
+  paneles solares portatiles  367 impr   posición 16,1   0 clics
+
+La palabra que las une es «PORTÁTIL», no «solar» a secas. Un título que diga
+solo «paneles solares» compite con el término más genérico y más disputado del
+sector, donde no hay nada que rascar. Con «portátil» y «plegable» se ataca
+exactamente lo que la gente escribe y donde ya hay 10.336 impresiones esperando.
+
+«Placa» y «panel» son la misma búsqueda para Google, así que no hace falta meter
+las dos: se pone la que mejor lee una persona, que es «panel».
+
+PALABRA CLAVE PRINCIPAL:  panel solar portátil
+SECUNDARIAS:  placa solar portátil · paneles solares portátiles ·
+panel solar plegable · panel solar rígido · panel solar 400w ·
+panel solar para EcoFlow DELTA 3 Max (1.173 impr, posición 9,6)
+
+EL RACIMO QUE RECIBE: 10.336 impresiones, posición media 18,9, 47 clics.
+A posición 5 serían ~38 clics/mes; a posición 3, ~71. Hoy son 3.
+
+LAS DOS PÁGINAS QUE SE REDIRIGEN AQUÍ (301, al fragmento #6):
+  /paneles-solares-portatiles/   9.394 impr   posición 16,3   28 clics
+  /placas-solares-ecoflow/       1.614 impr   posición  9,5    8 clics
+
+Es la causa de que el racimo esté en la página 2: tres URLs se reparten la
+señal y ninguna llega a la primera. NO se redirige nada hasta que esta categoría
+esté aplicada y completa.
+
+LO QUE LLEVA AHORA Y NO LLEVABA (añadido el 9/10/2026):
+El bloque `eg-regla` con «Lo que hacemos y lo que no»: vendemos placas solares
+de EcoFlow, NO hacemos instalaciones en tejado ni montajes eléctricos. Pedido
+por el dueño, y evita atraer a quien busca un instalador. Son 11,8 KB ahora.
+
+LO QUE NO LLEVA, Y ES DELIBERADO:
+· Ni un precio. Congelados hasta el inventario con los EAN.
+· Sin FAQPage y sin VideoObject.
+· Ninguna promesa de instalación, montaje ni obra.
+· Nunca «servicio técnico»: es garantía del fabricante, gestionada aquí.
+
+BÚSQUEDAS QUE NO SE PERSIGUEN, Y POR QUÉ
+· `instalacion placas solares rivas-vaciamadrid` (56) e `instalar placas solares
+  rivas-vaciamadrid` (40): buscan un instalador y no se ofrece instalación.
+  Atraerlas es fabricar una reseña de una estrella, como pasó con el servicio
+  técnico.
+· `paneles solares portatiles malaga` (350, posición 33) y su variante (282,
+  posición 53): sin presencia real allí no hay nada que rascar.
+· `comprar placa arduino` (113, posición 29): la palabra «placa» engancha
+  electrónica que no vendemos. A la lista de identidad borrosa con Xiaomi y DJI.
+
+SÍ SE TRABAJAN, QUE SON DE COMPRA:
+  placas solares rivas-vaciamadrid       256 impr   posición 12,6   0 clics
+  placas solares en rivas-vaciamadrid     52 impr   posición  6,2   0 clics
+
+COMPROBAR ANTES DE APLICAR:
+1. Que se aplica por REST comparando bytes y sin tocar <!--eg-corte-->.
+2. Que los 301 van DESPUÉS, no antes.
+3. Que ningún enlace interno de la categoría devuelve un 301.
+4. Que después de tocar el Yoast del término se reaplica por REST (norma 5).
